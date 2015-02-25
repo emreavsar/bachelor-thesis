@@ -1,3 +1,5 @@
-# bachelor-thesis
+# QUALI-T: Quality Attribute Elicitation Tool for Architectural Analysis
 
-Our bachelor thesis for IFS Institute for Software (www.ifs.hsr.ch)
+Bachelor thesis for IFS Institute for Software (www.ifs.hsr.ch)
+
+Authors: Corina Honegger (c1honegg@hsr.ch), Emre Avsar (emre@avsar.ch)
