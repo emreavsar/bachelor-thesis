@@ -1,0 +1,50 @@
+--- 
+
+# install some packages needed for dev
+- 
+  apt: "name={{ item }} state=present"
+  name: "apt-get | install software (git etc.)"
+  with_items: 
+    - openjdk-7-jdk
+    - git
+    - nodejs-legacy
+    - nodejs
+    - npm
+    - unzip
+    - ruby-full
+
+# install activator / put in path
+-
+  name: "activator | Download and unzip activator"
+  shell: "{{ item }}"
+  sudo: true
+  with_items:
+    # remove all activator stuff first
+    - "rm -rf {{ vagrant_home }}/*activator*"
+    # download and unzip activator in vagrtant home
+    - "cd {{ vagrant_home }}; wget {{ activator_download_url }}"
+    - "cd {{ vagrant_home }}; unzip {{ vagrant_home }}/typesafe-activator-{{activator_version}}.zip"
+    - "rm -rf {{ vagrant_home }}/typesafe-activator-{{activator_version}}.zip"
+
+# npm: install client app packages
+- 
+  name: "npm | update npm"
+  npm: "name=npm state=latest global=yes"
+- 
+  name: "npm | Install yeoman"
+  npm: "name=yo  state=latest global=yes"
+- 
+  name: "npm | Install grunt-cli"
+  npm: "name=grunt-cli  state=latest global=yes"
+- 
+  name: "npm | Install  bower"
+  npm: "name=bower  state=latest global=yes"
+- 
+  name: "npm | Install  generator-angular"
+  npm: "name=generator-angular  state=latest global=yes"
+- 
+  name: "Ruby | Install compass gem"
+  shell: "{{ item }}"
+  sudo: true
+  with_items: 
+    - "gem install compass"
