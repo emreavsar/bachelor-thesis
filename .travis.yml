@@ -2,19 +2,26 @@ language: java
 jdk:
   - oraclejdk8
 
-install:
-  - npm install -g npm@latest
-  - npm cache clean
-  - npm install -g bower grunt-cli karma
-  - gem update --system
-  - gem install compass
+before_script:
+  - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
+  - 'npm install -g bower grunt-cli karma'
+  - 'bower install'
 
-script:
-# test frontend
- - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
- - npm install
- - bower install
- - grunt
+script: grunt
+
+# install:
+#   - npm install -g npm@latest
+#   - npm cache clean
+#   - npm install -g grunt-cli
+#   - gem update --system
+#   - gem install compass
+# 
+# script:
+# # test frontend
+#  - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
+#  - npm install
+#  - bower install
+#  - grunt
  # maybe not needed?
  # - bower install
  # - grunt compass
