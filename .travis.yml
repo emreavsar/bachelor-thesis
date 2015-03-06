@@ -25,6 +25,7 @@ notifications:
   email:
     recipients:
       - emre.avsar92@gmail.com
+      - c1honegg@hsr.ch
     on_success: change
     on_failure: always
 
