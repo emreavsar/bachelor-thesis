@@ -3,42 +3,42 @@ jdk:
   - oraclejdk8
 
 env:
-  - PLAY_VERSION=2.3.8
-  - ACTIVATOR_VERSION=1.3.2
-  - ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip
-  - ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE
-  - ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-backend/activator-$ACTIVATOR_VERSION-minimal/activator
+  - PLAY_VERSION=2.3.8 ACTIVATOR_VERSION=1.3.2 ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-backend/activator-$ACTIVATOR_VERSION-minimal/activator
 
-before_install:
-  - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
-  - npm install -g npm@latest
-  - npm cache clean
-
-install:
-  # frontend app
-  - npm install -g bower grunt-cli
-  - gem update --system
-  - gem install compass
-
-before_script:
-  # frontend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
-  - bower install
-  - npm install
-
-  # backend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-backend/
-  - wget $ACTIVATOR_ZIP_URL
-  - unzip -q $ACTIVATOR_ZIP_FILE
+# before_install:
+#   - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
+#   - npm install -g npm@latest
+#   - npm cache clean
+# 
+# install:
+#   # frontend app
+#   - npm install -g bower grunt-cli
+#   - gem update --system
+#   - gem install compass
+# 
+# before_script:
+#   # frontend app
+#   - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
+#   - bower install
+#   - npm install
+# 
+#   # backend app
+#   - cd $TRAVIS_BUILD_DIR/quali-t-backend/
+#   - wget $ACTIVATOR_ZIP_URL
+#   - unzip -q $ACTIVATOR_ZIP_FILE
 
 script: 
-  # test frontend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
-  - grunt
+  - echo "testing travis env vars - ACTIVATOR_VERSION = $ACTIVATOR_VERSION"
+  - echo "testing travis env vars - PLAY_VERSION = $PLAY_VERSION"
+  - echo "testing travis env vars - ACTIVATOR_ZIP_URL = $ACTIVATOR_ZIP_URL"
 
-  # test backend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-backend/
-  - $ACTIVATOR_BIN test
+  # test frontend app
+  # - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
+  # - grunt
+# 
+  # # test backend app
+  # - cd $TRAVIS_BUILD_DIR/quali-t-backend/
+  # - $ACTIVATOR_BIN test
 
 notifications:
   email: false
