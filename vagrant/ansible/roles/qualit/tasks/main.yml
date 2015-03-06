@@ -40,8 +40,13 @@
   name: "npm | Install  bower"
   npm: "name=bower  state=latest global=yes"
 - 
-  name: "npm | Install  generator-angular"
+  name: "npm | Install generator-angular"
   npm: "name=generator-angular  state=latest global=yes"
+
+- 
+  name: "npm | Install phantomjs"
+  npm: "name=phantomjs  state=latest global=yes"
+  
 - 
   name: "Ruby | Install compass gem"
   shell: "{{ item }}"
