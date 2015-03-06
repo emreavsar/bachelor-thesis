@@ -1,8 +1,6 @@
 # QUALI-T: Quality Attribute Elicitation Tool for Architectural Analysis
 
-Frontend-Status: [![Build Status](https://travis-ci.org/team-qualit/quali-t.svg?branch=master)](https://travis-ci.org/team-qualit/quali-t)
-
-Backend-Status: TBD (TODO)
+Status: [![Build Status](https://travis-ci.org/team-qualit/quali-t.svg?branch=master)](https://travis-ci.org/team-qualit/quali-t)
 
 Bachelor thesis for IFS Institute for Software (www.ifs.hsr.ch)
 Authors: Corina Honegger (c1honegg@hsr.ch), Emre Avsar (emre@avsar.ch)
