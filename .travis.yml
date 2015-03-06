@@ -37,7 +37,7 @@ script:
  - $ACTIVATOR_BIN test
 
 notifications:
-  email: false
+  email:
     recipients:
       - emre.avsar92@gmail.com
       - c1honegg@hsr.ch
