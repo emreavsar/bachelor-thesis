@@ -13,6 +13,7 @@ script:
 # test frontend
  - cd $TRAVIS_BUILD_DIR/quali-t-frontend/
  - npm install
+ - bower install
  - grunt
  # maybe not needed?
  # - bower install
