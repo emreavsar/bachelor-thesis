@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 
 env:
-  - PLAY_VERSION=2.3.8 ACTIVATOR_VERSION=1.3.2 ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-appactivator-$ACTIVATOR_VERSION-minimal/activator
+  - PLAY_VERSION=2.3.8 ACTIVATOR_VERSION=1.3.2 ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-app/activator-$ACTIVATOR_VERSION-minimal/activator
 
 before_install:
   - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
@@ -23,7 +23,7 @@ before_script:
   - npm install
 
   # backend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-app
+  - cd $TRAVIS_BUILD_DIR/quali-t-app/
   - wget $ACTIVATOR_ZIP_URL
   - unzip -q $ACTIVATOR_ZIP_FILE
 
