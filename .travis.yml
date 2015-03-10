@@ -33,7 +33,7 @@ script:
  - grunt
 
  # test backend app
- - cd $TRAVIS_BUILD_DIR/quali-t-app
+ - cd $TRAVIS_BUILD_DIR/quali-t-app/
  - $ACTIVATOR_BIN test
 
 # TODO remove if travis builds ok
