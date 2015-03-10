@@ -3,12 +3,3 @@ This is your new Play application
 
 This file will be packaged with your application, when using `activator dist`.
 
-
-Start app in prod mode
-activator run -Dconfig.file=./conf/prod.conf
-
-Start app in test mode
-activator run
-
-PS: Play has problems with activator start, somehow it does not work with the prod.conf file
-Use always activator *run*
