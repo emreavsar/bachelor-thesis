@@ -4,16 +4,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.network "private_network", ip: "192.168.50.4"
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # grunt serve (frontend)
-  config.vm.network "forwarded_port", guest: 9191, host: 9191
 
   # play backend
   config.vm.network "forwarded_port", guest: 9000, host: 9000
 
   # live reload
-  config.vm.network :forwarded_port, guest: 35729, host: 35729
+  # config.vm.network :forwarded_port, guest: 35729, host: 35729
 
   # ansible configuration
   config.vm.provision :ansible do |ansible|
@@ -22,16 +18,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider "virtualbox" do |v|
-  	v.memory = 1024
+  	v.memory = 3072
   	v.cpus = 2
   	v.name = "qualit_dev_vm"
   end
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-
-  config.vm.synced_folder "../quali-t-backend/", "/quali-t-backend/"
-  config.vm.synced_folder "../quali-t-frontend/", "/quali-t-frontend/"
-
+  config.vm.synced_folder "../quali-t-app/", "/quali-t-app/"
 end

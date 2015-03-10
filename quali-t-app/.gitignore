@@ -36,11 +36,9 @@ RUNNING_PID
 node_modules/
 bower_components/
 *.log
+
 build/
 dist/
-
-### compiled css files not needed ###
-*.css
 
 ### Bower ###
 .bower-cache
@@ -53,6 +51,7 @@ dist/
 
 # Grunt usually preprocesses files such as coffeescript, compass... inside the .tmp directory
 .tmp/
+
 
 # Vagrant stuff
 .vagrant/

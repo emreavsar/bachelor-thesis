@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+# TODO: check wether these 2 GET routes are needed or not
+GET        /                                  controllers.Application.index()
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file                      controllers.Assets.at(path="/public", file)
+
+GET        /app/bower_components/*file        controllers.ConfigurableAssets.at(path="/bower_components", file)
+GET        /app/*file                         controllers.ConfigurableAssets.at(path="/app", file)
+
+# QUALI-47: POC: Backend-Service erstellen und mit Client-App verbinden
+GET        /api/get/nfr/:id                   controllers.Application.getNFR(id: Long)
