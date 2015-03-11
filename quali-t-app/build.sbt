@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
 
 herokuAppName in Compile := "quali-t"
 
+
 resolvers += "rubygems-release" at "http://rubygems-proxy.torquebox.org/releases"
 
 libraryDependencies ++= Seq(

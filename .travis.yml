@@ -30,5 +30,7 @@ script:
 # - grunt
 # - cd $TRAVIS_BUILD_DIR/quali-t-app/
 # - $ACTIVATOR_BIN test
-- sbt stage
-after_success: sbt deployHeroku
+#- sbt stage 
+after_success:
+#- sbt deployHeroku
+- sbt stage deployHeroku
