@@ -24,7 +24,7 @@ before_script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 - wget $ACTIVATOR_ZIP_URL
 - unzip -q $ACTIVATOR_ZIP_FILE
-script:
+# script:
 # disable testing for heroku testing
 # - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 # - grunt
