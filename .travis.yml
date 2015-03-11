@@ -5,6 +5,7 @@ env:
 - PLAY_VERSION=2.3.8 ACTIVATOR_VERSION=1.3.2 ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip
   ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE
   ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-app/activator-$ACTIVATOR_VERSION-minimal/activator
+  QUALIT_BIN=target/universal/stage/bin/quali-t
 before_install:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - npm install -g npm@latest
@@ -38,3 +39,4 @@ deploy:
   - grunt
   - cd $TRAVIS_BUILD_DIR/quali-t-app/
   - $ACTIVATOR_BIN run -Dconfig.file=./conf/prod.conf
+  - $QUALIT_BIN -Dhttp.port=8080
