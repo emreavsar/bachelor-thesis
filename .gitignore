@@ -56,7 +56,9 @@ dist/
 
 # Vagrant stuff
 .vagrant/
-
+acceptance_config.yml
+boxes/*
+/vagrant-spec.config.rb
 
 
 ###       ###
