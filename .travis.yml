@@ -22,7 +22,7 @@ before_script:
 - unzip -q $ACTIVATOR_ZIP_FILE
 script:
 # disable testing for heroku testing
-# - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
+- cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 # - grunt
 # - cd $TRAVIS_BUILD_DIR/quali-t-app/
 # - $ACTIVATOR_BIN test
