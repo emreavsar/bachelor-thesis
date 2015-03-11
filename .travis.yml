@@ -24,13 +24,14 @@ before_script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 - wget $ACTIVATOR_ZIP_URL
 - unzip -q $ACTIVATOR_ZIP_FILE
-# script:
+
 # disable testing for heroku testing
-# - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
+script:
+- cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 # - grunt
 # - cd $TRAVIS_BUILD_DIR/quali-t-app/
 # - $ACTIVATOR_BIN test
 #- sbt stage 
-after_success:
+#after_success:
 #- sbt deployHeroku
-- sbt stage deployHeroku
+#- sbt stage deployHeroku
