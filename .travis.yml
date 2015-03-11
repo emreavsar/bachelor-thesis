@@ -1,46 +1,34 @@
 language: java
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 env:
-  - PLAY_VERSION=2.3.8 ACTIVATOR_VERSION=1.3.2 ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-app/activator-$ACTIVATOR_VERSION-minimal/activator
-
+- PLAY_VERSION=2.3.8 ACTIVATOR_VERSION=1.3.2 ACTIVATOR_ZIP_FILE=typesafe-activator-$ACTIVATOR_VERSION-minimal.zip
+  ACTIVATOR_ZIP_URL=http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE
+  ACTIVATOR_BIN=$TRAVIS_BUILD_DIR/quali-t-app/activator-$ACTIVATOR_VERSION-minimal/activator
 before_install:
-  - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
-  - npm install -g npm@latest
-  - npm cache clean
-
+- cd $TRAVIS_BUILD_DIR/quali-t-app/public/
+- npm install -g npm@latest
+- npm cache clean
 install:
-  # frontend app
-  - npm install -g bower grunt-cli
-  - gem update --system
-  - gem install compass
-
+- npm install -g bower grunt-cli
+- gem update --system
+- gem install compass
 before_script:
-  # frontend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
-  - bower install
-  - npm install
-
-  # backend app
-  - cd $TRAVIS_BUILD_DIR/quali-t-app/
-  - wget $ACTIVATOR_ZIP_URL
-  - unzip -q $ACTIVATOR_ZIP_FILE
-
-script: 
-  # test frontend app
- - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
- - grunt
-
- # test backend app
- - cd $TRAVIS_BUILD_DIR/quali-t-app/
- - $ACTIVATOR_BIN test
-
-# TODO remove if travis builds ok
-# notifications:
-#   email:
-#     recipients:
-#       - emre.avsar92@gmail.com
-#       - c1honegg@hsr.ch
-#     on_success: change
-#     on_failure: always
+- cd $TRAVIS_BUILD_DIR/quali-t-app/public/
+- bower install
+- npm install
+- cd $TRAVIS_BUILD_DIR/quali-t-app/
+- wget $ACTIVATOR_ZIP_URL
+- unzip -q $ACTIVATOR_ZIP_FILE
+script:
+- cd $TRAVIS_BUILD_DIR/quali-t-app/public/
+- grunt
+- cd $TRAVIS_BUILD_DIR/quali-t-app/
+- $ACTIVATOR_BIN testg
+deploy:
+  provider: heroku
+  api_key:
+    secure: eGQNj3+otZZ+CKBQEbI12BdIs82I0xxsixhKb1adXreh66Djpb6ACTOZAJQ/6sf8fMQfCZfsZ81PBR0NhERppweEG93qqcPfr0aN65ftXHnX8reINJOh+HIObJtyldHspm3/auedqwQ7QJ1ym/0z5v3xefuS4d3+yhJXH9iM+cQ=
+  app: quali-t
+  on:
+    repo: team-qualit/quali-t
