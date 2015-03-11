@@ -33,3 +33,8 @@ deploy:
   app: quali-t
   on:
     repo: team-qualit/quali-t
+  run:
+	- cd $TRAVIS_BUILD_DIR/quali-t-app/public/
+	- grunt
+	- cd $TRAVIS_BUILD_DIR/quali-t-app/
+	- $ACTIVATOR_BIN run -Dconfig.file=./conf/prod.conf
