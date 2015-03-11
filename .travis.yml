@@ -38,5 +38,4 @@ deploy:
   - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
   - grunt
   - cd $TRAVIS_BUILD_DIR/quali-t-app/
-  - $ACTIVATOR_BIN run -Dconfig.file=./conf/prod.conf
-  - $QUALIT_BIN -Dhttp.port=8080
+  - $QUALIT_BIN -Dhttp.port=8080 -Dconfig.file=$TRAVIS_BUILD_DIR/quali-t-app/conf/prod.conf
