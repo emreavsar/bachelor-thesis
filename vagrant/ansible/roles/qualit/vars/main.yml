@@ -1,6 +1,0 @@
-# testVar: hello world
-activator_version: 1.3.2
-activator_download_url: "http://downloads.typesafe.com/typesafe-activator/{{activator_version}}/typesafe-activator-{{activator_version}}.zip"
-activator_download_url_min: http://downloads.typesafe.com/typesafe-activator/{{activator_version}}/typesafe-activator-{{activator_version}}-minimal.zip
-vagrant_home: /home/vagrant
-project_home: /quali-t-app
