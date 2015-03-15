@@ -2,9 +2,14 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-# TODO: check wether these 2 GET routes are needed or not
 GET        /                                  controllers.Application.index()
+
+
+# TODO: REMOVE BEFORE DELIVERY
+# GET        /doc                               controllers.Application.index()
+
+
+# TODO: check the GET route below are needed or not
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                      controllers.Assets.at(path="/public", file)
 

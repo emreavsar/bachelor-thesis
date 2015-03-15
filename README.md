@@ -37,7 +37,7 @@ Basic steps will be
 Both frontend and backend applications are integrated in Travis CI
 
 ## Latest build
-TODO: Link to heroku, when automatic cloud deployment is ready.
+https://quali-t.herokuapp.com/app/index.html#/
 
 ## Contact & License
 ask eavsar@hsr.ch and c1honegg@hsr.ch

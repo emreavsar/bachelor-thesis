@@ -15,6 +15,11 @@ public class Application extends Controller {
         return redirect("/app/index.html");
     }
 
+    // TODO: cleanup here
+//    public static Result getDoc() {
+//        return ok(index.render("Your new application is ready."));
+//    }
+
     // TODO will this be in another Controller Java Class?
     // check EEPPI
     public static Result getNFR(Long id) {
