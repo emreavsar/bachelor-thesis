@@ -2,18 +2,13 @@
 
 /**
  * @ngdoc function
- * @name publicApp.controller:MainCtrl
+ * @name qualitApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the publicApp
+ * Controller of the qualitApp
  */
-angular.module('publicApp')
+angular.module('qualitApp')
   .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
     $scope.testBackendResponse='';
 
     $scope.testBackend = function() {
