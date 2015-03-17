@@ -29,5 +29,8 @@ sudo rm $vagrant_home/typesafe-activator-$activator_version-minimal.zip*
 # add activator to path
 echo "export PATH=$vagrant_home/activator-$activator_version-minimal:\$PATH" >> ~/.bashrc
 
+# fix inotify watchers
+echo 524288 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
+
 #reset bash
 . ~/.bashrc

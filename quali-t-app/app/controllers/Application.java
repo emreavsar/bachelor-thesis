@@ -1,12 +1,12 @@
 package controllers;
 
-
-import models.NFR;
+import dao.models.NfrDao;
+import models.Nfr;
+import play.db.jpa.Transactional;
 import play.libs.Json;
-import play.*;
 import play.mvc.*;
-import views.html.*;
 import play.mvc.Controller;
+
 
 
 public class Application extends Controller {
@@ -14,17 +14,17 @@ public class Application extends Controller {
     public static Result index() {
         return redirect("/app/index.html");
     }
-
-    // TODO: cleanup here
-//    public static Result getDoc() {
-//        return ok(index.render("Your new application is ready."));
-//    }
-
-    // TODO will this be in another Controller Java Class?
-    // check EEPPI
+    @Transactional
     public static Result getNFR(Long id) {
-        NFR nfr = new NFR(1, "Die Backend-Applikation von QUALI-T muss im Jahr 99.99% erreichbar sein.");
-        return ok(Json.toJson(nfr));
+        NfrDao nfrDao = new NfrDao();
+        Nfr firstNfr = nfrDao.readById(new Long(id));
+
+        // TODO (emre): avoid checking for null somehow
+        if(firstNfr != null) {
+            return ok(Json.toJson(firstNfr));
+        } else {
+            return notFound();
+        }
     }
 
 }
