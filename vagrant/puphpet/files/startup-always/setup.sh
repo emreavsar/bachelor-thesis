@@ -6,20 +6,13 @@ activator_download_url_min="http://downloads.typesafe.com/typesafe-activator/$ac
 vagrant_home="/home/vagrant"
 project_home="/quali-t-app"
 
-# sudo apt-get update
-# sudo apt-get upgrade
-# . ~/.bashrc
-# sudo wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+sudo apt-get update
+sudo apt-get upgrade
 
 # Required for SASS
 sudo `which gem` install compass
 
-# save pgpassword in environment
-echo "source PGPASSWORD=123" >> /home/vagrant/.bashrc
-
-sql -U postgres -h localhost -c "ALTER USER qualitapp CREATEDB;"
-
-# Download activator
+## ACTIVATOR ##
 cd $vagrant_home
 sudo wget $activator_download_url_min
 sudo unzip $vagrant_home/typesafe-activator-$activator_version-minimal.zip 
@@ -34,3 +27,6 @@ echo 524288 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
 
 #reset bash
 . $vagrant_home/.bashrc
+
+# fix db permissions
+sudo su - postgres -c 'psql -c "ALTER DATABASE qualit OWNER TO qualit;" && psql -c "ALTER USER qualit CREATEDB;"'

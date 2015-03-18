@@ -12,13 +12,13 @@ import javax.persistence.Table;
 @Table(name = "`NFR`")
 @Nullable
 public class Nfr extends AbstractEntity {
-    public String desc;
+    public String description;
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

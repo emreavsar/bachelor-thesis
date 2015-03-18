@@ -14,13 +14,12 @@ object ConfigurableAssets extends AssetsBuilder {
     // Play 2.3.8 does not support routing for different environments
     // Self implementation with some special cases
 
-
-    // map /app/*file to /public/dist/*file
-    if (local_path == "/app" && assetsPath == "/public/dist") {
+    // map /app/bower_components to /public/bower_components
+    if (local_path == "/app/bower_components" && assetsPath == "/public") {
       local_path = "/"
     }
-    // map /app/bower_components to /public/bower_components
-    else if (local_path == "/app/bower_components" && assetsPath == "/public") {
+    // map /app/*file to /public/dist/*file
+    else if (local_path == "/app" && assetsPath == "/public/dist") {
       local_path = "/"
     }
     else {

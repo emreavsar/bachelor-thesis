@@ -65,7 +65,7 @@ server:
     install: '1'
     packages:
         - vim
-        - postgresql-server-dev-9.3
+        - postgresql-9.3
         - openjdk-7-jdk
         - git
         - nodejs-legacy
@@ -231,7 +231,7 @@ mysql:
 postgresql:
     install: '1'
     settings:
-        root_password: 123
+        root_password: '123'
         user_group: postgres
         encoding: UTF8
         version: '9.3'
@@ -242,7 +242,6 @@ postgresql:
             user: qualit
             password: qualit
             sql_file: ''
-    databases: {  }
     adminer: 0
 mariadb:
     install: '0'
