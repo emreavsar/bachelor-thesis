@@ -33,4 +33,4 @@ sudo echo "export PATH=$vagrant_home/activator-$activator_version-minimal:\$PATH
 echo 524288 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
 
 #reset bash
-. ~/.bashrc
+. $vagrant_home/.bashrc
