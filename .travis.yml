@@ -9,7 +9,7 @@ env:
   - ACTIVATOR_ZIP_URL: http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/$ACTIVATOR_ZIP_FILE
   - ACTIVATOR_BIN: $TRAVIS_BUILD_DIR/quali-t-app/activator-$ACTIVATOR_VERSION-minimal/activator
   - secure: J8I3CVK5aor68TqTcbuOSPztECVjH26HGWgT12FR4bedDkWqCWrVOsdtcxVhT+cK5VGjcd3f8EsB9u7MbvnFdr5hvdoXYlGAXqGn58kaWM8chH1qnaiL1zwE4/Fsog53dNTsP6qUHSVW+/VVXnhSDT3jmWRFVPwzCLDoPRVZRdY=
-  - HEROKU_API_KEY: J8I3CVK5aor68TqTcbuOSPztECVjH26HGWgT12FR4bedDkWqCWrVOsdtcxVhT+cK5VGjcd3f8EsB9u7MbvnFdr5hvdoXYlGAXqGn58kaWM8chH1qnaiL1zwE4/Fsog53dNTsP6qUHSVW+/VVXnhSDT3jmWRFVPwzCLDoPRVZRdY=
+  - HEROKU_API_KEY: "J8I3CVK5aor68TqTcbuOSPztECVjH26HGWgT12FR4bedDkWqCWrVOsdtcxVhT+cK5VGjcd3f8EsB9u7MbvnFdr5hvdoXYlGAXqGn58kaWM8chH1qnaiL1zwE4/Fsog53dNTsP6qUHSVW+/VVXnhSDT3jmWRFVPwzCLDoPRVZRdY="
 before_install:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - npm install -g npm@latest
