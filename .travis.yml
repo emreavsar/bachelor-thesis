@@ -31,4 +31,4 @@ script:
 - $ACTIVATOR_BIN test
 after_success:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
-- $ACTIVATOR_BIN deployHeroku
+- $ACTIVATOR_BIN stage deployHeroku
