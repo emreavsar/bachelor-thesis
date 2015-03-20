@@ -23,7 +23,7 @@ angular.module('qualitApp')
         success(function(data, status, headers, config) {
           //$scope.testBackendResponse = data;
           $scope.testBackendResponse.id = data.id;
-          $scope.testBackendResponse.desc = data.desc;
+          $scope.testBackendResponse.description = data.description;
         }).
         error(function(data, status, headers, config) {
           console.log(data);

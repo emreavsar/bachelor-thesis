@@ -9,7 +9,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "`NFR`")
+@Table(name = "nfr")
 @Nullable
 public class Nfr extends AbstractEntity {
     public String description;

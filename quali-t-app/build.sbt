@@ -16,7 +16,11 @@ libraryDependencies ++= Seq(
   "org.postgresql"            %   "postgresql"              % "9.4-1201-jdbc41"
 )
 
-
+// HEROKU sbt plugin
 herokuJdkVersion in Compile := "1.8"
 
 herokuAppName in Compile := "quali-t"
+
+herokuProcessTypes in Compile := Map(
+  "web" -> "target/universal/stage/bin/quali-t -Dhttp.port=${PORT} -DapplyEvolutions.default=true -DapplyDownEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}"
+)
