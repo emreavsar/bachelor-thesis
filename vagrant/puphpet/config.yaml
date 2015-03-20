@@ -1,8 +1,8 @@
 ---
 vagrantfile-local:
     vm:
-        box: puphpet/ubuntu1404-x32
-        box_url: puphpet/ubuntu1404-x32
+        box: puphpet/ubuntu1404-x64
+        box_url: puphpet/ubuntu1404-x64
         hostname: 'vm.qualit.local'
         memory: '4096'
         cpus: '2'
@@ -68,6 +68,7 @@ server:
         - postgresql-9.3
         - openjdk-7-jdk
         - git
+        - phantomjs
         - nodejs-legacy
         - nodejs
         - npm

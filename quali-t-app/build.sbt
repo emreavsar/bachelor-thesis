@@ -24,3 +24,7 @@ herokuAppName in Compile := "quali-t"
 herokuProcessTypes in Compile := Map(
   "web" -> "target/universal/stage/bin/quali-t -Dhttp.port=${PORT} -DapplyEvolutions.default=true -DapplyDownEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}"
 )
+
+herokuIncludePaths in Compile := Seq(
+  "app", "conf", "public"
+)
