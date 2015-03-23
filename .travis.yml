@@ -30,7 +30,4 @@ script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 - $ACTIVATOR_BIN test
 after_success:
-- cd $TRAVIS_BUILD_DIR/quali-t-app/public
-- grunt
-- cd $TRAVIS_BUILD_DIR/quali-t-app/
-- $ACTIVATOR_BIN stage deployHeroku
+- cd $TRAVIS_BUILD_DIR/quali-t-app/public && grunt && cd $TRAVIS_BUILD_DIR/quali-t-app/ && $ACTIVATOR_BIN stage deployHeroku
