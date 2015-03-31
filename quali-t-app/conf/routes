@@ -13,3 +13,4 @@ GET        /app/*file                         controllers.ConfigurableAssets.at(
 
 # QUALI-47: POC: Backend-Service erstellen und mit Client-App verbinden
 GET        /api/get/nfr/:id                   controllers.Application.getNFR(id: Long)
+GET        /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
