@@ -42,7 +42,7 @@ public class Project extends AbstractEntity {
     private String name;
     @ManyToMany(mappedBy="usedByProject")
     @JsonManagedReference
-    private Set<QualityAttribute> qualityAttributes = new HashSet<QualityAttribute>();
+    private Set<QualityAttribute> qualityAttributes = new HashSet<>();
 
     public String getName() {
         return name;

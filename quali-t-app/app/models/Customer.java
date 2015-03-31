@@ -23,9 +23,10 @@ public class Customer extends AbstractEntity{
         this.name = name;
     }
 
+    private String name;
     @OneToMany(mappedBy="projectCustomer")
     @JsonManagedReference
-    private String name;
+
     private Collection<Project> projects = new ArrayList<Project>();
 
 
