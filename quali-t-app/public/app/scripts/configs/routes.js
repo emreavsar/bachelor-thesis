@@ -45,7 +45,7 @@ angular.module('qualitApp')
           ]
         },
         data: {
-          roles: ['crudDashboard']
+          roles: ['dashboard']
         }
       })
   });

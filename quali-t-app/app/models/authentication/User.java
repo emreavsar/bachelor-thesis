@@ -1,5 +1,6 @@
 package models.authentication;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import logics.authentication.Authenticator;
@@ -30,13 +31,13 @@ public class User extends AbstractEntity {
     @JsonIgnore
     private String hashedPassword;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "user")
     @JsonManagedReference
     private List<Role> roles = new ArrayList<>();
 
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Token> token = new ArrayList<>();
 
     public User() {
@@ -84,5 +85,9 @@ public class User extends AbstractEntity {
 
     public void setToken(List<Token> token) {
         this.token = token;
+    }
+
+    public void removeToken(Token userToken) {
+        token.remove(userToken);
     }
 }

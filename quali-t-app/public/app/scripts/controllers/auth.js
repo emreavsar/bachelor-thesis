@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('AuthCtrl', function ($scope, $location, $state, principal, $rootScope, $cookies, authValidationFactory, Restangular) {
+  .controller('AuthCtrl', function ($scope, $location, $http, $state, principal, $rootScope, $cookies, authValidationFactory, Restangular) {
     $scope.username = "";
     $scope.password = "";
     $scope.errors = new Array();
@@ -32,8 +32,18 @@ angular.module('qualitApp')
       $scope.errors = new Array();
       var errors = authValidationFactory.validateRegistration(username, password, passwordRepeated);
       $scope.errors = errors;
-      if (errors.length < 0) {
-        // register at backend
+      if (errors.length == 0) {
+        $http.post('/api/auth/register', {
+          username: username,
+          password: password,
+          passwordRepeated: passwordRepeated
+        })
+          .success(function (data) {
+            $scope.registrationDone = true;
+          }).error(function(data){
+            $.errors = JSON.parse(data.errors);
+            $scope.registrationDone = false;
+          });
       }
     }
 
