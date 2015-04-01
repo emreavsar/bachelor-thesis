@@ -14,6 +14,7 @@ public class Application extends Controller {
     public static Result index() {
         return redirect("/app/index.html");
     }
+
     @Transactional
     public static Result getNFR(Long id) {
         NfrDao nfrDao = new NfrDao();
@@ -26,5 +27,4 @@ public class Application extends Controller {
             return notFound();
         }
     }
-
 }

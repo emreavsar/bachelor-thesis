@@ -13,7 +13,10 @@ libraryDependencies ++= Seq(
   javaWs,
   "org.hibernate"             %   "hibernate-entitymanager" % "4.3.6.Final",
   "javax.validation"          %   "validation-api"          % "1.1.0.Final",
-  "org.postgresql"            %   "postgresql"              % "9.4-1201-jdbc41"
+  "org.postgresql"            %   "postgresql"              % "9.4-1201-jdbc41",
+  "joda-time"                 %   "joda-time"               % "2.7",
+  "org.jadira.usertype"       %   "usertype.core"           % "3.2.0.GA",
+  "commons-lang"              %   "commons-lang"            % "2.6"
 )
 
 // HEROKU sbt plugin

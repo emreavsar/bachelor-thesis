@@ -1,0 +1,63 @@
+<style>
+  body {
+    background-color: #03DB7F;
+    background-image: url("images/login-background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
+
+<div class="auth-form-container" ng-init="checkAuthNeeded()">
+  <form class="auth-form" ng-submit="register(username, password, passwordRepeated)">
+    <img src="images/logo_white.png" class="logo-img">
+
+    <div class="form-inputs">
+      <div class="cards">
+        <md-content>
+          <md-card>
+            <md-card-content class="login-part">
+              <h2 class="auth-form-heading">Register</h2>
+              <span class="text-warning ng-hide" ng-show="loginFailed">Login failed!</span>
+
+              <div class="errors" ng-show="errors.length">
+                <span class="text-error" ng-repeat="error in errors">{{ error }}</span>
+              </div>
+
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                       name="username" value="" placeholder="E-Mail" required=""
+                       ng-model="username">
+              </div>
+
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                       name="password" value="" placeholder="Password" required=""
+                       ng-model="password">
+              </div>
+
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                       name="passwordRepeated" value="" placeholder="Repeat password" required=""
+                       ng-model="passwordRepeated">
+              </div>
+
+              <button class="btn btn-lg btn-primary btn-block" type="submit">
+                Register
+              </button>
+
+            </md-card-content>
+            <md-card-content class="register-part">
+              <div>
+                Already have an account? <a ui-sref="login">Sign in here!</a>
+              </div>
+            </md-card-content>
+          </md-card>
+        </md-content>
+      </div>
+    </div>
+  </form>
+
+</div>

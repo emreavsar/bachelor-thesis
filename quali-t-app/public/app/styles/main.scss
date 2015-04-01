@@ -1,7 +1,169 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+
+@import "bootswatch/yeti/variables";
+
 // bower:scss
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
+
+html {
+  background-color: transparent !important;
+}
+
+.big-container.container {
+  max-width: 1900px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* remove outer padding */
+.main .row {
+  padding: 0px;
+  margin: 0px;
+}
+
+/*Remove rounded coners*/
+
+nav.sidebar.navbar {
+  border-radius: 0px;
+}
+
+nav.sidebar, .main {
+  -webkit-transition: margin 200ms ease-out;
+  -moz-transition: margin 200ms ease-out;
+  -o-transition: margin 200ms ease-out;
+  transition: margin 200ms ease-out;
+}
+
+/* Add gap to nav and right windows.*/
+.main {
+  padding: 10px 10px 0 10px;
+}
+
+/* .....NavBar: Icon only with coloring/layout.....*/
+
+/*small/medium side display*/
+@media (min-width: 768px) {
+
+  /*Allow main to be next to Nav*/
+  .main {
+    position: absolute;
+    width: calc(100% - 40px); /*keeps 100% minus nav size*/
+    margin-left: 40px;
+    float: right;
+  }
+
+  /*lets nav bar to be showed on mouseover*/
+  nav.sidebar:hover + .main {
+    margin-left: 200px;
+  }
+
+  /*Center Brand*/
+  nav.sidebar.navbar.sidebar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-left: 0px;
+  }
+  /*Center Brand*/
+  nav.sidebar .navbar-brand, nav.sidebar .navbar-header {
+    text-align: center;
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  /*Center Icons*/
+  nav.sidebar a {
+    padding-right: 13px;
+  }
+
+  /*adds border top to first nav box */
+  nav.sidebar .navbar-nav > li:first-child {
+    border-top: 1px #e5e5e5 solid;
+  }
+
+  /*adds border to bottom nav boxes*/
+  nav.sidebar .navbar-nav > li {
+    border-bottom: 1px #e5e5e5 solid;
+  }
+
+  /* Colors/style dropdown box*/
+  nav.sidebar .navbar-nav .open .dropdown-menu {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  /*allows nav box to use 100% width*/
+  nav.sidebar .navbar-collapse, nav.sidebar .container-fluid {
+    padding: 0 0px 0 0px;
+  }
+
+  /*colors dropdown box text */
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    color: #777;
+  }
+
+  /*gives sidebar width/height*/
+  nav.sidebar {
+    width: 200px;
+    height: 100%;
+    margin-left: -160px;
+    float: left;
+    z-index: 8000;
+    margin-bottom: 0px;
+  }
+
+  /*give sidebar 100% width;*/
+  nav.sidebar li {
+    width: 100%;
+  }
+
+  /* Move nav to full on mouse over*/
+  nav.sidebar:hover {
+    margin-left: 0px;
+  }
+  /*for hiden things when navbar hidden*/
+  .forAnimate {
+    opacity: 0;
+  }
+}
+
+/* .....NavBar: Fully showing nav bar..... */
+
+@media (min-width: 1330px) {
+
+  /*Allow main to be next to Nav*/
+  .main {
+    width: calc(100% - 200px); /*keeps 100% minus nav size*/
+    margin-left: 200px;
+  }
+
+  /*Show all nav*/
+  nav.sidebar {
+    margin-left: 0px;
+    float: left;
+  }
+  /*Show hidden items on nav*/
+  nav.sidebar .forAnimate {
+    opacity: 1;
+  }
+}
+
+nav.sidebar .navbar-nav .open .dropdown-menu > li > a:hover, nav.sidebar .navbar-nav .open .dropdown-menu > li > a:focus {
+  color: #CCC;
+  background-color: transparent;
+}
+
+nav:hover .forAnimate {
+  opacity: 1;
+}
+
+section {
+  padding-left: 15px;
+}
 
 .browsehappy {
   margin: 0.2em 0;
@@ -9,7 +171,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   color: #000;
   padding: 0.2em 0;
 }
-
 
 body {
   padding: 0;
@@ -25,7 +186,6 @@ body {
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
   margin-bottom: 10px;
 
   /* Make the masthead heading the same height as the navigation */
@@ -39,13 +199,12 @@ body {
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
   color: #777;
-  border-top: 1px solid #e5e5e5;
 }
 
 .container-narrow > hr {
   margin: 30px 0;
+
 }
 
 /* Main marketing message and sign up button */
@@ -65,6 +224,94 @@ body {
 
   p + h4 {
     margin-top: 28px;
+  }
+}
+
+.container {
+  background-color: #ffffff;
+}
+
+.btn {
+  outline: 0;
+  border: none;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  box-shadow: inset 2px -3px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.btn:focus {
+  outline: 0;
+  -webkit-outline: 0;
+  -moz-outline: 0;
+}
+
+.auth-form-container {
+  padding-top: 150px;
+
+  img.logo-img {
+    max-height: 90px;
+  }
+
+  .auth-form {
+    max-width: 500px;
+    padding: 15px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+  }
+
+  .form-inputs {
+    margin-top: 20px;
+  }
+
+  md-card {
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+  .input-group {
+    margin-bottom: 10px;
+  }
+
+  .auth-form {
+    margin-bottom: 10px;
+  }
+
+  .auth-form .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .auth-form .form-control:focus {
+    z-index: 2;
+  }
+
+  .auth-form-heading {
+    color: #00E789;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .glyphicon {
+    color: #00C36F;
+  }
+
+  md-card-content.login-part {
+    padding: 20px 30px 20px 30px;
+  }
+
+  md-card-content.register-part {
+    background-color: #F5F5F5;
+    color: #A2A2AE;
+    border-radius: 4px;
   }
 }
 
@@ -89,4 +336,11 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+.text-white, .text-white a {
+  color: #fff !important;
+}
+.text-black, .text-black a {
+  color: #000 !important;
 }

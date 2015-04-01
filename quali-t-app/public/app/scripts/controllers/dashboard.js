@@ -2,24 +2,24 @@
 
 /**
  * @ngdoc function
- * @name qualitApp.controller:MainCtrl
+ * @name qualitApp.controller:DashboardCtrl
  * @description
- * # MainCtrl
+ * # DashboardCtrl
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('DashboardCtrl', function ($scope, $http, $state) {
     $scope.testBackendResponse='';
 
     $scope.testBackend = function() {
+      console.log("hello world");
       $scope.testBackendResponse = {
         id: '',
         desc: ''
       }
 
-
       // TODO: refactor url
-      $http.get('../api/get/nfr/1').
+      $http.get('/api/get/nfr/1').
         success(function(data, status, headers, config) {
           //$scope.testBackendResponse = data;
           $scope.testBackendResponse.id = data.id;

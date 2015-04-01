@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="jumbotron">
+    <h1>QUALI-T Dashboard</h1>
+    <button ng-click="logout()">Logout</button>
+  </div>
+
+  <div class="row marketing">
+    <h3>Dashboard</h3>
+    <h4>Hello {{ _identity.username }}</h4>
+
+    <p>
+      Try to get a json response from the quali-t play backend
+      <button ng-click="testBackend()" class="btn btn-success">TEST BACKEND!</button>
+      <br/>
+      Response:
+      <span ng-bind="testBackendResponse.id" ng-show="testBackendResponse.id"></span>
+      <span ng-bind="testBackendResponse.description" ng-show="testBackendResponse.description"></span>
+    </p>
+  </div>
+</div>

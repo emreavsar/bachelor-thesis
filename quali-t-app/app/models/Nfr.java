@@ -1,8 +1,7 @@
 package models;
 
 import javax.annotation.Nullable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by emre on 06/03/15.
@@ -12,7 +11,18 @@ import javax.persistence.Table;
 @Table(name = "nfr")
 @Nullable
 public class Nfr extends AbstractEntity {
+
     public String description;
+
+    public String something;
+
+    public String getSomething() {
+        return something;
+    }
+
+    public void setSomething(String something) {
+        this.something = something;
+    }
 
     public String getDescription() {
         return description;

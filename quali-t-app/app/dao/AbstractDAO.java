@@ -1,5 +1,7 @@
 package dao;
 
+import models.authentication.User;
+import org.hibernate.annotations.DiscriminatorOptions;
 import play.db.jpa.JPA;
 
 import javax.annotation.Nullable;
@@ -79,5 +81,7 @@ public abstract class AbstractDAO<T> {
         final List<T> results = findAll(query, params);
         return results.isEmpty() ? null : results.get(0);
     }
+
+
 
 }
