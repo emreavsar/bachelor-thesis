@@ -12,7 +12,6 @@ angular.module('qualitApp')
     $scope.testBackendResponse='';
 
     $scope.testBackend = function() {
-      console.log("hello world");
       $scope.testBackendResponse = {
         id: '',
         desc: ''

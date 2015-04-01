@@ -37,6 +37,11 @@ angular.module('qualitApp')
       }
     }
 
+    $scope.resetPassword = function (username) {
+      $scope.errors = new Array();
+      // todo implement reset function here
+    }
+
     /**
      * When the user is logged in to the system, it does not make sense to present him the login screen again.
      * Instead show the dashboard.
