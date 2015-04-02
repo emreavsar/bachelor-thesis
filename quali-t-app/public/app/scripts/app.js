@@ -19,17 +19,12 @@ angular.module('qualitApp', [
   'ui.router',
   'restangular'
 ])
-  .run(['$rootScope', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
-    function ($rootScope, $state, $stateParams, authorization, principal, $cookies, Restangular) {
+  .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
+    function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {
       $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
         // track the state the user wants to go to; authorization service needs this
         $rootScope.toState = toState;
         $rootScope.toStateParams = toStateParams;
-        // if the principal is resolved, do an authorization check immediately. otherwise,
-        // it'll be done when the state it resolved.
-        if (toState.resolve != null && principal.isIdentityResolved()) {
-          authorization.authorize();
-        }
       });
 
       // make logout available from everywhere
@@ -37,21 +32,31 @@ angular.module('qualitApp', [
         principal.authenticate({
           username: null,
           password: null,
+          token: null,
           roles: null
         });
         $rootScope.loginFailed = false;
-        $state.go('welcome');
+
+        // invalidate session on server side
+        var loggedInUser = JSON.parse($cookies.loggedInIdentity);
+        $http.post('/api/auth/logout', {
+          username: loggedInUser.username,
+          token: loggedInUser.token
+        })
+          .success(function (data) {
+            $cookies.loggedInIdentity = null;
+            $state.go('welcome');
+          });
       }
 
       // credentials inside cookie
-      if($cookies.loggedInIdentity == null) {
-        $cookies.loggedInIdentity = JSON.stringify({
-          username: "",
-          password: "",
-          roles: null
-        });
+      if ($cookies.loggedInIdentity == null) {
+        //$cookies.loggedInIdentity = JSON.stringify({
+        //  username: "",
+        //  password: "",
+        //  roles: null
+        //});
       }
-
       var tmpIdentity = JSON.parse($cookies.loggedInIdentity);
       var identityToSave = {
         username: "",

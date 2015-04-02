@@ -19,8 +19,11 @@ POST        /api/auth/login                    controllers.Authentication.login(
 POST        /api/auth/logout                   controllers.Authentication.logout()
 POST        /api/auth/register                 controllers.Authentication.register()
 GET         /api/get/nfr/:id                   controllers.Application.getNFR(id: Long)
+
+# Testing
 GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
 
+# Customer
 POST        /api/customer                      controllers.Customer.createCustomer()
 
 
