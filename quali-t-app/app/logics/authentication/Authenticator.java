@@ -25,22 +25,45 @@ public class Authenticator {
      *
      * @param username
      * @param password
+     * @param token
      * @return user
      */
-    public static User authenticate(String username, String password) {
+    public static Token authenticate(String username, String password, String token) {
         UserDao userDao = new UserDao();
         User u = userDao.findByUsername(username);
 
         // if user exists, check password
         if (u != null) {
-            if (Authenticator.isPasswordCorrect(u, password)) {
-                u.getToken().add(Authenticator.generateToken(u));
-                userDao.persist(u);
-                return u;
+            // check for token
+            if (token != null) {
+                TokenDao tokenDao = new TokenDao();
+                Token tokenOfUser = tokenDao.findByToken(token);
+                if (isTokenOfUser(tokenOfUser, u)) {
+                    return tokenOfUser;
+                }
+            } else {
+                // no token
+                if (Authenticator.isPasswordCorrect(u, password)) {
+                    Token newToken = Authenticator.generateToken(u);
+                    u.getToken().add(newToken);
+                    userDao.persist(u);
+                    return newToken;
+                }
             }
         }
-        // if no user found or password wrong, return null
+        // if no token found or created
         return null;
+    }
+
+    /**
+     * Checks the token if its available and belonging to the given user
+     *
+     * @param token
+     * @param u
+     * @return
+     */
+    private static boolean isTokenOfUser(Token token, User u) {
+        return token != null && token.getUser().getId().equals(u.getId());
     }
 
     /**
@@ -157,7 +180,9 @@ public class Authenticator {
         Token userToken = tokenDao.findByToken(token);
 
         // prevent that a user can invalidate sessions of others
-        if(Objects.equals(userToken.getUser().getId(), user.getId())) {
+        if (userToken.getUser().equals(user)) {
+            user.removeToken(userToken);
+            userDao.persist(user);
             tokenDao.remove(userToken);
             // TODO refactor messages to somewhere more static!
             return "User session successfully invalidated.";

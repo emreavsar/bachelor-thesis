@@ -3,6 +3,7 @@ package controllers;
 import dao.models.UserDao;
 import logics.authentication.Authenticator;
 import models.authentication.Role;
+import models.authentication.Token;
 import models.authentication.User;
 import play.Logger;
 import play.data.DynamicForm;
@@ -27,18 +28,18 @@ public class Authentication extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         String username = requestData.get("username");
         String password = requestData.get("password");
+        String token = requestData.get("token");
 
-        User u = Authenticator.authenticate(username, password);
-        if (u == null) {
+        Token t = Authenticator.authenticate(username, password, token);
+        if (t == null) {
             return notFound("User and password is not matching");
         } else {
-            return ok(Json.toJson(u));
+            return ok(Json.toJson(t));
         }
     }
 
     @Transactional
     public static Result register() {
-        Logger.info("register called");
         DynamicForm requestData = Form.form().bindFromRequest();
         String username = requestData.get("username");
         String password = requestData.get("password");
@@ -54,6 +55,7 @@ public class Authentication extends Controller {
         }
     }
 
+    @Transactional
     public static Result logout() {
         Logger.info("logout called");
 
@@ -61,7 +63,6 @@ public class Authentication extends Controller {
         String username = requestData.get("username");
         String token = requestData.get("token");
 
-        ArrayList<Role> roles = new ArrayList<>();
         String message = Authenticator.invalidateUserSession(username, token);
 
         // TODO refactor messages to somewhere more static!

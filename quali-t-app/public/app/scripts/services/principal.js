@@ -27,7 +27,7 @@ angular.module('qualitApp')
       authenticate: function (identity) {
         $rootScope._identity = {
           username: identity.username,
-          password: identity.password
+          token: identity.token
         };
         _authenticated = identity.username != null;
       },
@@ -38,21 +38,39 @@ angular.module('qualitApp')
           $rootScope._identity = undefined;
         }
 
-        $http.post('/api/auth/login', {
-          username: $rootScope._identity.username,
-          password: $rootScope._identity.password
-        })
+
+        if ($rootScope._identity.username != null && $cookies.loggedInIdentity != null && $cookies.loggedInIdentity != String(null)) {
+          $rootScope._identity = JSON.parse($cookies.loggedInIdentity);
+        }
+
+
+        var authData = {
+          username: $rootScope._identity.username
+        };
+
+        // attach either the token or the password
+        if ($rootScope._identity.password == null || $rootScope._identity.password == "") {
+          authData.password = "";
+          authData.token = $rootScope._identity.token;
+        } else {
+          authData.password = $rootScope._identity.password;
+        }
+
+        $http.post('/api/auth/login', authData)
           .success(function (data) {
+            // get the data
             var roles = new Array();
-            $(data.roles).each(function (idx, role) {
+            $(data.user.roles).each(function (idx, role) {
               roles.push(role.name);
             });
-
             $rootScope._identity = {
-              username: data.username,
-              password: $rootScope._identity.password,
+              username: $rootScope._identity.username,
+              token: data.token,
+              password: "", // remove the password
               roles: roles
             };
+
+            // save the new data locally
             $cookies.loggedInIdentity = JSON.stringify($rootScope._identity);
             newIdentity = $rootScope._identity;
             _authenticated = true;
@@ -61,12 +79,14 @@ angular.module('qualitApp')
           .error(function () {
             $rootScope._identity = {
               username: null,
-              password: null,
+              token: null,
               roles: null
             };
             _authenticated = false;
             newIdentity = undefined;
             deferred.resolve(newIdentity);
+
+            // TODO work with events!
             $rootScope.loginFailed = true;
 
           });

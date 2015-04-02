@@ -6,7 +6,7 @@ INSERT INTO public."user" (id, hashedpassword, name, salt) VALUES (1002, '4dd3a0
 INSERT INTO public."user" (id, hashedpassword, name, salt) VALUES (1003, 'd5506a1c7feda5c81f98f73cb547821d82d04d60', 'ozimmermann', 'zAmVyCdklHphTtkyJuKM');
 
 INSERT INTO public.role (id, name) VALUES (2000, 'admin');
-INSERT INTO public.role (id, name) VALUES (2001, 'crudDashboard');
+INSERT INTO public.role (id, name) VALUES (2001, 'dashboard');
 
 INSERT INTO public.role_user (user_id, roles_id) VALUES (1000, 2000);
 INSERT INTO public.role_user (user_id, roles_id) VALUES (1000, 2001);
@@ -16,6 +16,7 @@ INSERT INTO public.role_user (user_id, roles_id) VALUES (1002, 2001);
 
 # --- !Downs
 
+delete from public.token;
 delete from public.user_role;
 delete from public."user";
 delete from public.role;

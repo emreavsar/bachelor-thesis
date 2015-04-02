@@ -15,38 +15,47 @@
       <div class="cards">
         <md-content>
           <md-card>
-            <md-card-content class="login-part">
+            <md-card-content class="register-part">
               <h2 class="auth-form-heading">Register</h2>
-              <span class="text-warning ng-hide" ng-show="loginFailed">Login failed!</span>
 
-              <div class="errors" ng-show="errors.length">
-                <span class="text-error" ng-repeat="error in errors">{{ error }}</span>
+              <div class="register-form" ng-show="registrationDone">
+                <span class="text-success">
+                Your account was created successfully. You can <a ui-sref="login">log in here!</a>
+                us.
+                </span>
               </div>
+              <div class="register-form" ng-hide="registrationDone">
+                <span class="text-warning ng-hide" ng-show="loginFailed">Login failed!</span>
 
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-                       name="username" value="" placeholder="E-Mail" required=""
-                       ng-model="username">
+                <div class="errors" ng-show="errors.length">
+                  <span class="text-error" ng-repeat="error in errors">{{ error }}</span>
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         name="username" value="" placeholder="E-Mail" required=""
+                         ng-model="username">
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
+                  <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         name="password" value="" placeholder="Password" required=""
+                         ng-model="password">
+                </div>
+
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
+                  <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         name="passwordRepeated" value="" placeholder="Repeat password" required=""
+                         ng-model="passwordRepeated">
+                </div>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                  Register
+                </button>
               </div>
-
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
-                <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-                       name="password" value="" placeholder="Password" required=""
-                       ng-model="password">
-              </div>
-
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
-                <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-                       name="passwordRepeated" value="" placeholder="Repeat password" required=""
-                       ng-model="passwordRepeated">
-              </div>
-
-              <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Register
-              </button>
 
             </md-card-content>
             <md-card-content class="register-part">

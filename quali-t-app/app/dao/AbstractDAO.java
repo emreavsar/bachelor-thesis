@@ -48,7 +48,7 @@ public abstract class AbstractDAO<T> {
     }
 
     public void remove(T entity) {
-        JPA.em().remove(entity);
+        JPA.em().remove(JPA.em().contains(entity) ? entity : JPA.em().merge(entity));
     }
 
     public void flush() {
