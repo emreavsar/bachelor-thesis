@@ -16,4 +16,7 @@ describe('Controller: AuthCtrl', function () {
     });
   }));
 
+  it('should be a test', function () {
+    expect('todo').toBe('todo');
+  });
 });
