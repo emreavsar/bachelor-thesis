@@ -50,14 +50,11 @@ angular.module('qualitApp', [
       }
 
       // credentials inside cookie
-      if ($cookies.loggedInIdentity == null) {
-        //$cookies.loggedInIdentity = JSON.stringify({
-        //  username: "",
-        //  password: "",
-        //  roles: null
-        //});
+      var tmpIdentity = null;
+      if ($cookies.loggedInIdentity != null) {
+        tmpIdentity = JSON.parse($cookies.loggedInIdentity);
       }
-      var tmpIdentity = JSON.parse($cookies.loggedInIdentity);
+
       var identityToSave = {
         username: "",
         password: "",

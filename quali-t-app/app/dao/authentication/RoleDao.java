@@ -15,7 +15,11 @@ import java.util.List;
 public class RoleDao extends AbstractDAO<Role> {
     public List<Role> findDefaultRoles() {
         // TODO implement default roles here, atm it is returning all roles!
-        Long crudRole = 2001L;
-        return findAll("select r from Role r where r.id in (?)", crudRole);
+        return readAll();
+    }
+
+    public List<Role> findAdminRoles() {
+        // TODO implement this function
+        return findDefaultRoles();
     }
 }

@@ -22,7 +22,6 @@ public abstract class AbstractEntity implements Serializable {
 		return id;
 	}
 
-	@Deprecated //only used for hibernate
 	public void setId(Long id) {
 		this.id = id;
 	}

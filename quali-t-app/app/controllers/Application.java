@@ -1,20 +1,22 @@
 package controllers;
 
-import dao.models.CustomerDAO;
-import dao.models.NfrDao;
-import dao.models.ProjectDAO;
-import dao.models.QualityAttributeDAO;
+import dao.authentication.RoleDao;
+import dao.models.*;
+import models.Customer;
 import models.Nfr;
 import models.Project;
-import models.Customer;
 import models.QualityAttribute;
+import models.authentication.Role;
+import models.authentication.User;
+import play.Logger;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
-import play.mvc.*;
+import play.libs.Yaml;
 import play.mvc.Controller;
+import play.mvc.Result;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Application extends Controller {
@@ -29,16 +31,16 @@ public class Application extends Controller {
         Nfr firstNfr = nfrDao.readById(new Long(id));
 
         // TODO (emre): avoid checking for null somehow
-        if(firstNfr != null) {
+        if (firstNfr != null) {
             return ok(Json.toJson(firstNfr));
         } else {
             return notFound();
         }
     }
-    
+
     // Creates two projects with all 5 SMART qa's with customer and return json
     @Transactional
-    public static Result setCustomerProject(String customername){
+    public static Result setCustomerProject(String customername) {
         Customer customer = new Customer(customername);
         Set<QualityAttribute> q_set = new HashSet<QualityAttribute>();
         QualityAttribute q1 = new QualityAttribute("S", "Specified");

@@ -25,5 +25,3 @@ GET         /api/set/custproject/:cust         controllers.Application.setCustom
 
 # Customer
 POST        /api/customer                      controllers.Customer.createCustomer()
-
-

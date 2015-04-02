@@ -151,12 +151,8 @@ public class Authenticator {
             user.setName(username);
             user.initSalt();
             user.setHashedPassword(calculatePasswordHash(user.getSalt(), password));
-            user.setRoles(defaultRoles);
+            user.getRoles().addAll(roleDao.findDefaultRoles());
             userDao.persist(user);
-
-            // TODO implement activation mail
-
-
             // TODO refactor messages to somewhere more static!
             return "User successfully created";
         } else {
