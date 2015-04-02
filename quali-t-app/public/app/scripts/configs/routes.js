@@ -48,4 +48,14 @@ angular.module('qualitApp')
           roles: ['crudDashboard']
         }
       })
+      .state('customer', {
+        templateUrl: 'views/customer/showCustomer.html',
+        url: '/customer/view',
+        controller: 'CustomerCtrl'
+      })
+      .state('customerCreate', {
+        templateUrl: 'views/customer/createCustomer.html',
+        url: '/customer/create',
+        controller: 'CustomerCtrl'
+      })
   });
