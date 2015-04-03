@@ -179,37 +179,37 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath: /\.\.\//
       },
       test: {
         devDependencies: true,
         src: '<%= karma.unit.configFile %>',
-        ignorePath:  /\.\.\//,
-        fileTypes:{
+        ignorePath: /\.\.\//,
+        fileTypes: {
           js: {
             block: /(([\s\t]*)\/{2}\s*?bower:\s*?(\S*))(\n|\r|.)*?(\/{2}\s*endbower)/gi,
-              detect: {
-                js: /'(.*\.js)'/gi
-              },
-              replace: {
-                js: '\'{{filePath}}\','
-              }
+            detect: {
+              js: /'(.*\.js)'/gi
+            },
+            replace: {
+              js: '\'{{filePath}}\','
             }
           }
+        }
       },
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-          ignorePath: /(\.\.\/){1,2}bower_components\//,
-          fileTypes: {
-              scss: {
-                  replace: {
-                      css: '@import "../../bower_components/{{filePath}}";',
-                      sass: '@import "../../bower_components/{{filePath}}";',
-                      scss: '@import "../../bower_components/{{filePath}}";'
-                  }
-              }
+        ignorePath: /(\.\.\/){1,2}bower_components\//,
+        fileTypes: {
+          scss: {
+            replace: {
+              css: '@import "../../bower_components/{{filePath}}";',
+              sass: '@import "../../bower_components/{{filePath}}";',
+              scss: '@import "../../bower_components/{{filePath}}";'
+            }
           }
         }
+      }
     },
 
     // Compiles Sass to CSS and generates necessary files if requested
@@ -256,7 +256,10 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
+      html: [
+        '<%= yeoman.app %>/index.html',
+        '<%= yeoman.app %>/views/{,*/}*.html',
+      ],
       options: {
         dest: '<%= yeoman.dist %>',
         flow: {
@@ -273,12 +276,13 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/views/{,*/}*.html', ],
+      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/views/{,*/}*.html',],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>',
           '<%= yeoman.dist %>/styles',
+          '<%= yeoman.dist %>/styles/extra-styles',
           '<%= yeoman.dist %>/images'
         ]
       }
@@ -402,7 +406,9 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
-        src: '{,*/}*.css'
+        src: [
+          '{,*/}*.css'
+        ]
       }
     },
 
