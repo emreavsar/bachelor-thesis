@@ -1,6 +1,6 @@
 package controllers
 
-import play.api.Play
+import play.api.{Logger, Play}
 import Play.current
 import play.api.mvc.Action
 import play.api.mvc.AnyContent
@@ -27,7 +27,6 @@ object ConfigurableAssets extends AssetsBuilder {
     }
 
     val fullPath = assetsPath.concat(local_path)
-
     super.at(fullPath, file)
   }
 }

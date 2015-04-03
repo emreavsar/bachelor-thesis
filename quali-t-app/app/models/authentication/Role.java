@@ -17,7 +17,7 @@ import java.util.List;
 public class Role extends AbstractEntity {
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "roles")
     @JsonBackReference
     private List<User> user = new ArrayList<>();
 

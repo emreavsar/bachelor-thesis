@@ -34,6 +34,7 @@
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         id="input-username"
                          name="username" value="" placeholder="E-Mail" required=""
                          ng-model="username">
                 </div>
@@ -41,6 +42,7 @@
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
                   <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         id="input-password"
                          name="password" value="" placeholder="Password" required=""
                          ng-model="password">
                 </div>
@@ -48,11 +50,12 @@
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
                   <input type="password" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         id="input-passwordRepeated"
                          name="passwordRepeated" value="" placeholder="Repeat password" required=""
                          ng-model="passwordRepeated">
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" id="btn-register">
                   Register
                 </button>
               </div>

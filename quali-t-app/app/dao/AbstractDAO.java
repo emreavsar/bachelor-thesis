@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import javax.persistence.Query;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**

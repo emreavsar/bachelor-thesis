@@ -15,8 +15,4 @@ describe('Controller: MainCtrl', function () {
       $scope: scope
     });
   }));
-
-  it('todo', function () {
-    expect('todo').toBe('todo');
-  });
 });

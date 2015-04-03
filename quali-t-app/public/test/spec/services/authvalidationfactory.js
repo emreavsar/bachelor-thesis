@@ -10,9 +10,4 @@ describe('Service: authValidationFactory', function () {
   beforeEach(inject(function (_authValidationFactory_) {
     authValidationFactory = _authValidationFactory_;
   }));
-
-  it('should do something', function () {
-    //expect(!!authValidationFactory).toBe(true);
-  });
-
 });
