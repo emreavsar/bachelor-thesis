@@ -1,7 +1,7 @@
 package dao.models;
 
 import dao.AbstractDAO;
-import models.Project;
+import models.project.Project;
 
 /**
  * Created by corina on 30.03.2015.

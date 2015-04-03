@@ -1,6 +1,5 @@
 package models.authentication;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import org.hibernate.annotations.Type;
@@ -8,7 +7,6 @@ import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * Created by emre on 31/03/15.

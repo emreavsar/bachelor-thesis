@@ -1,4 +1,6 @@
-package models;
+package models.template;
+
+import models.AbstractEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;

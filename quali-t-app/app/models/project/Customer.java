@@ -1,6 +1,8 @@
-package models;
+package models.project;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import models.AbstractEntity;
+
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -16,15 +18,17 @@ import java.util.ArrayList;
 @Entity
 @Table(name = "customer")
 @Nullable
-public class Customer extends AbstractEntity{
-    public Customer(){
+public class Customer extends AbstractEntity {
+    public Customer() {
     }
+
     public Customer(String name) {
         this.name = name;
     }
 
     private String name;
-    @OneToMany(mappedBy="projectCustomer")
+
+    @OneToMany(mappedBy = "projectCustomer")
     @JsonManagedReference
     private Collection<Project> projects = new ArrayList<Project>();
 
@@ -44,11 +48,6 @@ public class Customer extends AbstractEntity{
     public void addProject(Project project) {
         this.projects.add(project);
     }
-
-
-
-
-
 
 
 }

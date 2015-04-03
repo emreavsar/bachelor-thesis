@@ -1,7 +1,7 @@
 package dao.models;
 
 import dao.AbstractDAO;
-import models.Customer;
+import models.project.Customer;
 
 /**
  * Created by corina on 30.03.2015.

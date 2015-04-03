@@ -1,16 +1,15 @@
-package models;
+package models.project;
 
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
-import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import models.AbstractEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,20 +26,22 @@ public class Project extends AbstractEntity {
 
     public Project() {
     }
+
     public Project(String name) {
         this.name = name;
     }
-    public Project(String name, Customer projectCustomer, Set<QualityAttribute> q_set){
+
+    public Project(String name, Customer projectCustomer, Set<QualityAttribute> q_set) {
         this.name = name;
         this.projectCustomer = projectCustomer;
         this.qualityAttributes = q_set;
     }
 
-    @ManyToOne(optional=true)
+    @ManyToOne(optional = true)
     @JsonBackReference
     private Customer projectCustomer;
     private String name;
-    @ManyToMany(mappedBy="usedByProject")
+    @ManyToMany(mappedBy = "usedByProject")
     @JsonManagedReference
     private Set<QualityAttribute> qualityAttributes = new HashSet<>();
 

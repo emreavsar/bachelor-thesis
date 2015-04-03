@@ -1,7 +1,7 @@
 package dao.models;
 
 import dao.AbstractDAO;
-import models.QualityAttribute;
+import models.project.QualityAttribute;
 
 /**
  * Created by corina on 31.03.2015.

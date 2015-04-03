@@ -1,7 +1,7 @@
 package dao.models;
 
 import dao.AbstractDAO;
-import models.Nfr;
+import models.template.Nfr;
 
 /**
  * Created by emre on 16/03/15.

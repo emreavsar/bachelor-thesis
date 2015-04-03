@@ -3,15 +3,11 @@ package models.authentication;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import logics.authentication.Authenticator;
 import models.AbstractEntity;
-import models.authentication.Role;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.security.SecureRandom;
 import java.util.*;
 
 /**

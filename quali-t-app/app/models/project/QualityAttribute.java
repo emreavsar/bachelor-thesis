@@ -1,11 +1,13 @@
-package models;
+package models.project;
 
 import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import models.AbstractEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,18 +16,21 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name="QualityAttribute")
+@Table(name = "qualityattribute")
 @Nullable
-public class QualityAttribute extends AbstractEntity{
-    public QualityAttribute(){
+public class QualityAttribute extends AbstractEntity {
+    public QualityAttribute() {
     }
-    public QualityAttribute(String name, String description){
+
+    public QualityAttribute(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
     private String name;
+
     private String description;
+
     @ManyToMany
     @JsonBackReference
     private Set<Project> usedByProject = new HashSet<Project>();
@@ -54,7 +59,7 @@ public class QualityAttribute extends AbstractEntity{
         this.usedByProject = usedByProject;
     }
 
-    public void addUsedByProject(Project project){
+    public void addUsedByProject(Project project) {
         usedByProject.add(project);
     }
 }
