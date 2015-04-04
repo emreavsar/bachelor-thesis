@@ -342,6 +342,11 @@ body {
 .text-white, .text-white a {
   color: #fff !important;
 }
+
 .text-black, .text-black a {
   color: #000 !important;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }
