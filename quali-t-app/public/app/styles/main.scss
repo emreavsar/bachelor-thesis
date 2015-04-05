@@ -10,11 +10,20 @@ html {
   background-color: transparent !important;
 }
 
-.big-container.container {
+.content-container {
   max-width: 1900px !important;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-image: url("images/login-background.png");
+  background-color: transparent !important;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+  }
+}
+
+.main-content {
+  background-color: #fff;
+  min-height: 800px;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* remove outer padding */
@@ -23,28 +32,138 @@ html {
   margin: 0px;
 }
 
-/*Remove rounded coners*/
+/* ROLE CHANGER */
+#role-changer {
+  height: 140px;
+  display: none;
+  color: #fff;
+  text-align: center;
 
-nav.sidebar.navbar {
-  border-radius: 0px;
+  h1, h2, h3, h4, h5 {
+    color: #fff;
+    font-weight: bold;
+  }
+  .role {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
 }
 
-nav.sidebar, .main {
-  -webkit-transition: margin 200ms ease-out;
-  -moz-transition: margin 200ms ease-out;
-  -o-transition: margin 200ms ease-out;
-  transition: margin 200ms ease-out;
+/* SIDEBAR */
+#sidebar {
+  height: 100%;
+  padding-right: 0;
+  padding-top: 20px;
+  min-height: 800px;
+  background-color: #00BA63;
+  color: #fff;
+
+  .title {
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .sidebar-group {
+    margin-top: 20px;
+  }
+
+  .nav {
+    width: 95%;
+  }
+
+  li {
+    a {
+      color: #fff;
+      font-size: 14px;
+      background-color: transparent;
+    }
+    &:hover, &:active {
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+    }
+  }
+
+  .current-location img {
+    height: 30px;
+  }
+
+  .location-name {
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+    margin-left: 35px;
+  }
+
+  .toggle-roles {
+    text-align: right;
+
+    .toggle-roles-btn {
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+
+      .fa-angle-up, .fa-angle-down {
+        font-size: 14px !important;
+        position: absolute !important;
+        margin-left: 5px !important;
+      }
+    }
+  }
+
+  .profile {
+    .profile-name {
+      margin-left: 5px;
+    }
+
+    .show-notifications-btn {
+      float: right;
+      cursor: pointer;
+    }
+  }
 }
 
-/* Add gap to nav and right windows.*/
-.main {
-  padding: 10px 10px 0 10px;
+.toggle-sidebar-btn {
+  float: left;
+  z-index: 5;
+  position: relative;
+  font-size: 20px;
+  background-color: #00BB5F;
+  min-height: 800px;
+  margin-right: 15px;
+  margin-left: -15px;
+  color: #fff;
+  padding-right: 5px;
+  padding-top: 350px;
+  cursor: pointer;
 }
 
-/* .....NavBar: Icon only with coloring/layout.....*/
+.toggle-sidebar-btn-closed {
+  background-color: transparent;
+  color: #00BB5F;
+  padding-left: 5px;
+}
+
+.main-view-opened {
+  float: left;
+  width: 95%;
+}
+
+.main-view {
+  h1, h2, h3, h4, h5 {
+    color: #3f3f44;
+  }
+
+  h3 {
+    font-size: 2em !important;
+  }
+}
 
 /*small/medium side display*/
 @media (min-width: 768px) {
+  #sidebar {
+    min-height: auto;
+  }
 
   /*Allow main to be next to Nav*/
   .main {
@@ -175,7 +294,10 @@ section {
 
 body {
   padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
+
+
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -347,6 +469,7 @@ body {
   color: #000 !important;
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+.col-xs-0, .col-sm-0, .col-md-0, .col-lg-0, {
+  width: 0 !important;
+  display: none;
 }

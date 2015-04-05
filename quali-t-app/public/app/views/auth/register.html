@@ -1,11 +1,6 @@
-<style>
-  body {
-    background-color: #03DB7F;
-    background-image: url("images/login-background.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-</style>
+<!-- build:css(.tmp) styles/extra-styles/auth.css -->
+<link rel="stylesheet" href="styles/extra-styles/auth.css" class="ng-scope">
+<!-- endbuild -->
 
 <div class="auth-form-container" ng-init="checkAuthNeeded()">
   <form class="auth-form" ng-submit="register(username, password, passwordRepeated)">

@@ -9,195 +9,139 @@
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
   <!-- endbower -->
   <!-- endbuild -->
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400italic,700italic,300,700,300italic,400' rel='stylesheet'
+        type='text/css'>
+
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
+
+  <style type="text/css">
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+      display: none !important;
+    }
+  </style>
 </head>
 <body ng-app="qualitApp" ng-cloak>
-<div ui-view class='main-view'></div>
 
-<!--<div class="big-container container">-->
-<!--&lt;!&ndash;<nav ng-if="location.path().indexOf('/login') === -1">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;&ndash;&gt;-->
+<div ng-class="inAuthArea ? 'row-offcanvas row-offcanvas-left container content-container' : ''">
 
-<!--&lt;!&ndash;<div class="navbar navbar-default" role="navigation">&ndash;&gt;-->
-<!--&lt;!&ndash;<a class="navbar-brand" href="#/">QUALI-T</a>&ndash;&gt;-->
-<!--&lt;!&ndash;<ul class="nav">&ndash;&gt;-->
-<!--&lt;!&ndash;<li class="active"><a href="#/">Home</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a ng-href="#/register">Register</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a ng-href="#/login">Login</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a ng-href="#/logout">Logout</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!-- role changer -->
+  <div ng-if="inAuthArea" class="col-xs-12" id="role-changer">
+    <h4>Change Roles</h4>
 
-<!--&lt;!&ndash;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;<div id="sidebar" class="sidebar-wrapper">&ndash;&gt;-->
-<!--&lt;!&ndash;<div id="ember515" class="ember-view">&ndash;&gt;-->
+    <div class="roles col-xs-12">
+      <img src="http://placehold.it/75x75&amp;text=CC" class="img-circle role"
+           title="Change to role Catalog Curator">
+      <img src="http://placehold.it/75x75&amp;text=AA" class="img-circle role"
+           title="Change to role Architecture Analyst">
+      <img src="http://placehold.it/75x75&amp;text=AS" class="img-circle role"
+           title="Change to role Architecture Synthiseizer">
+      <img src="http://placehold.it/75x75&amp;text=AE" class="img-circle role"
+           title="Change to role Architecture Evaluator">
+    </div>
+  </div>
+  <!-- sidebar -->
+  <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+    <div class="current-location col-xs-6">
+      <img src="images/white_small_without_name.png">
+      <span class="location-name">Dashboard</span>
+    </div>
+    <div class="toggle-roles col-xs-6">
+      <div toggle-role-btn class="toggle-roles-btn" title="Toggle roles changer area">
+        <i class="fa fa-users"></i>
+        <i class="fa fa-angle-down"></i>
+      </div>
+    </div>
 
-<!--&lt;!&ndash;<div class="sidebar-container property-switcher fixed-top allow-if-delinquent">&ndash;&gt;-->
-<!--&lt;!&ndash;<a id="ember519" class="ember-view" href="/">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="icon icon-logo dashboard-logo"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;<h4 class="dashboard-logo-text">Dashboard</h4>&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
+    <div class="col-xs-12 profile">
+      <h4 class="title">Your Account</h4>
+      <img class="profile-picture img-circle" src="http://placehold.it/30x30"/>
+      <span class="profile-name">
+        {{ _identity.username }}
+      </span>
+      <i class="fa fa-angle-down show-notifications-btn"></i>
+    </div>
 
-<!--&lt;!&ndash;<div id="ember528" class="ember-view navigator-toggle icon icon-navigator-toggle"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <div class="col-xs-12 sidebar-group">
+      <h4 class="title">Navigation</h4>
+      <ul class="nav">
+        <li><a ui-sref="dashboard">Home</a></li>
+        <li><a ui-sref="customer">Show Customer</a></li>
+        <li><a ui-sref="customerCreate">Create Customer</a></li>
+      </ul>
+    </div>
 
-<!--&lt;!&ndash;<div class="account allow-if-delinquent">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="sidebar-container">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="sidebar-user-section media dropdown">&ndash;&gt;-->
-<!--&lt;!&ndash;<a href="#" class="dropdown-toggle" data-toggle="dropdown">&ndash;&gt;-->
-<!--&lt;!&ndash;<span class="avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;<img id="ember537" class="ember-view gravatar-icon"&ndash;&gt;-->
-<!--&lt;!&ndash;src="https://gravatar.com/avatar/3f552d75ebe7501b1d2ac049cf70cee3?s=96&amp;d=https://dashboard.heroku.com%2Fimages%2Fninja-avatar-48x48.png"&ndash;&gt;-->
-<!--&lt;!&ndash;height="32px" width="32px">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="notification-badge" data-bindattr-538="538"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;</span>&ndash;&gt;-->
+    <div class="col-xs-12 sidebar-group">
+      <h4 class="title">Favorites</h4>
+      No favorites yet
+    </div>
+  </div>
 
-<!--&lt;!&ndash;<div class="media-body sidebar-user-email">&ndash;&gt;-->
-<!--&lt;!&ndash;<h5 class="media-heading">emre.avsar92@gmail.com <i class="icon icon-caret"></i></h5>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
-<!--&lt;!&ndash;<ul class="dropdown-menu user-menu list-group">&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a id="ember540" class="ember-view" href="/notifications">View Notifications</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a id="ember541" class="ember-view" href="/account">Manage Account</a></li>&ndash;&gt;-->
+  <!-- main area -->
+  <div ng-if="inAuthArea" class="col-xs-12 col-sm-9 main-content">
+    <i class="fa fa-angle-left toggle-sidebar-btn" sidebar-btn title="Toggle Navigation"></i>
 
+    <div ui-view class='main-view main-view-opened'></div>
+  </div>
 
-<!--&lt;!&ndash;<li role="presentation" class="divider"></li>&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a id="ember542" class="ember-view" href="/log-out">Log out</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <div ng-if="!inAuthArea">
+    <div ui-view class="main-view"></div>
+  </div>
 
-<!--&lt;!&ndash;<div class="sidebar-container scrollable-content">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="shortcuts">&ndash;&gt;-->
-<!--&lt;!&ndash;<h6>Favorites</h6>&ndash;&gt;-->
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <script>
+    !function (A, n, g, u, l, a, r) {
+      A.GoogleAnalyticsObject = l, A[l] = A[l] || function () {
+        (A[l].q = A[l].q || []).push(arguments)
+      }, A[l].l = +new Date, a = n.createElement(g),
+        r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
+    }(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-<!--&lt;!&ndash;<div class="well text-center" data-bindattr-599="599">&ndash;&gt;-->
+    ga('create', 'UA-61479254-1');
+    ga('send', 'pageview');
+  </script>
 
-<!--&lt;!&ndash;<div class="list-group favorites">&ndash;&gt;-->
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.js"></script>
+  <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+  <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+  <script src="bower_components/restangular/dist/restangular.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
 
-<!--&lt;!&ndash;<a id="ember877" class="ember-view text-left list-group-item" href="/apps/quali-t/resources"&ndash;&gt;-->
-<!--&lt;!&ndash;target="_self">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="icon icon-app-small"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;quali-t&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="scripts/app.js"></script>
 
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <script src="scripts/configs/routes.js"></script>
 
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <script src="scripts/controllers/dashboard.js"></script>
+  <script src="scripts/controllers/auth.js"></script>
+  <script src="scripts/controllers/home.js"></script>
 
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<div class="personal-apps">&ndash;&gt;-->
-<!--&lt;!&ndash;<ul class="sidebar-nav">&ndash;&gt;-->
-<!--&lt;!&ndash;<li class="group-menu-item active">&ndash;&gt;-->
-<!--&lt;!&ndash;<a id="ember552" class="ember-view sidebar-nav-heading org active" href="/apps">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="icon icon-personal-apps"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;Personal Apps&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
-<!--&lt;!&ndash;</li>&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<div class="broadcast-area fixed-bottom allow-if-delinquent">&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;<div class="broadcast">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="broadcast-icon icon icon-announcement"></i>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<div class="broadcast-content">&ndash;&gt;-->
-<!--&lt;!&ndash;<h6>&ndash;&gt;-->
-<!--&lt;!&ndash;Latest from the Blog&ndash;&gt;-->
-<!--&lt;!&ndash;</h6>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<p>&ndash;&gt;-->
-<!--&lt;!&ndash;<a href="http://blog.heroku.com/archives/2015/3/19/making_cli_plugins_better_with_a_new_architecture"&ndash;&gt;-->
-<!--&lt;!&ndash;data-bindattr-897="897" target="_blank">&ndash;&gt;-->
-<!--&lt;!&ndash;Making CLI Plug-ins Better with a New Architecture&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
-<!--&lt;!&ndash;</p>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<a class="broadcast-dismiss" href="javascript:void(0)" data-ember-action="899">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="icon icon-close"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</nav>&ndash;&gt;-->
-
-<!--<div class="container">-->
-<!--<div ng-view=""></div>-->
-<!--</div>-->
-
-<!--<footer ng-if="location.path().indexOf('/login') === -1">-->
-<!--<div class="footer">-->
-<!--<div class="container">-->
-<!--All rights reserved-->
-<!--</div>-->
-<!--</div>-->
-<!--</footer>-->
-<!--</div>-->
-
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-<script>
-  !function (A, n, g, u, l, a, r) {
-    A.GoogleAnalyticsObject = l, A[l] = A[l] || function () {
-      (A[l].q = A[l].q || []).push(arguments)
-    }, A[l].l = +new Date, a = n.createElement(g),
-      r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
-  }(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-  ga('create', 'UA-61479254-1');
-  ga('send', 'pageview');
-</script>
-
-<!-- build:js(.) scripts/vendor.js -->
-<!-- bower:js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-<script src="bower_components/angular-resource/angular-resource.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script src="bower_components/angular-touch/angular-touch.js"></script>
-<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
-<script src="bower_components/ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/angular-aria/angular-aria.js"></script>
-<script src="bower_components/angular-material/angular-material.js"></script>
-<script src="bower_components/lodash/dist/lodash.compat.js"></script>
-<script src="bower_components/restangular/dist/restangular.js"></script>
-<!-- endbower -->
-<!-- endbuild -->
-
-<!-- build:js({.tmp,app}) scripts/scripts.js -->
-<script src="scripts/app.js"></script>
-
-<script src="scripts/configs/routes.js"></script>
-
-<script src="scripts/controllers/dashboard.js"></script>
-<script src="scripts/controllers/auth.js"></script>
-<script src="scripts/controllers/home.js"></script>
-
-<script src="scripts/services/principal.js"></script>
-<script src="scripts/services/authorization.js"></script>
-<script src="scripts/services/authvalidationfactory.js"></script>
-<script src="scripts/controllers/customer.js"></script>
-<!-- endbuild -->
+  <script src="scripts/services/principal.js"></script>
+  <script src="scripts/services/authorization.js"></script>
+  <script src="scripts/services/authvalidationfactory.js"></script>
+  <script src="scripts/controllers/customer.js"></script>
+  <script src="scripts/directives/sidebarBtn.js"></script>
+  <script src="scripts/directives/toggleRoleBtn.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

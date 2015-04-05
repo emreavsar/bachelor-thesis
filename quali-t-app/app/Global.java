@@ -21,8 +21,11 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-
         try {
+            // TODO emre: this is getting called *every* time when the app starts
+            // -> causes lose of data on productive systems
+            // -> OK on dev/heroku
+            // -> NOK on prod
             JPA.withTransaction("default", false, () -> {
                 // put some sample data from initial-data.yml
                 Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("initial-data.yml");

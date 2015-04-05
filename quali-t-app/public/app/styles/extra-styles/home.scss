@@ -12,7 +12,6 @@ h4,
 h5,
 h6 {
   font-weight: 700;
-
 }
 
 .lead {
@@ -60,15 +59,25 @@ h6 {
 
 }
 
-.content-section-b {
+.about-qualit-templates > h2, .about-qualit-evaluate >h2 {
+  font-size: 3em;
+}
+
+.about-qualit-evaluate {
   padding: 50px 0;
   border-top: 1px solid #e7e7e7;
   border-bottom: 1px solid #e7e7e7;
 }
 
-.content-section-a {
+.about-qualit-templates, .about-qualit-export {
   padding: 50px 0;
   background-color: #f8f8f8;
+}
+
+.about-qualit-templates {
+  .img-responsive {
+    margin-top: 50px;
+  }
 }
 
 .banner {

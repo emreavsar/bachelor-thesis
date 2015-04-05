@@ -34,7 +34,7 @@ angular.module('qualitApp')
         templateUrl: 'views/errors/access_denied.html'
       })
       .state('dashboard', {
-        url: '/dashboard',
+        url: '/authenticated/dashboard',
         controller: 'DashboardCtrl',
         templateUrl: 'views/dashboard.html',
         resolve: {
@@ -50,12 +50,12 @@ angular.module('qualitApp')
       })
       .state('customer', {
         templateUrl: 'views/customer/showCustomer.html',
-        url: '/customer/view',
+        url: '/authenticated/customer/view',
         controller: 'CustomerCtrl'
       })
       .state('customerCreate', {
         templateUrl: 'views/customer/createCustomer.html',
-        url: '/customer/create',
+        url: '/authenticated/customer/create',
         controller: 'CustomerCtrl'
       })
   });

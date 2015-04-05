@@ -1,20 +1,34 @@
-<div class="container">
-  <div class="jumbotron">
-    <h1>QUALI-T Dashboard</h1>
-    <button ng-click="logout()">Logout</button>
-  </div>
+<div>
+  <h3>Dashboard and Projects</h3>
+  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+    gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
+    elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+    eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet.</p>
 
-  <div class="row marketing">
-    <h3>Dashboard</h3>
-    <h4>Hello {{ _identity.username }}</h4>
+  <p>
+    Try to get a json response from the quali-t play backend
+    <button ng-click="testBackend()" class="btn btn-success">TEST BACKEND!</button>
+    <br/>
+    Response:
+    <span ng-bind="testBackendResponse.id" ng-show="testBackendResponse.id"></span>
+    <span ng-bind="testBackendResponse.description" ng-show="testBackendResponse.description"></span>
+  </p>
 
-    <p>
-      Try to get a json response from the quali-t play backend
-      <button ng-click="testBackend()" class="btn btn-success">TEST BACKEND!</button>
-      <br/>
-      Response:
-      <span ng-bind="testBackendResponse.id" ng-show="testBackendResponse.id"></span>
-      <span ng-bind="testBackendResponse.description" ng-show="testBackendResponse.description"></span>
-    </p>
-  </div>
+
+  <h3>Latest updates in <span class="text-success">Cloud Mobile App for HSR</span></h3>
+  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+    gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
+    elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+    eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet.</p>
+
+  <p>
+</div>
+
+<div>
+  TODO move me to a proper place
+  <button ng-click="logout()">Logout</button>
 </div>
