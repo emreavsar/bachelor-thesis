@@ -152,6 +152,9 @@ html {
 .main-view-opened {
   float: left;
   width: 95%;
+  margin-top: 70px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .main-view {
@@ -161,6 +164,10 @@ html {
 
   h3 {
     font-size: 2em !important;
+    &.steps {
+      color: #00EC78;
+      font-size: 1.75em !important;
+    }
   }
 }
 
@@ -406,5 +413,11 @@ body {
 .popover {
   i {
     color: #00E980;
+  }
+}
+
+.crud-form {
+  .end-row {
+    text-align: center;
   }
 }

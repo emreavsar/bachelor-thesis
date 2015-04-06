@@ -58,4 +58,9 @@ angular.module('qualitApp')
         url: '/authenticated/customer/create',
         controller: 'CustomerCtrl'
       })
+      .state('newQA', {
+        templateUrl: 'views/qa/new.html',
+        url: '/authenticated/qa/create',
+        controller: 'QACtrl'
+      })
   });

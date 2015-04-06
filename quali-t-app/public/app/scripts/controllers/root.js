@@ -29,7 +29,7 @@ angular.module('qualitApp')
         },
         {
           title: "Quality Attribute",
-          state: "newQualityAttribute",
+          state: "newQA",
           icon: "glyphicon glyphicon-grain"
         }
       ]
