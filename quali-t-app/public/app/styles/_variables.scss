@@ -530,13 +530,13 @@ $tooltip-arrow-color:         $tooltip-bg;
 //##
 
 //** Popover body background color
-$popover-bg:                          $gray-dark;
+$popover-bg:                          #fff;
 //** Popover maximum width
-$popover-max-width:                   276px;
+$popover-max-width:                   400px;
 //** Popover border color
-$popover-border-color:                transparent;
+$popover-border-color:                #fff;
 //** Popover fallback border color
-$popover-fallback-border-color:       $gray-dark;
+$popover-fallback-border-color:       #fff;
 
 //** Popover title background color
 $popover-title-bg:                    $popover-bg;

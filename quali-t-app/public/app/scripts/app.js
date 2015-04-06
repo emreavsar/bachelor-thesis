@@ -17,7 +17,8 @@ angular.module('qualitApp', [
   'ngTouch',
   'angular-loading-bar',
   'ui.router',
-  'restangular'
+  'restangular',
+  'mgcrea.ngStrap'
 ])
   .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
     function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {
