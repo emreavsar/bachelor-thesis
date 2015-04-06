@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -88,5 +89,14 @@ public class User extends AbstractEntity {
 
     public void removeToken(Token userToken) {
         token.remove(userToken);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("roles", roles)
+                .append("token", token)
+                .toString();
     }
 }

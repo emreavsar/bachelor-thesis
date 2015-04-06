@@ -2,6 +2,7 @@ package models.authentication;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -55,5 +56,14 @@ public class Token extends AbstractEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("token", token)
+                .append("validUntil", validUntil)
+                .append("user", user)
+                .toString();
     }
 }

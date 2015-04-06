@@ -8,6 +8,7 @@ import models.authentication.Token;
 import models.authentication.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
+import play.Logger;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -38,7 +39,7 @@ public class Authenticator {
             if (token != null) {
                 TokenDao tokenDao = new TokenDao();
                 Token tokenOfUser = tokenDao.findByToken(token);
-                if (isTokenOfUser(tokenOfUser, u)) {
+                if (isTokenOfUser(tokenOfUser, u) && isTokenValid(tokenOfUser)) {
                     return tokenOfUser;
                 }
             } else {
@@ -53,6 +54,23 @@ public class Authenticator {
         }
         // if no token found or created
         return null;
+    }
+
+    /**
+     * Checks the validUntil property of the token and compares it with todays date
+     *
+     * @param tokenOfUser
+     * @return
+     */
+    private static boolean isTokenValid(Token tokenOfUser) {
+        Logger.info("in tokenIsValid, argument=" + tokenOfUser);
+        DateTime validUntil = tokenOfUser.getValidUntil();
+        Logger.info("isvaliduntilbefore? = validUntil.isBefore(new DateTime())");
+        if (validUntil.isAfter(new DateTime())) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -119,7 +137,7 @@ public class Authenticator {
         String generatedToken = generateTokenString();
 
         DateTime date = new DateTime();
-        date.plusMonths(6);
+        date = date.plusMonths(6);
         Token t = new Token(generatedToken, date, user);
 
         return t;
