@@ -89,6 +89,8 @@ angular.module('qualitApp')
             // TODO work with events!
             $rootScope.loginFailed = true;
 
+            $cookies.loggedInIdentity = null;
+
           });
 
         return deferred.promise;
