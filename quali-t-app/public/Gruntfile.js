@@ -259,6 +259,7 @@ module.exports = function (grunt) {
       html: [
         '<%= yeoman.app %>/index.html',
         '<%= yeoman.app %>/views/{,*/}*.html',
+        '<%= yeoman.app %>/templates/{,*/}*.html',
       ],
       options: {
         dest: '<%= yeoman.dist %>',
@@ -276,7 +277,11 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/views/{,*/}*.html',],
+      html: [
+        '<%= yeoman.dist %>/{,*/}*.html',
+        '<%= yeoman.dist %>/views/{,*/}*.html',
+        '<%= yeoman.dist %>/templates/{,*/}*.html',
+      ],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
         assetsDirs: [
@@ -348,7 +353,11 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
+          src: [
+            '*.html',
+            'views/{,*/}*.html',
+            'templates/{,*/}*.html'
+          ],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -387,6 +396,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
+            'templates/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*'
           ]
