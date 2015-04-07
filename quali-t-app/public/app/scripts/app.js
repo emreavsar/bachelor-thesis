@@ -18,7 +18,8 @@ angular.module('qualitApp', [
   'angular-loading-bar',
   'ui.router',
   'restangular',
-  'mgcrea.ngStrap'
+  'mgcrea.ngStrap',
+  'ui.gravatar'
 ])
   .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
     function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {

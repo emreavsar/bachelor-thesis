@@ -56,7 +56,8 @@
 
     <div class="col-xs-12 profile">
       <h4 class="title">Your Account</h4>
-      <img class="profile-picture img-circle" src="http://placehold.it/30x30"/>
+      <img class="img-circle" gravatar-src="'{{ _identity.username }}'" gravatar-size="30">
+      <!--<img class="profile-picture " src="http://placehold.it/30x30"/>-->
       <span class="profile-name">
         {{ _identity.username }}
       </span>
@@ -133,6 +134,7 @@
   <script src="bower_components/restangular/dist/restangular.js"></script>
   <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
   <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+  <script src="bower_components/angular-gravatar/build/angular-gravatar.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 

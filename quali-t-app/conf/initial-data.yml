@@ -17,7 +17,7 @@ users:
 
     - !!models.authentication.User
         hashedPassword:  4dd3a08cdda45838c11591789b4a47fedc1d3cc9
-        name:            emre
+        name:            emre.avsar92@gmail.com
         salt:            YqYpSzIoxBmpOliRctnV
 
     - !!models.authentication.User
