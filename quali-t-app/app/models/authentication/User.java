@@ -1,5 +1,7 @@
 package models.authentication;
 
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Subject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,7 +21,7 @@ import java.util.*;
 @Table(name = "\"user\"")
 // TODO: fix this, otherwise it is bounded to postgresql because of the ecaping, maybe this helps http://stackoverflow.com/questions/3364835/automatic-reserved-word-escaping-for-hibernate-tables-and-columns
 @Nullable
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements Subject {
     private String name;
 
     @JsonIgnore
@@ -28,12 +30,12 @@ public class User extends AbstractEntity {
     @JsonIgnore
     private String hashedPassword;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_user",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     @JsonManagedReference
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
@@ -53,14 +55,6 @@ public class User extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     public String getSalt() {
@@ -98,5 +92,20 @@ public class User extends AbstractEntity {
                 .append("roles", roles)
                 .append("token", token)
                 .toString();
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    @Override
+    public List<? extends Permission> getPermissions() {
+        return null;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return getId().toString();
     }
 }

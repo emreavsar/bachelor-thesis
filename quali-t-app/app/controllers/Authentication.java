@@ -34,6 +34,7 @@ public class Authentication extends Controller {
         if (t == null) {
             return notFound("User and password is not matching");
         } else {
+            session("user", t.getUser().getName());
             return ok(Json.toJson(t));
         }
     }
@@ -67,6 +68,8 @@ public class Authentication extends Controller {
 
         // TODO refactor messages to somewhere more static!
         if(message.equals("User session successfully invalidated.")) {
+            session().remove("user");
+
             return ok(Json.toJson(message));
         } else {
             return notFound(message);

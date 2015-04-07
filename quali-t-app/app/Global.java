@@ -1,7 +1,10 @@
 import dao.authentication.RoleDao;
+import dao.authentication.TokenDao;
+import dao.models.NfrDao;
 import dao.models.UserDao;
 import models.authentication.Role;
 import models.authentication.User;
+import models.template.Nfr;
 import play.*;
 import play.db.jpa.JPA;
 import play.libs.Yaml;
@@ -36,9 +39,15 @@ public class Global extends GlobalSettings {
                 resetRoles(all.get("roles"));
                 Logger.info("\tResetting Roles done\n");
 
+                resetTokens();
+
                 Logger.info("\tResetting Users start");
                 resetUser(all.get("users"));
                 Logger.info("\tResetting Users done\n");
+
+                Logger.info("\tResetting Nfrs start");
+                resetNfr(all.get("nfrs"));
+                Logger.info("\tResetting Nfrs done\n");
 
                 Logger.info("Resetting the database done.");
                 return null;
@@ -46,6 +55,21 @@ public class Global extends GlobalSettings {
         } catch (Throwable throwable) {
             play.Logger.error("Error at initializing database with conf/initial-data.yml file");
         }
+    }
+
+    private void resetNfr(List<Object> nfrs) {
+        NfrDao nfrDao = new NfrDao();
+        nfrDao.removeAll();
+
+        for (Object nfr : nfrs) {
+            Nfr casted = (Nfr) nfr;
+            Nfr merged = JPA.em().merge(casted);
+        }
+    }
+
+    private void resetTokens() {
+        TokenDao tokenDao = new TokenDao();
+        tokenDao.removeAll();
     }
 
     private void resetUser(List<Object> users) {

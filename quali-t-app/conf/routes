@@ -12,13 +12,12 @@ GET         /app/bower_components/*file        controllers.ConfigurableAssets.at
 GET         /app/*file                         controllers.ConfigurableAssets.at(path="/app", file)
 
 # QUALI-47: POC: Backend-Service erstellen und mit Client-App verbinden
-GET         /api/get/nfr/:id                   controllers.Application.getNFR(id: Long)
+GET         /api/get/nfr/first                 controllers.Application.getFirstNFR()
 
 # AUTHENTICATION
 POST        /api/auth/login                    controllers.Authentication.login()
 POST        /api/auth/logout                   controllers.Authentication.logout()
 POST        /api/auth/register                 controllers.Authentication.register()
-GET         /api/get/nfr/:id                   controllers.Application.getNFR(id: Long)
 
 # Testing
 GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)

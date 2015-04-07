@@ -1,5 +1,8 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import models.template.Nfr;
 import models.project.Project;
 import models.project.Customer;
@@ -25,14 +28,15 @@ public class Application extends Controller {
         return redirect("/app/index.html");
     }
 
+    @Restrict({@Group("dashboard")})
     @Transactional
-    public static Result getNFR(Long id) {
+    public static Result getFirstNFR() {
         NfrDao nfrDao = new NfrDao();
-        Nfr firstNfr = nfrDao.readById(new Long(id));
+        Nfr nfr = nfrDao.readById(2706L);
 
         // TODO (emre): avoid checking for null somehow
-        if (firstNfr != null) {
-            return ok(Json.toJson(firstNfr));
+        if (nfr != null) {
+            return ok(Json.toJson(nfr));
         } else {
             return notFound();
         }

@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   "org.postgresql"            %   "postgresql"              % "9.4-1201-jdbc41",
   "joda-time"                 %   "joda-time"               % "2.7",
   "org.jadira.usertype"       %   "usertype.core"           % "3.2.0.GA",
-  "commons-lang"              %   "commons-lang"            % "2.6"
+  "commons-lang"              %   "commons-lang"            % "2.6",
+  "be.objectify"              %   "deadbolt-java_2.11"      % "2.3.3"
 )
 
 // HEROKU sbt plugin

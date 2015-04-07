@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "role")
 @Nullable
-public class Role extends AbstractEntity {
+public class Role extends AbstractEntity implements be.objectify.deadbolt.core.models.Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")

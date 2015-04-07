@@ -24,3 +24,10 @@ users:
         hashedPassword:  d5506a1c7feda5c81f98f73cb547821d82d04d60
         name:            ozimmermann
         salt:            zAmVyCdklHphTtkyJuKM
+
+nfrs:
+    - !!models.template.Nfr
+        description:     Das Backend von QUALI-T ist zu 99.99% im Jahr online.
+
+    - !!models.template.Nfr
+        description:     80% der Anfragen werden vom Backend von QUALI-T innerhalb von 5 Sekunden bearbeitet, die übrigen Anfragen werden innerhalb von 30s bearbeitet.

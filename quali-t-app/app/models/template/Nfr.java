@@ -16,16 +16,6 @@ public class Nfr extends AbstractEntity {
 
     public String description;
 
-    public String something;
-
-    public String getSomething() {
-        return something;
-    }
-
-    public void setSomething(String something) {
-        this.something = something;
-    }
-
     public String getDescription() {
         return description;
     }
