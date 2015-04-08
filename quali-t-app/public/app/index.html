@@ -94,12 +94,12 @@
            html="true" template="templates/popover.tpl.html" auto-close="true"></i>
       </div>
     </div>
-    <div ui-view class='main-view main-view-opened'>
+    <div ui-view class='main-view main-view-opened' ng-cloak>
     </div>
   </div>
 
   <div ng-if="!inAuthArea">
-    <div ui-view class="main-view"></div>
+    <div ui-view class="main-view" ng-cloak=""></div>
   </div>
 
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
