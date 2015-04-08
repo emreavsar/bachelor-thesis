@@ -1,0 +1,29 @@
+<!-- build:css(.tmp) styles/extra-styles/auth.css -->
+<link rel="stylesheet" href="styles/extra-styles/auth.css" class="ng-scope">
+<!-- endbuild -->
+
+<div class="auth-form-container auth-form">
+  <form class="auth-form" ng-submit="login(username, password)">
+    <img src="images/logo_white.png" class="logo-img">
+
+    <div class="form-inputs">
+      <div class="cards">
+        <md-content>
+          <md-card>
+            <md-card-content class="login-part">
+              <h2 class="auth-form-heading">Logout Successful</h2>
+              <span class="text-success">We are looking forward to see you again!</span>
+            </md-card-content>
+            <md-card-content class="register-part">
+              <div>
+                New to QUALI-T? <a ui-sref="register">Sign up now!</a>
+              </div>
+            </md-card-content>
+          </md-card>
+        </md-content>
+      </div>
+      <span class="text-white">Already have an account? <a ui-sref="login">Sign in!</a></span>
+    </div>
+  </form>
+
+</div>
