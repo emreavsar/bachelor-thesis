@@ -28,7 +28,22 @@ angular.module('qualitApp')
         controller: 'AuthCtrl',
         data: {
           roles: ['logout']
+        },
+        onEnter: function ($rootScope) {
+          $rootScope.logout();
         }
+      })
+      .state('successfulLogout', {
+        url: '/logout',
+        templateUrl: 'views/auth/logoutSuccessful.html'
+      })
+      .state('settings', {
+        url: '/authenticated/profile/settings',
+        templateUrl: 'views/profile/settings.html'
+      })
+      .state('mytasks', {
+        url: '/authenticated/profile/mytasks',
+        templateUrl: 'views/profile/mytasks.html'
       })
       .state('accessdenied', {
         templateUrl: 'views/errors/access_denied.html'

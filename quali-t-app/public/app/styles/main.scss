@@ -15,10 +15,15 @@ html {
   margin-top: 20px;
   margin-bottom: 20px;
   background-color: #00BD5B !important;
+  padding: 0px;
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
   }
-  padding: 0px;
+
+  .main-view {
+    padding: 50px;
+  }
 }
 
 .main-content {
@@ -159,7 +164,6 @@ html {
 }
 
 .main-view {
-  padding: 50px;
   h1, h2, h3, h4, h5 {
     color: #3f3f44;
   }

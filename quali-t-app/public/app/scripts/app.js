@@ -52,7 +52,7 @@ angular.module('qualitApp', [
         })
           .success(function (data) {
             $cookies.loggedInIdentity = null;
-            $state.go('welcome');
+            $state.go('successfulLogout');
           });
       }
 

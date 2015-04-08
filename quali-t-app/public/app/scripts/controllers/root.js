@@ -9,7 +9,7 @@
  */
 angular.module('qualitApp')
   .controller('RootCtrl', function ($scope) {
-    $scope.createModal = {
+    $scope.popover = {
       title: "Create new",
       buttons: [
         {

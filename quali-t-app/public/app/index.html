@@ -42,7 +42,7 @@
     </div>
   </div>
   <!-- sidebar -->
-  <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+  <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation" ng-controller="NavigationCtrl">
     <div class="current-location col-xs-6">
       <img src="images/white_small_without_name.png">
       <span class="location-name">Dashboard</span>
@@ -57,17 +57,17 @@
     <div class="col-xs-12 profile">
       <h4 class="title">Your Account</h4>
       <img class="img-circle" gravatar-src="'{{ _identity.username }}'" gravatar-size="30">
-      <!--<img class="profile-picture " src="http://placehold.it/30x30"/>-->
       <span class="profile-name">
         {{ _identity.username }}
       </span>
-      <i class="fa fa-angle-down show-notifications-btn"></i>
+      <i class="fa fa-angle-down show-notifications-btn" data-placement="bottom" data-animation="am-flip-x" bs-popover="popover"
+         html="true" template="templates/popover.tpl.html" auto-close="true"></i>
     </div>
 
     <div class="col-xs-12 sidebar-group">
       <h4 class="title">Navigation</h4>
       <!-- TODO emre: move this into a custom directive? -->
-      <ul class="nav" ng-controller="NavigationCtrl">
+      <ul class="nav">
         <li ng-repeat="navItem in navigationItems"
             ng-class="{ active: isActive(navItem.toState)}">
           <a ui-sref="{{navItem.toState}}">{{navItem.linkName}}</a>
