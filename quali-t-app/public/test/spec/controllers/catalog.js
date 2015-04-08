@@ -1,22 +1,22 @@
 'use strict';
 
-describe('Controller: ProjectCtrl', function () {
+describe('Controller: CatalogCtrl', function () {
 
   // load the controller's module
   beforeEach(module('qualitApp'));
 
-  var ProjectCtrl,
+  var CatalogCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    ProjectCtrl = $controller('ProjectCtrl', {
+    CatalogCtrl = $controller('CatalogCtrl', {
       $scope: scope
     });
   }));
 
-  it('should be a test', function () {
-    expect('todo').toBe('todo');
+  it('should attach a list of awesomeThings to the scope', function () {
+    expect(scope.awesomeThings.length).toBe(3);
   });
 });

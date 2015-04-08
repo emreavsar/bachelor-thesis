@@ -237,6 +237,18 @@ module.exports = function (grunt) {
         options: {
           sourcemap: true
         }
+      },
+      main : {
+        options: {
+          sassDir: '<%= yeoman.app %>/styles/',
+          cssDir: '<%= yeoman.app %>/styles/'
+        }
+      },
+      extra : {
+        options: {
+          sassDir: '<%= yeoman.app %>/styles/extra-styles/',
+          cssDir: '<%= yeoman.app %>/styles/extra-styles/'
+        }
       }
     },
 
@@ -428,13 +440,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'compass:server'
+        'compass'
       ],
       test: [
         'compass'
       ],
       dist: [
-        'compass:dist',
+        'compass',
         'imagemin',
         'svgmin'
       ]

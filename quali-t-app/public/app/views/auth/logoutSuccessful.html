@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="styles/extra-styles/auth.css" class="ng-scope">
 <!-- endbuild -->
 
-<div class="auth-form-container" ng-init="checkAuthNeeded()">
+<div class="auth-form-container auth-form">
   <form class="auth-form" ng-submit="login(username, password)">
     <img src="images/logo_white.png" class="logo-img">
 
@@ -11,22 +11,8 @@
         <md-content>
           <md-card>
             <md-card-content class="login-part">
-              <h2 class="auth-form-heading">Reset password</h2>
-
-              <div class="errors" ng-show="errors.length">
-                <span class="text-error" ng-repeat="error in errors">{{ error }}</span>
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input ng-model="username"
-                       type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-                       name="username" value="" placeholder="E-Mail" required="">
-              </div>
-
-              <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Reset
-              </button>
-
+              <h2 class="auth-form-heading">Logout Successful</h2>
+              <span class="text-success">We are looking forward to see you again!</span>
             </md-card-content>
             <md-card-content class="register-part">
               <div>

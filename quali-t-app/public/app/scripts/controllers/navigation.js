@@ -9,6 +9,8 @@
  */
 angular.module('qualitApp')
   .controller('NavigationCtrl', function ($scope, $state, $location) {
+    $scope.customers = "";
+
     $scope.navigationItems = [
       {
         linkName: 'Home',
@@ -27,4 +29,26 @@ angular.module('qualitApp')
     $scope.isActive = function (toState) {
       return $state.href(toState).substr(1) === $location.path();
     }
+
+
+    $scope.popover = {
+      title: "Your Profile",
+      buttons: [
+        {
+          title: "Settings",
+          state: "settings",
+          icon: "fa fa-cog"
+        },
+        {
+          title: "Your Tasks",
+          state: "mytasks",
+          icon: "fa fa-tasks"
+        },
+        {
+          title: "Logout",
+          state: "logout",
+          icon: "fa fa-sign-out"
+        }
+      ]
+    };
   });

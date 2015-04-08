@@ -9,11 +9,6 @@
  */
 angular.module('qualitApp')
   .controller('ProjectCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
 
     $scope.createProject = function(name, customer) {
       // TODO implement me
@@ -27,5 +22,4 @@ angular.module('qualitApp')
       .error(function (data, status) {
         console.log(status)
       });
-
   });
