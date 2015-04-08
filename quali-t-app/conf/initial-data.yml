@@ -27,7 +27,9 @@ users:
 
 nfrs:
     - !!models.template.Nfr
+        id:              999
         description:     Das Backend von QUALI-T ist zu 99.99% im Jahr online.
 
     - !!models.template.Nfr
+        id:              1000
         description:     80% der Anfragen werden vom Backend von QUALI-T innerhalb von 5 Sekunden bearbeitet, die übrigen Anfragen werden innerhalb von 30s bearbeitet.
