@@ -434,3 +434,15 @@ body {
   color: #00EC8C !important;
   margin-top: 50px;
 }
+
+/** TEXTANGULAR CUSTOMIZATION **/
+div[text-angular-toolbar] {
+  background-color: #e7e7e7 !important;
+  margin-left: 0px !important;
+  .btn-group {
+    margin-left: 0px;
+  }
+  button {
+    box-shadow: none !important;
+  }
+}

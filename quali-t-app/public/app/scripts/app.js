@@ -19,7 +19,8 @@ angular.module('qualitApp', [
   'ui.router',
   'restangular',
   'mgcrea.ngStrap',
-  'ui.gravatar'
+  'ui.gravatar',
+  'textAngular'
 ])
   .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
     function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {
@@ -81,5 +82,6 @@ angular.module('qualitApp', [
       // init restangular
       // TODO maybe move it to somewhere else?
       Restangular.setDefaultRequestParams({apikey: "secret key"});
+
     }
   ]);
