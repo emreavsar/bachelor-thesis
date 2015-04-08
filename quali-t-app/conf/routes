@@ -24,3 +24,5 @@ GET         /api/set/custproject/:cust         controllers.Application.setCustom
 
 # Customer
 POST        /api/customer                      controllers.Customer.createCustomer()
+GET         /api/customer                      controllers.Customer.getAll()
+#PUT         /api/customer                      controllers.Customer.updateCustomer()

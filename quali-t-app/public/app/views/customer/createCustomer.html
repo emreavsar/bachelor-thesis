@@ -1,3 +1,17 @@
+<ul ng-show="errors.length">
+  Error:
+  <li ng-repeat="error in errors">
+    <span class="text-error">{{error}}</span>
+  </li>
+</ul>
+
+<ul ng-show="success.length">
+  Customer created sucessfully:
+  <li ng-repeat="success in success">
+    <span class="text-error">{{success}}</span>
+  </li>
+</ul>
+
 <form ng-submit="createCustomer(name, address)">
   <br>
   Customer name:<br>

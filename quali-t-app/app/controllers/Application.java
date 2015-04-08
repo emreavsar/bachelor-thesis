@@ -45,7 +45,7 @@ public class Application extends Controller {
     // Creates two projects with all 5 SMART qa's with customer and return json
     @Transactional
     public static Result setCustomerProject(String customername) {
-        Customer customer = new Customer(customername);
+        Customer customer = new Customer(customername, "adress");
         Set<QualityAttribute> q_set = new HashSet<QualityAttribute>();
         QualityAttribute q1 = new QualityAttribute("S", "Specified");
         QualityAttribute q2 = new QualityAttribute("M", "Measruable");

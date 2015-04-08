@@ -22,11 +22,15 @@ public class Customer extends AbstractEntity {
     public Customer() {
     }
 
-    public Customer(String name) {
+    public Customer(String name, String address) {
         this.name = name;
+        this.address = address;
     }
 
+
     private String name;
+
+    private String address;
 
     @OneToMany(mappedBy = "projectCustomer")
     @JsonManagedReference
@@ -39,6 +43,14 @@ public class Customer extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Collection<Project> getProjects() {
