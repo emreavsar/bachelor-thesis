@@ -54,6 +54,8 @@ public class Global extends GlobalSettings {
             });
         } catch (Throwable throwable) {
             play.Logger.error("Error at initializing database with conf/initial-data.yml file");
+            // TODO write to log but nowhere else!
+            throwable.printStackTrace();
         }
     }
 
@@ -90,7 +92,7 @@ public class Global extends GlobalSettings {
         // set correct roles for the rest
         List<Role> defaultRoles = roleDao.findDefaultRoles();
 
-        User rest = userDao.findByUsername("emre");
+        User rest = userDao.findByUsername("emre.avsar92@gmail.com");
         rest.getRoles().addAll(defaultRoles);
         userDao.persist(rest);
 

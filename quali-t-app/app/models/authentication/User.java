@@ -34,6 +34,7 @@ public class User extends AbstractEntity implements Subject {
     @JoinTable(name = "role_user",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
+
     @JsonManagedReference
     private List<Role> roles = new ArrayList<>();
 
