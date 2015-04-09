@@ -29,3 +29,4 @@ GET         /api/customer                      controllers.Customer.getAll()
 
 # Project
 POST        /api/qa                            controllers.QualityAttribute.createQA()
+GET         /api/qa                            controllers.QualityAttribute.getAllQAs()

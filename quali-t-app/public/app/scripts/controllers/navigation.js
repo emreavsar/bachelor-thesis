@@ -23,7 +23,12 @@ angular.module('qualitApp')
       {
         linkName: 'Create Customer',
         toState: 'customerCreate'
+      },
+      {
+        linkName: 'Show QAs',
+        toState: 'showQA'
       }
+
     ]
 
     $scope.isActive = function (toState) {

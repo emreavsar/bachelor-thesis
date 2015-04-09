@@ -33,8 +33,8 @@ public class Customer extends Controller {
 
     @Transactional
     public static Result getAll(){
-        Logger.info("getAll Customres called");
-        List<models.project.Customer> customers = Project.getAll();
+        Logger.info("getAllCustomers Customres called");
+        List<models.project.Customer> customers = Project.getAllCustomers();
         return ok(Json.toJson(customers));
     }
 }

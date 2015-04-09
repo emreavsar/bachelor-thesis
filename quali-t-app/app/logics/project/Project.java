@@ -46,7 +46,7 @@ public class Project {
 
     }
 
-    public static List<Customer> getAll() {
+    public static List<Customer> getAllCustomers() {
         CustomerDAO customerDAO = new CustomerDAO();
         List<Customer> c = customerDAO.readAll();
         return c;

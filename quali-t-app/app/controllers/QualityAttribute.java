@@ -9,7 +9,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-
+import java.util.List;
 
 
 /**
@@ -29,6 +29,12 @@ public class QualityAttribute extends Controller {
         } else {
             return notFound("QA text empty");
         }
+    }
 
+    @Transactional
+    public static Result getAllQAs(){
+        Logger.info("getAllCustomers QAs called");
+        List<QA> qas = logics.qualityattribute.QualityAttribute.getAllQAs();
+        return ok(Json.toJson(qas));
     }
 }

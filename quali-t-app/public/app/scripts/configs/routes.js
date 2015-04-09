@@ -78,6 +78,11 @@ angular.module('qualitApp')
         url: '/authenticated/qa/create',
         controller: 'QACtrl'
       })
+      .state('showQA', {
+        templateUrl: 'views/qa/show.html',
+        url: '/authenticated/qa/show',
+        controller: 'QACtrl'
+      })
       .state('newCatalog', {
         templateUrl: 'views/catalog/new.html',
         url: '/authenticated/catalog/create',

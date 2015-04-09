@@ -28,4 +28,12 @@ angular.module('qualitApp')
         });
       console.log("QA created: ", qaText);
     }
+
+    $http.get('/api/qa')
+      .success(function (data) {
+        $scope.qaList = data;
+      })
+      .error(function (data, status) {
+        console.log(status)
+      });
   });
