@@ -14,27 +14,27 @@ import java.util.Set;
 @Entity
 @Table(name = "template")
 @Nullable
-public class Template extends AbstractEntity {
-    public Template() {
+public class QualityAttribute extends AbstractEntity {
+    public QualityAttribute() {
     }
 
     private String description;
 
-    @OneToMany(mappedBy = "templateID")
+    @OneToMany(mappedBy = "qa")
     private Set<CatalogTemplate> usedInCatalog = new HashSet<>();
 
-    @ManyToMany(mappedBy = "usedInTemplate", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<NFRCategory> categories = new HashSet<>();
+    @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<QACategory> categories = new HashSet<>();
 
-    public Set<NFRCategory> getCategories() {
+    public Set<QACategory> getCategories() {
         return categories;
     }
 
-    public void addCategories(NFRCategory category) {
+    public void addCategories(QACategory category) {
         categories.add(category);
     }
 
-    public void setCategories(Set<NFRCategory> categories) {
+    public void setCategories(Set<QACategory> categories) {
         this.categories = categories;
     }
 

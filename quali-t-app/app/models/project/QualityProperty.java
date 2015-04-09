@@ -18,11 +18,11 @@ import java.util.Set;
 @Entity
 @Table(name = "qualityattribute")
 @Nullable
-public class QualityAttribute extends AbstractEntity {
-    public QualityAttribute() {
+public class QualityProperty extends AbstractEntity {
+    public QualityProperty() {
     }
 
-    public QualityAttribute(String name, String description) {
+    public QualityProperty(String name, String description) {
         this.name = name;
         this.description = description;
     }

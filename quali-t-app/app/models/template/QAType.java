@@ -16,11 +16,11 @@ import java.util.Set;
 @Entity
 @Table(name = "nfrtype")
 @Nullable
-public class NFRType extends AbstractEntity {
+public class QAType extends AbstractEntity {
     private String name;
 
     @OneToMany(mappedBy = "type")
-    private Set<ValRange.TemplateVar> vars = new HashSet<>();
+    private Set<QAVar> vars = new HashSet<>();
 
     public String getName() {
         return name;
@@ -30,11 +30,11 @@ public class NFRType extends AbstractEntity {
         this.name = name;
     }
 
-    public Set<ValRange.TemplateVar> getVars() {
+    public Set<QAVar> getVars() {
         return vars;
     }
 
-    public void setVars(Set<ValRange.TemplateVar> usedInTemplate) {
+    public void setVars(Set<QAVar> usedInTemplate) {
         this.vars = usedInTemplate;
     }
 }

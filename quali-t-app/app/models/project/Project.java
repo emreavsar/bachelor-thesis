@@ -31,10 +31,10 @@ public class Project extends AbstractEntity {
         this.name = name;
     }
 
-    public Project(String name, Customer projectCustomer, Set<QualityAttribute> q_set) {
+    public Project(String name, Customer projectCustomer, Set<QualityProperty> q_set) {
         this.name = name;
         this.projectCustomer = projectCustomer;
-        this.qualityAttributes = q_set;
+        this.qualityProperties = q_set;
     }
 
     @ManyToOne(optional = true)
@@ -43,7 +43,7 @@ public class Project extends AbstractEntity {
     private String name;
     @ManyToMany(mappedBy = "usedByProject")
     @JsonManagedReference
-    private Set<QualityAttribute> qualityAttributes = new HashSet<>();
+    private Set<QualityProperty> qualityProperties = new HashSet<>();
 
     public String getName() {
         return name;
@@ -62,16 +62,16 @@ public class Project extends AbstractEntity {
     }
 
 
-    public Set<QualityAttribute> getQualityAttributes() {
-        return qualityAttributes;
+    public Set<QualityProperty> getQualityProperties() {
+        return qualityProperties;
     }
 
-    public void setQualityAttributes(Set<QualityAttribute> qualityAttributes) {
-        this.qualityAttributes = qualityAttributes;
+    public void setQualityProperties(Set<QualityProperty> qualityProperties) {
+        this.qualityProperties = qualityProperties;
     }
 
-    public void addQualityAttribute(QualityAttribute q) {
-        this.qualityAttributes.add(q);
+    public void addQualityAttribute(QualityProperty q) {
+        this.qualityProperties.add(q);
     }
 }
 

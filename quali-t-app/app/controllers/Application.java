@@ -2,20 +2,13 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import be.objectify.deadbolt.java.actions.SubjectPresent;
+import models.project.QualityProperty;
 import models.template.Nfr;
 import models.project.Project;
 import models.project.Customer;
-import models.project.QualityAttribute;
-import dao.authentication.RoleDao;
 import dao.models.*;
-import models.authentication.Role;
-import models.authentication.User;
-import play.Logger;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
-import play.libs.Yaml;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -46,12 +39,12 @@ public class Application extends Controller {
     @Transactional
     public static Result setCustomerProject(String customername) {
         Customer customer = new Customer(customername, "adress");
-        Set<QualityAttribute> q_set = new HashSet<QualityAttribute>();
-        QualityAttribute q1 = new QualityAttribute("S", "Specified");
-        QualityAttribute q2 = new QualityAttribute("M", "Measruable");
-        QualityAttribute q3 = new QualityAttribute("A", "Achievable");
-        QualityAttribute q4 = new QualityAttribute("R", "Realistic");
-        QualityAttribute q5 = new QualityAttribute("T", "Timeable");
+        Set<QualityProperty> q_set = new HashSet<QualityProperty>();
+        QualityProperty q1 = new QualityProperty("S", "Specified");
+        QualityProperty q2 = new QualityProperty("M", "Measruable");
+        QualityProperty q3 = new QualityProperty("A", "Achievable");
+        QualityProperty q4 = new QualityProperty("R", "Realistic");
+        QualityProperty q5 = new QualityProperty("T", "Timeable");
         QualityAttributeDAO qualityAttributeDAO = new QualityAttributeDAO();
         qualityAttributeDAO.persist(q1);
         qualityAttributeDAO.persist(q2);

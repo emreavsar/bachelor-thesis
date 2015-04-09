@@ -19,41 +19,41 @@ public class CatalogTemplate extends AbstractEntity {
     public CatalogTemplate() {
     }
 
-    public CatalogTemplate(Template template, Catalog catalog) {
-        this.catalogID = catalog;
-        this.templateID = template;
+    public CatalogTemplate(QualityAttribute QualityAttribute, Catalog catalog) {
+        this.catalog = catalog;
+        this.qa = QualityAttribute;
     }
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Catalog catalogID;
+    private Catalog catalog;
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Template templateID;
+    private QualityAttribute qa;
 
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<ValRange.TemplateVar> vars = new HashSet<>();
+    private Set<QAVar> vars = new HashSet<>();
 
-    public Set<ValRange.TemplateVar> getVars() {
+    public Set<QAVar> getVars() {
         return vars;
     }
 
-    public void setVars(Set<ValRange.TemplateVar> vars) {
+    public void setVars(Set<QAVar> vars) {
         this.vars = vars;
     }
 
-    public Catalog getCatalogID() {
-        return catalogID;
+    public Catalog getCatalog() {
+        return catalog;
     }
 
-    public void setCatalogID(Catalog catalogID) {
-        this.catalogID = catalogID;
+    public void setCatalog(Catalog catalogID) {
+        this.catalog = catalogID;
     }
 
-    public Template getTemplateID() {
-        return templateID;
+    public QualityAttribute getQa() {
+        return qa;
     }
 
-    public void setTemplateID(Template templateID) {
-        this.templateID = templateID;
+    public void setQa(QualityAttribute QAID) {
+        this.qa = QAID;
     }
 }

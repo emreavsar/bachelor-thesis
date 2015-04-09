@@ -12,14 +12,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "templatevarval")
 @Nullable
-public class TemplateVarVal extends AbstractEntity {
+public class QAVarVal extends AbstractEntity {
     private String value;
 
     @ManyToOne
-    private ValRange.TemplateVar valInVar;
+    private QAVar valInVar;
 
 //    @OneToOne(optional = true)
-//    private TemplateVar defaultValIn;
+//    private QAVar defaultValIn;
 
     public String getValue() {
         return value;
@@ -29,19 +29,19 @@ public class TemplateVarVal extends AbstractEntity {
         this.value = value;
     }
 
-    public ValRange.TemplateVar getValInVar() {
+    public QAVar getValInVar() {
         return valInVar;
     }
 
-    public void setValInVar(ValRange.TemplateVar usedInVar) {
+    public void setValInVar(QAVar usedInVar) {
         this.valInVar = usedInVar;
     }
 
-//    public TemplateVar getDefaultValIn() {
+//    public QAVar getDefaultValIn() {
 //        return defaultValIn;
 //    }
 //
-//    public void setDefaultValIn(TemplateVar defaultValIn) {
+//    public void setDefaultValIn(QAVar defaultValIn) {
 //        this.defaultValIn = defaultValIn;
 //    }
 }
