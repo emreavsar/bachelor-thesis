@@ -12,12 +12,12 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "templatevar")
+@Table(name = "qavar")
 @Nullable
 public class QAVar extends AbstractEntity {
     private int varIndex;
     @ManyToOne
-    private CatalogTemplate template;
+    private CatalogQA template;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private QAType type;
     @OneToMany(mappedBy = "valInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -34,12 +34,12 @@ public class QAVar extends AbstractEntity {
         this.varIndex = varIndex;
     }
 
-    public CatalogTemplate getCatalogTemplate() {
+    public CatalogQA getCatalogTemplate() {
         return template;
     }
 
-    public void setCatalogTemplate(CatalogTemplate catalogTemplate) {
-        this.template = catalogTemplate;
+    public void setCatalogTemplate(CatalogQA catalogQA) {
+        this.template = catalogQA;
     }
 
     public QAType getType() {

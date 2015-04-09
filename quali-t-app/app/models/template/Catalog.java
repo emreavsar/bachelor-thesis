@@ -27,7 +27,7 @@ public class Catalog extends AbstractEntity {
     private String pictureURL;
 
     @OneToMany(mappedBy = "catalog")
-    private Set<CatalogTemplate> templates = new HashSet<>();
+    private Set<CatalogQA> templates = new HashSet<>();
 
     public String getName() {
         return name;
@@ -53,17 +53,17 @@ public class Catalog extends AbstractEntity {
         this.pictureURL = pictureURL;
     }
 
-    public Set<CatalogTemplate> getTemplates() {
+    public Set<CatalogQA> getTemplates() {
         return templates;
     }
 
-    public void setTemplates(Set<CatalogTemplate> templates) {
+    public void setTemplates(Set<CatalogQA> templates) {
         this.templates = templates;
     }
 
-    public void addTemplate(QualityAttribute QualityAttribute) {
-        CatalogTemplate catalogTemplate = new CatalogTemplate(QualityAttribute, this);
-        this.templates.add(catalogTemplate);
+    public void addTemplate(QA QA) {
+        CatalogQA catalogQA = new CatalogQA(QA, this);
+        this.templates.add(catalogQA);
     }
 
 

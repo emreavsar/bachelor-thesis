@@ -12,16 +12,20 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "template")
+@Table(name = "qa")
 @Nullable
-public class QualityAttribute extends AbstractEntity {
-    public QualityAttribute() {
+public class QA extends AbstractEntity {
+    public QA() {
+    }
+
+    public QA(String description) {
+        this.description = description;
     }
 
     private String description;
 
     @OneToMany(mappedBy = "qa")
-    private Set<CatalogTemplate> usedInCatalog = new HashSet<>();
+    private Set<CatalogQA> usedInCatalog = new HashSet<>();
 
     @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QACategory> categories = new HashSet<>();
@@ -46,16 +50,16 @@ public class QualityAttribute extends AbstractEntity {
         this.description = description;
     }
 
-    public Set<CatalogTemplate> getUsedInCatalog() {
+    public Set<CatalogQA> getUsedInCatalog() {
         return usedInCatalog;
     }
 
-    public void setUsedInCatalog(Set<CatalogTemplate> usedInCatalog) {
+    public void setUsedInCatalog(Set<CatalogQA> usedInCatalog) {
         this.usedInCatalog = usedInCatalog;
     }
 
     public void addUsedInCatalog(Catalog catalog) {
-        CatalogTemplate nfrtemplatecatalog = new CatalogTemplate(this, catalog);
+        CatalogQA nfrtemplatecatalog = new CatalogQA(this, catalog);
         this.usedInCatalog.add(nfrtemplatecatalog);
     }
 }

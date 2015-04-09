@@ -2,7 +2,7 @@ package models.project.nfritem;
 
 import models.AbstractEntity;
 import models.project.Project;
-import models.template.CatalogTemplate;
+import models.template.CatalogQA;
 
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ public class Instance extends AbstractEntity {
     private Project project;
 
     @ManyToOne(optional = true)
-    private CatalogTemplate template;
+    private CatalogQA template;
 
     @OneToMany(mappedBy = "instance")
     private Set<Val> values = new HashSet<>();
@@ -47,11 +47,11 @@ public class Instance extends AbstractEntity {
         this.project = project;
     }
 
-    public CatalogTemplate getTemplate() {
+    public CatalogQA getTemplate() {
         return template;
     }
 
-    public void setTemplate(CatalogTemplate template) {
+    public void setTemplate(CatalogQA template) {
         this.template = template;
     }
 

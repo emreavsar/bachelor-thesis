@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "templatevarval")
+@Table(name = "qavarval")
 @Nullable
 public class QAVarVal extends AbstractEntity {
     private String value;

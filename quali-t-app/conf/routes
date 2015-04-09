@@ -26,3 +26,6 @@ GET         /api/set/custproject/:cust         controllers.Application.setCustom
 POST        /api/customer                      controllers.Customer.createCustomer()
 GET         /api/customer                      controllers.Customer.getAll()
 #PUT         /api/customer                      controllers.Customer.updateCustomer()
+
+# Project
+POST        /api/qa                            controllers.QualityAttribute.createQA()

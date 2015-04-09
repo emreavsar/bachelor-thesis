@@ -16,7 +16,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "nfrcategory")
+@Table(name = "qacategory")
 @Nullable
 public class QACategory extends AbstractEntity {
     public QACategory() {
@@ -25,7 +25,7 @@ public class QACategory extends AbstractEntity {
     private String name;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<QualityAttribute> usedInQA = new HashSet<>();
+    private Set<QA> usedInQA = new HashSet<>();
 
     public String getName() {
         return name;
@@ -35,15 +35,15 @@ public class QACategory extends AbstractEntity {
         this.name = name;
     }
 
-    public Set<QualityAttribute> getUsedInQA() {
+    public Set<QA> getUsedInQA() {
         return usedInQA;
     }
 
-    public void setUsedInQA(Set<QualityAttribute> usedInQualityAttribute) {
-        this.usedInQA = usedInQualityAttribute;
+    public void setUsedInQA(Set<QA> usedInQA) {
+        this.usedInQA = usedInQA;
     }
 
-    public void addUsedInTemplate(QualityAttribute QualityAttribute) {
-        this.usedInQA.add(QualityAttribute);
+    public void addUsedInTemplate(QA QA) {
+        this.usedInQA.add(QA);
     }
 }

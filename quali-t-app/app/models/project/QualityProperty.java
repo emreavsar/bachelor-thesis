@@ -16,7 +16,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "qualityattribute")
+@Table(name = "qualityproperty")
 @Nullable
 public class QualityProperty extends AbstractEntity {
     public QualityProperty() {

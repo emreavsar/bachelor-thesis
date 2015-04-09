@@ -13,22 +13,22 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "catalogtemplate")
+@Table(name = "catalogqa")
 @Nullable
-public class CatalogTemplate extends AbstractEntity {
-    public CatalogTemplate() {
+public class CatalogQA extends AbstractEntity {
+    public CatalogQA() {
     }
 
-    public CatalogTemplate(QualityAttribute QualityAttribute, Catalog catalog) {
+    public CatalogQA(QA QA, Catalog catalog) {
         this.catalog = catalog;
-        this.qa = QualityAttribute;
+        this.qa = QA;
     }
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Catalog catalog;
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private QualityAttribute qa;
+    private QA qa;
 
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QAVar> vars = new HashSet<>();
@@ -49,11 +49,11 @@ public class CatalogTemplate extends AbstractEntity {
         this.catalog = catalogID;
     }
 
-    public QualityAttribute getQa() {
+    public QA getQa() {
         return qa;
     }
 
-    public void setQa(QualityAttribute QAID) {
+    public void setQa(QA QAID) {
         this.qa = QAID;
     }
 }

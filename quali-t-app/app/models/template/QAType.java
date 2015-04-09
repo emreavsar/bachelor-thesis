@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "nfrtype")
+@Table(name = "qatype")
 @Nullable
 public class QAType extends AbstractEntity {
     private String name;
