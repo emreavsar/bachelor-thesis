@@ -9,7 +9,7 @@
  */
 angular.module('qualitApp')
   .controller('ProjectCtrl', function ($scope, $http) {
-
+    $scope.model = "Project";
     $scope.createProject = function(name, customer) {
       // TODO implement me
       console.log("Data: " + name, customer);

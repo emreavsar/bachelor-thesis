@@ -1,0 +1,19 @@
+<h3 class="ng-scope">Create new Customer</h3>
+<h3 class="steps ng-scope">Provide information</h3>
+
+<div class="form crud-form" ng-submit="createCustomer(name, address)">
+  <div class="form-group">
+    <label for="name">Customer name</label>
+
+    <input type="text" class="form-control" id="name" ng-model="name"/>
+
+    <label for="address">Address</label>
+    <input type="text" class="form-control" id="address" ng-model="address"/>
+  </div>
+
+  <div class="row end-row">
+    <button type="submit" class="btn btn-success btn-lg" ng-click="createCustomer(name, address)" data-template="templates/custsucc.tpl.html" data-container="body" data-animation="am-fade-and-slide-top" data-placement="bottom" data-duration="30" bs-alert="alert">Create Project
+    </button>
+  </div>
+</div>
+

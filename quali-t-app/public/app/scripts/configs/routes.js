@@ -64,12 +64,12 @@ angular.module('qualitApp')
         }
       })
       .state('customer', {
-        templateUrl: 'views/customer/showCustomer.html',
+        templateUrl: 'views/customer/show.html',
         url: '/authenticated/customer/view',
         controller: 'CustomerCtrl'
       })
       .state('customerCreate', {
-        templateUrl: 'views/customer/createCustomer.html',
+        templateUrl: 'views/customer/new.html',
         url: '/authenticated/customer/create',
         controller: 'CustomerCtrl'
       })

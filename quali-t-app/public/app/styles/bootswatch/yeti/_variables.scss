@@ -16,7 +16,7 @@ $gray-lighter:           lighten($gray, 93.5%) !default; // #eee
 $brand-primary:         #00E784 !default;
 $brand-success:         #43ac6a !default;
 $brand-info:            #5bc0de !default;
-$brand-warning:         #E99002 !default;
+$brand-warning:         #fcf8e3 !default;
 $brand-danger:          #F04124 !default;
 
 
@@ -98,7 +98,7 @@ $padding-xs-horizontal:     6px !default;
 $line-height-large:         1.33 !default;
 $line-height-small:         1.5 !default;
 
-$border-radius-base:        0 !default;
+$border-radius-base:        4px !default;
 $border-radius-large:       0 !default;
 $border-radius-small:       0 !default;
 
@@ -598,12 +598,12 @@ $modal-sm:                    300px !default;
 //
 //## Define alert colors, border radius, and padding.
 
-$alert-padding:               15px !default;
+$alert-padding:               35px !default;
 $alert-border-radius:         $border-radius-base !default;
 $alert-link-font-weight:      bold !default;
 
 $alert-success-bg:            $brand-success !default;
-$alert-success-text:          #fff !default;
+$alert-success-text:          #3c763d !default;
 $alert-success-border:        $state-success-border !default;
 
 $alert-info-bg:               $brand-info !default;
@@ -611,7 +611,7 @@ $alert-info-text:             #fff !default;
 $alert-info-border:           $state-info-border !default;
 
 $alert-warning-bg:            $brand-warning !default;
-$alert-warning-text:          #fff !default;
+$alert-warning-text:          #8a6d3b !default;
 $alert-warning-border:        $state-warning-border !default;
 
 $alert-danger-bg:             $brand-danger !default;

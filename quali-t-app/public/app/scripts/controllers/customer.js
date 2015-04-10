@@ -18,6 +18,7 @@ angular.module('qualitApp')
       $scope.errors = new Array();
       $scope.success = new Array();
 
+      $scope.model = "Customer";
       $http.post('/api/customer', {
         name: name,
         address: address
@@ -30,7 +31,13 @@ angular.module('qualitApp')
           console.log(status);
           $scope.errors.push(data);
         });
-
     }
+    $http.get('/api/customer')
+      .success(function (data) {
+        $scope.customerList = data;
+      })
+      .error(function (data, status) {
+        console.log(status)
+      });
 
   });

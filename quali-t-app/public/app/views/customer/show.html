@@ -1,0 +1,16 @@
+<h3 class="ng-scope">Show all Customers</h3>
+<h3 class="steps ng-scope"></h3>
+<table class="table table-hover">
+  <tr>
+    <th>Id</th>
+    <th>Customer</th>
+    <th>Address</th>
+  </tr>
+  <tr ng-repeat="cust in customerList">
+    <td>{{cust.id}}</td>
+    <td>{{cust.name}}</td>
+    <td>{{cust.address}}</td>
+  </tr>
+</table>
+</div>
+</div>
