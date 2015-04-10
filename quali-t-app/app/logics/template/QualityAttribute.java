@@ -1,7 +1,8 @@
-package logics.qualityattribute;
+package logics.template;
 
+import dao.models.CatalogDAO;
 import dao.models.QualityAttributeDAO;
-import models.template.QA;
+import models.template.*;
 
 import java.util.List;
 
@@ -22,7 +23,15 @@ public class QualityAttribute {
 
     public static List<QA> getAllQAs() {
         QualityAttributeDAO qaDAO = new QualityAttributeDAO();
-        List<QA> qa = qaDAO.readAll();
-        return qa;
+        List<QA> qas = qaDAO.readAll();
+        return qas;
+    }
+
+    public static List<QA> getQAsByCatalog(long id) {
+        QualityAttributeDAO qaDAO = new QualityAttributeDAO();
+        CatalogDAO catalogDAO = new CatalogDAO();
+        models.template.Catalog cat = catalogDAO.readById(id);
+        List<QA> qas = qaDAO.findByCatalog(cat);
+        return qas;
     }
 }

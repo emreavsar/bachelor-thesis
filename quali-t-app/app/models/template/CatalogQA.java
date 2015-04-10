@@ -1,6 +1,7 @@
 package models.template;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -21,14 +22,16 @@ public class CatalogQA extends AbstractEntity {
 
     public CatalogQA(QA QA, Catalog catalog) {
         this.catalog = catalog;
-        this.qa = QA;
+        this.qas = QA;
     }
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference
     private Catalog catalog;
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private QA qa;
+    @JsonManagedReference
+    private QA qas;
 
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QAVar> vars = new HashSet<>();
@@ -50,10 +53,10 @@ public class CatalogQA extends AbstractEntity {
     }
 
     public QA getQa() {
-        return qa;
+        return qas;
     }
 
     public void setQa(QA QAID) {
-        this.qa = QAID;
+        this.qas = QAID;
     }
 }

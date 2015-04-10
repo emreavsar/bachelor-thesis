@@ -27,6 +27,13 @@ POST        /api/customer                      controllers.Customer.createCustom
 GET         /api/customer                      controllers.Customer.getAll()
 #PUT         /api/customer                      controllers.Customer.updateCustomer()
 
-# Project
+# Quality Attribute
 POST        /api/qa                            controllers.QualityAttribute.createQA()
 GET         /api/qa                            controllers.QualityAttribute.getAllQAs()
+GET         /api/qa/catalog=:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
+
+# Project
+POST        /api/project                       controllers.Project.createProject()
+
+# Catalog
+GET         /api/catalog                       controllers.Catalog.getAllCatalogs()

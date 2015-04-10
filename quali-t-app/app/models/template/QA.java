@@ -1,5 +1,6 @@
 package models.template;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -24,7 +25,8 @@ public class QA extends AbstractEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "qa")
+    @OneToMany(mappedBy = "qas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
     private Set<CatalogQA> usedInCatalog = new HashSet<>();
 
     @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

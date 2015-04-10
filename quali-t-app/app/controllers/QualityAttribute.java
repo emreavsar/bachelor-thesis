@@ -23,7 +23,7 @@ public class QualityAttribute extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         String qaText = requestData.get("qaText");
 
-        QA qa = logics.qualityattribute.QualityAttribute.createQA(qaText);
+        QA qa = logics.template.QualityAttribute.createQA(qaText);
         if (qa != null) {
             return ok(Json.toJson(qa));
         } else {
@@ -34,7 +34,14 @@ public class QualityAttribute extends Controller {
     @Transactional
     public static Result getAllQAs(){
         Logger.info("getAllCustomers QAs called");
-        List<QA> qas = logics.qualityattribute.QualityAttribute.getAllQAs();
+        List<QA> qas = logics.template.QualityAttribute.getAllQAs();
+        return ok(Json.toJson(qas));
+    }
+
+    @Transactional
+    public static Result getQAsByCatalog(long id) {
+        Logger.info("getQAsbyCatalogID QAs called");
+        List<QA> qas = logics.template.QualityAttribute.getQAsByCatalog(id);
         return ok(Json.toJson(qas));
     }
 }

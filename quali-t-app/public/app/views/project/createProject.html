@@ -1,33 +1,56 @@
-<ul ng-show="errors.length">
-  Error:
-  <li ng-repeat="error in errors">
-    <span class="text-error">{{error}}</span>
-  </li>
-</ul>
+<div ng-show="stage == 1">
+  <h3 class="ng-scope">Create new Project</h3>
 
-<ul ng-show="success.length">
-  Customer created sucessfully:
-  <li ng-repeat="success in success">
-    <span class="text-error">{{success}}</span>
-  </li>
-</ul>
+  <h3 class="steps ng-scope">Step 1: Provide general information</h3>
 
-<h3 class="ng-scope">Create new Project</h3>
-<h3 class="steps ng-scope">Step 1: Provide general information</h3>
+  <div class="form crud-form">
+    <form ng-submit="createProject(name, customer)">
+      <div class="form-group">
+        <label for="p_name">Project Title</label>
 
-<div class="form crud-form">
-  <div class="form-group">
-    <label for="p_name">Project Title</label>
+        <input type="text" class="form-control" id="p_name" ng-model="name"/>
 
-    <input type="text" class="form-control" id="p_name" ng-model="name"/>
+        <label for="c_name">Customer</label>
 
-    <label for="c_name">Customer</label>
+        <select class="form-control" id="c_name" ng-model="customer"
+                ng-options="customer.id as customer.name for customer in customerList"/></div>
 
-    <select class="form-control" id="c_name" ng-model="customer"
-            ng-options="customer.id as customer.name for customer in customerList"/></div>
-
-  <div class="row end-row">
-    <button type="submit" class="btn btn-success btn-lg" ng-click="createProject(name, customer)">Create Project
-    </button>
+      <div class="row end-row">
+        <button type="submit" class="btn btn-success btn-lg">Choose Catalog and QAs</button>
+      </div>
+    </form>
   </div>
 </div>
+
+<div ng-show="stage == 2">
+  <h3 class="steps ng-scope">Step 2: Select Catalog and Quality Attributes</h3>
+
+  <div class="form crud-form">
+    <form ng-submit="createProject(name, customer)">
+      <div class="form-group">
+
+        <label for="catalog">Catalog</label>
+
+        <select class="form-control" id="catalog" ng-model="catalog" ng-change="loadQAs(catalog)"
+                ng-options="catalog.id as catalog.name for catalog in catalogList"/></div>
+
+      <table class="table table-hover">
+        <tr>
+          <th>QA id</th>
+          <th>QA</th>
+        </tr>
+        <tr ng-repeat="qa in qaList">
+          <td>{{qa.qa.id}}</td>
+          <td><div ng-bind-html="qa.qa.description"/></td>
+        </tr>
+      </table>
+
+      <div class="row end-row">
+        <button type="submit" class="btn btn-success btn-lg">Create Project</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+

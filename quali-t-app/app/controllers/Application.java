@@ -3,7 +3,9 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import dao.models.NfrDao;
-import models.template.Nfr;
+import dao.models.QualityAttributeDAO;
+import models.template.*;
+import models.template.Catalog;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -31,8 +33,14 @@ public class Application extends Controller {
     }
 
     // Creates two projects with all 5 SMART qa's with customer and return json
-//    @Transactional
+    @Transactional
     public static Result setCustomerProject(String customername) {
+        QA qa = new QA(customername);
+        models.template.Catalog cat = new Catalog("test cat", "", "");
+        qa.addUsedInCatalog(cat);
+        cat.addTemplate(qa);
+        QualityAttributeDAO qadao = new QualityAttributeDAO();
+        qadao.persist(qa);
 //        Customer customer = new Customer(customername, "adress");
 //        Set<QualityProperty> q_set = new HashSet<QualityProperty>();
 //        QualityProperty q1 = new QualityProperty("S", "Specified");
@@ -51,7 +59,7 @@ public class Application extends Controller {
 //        q_set.add(q3);
 //        q_set.add(q4);
 //        q_set.add(q5);
-//        Project project = new Project("projekt3", customer, q_set);
+//        Project project = new Project("projekt3", customer);
 //        Project project2 = new Project("projekt4", customer, q_set);
 //        q1.addUsedByProject(project);
 //        q2.addUsedByProject(project);

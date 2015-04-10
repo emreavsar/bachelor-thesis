@@ -1,5 +1,6 @@
 package models.template;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -20,6 +21,12 @@ public class Catalog extends AbstractEntity {
     public Catalog() {
     }
 
+    public Catalog(String name, String description, String  pictureURL){
+        this.name = name;
+        this.description = description;
+        this.pictureURL = pictureURL;
+    }
+
     private String name;
 
     private String description;
@@ -27,6 +34,7 @@ public class Catalog extends AbstractEntity {
     private String pictureURL;
 
     @OneToMany(mappedBy = "catalog")
+    @JsonBackReference
     private Set<CatalogQA> templates = new HashSet<>();
 
     public String getName() {

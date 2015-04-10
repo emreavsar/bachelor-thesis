@@ -31,10 +31,9 @@ public class Project extends AbstractEntity {
         this.name = name;
     }
 
-    public Project(String name, Customer projectCustomer, Set<QualityProperty> q_set) {
+    public Project(String name, Customer projectCustomer) {
         this.name = name;
         this.projectCustomer = projectCustomer;
-        this.qualityProperties = q_set;
     }
 
     @ManyToOne(optional = true)
