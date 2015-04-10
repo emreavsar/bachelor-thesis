@@ -22,7 +22,7 @@ public class CatalogQA extends AbstractEntity {
 
     public CatalogQA(QA QA, Catalog catalog) {
         this.catalog = catalog;
-        this.qas = QA;
+        this.qa = QA;
     }
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -31,7 +31,7 @@ public class CatalogQA extends AbstractEntity {
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
-    private QA qas;
+    private QA qa;
 
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QAVar> vars = new HashSet<>();
@@ -53,10 +53,10 @@ public class CatalogQA extends AbstractEntity {
     }
 
     public QA getQa() {
-        return qas;
+        return qa;
     }
 
     public void setQa(QA QAID) {
-        this.qas = QAID;
+        this.qa = QAID;
     }
 }

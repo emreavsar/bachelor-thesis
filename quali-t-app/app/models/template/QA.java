@@ -25,7 +25,7 @@ public class QA extends AbstractEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "qas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private Set<CatalogQA> usedInCatalog = new HashSet<>();
 
