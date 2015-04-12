@@ -35,10 +35,14 @@ public class Authenticator {
 
         // if user exists, check password
         if (u != null) {
-            // check for token
-            if (token != null) {
+            // check for token (could be invalid or non-existing)
+            Token tokenOfUser = null;
+            if(token != null) {
                 TokenDao tokenDao = new TokenDao();
-                Token tokenOfUser = tokenDao.findByToken(token);
+                tokenOfUser = tokenDao.findByToken(token);
+            }
+
+            if (tokenOfUser != null) {
                 if (isTokenOfUser(tokenOfUser, u) && isTokenValid(tokenOfUser)) {
                     return tokenOfUser;
                 }
