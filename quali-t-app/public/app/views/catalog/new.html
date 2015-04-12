@@ -1,13 +1,137 @@
 <h3>Create new Catalog</h3>
-<h3 class="steps">Step 1: Provide information</h3>
+
 
 <div class="form crud-form">
-  <div class="form-group">
-    <label for="qa-text">Todo</label>
+  <form class="form-horizontal" ng-submit="nextStep()">
+    <div id="alerts-container"></div>
+    <!-- STEP 0 -->
+    <div ng-show="currentStep==0">
+      <h3 class="steps">Step 1: Provide information</h3>
 
-    <textarea class="form-control" rows="3" id="qa-text" ng-model="qaText"></textarea></div>
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name</label>
 
-  <div class="row end-row">
-    <button type="submit" class="btn btn-success btn-lg" ng-click="create()">Create</button>
-  </div>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="name" placeholder="Your Catalog's Name" ng-model="name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="image" class="col-sm-2 control-label">Image</label>
+
+        <div class="col-sm-10 image-upload-container">
+          <input type="file" ng-model="image" name="image"/>
+        </div>
+      </div>
+
+      <div class="row end-row">
+        <input type="submit" class="btn btn-success btn-lg" value="Choose Quality Attribute Templates"/>
+      </div>
+    </div>
+    <!-- END STEP 0 -->
+
+    <!-- STEP 1 -->
+    <div ng-show="currentStep==1">
+      <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i class="fa fa-arrow-left"></i>
+        Back
+      </button>
+
+      <h3 class="steps">Step 2: Choose Quality Attribute Templates
+        <small>for {{name}}</small>
+      </h3>
+
+      <div class="filter col-sm-4">
+        <h5>Filter</h5>
+        (not implemented yet)
+      </div>
+
+      <div class="all-qas col-sm-8">
+        <h5>All Quality Attributes</h5>
+
+        <div class="qa well row" ng-repeat="qa in qas" ng-click="toggleSelection(qa)"
+             ng-class="{ selected: selection.indexOf(qa) > -1}"
+          >
+          <div class="categories">
+            <span class="label label-default" ng-repeat="category in qa.categories">
+              {{category}}
+            </span>
+          </div>
+          <div class="col-sm-10">
+            <span class="description" ng-bind-html="qa.description"/>
+          </div>
+          <div class="col-sm-2">
+            <i class="fa fa-check" ng-show="selection.indexOf(qa) > -1"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="row end-row">
+        <input type="submit" class="btn btn-success btn-lg" value="Customize Quality Attributes"/>
+      </div>
+      <!-- END STEP 1 -->
+    </div>
+
+
+    <!-- STEP 2 -->
+    <div ng-show="currentStep==2">
+      <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i class="fa fa-arrow-left"></i>
+        Back
+      </button>
+
+      <h3 class="steps">Step 3: Customize chosen Quality Attribute Templates
+        <small>for {{name}}</small>
+      </h3>
+
+      <div class="all-qas">
+        <h5>Your selected Quality Attribute Templates</h5>
+
+        <div class="qa well row"
+             ng-repeat="qa in selection"
+             ng-click="switchCurrentEditedElement(qa)"
+             ng-class="{ editing: currentEditedElement == qa}">
+          <div class="categories">
+            <span class="label label-default" ng-repeat="category in qa.categories">
+              {{category}}
+            </span>
+          </div>
+          <span class="description" ng-bind-html="qa.description" ng-hide="currentEditedElement == qa"/>
+          <span class="description text-muted" ng-show="currentEditedElement == qa" ng-bind-html="::qa.description"/>
+          <text-angular ng-model="qa.description" ng-show="currentEditedElement == qa"
+                        ng-blur="switchCurrentEditedElement(null)"></text-angular>
+        </div>
+      </div>
+
+      <div class="row">
+        <i class="fa fa-plus-circle clickable" ng-click="toggleNewItem()"
+           title="Toggle Create new Quality Attribute Area">
+          You can also create your custom new Quality Attribute Templates
+        </i>
+
+
+        <div class="qa well row editing" ng-show="newItem != null">
+          <div class="categories">
+            <span class="label label-default">TODO</span>
+          </div>
+
+          <span class="description" ng-bind-html="newItem.description" ng-hide="currentEditedElement == newItem"/>
+          <span class="description text-muted" ng-show="currentEditedElement == newItem"
+                ng-bind-html="::newItem.description"/>
+          <text-angular ng-model="newItem.description" ng-show="currentEditedElement == newItem"
+                        ng-blur="switchCurrentEditedElement(null)"></text-angular>
+        </div>
+
+        <div class="row" ng-show="newItem != null">
+          <button type="button" ng-click="addNew(newItem)" class="btn btn-default btn-md">Add</button>
+        </div>
+      </div>
+
+
+      <div class="row end-row">
+        <input type="submit" class="btn btn-success btn-lg" value="Create Catalog"/>
+      </div>
+      <!-- END STEP 2 -->
+    </div>
+
+
+  </form>
 </div>

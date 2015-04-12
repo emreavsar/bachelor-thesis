@@ -175,6 +175,14 @@ html {
     &.steps {
       color: #00EC78;
       font-size: 1.75em !important;
+      margin-top: 50px;
+      margin-bottom: 30px;
+    }
+  }
+
+  form {
+    h5 {
+      font-weight: bold;
     }
   }
 }
@@ -371,7 +379,6 @@ body {
     color: #00C36F;
   }
 
-
   //md-card-content.login-part {
   //  padding: 20px 30px 20px 30px;
   //}
@@ -428,6 +435,7 @@ body {
 .crud-form {
   .end-row {
     text-align: center;
+    margin-top: 100px;
   }
 }
 
@@ -446,4 +454,64 @@ div[text-angular-toolbar] {
   button {
     box-shadow: none !important;
   }
+}
+
+.image-upload-container {
+  text-align: center !important;
+
+  input[type='file'] {
+
+    display: inline;
+    padding-top: 10px;
+  }
+
+}
+
+.qa {
+  cursor: pointer;
+  &.well {
+    padding-top: 0px;
+    background-color: #fff;
+    padding-right: 0px;
+    border: 1px solid #94F9CE;
+  }
+  &.editing {
+    padding-right: 19px;
+
+    .text-muted {
+      font-style: italic;
+      & > *:first-child:before {
+        content: 'Original Value: ';
+      }
+    }
+  }
+  .ta-editor, .ta-scroll-window > .ta-bind {
+    min-height: 50px;
+  }
+  &.selected {
+    background-color: #94F9CE;
+  }
+  .categories {
+    text-align: right;
+    margin-right: -19px;
+    margin-bottom: 20px;
+
+    .label {
+      margin-right: 3px;
+    }
+  }
+  .description {
+    & > * {
+      margin-top: 30px;
+    }
+  }
+  .fa-check {
+    margin-top: 30px;
+    font-size: 22px;
+    color: #00893B;
+  }
+}
+
+.clickable {
+  cursor: pointer;
 }

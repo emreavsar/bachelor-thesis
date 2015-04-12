@@ -19,4 +19,11 @@ public class Catalog extends Controller {
         List<models.template.Catalog> catalogs = logics.template.Catalog.getAllCatalogs();
         return ok(Json.toJson(catalogs));
     }
+
+    public static Result create() {
+
+
+
+        return play.mvc.Results.TODO;
+    }
 }

@@ -37,3 +37,4 @@ POST        /api/project                       controllers.Project.createProject
 
 # Catalog
 GET         /api/catalog                       controllers.Catalog.getAllCatalogs()
+POST        /api/catalog                       controllers.Catalog.create()
