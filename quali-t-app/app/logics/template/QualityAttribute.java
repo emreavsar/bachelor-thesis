@@ -63,4 +63,10 @@ public class QualityAttribute {
         QACategory cat = catDAO.readById(id);
         return cat;
     }
+
+    public static List<QACategory> getAllCats() {
+        QACategoryDAO catDAO = new QACategoryDAO();
+        List<QACategory> cats = catDAO.readAllSuperclasses();
+        return cats;
+    }
 }

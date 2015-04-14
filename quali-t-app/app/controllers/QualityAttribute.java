@@ -63,4 +63,10 @@ public class QualityAttribute extends Controller {
         QACategory cat = logics.template.QualityAttribute.getCategoryTree(id);
         return ok(Json.toJson(cat));
     }
+
+    @Transactional
+    public static Result getAllCats() {
+        List<QACategory> cats = logics.template.QualityAttribute.getAllCats();
+        return ok(Json.toJson(cats));
+    }
 }

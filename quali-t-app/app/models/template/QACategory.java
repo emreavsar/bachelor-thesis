@@ -35,6 +35,8 @@ public class QACategory extends AbstractEntity {
 
     private String name;
 
+    private String icon;
+
     @ManyToOne
     private QACategory parent;
     @OneToMany (mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -72,5 +74,11 @@ public class QACategory extends AbstractEntity {
         return Collections.unmodifiableSet(this.children);
     }
 
+    public String getIcon() {
+        return icon;
+    }
 
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }

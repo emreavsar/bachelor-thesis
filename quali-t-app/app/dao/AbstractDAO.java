@@ -1,14 +1,11 @@
 package dao;
 
-import models.authentication.User;
-import org.hibernate.annotations.DiscriminatorOptions;
 import play.db.jpa.JPA;
 
 import javax.annotation.Nullable;
 import javax.persistence.Query;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,7 +79,5 @@ public abstract class AbstractDAO<T> {
         final List<T> results = findAll(query, params);
         return results.isEmpty() ? null : results.get(0);
     }
-
-
 
 }
