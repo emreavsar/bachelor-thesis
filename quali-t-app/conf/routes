@@ -38,3 +38,8 @@ POST        /api/project                       controllers.Project.createProject
 # Catalog
 GET         /api/catalog                       controllers.Catalog.getAllCatalogs()
 POST        /api/catalog                       controllers.Catalog.create()
+
+# QACategories
+GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)
+GET         /api/cat/:name                     controllers.QualityAttribute.createCat(name: String)
+GET         /api/cat/get/:id                   controllers.QualityAttribute.getCategoryTree(id: Long)

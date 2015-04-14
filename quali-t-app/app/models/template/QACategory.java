@@ -1,12 +1,11 @@
 package models.template;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
-import javax.persistence.CascadeType;
 import javax.annotation.Nullable;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,9 +21,27 @@ public class QACategory extends AbstractEntity {
     public QACategory() {
     }
 
+    public QACategory (String name) {
+        this.name = name;
+    }
+
+    public QACategory (QACategory parent, String name) {
+        if(parent==null) throw new IllegalArgumentException("parent required");
+
+        this.parent = parent;
+        this.name = name;
+        registerInSuperclass();
+    }
+
     private String name;
 
+    @ManyToOne
+    private QACategory parent;
+    @OneToMany (mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<QACategory> children = new HashSet<>();
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
     private Set<QA> usedInQA = new HashSet<>();
 
     public String getName() {
@@ -46,4 +63,14 @@ public class QACategory extends AbstractEntity {
     public void addUsedInTemplate(QA QA) {
         this.usedInQA.add(QA);
     }
+
+    private void registerInSuperclass() {
+        this.parent.children.add(this);
+    }
+
+    public Set<QACategory> getSubclasses() {
+        return Collections.unmodifiableSet(this.children);
+    }
+
+
 }

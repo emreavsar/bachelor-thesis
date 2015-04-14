@@ -1,8 +1,13 @@
 package logics.template;
 
 import dao.models.CatalogDAO;
+import dao.models.CatalogQADAO;
+import dao.models.QACategoryDAO;
 import dao.models.QualityAttributeDAO;
-import models.template.*;
+import models.template.CatalogQA;
+import models.template.QA;
+import models.template.QACategory;
+import play.Logger;
 
 import java.util.List;
 
@@ -27,11 +32,35 @@ public class QualityAttribute {
         return qas;
     }
 
-    public static List<QA> getQAsByCatalog(long id) {
-        QualityAttributeDAO qaDAO = new QualityAttributeDAO();
+    public static List<CatalogQA> getQAsByCatalog(long id) {
+        CatalogQADAO catqaDAO = new CatalogQADAO();
+        QualityAttributeDAO qadao= new QualityAttributeDAO();
         CatalogDAO catalogDAO = new CatalogDAO();
         models.template.Catalog cat = catalogDAO.readById(id);
-        List<QA> qas = qaDAO.findByCatalog(cat);
+        Logger.info("logic called " + cat);
+        List<CatalogQA> qas = catqaDAO.findByCatalog(cat);
         return qas;
+    }
+
+    public static QACategory createSubCat(Long id, String name) {
+        QACategoryDAO catDao = new QACategoryDAO();
+        QACategory parent = catDao.readById(id);
+        QACategory cat = new QACategory(parent, name);
+        catDao.persist(parent);
+        return cat;
+    }
+
+    public static QACategory createCat(String name) {
+        QACategory cat = new QACategory(name);
+        QACategoryDAO catDao = new QACategoryDAO();
+        catDao.persist(cat);
+
+    return cat;
+    }
+
+    public static QACategory getCategoryTree(Long id) {
+        QACategoryDAO catDAO = new QACategoryDAO();
+        QACategory cat = catDAO.readById(id);
+        return cat;
     }
 }

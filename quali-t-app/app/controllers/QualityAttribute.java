@@ -1,6 +1,8 @@
 package controllers;
 
+import models.template.CatalogQA;
 import models.template.QA;
+import models.template.QACategory;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -41,7 +43,24 @@ public class QualityAttribute extends Controller {
     @Transactional
     public static Result getQAsByCatalog(long id) {
         Logger.info("getQAsbyCatalogID QAs called");
-        List<QA> qas = logics.template.QualityAttribute.getQAsByCatalog(id);
+        List<CatalogQA> qas = logics.template.QualityAttribute.getQAsByCatalog(id);
         return ok(Json.toJson(qas));
+    }
+
+    @Transactional
+    public static Result createCat(String name) {
+        QACategory cat = logics.template.QualityAttribute.createCat(name);
+        return ok(Json.toJson(cat));
+    }
+
+    @Transactional
+    public static Result createSubCat(Long id, String name) {
+        QACategory cat = logics.template.QualityAttribute.createSubCat(id, name);
+        return ok(Json.toJson(cat));
+    }
+    @Transactional
+    public static Result getCategoryTree(long id) {
+        QACategory cat = logics.template.QualityAttribute.getCategoryTree(id);
+        return ok(Json.toJson(cat));
     }
 }
