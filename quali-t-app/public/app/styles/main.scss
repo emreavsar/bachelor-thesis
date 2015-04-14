@@ -515,3 +515,32 @@ div[text-angular-toolbar] {
 .clickable {
   cursor: pointer;
 }
+
+.filter {
+  a {
+    width: 100%;
+    display: block;
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+  .category-icon {
+    font-size: 22px;
+    margin-right: 5px;
+  }
+  ul {
+    margin-bottom: 0px;
+    li {
+      cursor: pointer;
+      margin-top: 1px;
+      padding-top: 15px;
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+    }
+
+    &.first-subcategory {
+      padding: 0px;
+    }
+  }
+}

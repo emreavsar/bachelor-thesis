@@ -1,16 +1,13 @@
 <h3>Create new Quality Attribute Template</h3>
 <h3 class="steps">Step 1: Provide information</h3>
-
 <div class="form crud-form">
   <div class="form-group">
     <label for="qa-Text">Specify your Quality Attribute below</label>
-
     <text-angular ng-model="qaText" id="qa-Text"></text-angular>
-
-
   </div>
 
   <div class="row end-row">
     <button type="submit" class="btn btn-success btn-lg" ng-click="createQA(qaText)">Create Quality Attribute</button>
   </div>
+  <div id="alerts-container"></div>
 </div>

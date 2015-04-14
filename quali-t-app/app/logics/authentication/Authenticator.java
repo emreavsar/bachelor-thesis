@@ -3,6 +3,7 @@ package logics.authentication;
 import dao.authentication.RoleDao;
 import dao.authentication.TokenDao;
 import dao.models.UserDao;
+import exceptions.EntityNotFoundException;
 import models.authentication.Role;
 import models.authentication.Token;
 import models.authentication.User;
@@ -29,7 +30,7 @@ public class Authenticator {
      * @param token
      * @return user
      */
-    public static Token authenticate(String username, String password, String token) {
+    public static Token authenticate(String username, String password, String token) throws EntityNotFoundException {
         UserDao userDao = new UserDao();
         User u = userDao.findByUsername(username);
 
@@ -57,7 +58,7 @@ public class Authenticator {
             }
         }
         // if no token found or created
-        return null;
+        throw new EntityNotFoundException("User or password / token not matching");
     }
 
     /**

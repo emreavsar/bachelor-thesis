@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.models.UserDao;
+import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import models.authentication.Role;
 import models.authentication.Token;
@@ -30,12 +31,13 @@ public class Authentication extends Controller {
         String password = requestData.get("password");
         String token = requestData.get("token");
 
-        Token t = Authenticator.authenticate(username, password, token);
-        if (t == null) {
-            return notFound("User and password is not matching");
-        } else {
+        Token t = null;
+        try {
+            t = Authenticator.authenticate(username, password, token);
             session("user", t.getUser().getName());
             return ok(Json.toJson(t));
+        } catch (EntityNotFoundException e) {
+            return status(422, e.getMessage());
         }
     }
 

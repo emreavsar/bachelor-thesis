@@ -8,13 +8,13 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css"/>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -45,7 +45,8 @@
     </div>
   </div>
   <!-- sidebar -->
-  <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation" ng-controller="NavigationCtrl">
+  <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation"
+       ng-controller="NavigationCtrl">
     <div class="current-location col-xs-6">
       <img src="images/white_small_without_name.png">
       <span class="location-name">Dashboard</span>
@@ -63,7 +64,8 @@
       <span class="profile-name">
         {{ _identity.username }}
       </span>
-      <i class="fa fa-angle-down show-notifications-btn" data-placement="bottom" data-animation="am-flip-x" bs-popover="popover"
+      <i class="fa fa-angle-down show-notifications-btn" data-placement="bottom" data-animation="am-flip-x"
+         bs-popover="popover"
          html="true" template="templates/popover.tpl.html" auto-close="true"></i>
     </div>
 
@@ -164,6 +166,7 @@
   <script src="scripts/controllers/customer.js"></script>
   <script src="scripts/directives/sidebarBtn.js"></script>
   <script src="scripts/directives/toggleRoleBtn.js"></script>
+  <script src="scripts/directives/filter.js"></script>
   <script src="scripts/controllers/root.js"></script>
   <script src="scripts/controllers/navigation.js"></script>
   <script src="scripts/controllers/QA.js"></script>

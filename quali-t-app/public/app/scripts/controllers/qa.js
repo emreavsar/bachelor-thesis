@@ -8,25 +8,20 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, $http) {
+  .controller('QACtrl', function ($scope, $http, alerts) {
     $scope.qaText = "";
 
-    $scope.createQA = function(qaText) {
-      $scope.errors = new Array();
-      $scope.success = new Array();
-
+    $scope.createQA = function (qaText) {
       $http.post('/api/qa', {
         qaText: qaText
       }).
-        success(function(data, status, headers, config) {
-          console.log(status + " data: " + data);
-          $scope.success.push(data);
+        success(function (data, status, headers, config) {
+          $scope.qaText = "";
+          var alert = alerts.createSuccess('QA created successfully', "#alerts-container");
         }).
-        error(function(data, status, headers, config) {
-          console.log(status);
-          $scope.errors.push(data);
+        error(function (data, status, headers, config) {
+          var alert = alerts.createError(status, data, "#alerts-container");
         });
-      console.log("QA created: ", qaText);
     }
 
     $http.get('/api/qa')
