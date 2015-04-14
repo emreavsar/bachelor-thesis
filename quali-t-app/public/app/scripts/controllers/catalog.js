@@ -17,102 +17,14 @@ angular.module('qualitApp')
     $scope.currentEditedElement = null;
     $scope.newItem = null;
 
-    $scope.getCategories = function () {
-      // todo emre: getting the filter objects from backend
-      var categories = new Array();
-      var subCatFunctionality = {
-        name: 'Functionality',
-        icon: 'fa fa-cog',
-        categories: [
-          {
-            id: 500,
-            name: 'Suitability',
-            categories: [
-              {
-                id: 555,
-                name: 'something!',
-                icon: 'fa fa-user',
-                categories: [
-                  {
-                    id: 500,
-                    name: 'Suitability 1',
-                    categories: [
-                      {
-                        id: 555,
-                        name: 'something!',
-                        icon: 'fa fa-user'
-                      }
-                    ]
-                  },
-                  {
-                    id: 500,
-                    name: 'Suitability 2',
-                    categories: [
-                      {
-                        id: 555,
-                        name: 'something!',
-                        icon: 'fa fa-user'
-                      }
-                    ]
-                  },
-                ]
-              }
-            ]
-          },
-          {
-            id: 501,
-            name: 'Accuracy'
-          },
-          {
-            id: 502,
-            name: 'Interoperability'
-          },
-          {
-            id: 503,
-            name: 'Security'
-          },
-          {
-            id: 504,
-            name: 'Functionality Compliance'
-          }
-        ]
-      }
+    $http.get("/api/cat")
+      .success(function (data) {
+        $scope.catList = data;
+      })
+      .error(function (data, status) {
+        console.log(status)
+      });
 
-      var subCatUsability = {
-        name: 'Usability',
-        icon: 'fa fa-heart',
-        categories: [
-          {
-            id: 600,
-            name: 'Understandability',
-            icon: 'fa fa-heart',
-            categories: [
-              {
-                id: 555,
-                name: 'something!',
-                icon: 'fa fa-user'
-              }
-            ]
-          },
-          {
-            id: 601,
-            name: 'Learnability'
-          },
-          {
-            id: 602,
-            name: 'Attractiveness'
-          },
-          {
-            id: 603,
-            name: 'Usability Compliance'
-          }
-        ]
-      }
-
-      categories.push(subCatFunctionality);
-      categories.push(subCatUsability);
-      return categories;
-    }
     $scope.nextStep = function () {
       var isLastStep = false;
       if ($scope.currentStep == 0) {

@@ -13,7 +13,7 @@ angular.module('qualitApp')
       scope: {
         hideCheckbox: '&',
         callback: '&',
-        categories: '&'
+        categories: '='
       },
       template: '<div class="panel-group id=" id="filter"></ul>',
       restrict: 'E',
@@ -112,18 +112,28 @@ angular.module('qualitApp')
           }
         }
 
-        var categories = scope.categories();
-        for (var i = 0; i < categories.length; i++) {
-          var category = categories[i];
+        scope.$watch('categories', function (nv, ov) {
 
-          var panel = $('<div/>', {
-            id: 'category-' + category.name,
-            title: category.name,
-            class: 'category panel panel-default'
-          }).appendTo('#filter');
-          scope.createPanelHeading(category);
-          scope.createPanelBody(category, i == 0);
-        }
+          if (nv == undefined) {
+            return;
+          } else {
+
+            var categories = scope.categories;
+            for (var i = 0; i < categories.length; i++) {
+              var category = categories[i];
+
+              var panel = $('<div/>', {
+                id: 'category-' + category.name,
+                title: category.name,
+                class: 'category panel panel-default'
+              }).appendTo('#filter');
+              scope.createPanelHeading(category);
+              scope.createPanelBody(category, i == 0);
+            }
+          }
+
+
+        });
       }
 
     };

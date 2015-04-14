@@ -30,17 +30,17 @@ public class QACategory extends AbstractEntity {
 
         this.parent = parent;
         this.name = name;
-        registerInSuperclass();
+        registerInSuperCategory();
     }
 
     private String name;
 
     private String icon;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private QACategory parent;
     @OneToMany (mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<QACategory> children = new HashSet<>();
+    private Set<QACategory> categories = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
@@ -66,12 +66,12 @@ public class QACategory extends AbstractEntity {
         this.usedInQA.add(QA);
     }
 
-    private void registerInSuperclass() {
-        this.parent.children.add(this);
+    private void registerInSuperCategory() {
+        this.parent.categories.add(this);
     }
 
-    public Set<QACategory> getSubclasses() {
-        return Collections.unmodifiableSet(this.children);
+    public Set<QACategory> getCategories() {
+        return Collections.unmodifiableSet(this.categories);
     }
 
     public String getIcon() {
