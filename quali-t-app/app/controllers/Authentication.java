@@ -1,11 +1,9 @@
 package controllers;
 
-import dao.models.UserDao;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import models.authentication.Role;
 import models.authentication.Token;
-import models.authentication.User;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -14,12 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Authentication extends Controller {
 
