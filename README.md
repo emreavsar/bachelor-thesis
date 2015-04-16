@@ -45,63 +45,8 @@ https://quali-t.herokuapp.com/
 
 #### **How can I add new initial data?**
 
-Initial data gets inserted when the application gets started. Adding data is easily done in the `conf/initial-data.yml`.
-When you add new types of ressources, you must handle it in `Global.java`.
-
-**Example:**
-
-Imagine you created a new model type `app/modles/mypackage/MyModel`
-
-````java
-@Entity
-@Table(name = "\"mymodel\"")
-@Nullable
-public class MyModel extends AbstractEntity {
-    private String name;
-
-    // getter and setter
-}
-````
-You'll add these lines in the `conf/initial-data.yml` file: 
-
-````yml
-mymodels:
-    - !!models.mypackage.MyModel
-        name:            myfirstmodel
-    - !!models.mypackage.MyModel
-        name:            mysecondmodel
-````
-
-Since this is a new resource type (`MyModel` didn't exist before, so quali-t does not now it) you'll update the `Global.java`'s `onStart()` method:
-
-````java
-@Override
-public void onStart(Application app) {
-    try {
-        JPA.withTransaction("default", false, () -> {
-	           	// put some sample data from initial-data.yml
-	           	Map<String, List<Object>> all 
-	           		= (Map<String, List<Object>>) Yaml.load("initial-data.yml");
-
-        	resetMyModels(all.get("mymodels"); // <-- your new function
-        });
-    } catch (Throwable throwable) {
-        play.Logger
-        	.error("Error at initializing database with conf/initial-data.yml file");
-    }
-}
-
-private void resetMyModels(List<Object> mymodels) {
-    MyModelDao myModelDao = new MyModelDao();
-    myModelDao.removeAll();
-
-    for (Object mym : mymodels) {
-        MyModel casted = (MyModel) mym;
-        MyModel merged = JPA.em().merge(casted);
-    }
-}
-````
-
+Initial data is inserted through `import.sql` file located in `conf` directory.
+Important: Do not use multiline sql imports, since this is not supported by default.
 
 ## Contact & License
 ask eavsar@hsr.ch and c1honegg@hsr.ch
