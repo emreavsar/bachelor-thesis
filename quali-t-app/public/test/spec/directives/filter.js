@@ -5,8 +5,8 @@ describe('Directive: filter', function () {
   // load the directive's module
   beforeEach(module('qualitApp'));
 
-  var element,
-    scope;
+  //var element,
+  var scope;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
