@@ -13,6 +13,7 @@ import play.Logger;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+import java.security.InvalidParameterException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -30,7 +31,11 @@ public class Authenticator {
      * @param token
      * @return user
      */
-    public static Token authenticate(String username, String password, String token) throws EntityNotFoundException {
+    public static Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException {
+        if(username == null) {
+            throw new InvalidParameterException("Username must not be specified!");
+        }
+
         UserDao userDao = new UserDao();
         User u = userDao.findByUsername(username);
 
@@ -38,7 +43,7 @@ public class Authenticator {
         if (u != null) {
             // check for token (could be invalid or non-existing)
             Token tokenOfUser = null;
-            if(token != null) {
+            if (token != null) {
                 TokenDao tokenDao = new TokenDao();
                 tokenOfUser = tokenDao.findByToken(token);
             }
@@ -198,16 +203,20 @@ public class Authenticator {
         TokenDao tokenDao = new TokenDao();
         Token userToken = tokenDao.findByToken(token);
 
-        // prevent that a user can invalidate sessions of others
-        if (userToken.getUser().equals(user)) {
-            user.removeToken(userToken);
-            userDao.persist(user);
-            tokenDao.remove(userToken);
-            // TODO refactor messages to somewhere more static!
-            return "User session successfully invalidated.";
+        if (userToken != null) {
+            // prevent that a user can invalidate sessions of others
+            if (userToken.getUser().equals(user)) {
+                user.removeToken(userToken);
+                userDao.persist(user);
+                tokenDao.remove(userToken);
+                // TODO refactor messages to somewhere more static!
+                return "User session successfully invalidated.";
+            } else {
+                // TODO refactor messages to somewhere more static!
+                return "Error at invalidating user session.";
+            }
         } else {
-            // TODO refactor messages to somewhere more static!
-            return "Error at invalidating user session.";
+            return "User session successfully invalidated.";
         }
     }
 }

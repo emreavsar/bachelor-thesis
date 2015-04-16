@@ -90,6 +90,7 @@ angular.module('qualitApp')
             $rootScope.loginFailed = true;
 
             $cookies.loggedInIdentity = null;
+            $rootScope.inAuthArea=false;
 
           });
 

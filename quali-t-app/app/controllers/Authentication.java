@@ -12,6 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Authentication extends Controller {
@@ -31,6 +32,8 @@ public class Authentication extends Controller {
             return ok(Json.toJson(t));
         } catch (EntityNotFoundException e) {
             return status(422, e.getMessage());
+        } catch (InvalidParameterException e) {
+            return status(400, e.getMessage());
         }
     }
 
@@ -44,7 +47,7 @@ public class Authentication extends Controller {
         String message = Authenticator.registerUser(username, password);
 
         // TODO refactor messages to somewhere more static!
-        if(message.equals("User successfully created")) {
+        if (message.equals("User successfully created")) {
             return ok(Json.toJson(message));
         } else {
             return notFound(message);
@@ -62,7 +65,7 @@ public class Authentication extends Controller {
         String message = Authenticator.invalidateUserSession(username, token);
 
         // TODO refactor messages to somewhere more static!
-        if(message.equals("User session successfully invalidated.")) {
+        if (message.equals("User session successfully invalidated.")) {
             session().remove("user");
 
             return ok(Json.toJson(message));

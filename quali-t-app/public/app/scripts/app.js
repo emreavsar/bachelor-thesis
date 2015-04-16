@@ -29,10 +29,10 @@ angular.module('qualitApp', [
         $rootScope.toState = toState;
         $rootScope.toStateParams = toStateParams;
 
-
         // in index.html there are some special behaviour if the user is authenticated
         // for example hiding the sidebar (which is only available when authenticated)
         $rootScope.inAuthArea = toState.url.indexOf('/authenticated/') > -1;
+
       });
 
       // make logout available from everywhere
