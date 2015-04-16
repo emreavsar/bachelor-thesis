@@ -37,8 +37,9 @@ INSERT INTO customer VALUES (3000, 'UBS', 'Zürich');
 -- Data for Name: qacategory; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO qacategory VALUES (4000, 'Availability', NULL, NULL);
-INSERT INTO qacategory VALUES (4001, 'Sustainability', NULL, NULL);
+INSERT INTO qacategory VALUES (4000, 'fa fa-cog', 'Functionality', NULL);
+INSERT INTO qacategory VALUES (4001, 'fa fa-heart', 'Usability', NULL);
+INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
 
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
