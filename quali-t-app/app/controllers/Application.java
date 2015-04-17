@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import dao.models.NfrDao;
 import dao.models.QualityAttributeDAO;
 import models.template.*;
 import models.template.Catalog;
