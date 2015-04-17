@@ -4,6 +4,7 @@ import dao.authentication.RoleDao;
 import dao.authentication.TokenDao;
 import dao.models.UserDao;
 import exceptions.EntityNotFoundException;
+import exceptions.PasswordsNotMatchException;
 import models.authentication.Role;
 import models.authentication.Token;
 import models.authentication.User;
@@ -32,7 +33,7 @@ public class Authenticator {
      * @return user
      */
     public static Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException {
-        if(username == null) {
+        if (username == null) {
             throw new InvalidParameterException("Username must not be specified!");
         }
 
@@ -90,7 +91,7 @@ public class Authenticator {
      * @param u
      * @return
      */
-    private static boolean isTokenOfUser(Token token, User u) {
+    public static boolean isTokenOfUser(Token token, User u) {
         return token != null && token.getUser().getId().equals(u.getId());
     }
 
@@ -153,7 +154,7 @@ public class Authenticator {
         return t;
     }
 
-    private static String generateTokenString() {
+    public static String generateTokenString() {
         return RandomStringUtils.randomAlphanumeric(20).toString();
     }
 
@@ -217,6 +218,14 @@ public class Authenticator {
             }
         } else {
             return "User session successfully invalidated.";
+        }
+    }
+
+    public static void changePassword(User user, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException {
+        if (newPassword.equals(newPasswordRepeated)) {
+            user.setHashedPassword(calculatePasswordHash(user.getSalt(), newPassword));
+        } else {
+            throw new PasswordsNotMatchException("New and repeated password do not match!");
         }
     }
 }

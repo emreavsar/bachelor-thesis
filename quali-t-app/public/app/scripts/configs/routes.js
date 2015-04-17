@@ -39,6 +39,7 @@ angular.module('qualitApp')
       })
       .state('settings', {
         url: '/authenticated/profile/settings',
+        controller: 'SettingsCtrl',
         templateUrl: 'views/profile/settings.html'
       })
       .state('mytasks', {

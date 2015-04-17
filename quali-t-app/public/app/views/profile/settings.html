@@ -2,7 +2,9 @@
   <small>(logged in as {{_identity.username}})</small>
 </h3>
 
-<form class="form-horizontal ng-pristine ng-valid ng-submitted">
+<div id="alerts-container"></div>
+
+<form class="form-horizontal" ng-submit="changePasswords(currentPassword, newPassword, newPasswordRepeated)">
 
 
   <h4 class="text-divided">Change password:</h4>
@@ -11,21 +13,24 @@
     <label for="inputPassword" class="col-sm-3 control-label">Current password</label>
 
     <div class="col-sm-9">
-      <input type="password" class="form-control" id="inputPassword" placeholder="Your current password">
+      <input type="password" ng-model="currentPassword" class="form-control" id="inputPassword"
+             placeholder="Your current password">
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-3 control-label">New Password</label>
 
     <div class="col-sm-9">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="New Password">
+      <input type="password" ng-model="newPassword" class="form-control" id="inputPassword3"
+             placeholder="New Password">
     </div>
   </div>
   <div class="form-group">
     <label for="inputRepeatPassword" class="col-sm-3 control-label">Repeat Password</label>
 
     <div class="col-sm-9">
-      <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Repeat Password">
+      <input type="password" ng-model="newPasswordRepeated" class="form-control" id="inputRepeatPassword"
+             placeholder="Repeat Password">
     </div>
   </div>
   <div class="form-group">

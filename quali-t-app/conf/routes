@@ -18,6 +18,7 @@ GET         /api/get/nfr/first                 controllers.Application.getFirstQ
 POST        /api/auth/login                    controllers.Authentication.login()
 POST        /api/auth/logout                   controllers.Authentication.logout()
 POST        /api/auth/register                 controllers.Authentication.register()
+POST        /api/auth/changePw                 controllers.Authentication.changePassword()
 
 # Testing
 GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
