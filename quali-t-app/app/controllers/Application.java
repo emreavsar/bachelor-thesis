@@ -20,13 +20,13 @@ public class Application extends Controller {
 
     @Restrict({@Group("dashboard")})
     @Transactional
-    public static Result getFirstNFR() {
-        NfrDao nfrDao = new NfrDao();
-        Nfr nfr = nfrDao.readById(2706L);
+    public static Result getFirstQA() {
+        QualityAttributeDAO qualityAttributeDAO = new QualityAttributeDAO();
+        QA qa = qualityAttributeDAO.readById(5000L);
 
         // TODO (emre): avoid checking for null somehow
-        if (nfr != null) {
-            return ok(Json.toJson(nfr));
+        if (qa != null) {
+            return ok(Json.toJson(qa));
         } else {
             return notFound();
         }
