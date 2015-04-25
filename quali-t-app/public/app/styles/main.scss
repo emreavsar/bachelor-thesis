@@ -544,3 +544,21 @@ div[text-angular-toolbar] {
     }
   }
 }
+
+.information-box {
+  color: #00BF56;
+  padding: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  & > * {
+    color: #00BF56;
+  }
+
+  i {
+    font-size: 26px;
+    float: left;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+}

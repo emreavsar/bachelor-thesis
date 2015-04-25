@@ -20,6 +20,9 @@ POST        /api/auth/logout                   controllers.Authentication.logout
 POST        /api/auth/register                 controllers.Authentication.register()
 POST        /api/auth/changePw                 controllers.Authentication.changePassword()
 
+# Tasks and Roles
+GET         /api/tasks/:userid                 controllers.Task.getTasksOfUser(userid: Long)
+
 # Testing
 GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
 

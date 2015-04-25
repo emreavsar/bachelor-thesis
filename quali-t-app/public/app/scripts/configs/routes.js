@@ -44,6 +44,7 @@ angular.module('qualitApp')
       })
       .state('mytasks', {
         url: '/authenticated/profile/mytasks',
+        controller: 'MytasksCtrl',
         templateUrl: 'views/profile/mytasks.html'
       })
       .state('accessdenied', {

@@ -37,7 +37,12 @@ angular.module('qualitApp', [
 
       // make logout available from everywhere
       $rootScope.logout = function () {
+        // if already logged out, no need to logout again
+        if(!$rootScope.inAuthArea) {
+          $state.go("welcome");
+        }
         principal.authenticate({
+          userid: null,
           username: null,
           password: null,
           token: null,
@@ -64,12 +69,14 @@ angular.module('qualitApp', [
       }
 
       var identityToSave = {
+        userid: "",
         username: "",
         password: "",
         roles: null
       }
 
       if (tmpIdentity != null) {
+        identityToSave.userid = tmpIdentity.userid;
         identityToSave.username = tmpIdentity.username;
         identityToSave.password = tmpIdentity.password;
         identityToSave.roles = tmpIdentity.roles;
