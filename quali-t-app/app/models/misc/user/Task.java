@@ -1,4 +1,4 @@
-package models.task;
+package models.misc.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;

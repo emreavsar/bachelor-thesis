@@ -21,7 +21,10 @@ POST        /api/auth/register                 controllers.Authentication.regist
 POST        /api/auth/changePw                 controllers.Authentication.changePassword()
 
 # Tasks and Roles
-GET         /api/tasks/:userid                 controllers.Task.getTasksOfUser(userid: Long)
+GET         /api/mytasks/                      controllers.Misc.getTasksOfCurrentUser()
+
+# Favorites
+GET         /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()
 
 # Testing
 GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
@@ -48,3 +51,6 @@ GET         /api/cat/:parent,:name             controllers.QualityAttribute.crea
 GET         /api/cat/:name                     controllers.QualityAttribute.createCat(name: String)
 GET         /api/cat/get/:id                   controllers.QualityAttribute.getCategoryTree(id: Long)
 GET         /api/cat                           controllers.QualityAttribute.getAllCats()
+
+# Search
+GET         /api/search/:searchArgument        controllers.Search.search(searchArgument: String)

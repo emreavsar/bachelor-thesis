@@ -16,7 +16,7 @@ angular.module('qualitApp')
       // TODO: emre implement this functionality here
     }
 
-    $http.get('/api/tasks/' + $rootScope._identity.userid)
+    $http.get('/api/mytasks/')
       .success(function (data) {
         $scope.tasks = data;
       })

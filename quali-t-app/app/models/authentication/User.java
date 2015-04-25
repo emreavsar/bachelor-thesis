@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
+import models.misc.user.Task;
 import models.project.Project;
-import models.task.Task;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -39,7 +39,6 @@ public class User extends AbstractEntity implements Subject {
     @JsonManagedReference
     private List<Role> roles = new ArrayList<>();
 
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Token> token = new ArrayList<>();
@@ -47,6 +46,13 @@ public class User extends AbstractEntity implements Subject {
     @OneToMany(mappedBy = "assignee")
     @JsonManagedReference
     private List<Task> tasks = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "favorite_project",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")})
+    @JsonManagedReference
+    private Set<Project> favorites = new HashSet<>();
 
     public User() {
     }
@@ -116,6 +122,14 @@ public class User extends AbstractEntity implements Subject {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Set<Project> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Project> favorites) {
+        this.favorites = favorites;
     }
 
     @Override

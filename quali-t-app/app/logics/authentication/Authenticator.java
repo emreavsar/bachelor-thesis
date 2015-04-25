@@ -244,4 +244,14 @@ public class Authenticator {
             throw new PasswordsNotMatchException("New and repeated password do not match!");
         }
     }
+
+    public static User getUser(long userid) throws EntityNotFoundException {
+        UserDao userDao = new UserDao();
+        User u = userDao.readById(userid);
+        if(u == null) {
+            throw new EntityNotFoundException("No user found");
+        }
+        return u;
+    }
+
 }

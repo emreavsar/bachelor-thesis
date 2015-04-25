@@ -32,7 +32,8 @@ public class Authentication extends Controller {
         Token t = null;
         try {
             t = Authenticator.authenticate(username, password, token);
-            session("user", t.getUser().getName());
+            session("username", t.getUser().getName());
+            session("userid", String.valueOf(t.getUser().getId()));
             return ok(Json.toJson(t));
         } catch (EntityNotFoundException e) {
             return status(422, e.getMessage());
