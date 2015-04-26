@@ -71,6 +71,9 @@ html {
     color: #fff;
     font-size: 12px;
     text-transform: uppercase;
+    & i {
+      margin-right: 5px;
+    }
   }
 
   .sidebar-group {
@@ -542,5 +545,23 @@ div[text-angular-toolbar] {
     &.first-subcategory {
       padding: 0px;
     }
+  }
+}
+
+.information-box {
+  color: #00BF56;
+  padding: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  & > * {
+    color: #00BF56;
+  }
+
+  i {
+    font-size: 26px;
+    float: left;
+    margin-right: 10px;
+    margin-top: 5px;
   }
 }

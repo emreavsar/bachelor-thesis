@@ -8,13 +8,13 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css"/>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -59,7 +59,7 @@
     </div>
 
     <div class="col-xs-12 profile">
-      <h4 class="title">Your Account</h4>
+      <h4 class="title"><i class="fa fa-user"></i>Your Account</h4>
       <img class="img-circle" gravatar-src="'{{ _identity.username }}'" gravatar-size="30">
       <span class="profile-name">
         {{ _identity.username }}
@@ -70,7 +70,7 @@
     </div>
 
     <div class="col-xs-12 sidebar-group">
-      <h4 class="title">Navigation</h4>
+      <h4 class="title"><i class="fa fa-bars"></i> Navigation</h4>
       <!-- TODO emre: move this into a custom directive? -->
       <ul class="nav">
         <li ng-repeat="navItem in navigationItems"
@@ -80,10 +80,21 @@
       </ul>
     </div>
 
-    <div class="col-xs-12 sidebar-group">
-      <h4 class="title">Favorites</h4>
-      No favorites yet
+    <div class="col-xs-12 sidebar-group" ng-controller="FavoritesCtrl">
+      <h4 class="title"><i class="fa fa-star"></i> Favorites</h4>
+
+      <div ng-hide="favoriteProjects">No favorites yet</div>
+
+      <ul class="nav nav-pills nav-stacked" ng-show="favoriteProjects">
+        <li ng-repeat="favorite in favoriteProjects">
+          <a href="" ng-click="openFavorite(favorite.id)" title="Open {{ favorite.name }}">
+            {{ favorite.name }}
+          </a>
+        </li>
+      </ul>
+
     </div>
+
   </div>
 
   <!-- main area -->
@@ -91,15 +102,23 @@
     <i class="fa fa-angle-left toggle-sidebar-btn" sidebar-btn title="Toggle Navigation"></i>
 
     <div class="search-bar">
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-        <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-               name="search" value="" placeholder="Search for projects">
-        <i class="fa fa-plus new-icon" data-placement="bottom" data-animation="am-flip-x" bs-popover="popover"
-           html="true" template="templates/popover.tpl.html" auto-close="true"></i>
-      </div>
+      <form ng-submit="search(searchArgument)" ng-controller="SearchCtrl">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <!-- TODO emre: improve here with ng-switch if possible, watch is too slow and sometimes both items are displayed! -->
+            <i class="fa fa-search" ng-hide="searchInProgress"></i>
+            <i class="fa fa-refresh fa-spin" ng-show="searchInProgress"></i>
+          </span>
+          <input type="text" class="form-control"
+                 name="search" placeholder="Search for projects"
+                 ng-model="searchArgument"
+                 required="">
+          <i class="fa fa-plus new-icon" data-placement="bottom" data-animation="am-flip-x" bs-popover="popover"
+             html="true" template="templates/popover.tpl.html" auto-close="true"></i>
+        </div>
+      </form>
     </div>
-    <div ui-view class='main-view main-view-opened' ng-cloak>
+    <div ui-view class='main-view main-view-opened'>
     </div>
   </div>
 
@@ -176,6 +195,9 @@
   <script src="scripts/controllers/project.js"></script>
   <script src="scripts/controllers/settings.js"></script>
   <script src="scripts/controllers/category.js"></script>
+  <script src="scripts/controllers/mytasks.js"></script>
+  <script src="scripts/controllers/search.js"></script>
+  <script src="scripts/controllers/favorites.js"></script>
   <!-- endbuild -->
 </body>
 </html>

@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,14 +28,13 @@ public class Customer extends AbstractEntity {
         this.address = address;
     }
 
-
     private String name;
 
     private String address;
 
     @OneToMany(mappedBy = "projectCustomer")
     @JsonManagedReference
-    private Collection<Project> projects = new ArrayList<Project>();
+    private List<Project> projects = new ArrayList<>();
 
 
     public String getName() {
@@ -53,13 +53,11 @@ public class Customer extends AbstractEntity {
         this.address = address;
     }
 
-    public Collection<Project> getProjects() {
+    public List<Project> getProjects() {
         return projects;
     }
 
-    public void addProject(Project project) {
-        this.projects.add(project);
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
-
-
 }

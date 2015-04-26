@@ -1,5 +1,7 @@
 package dao;
 
+import org.hibernate.service.spi.InjectService;
+import play.Logger;
 import play.db.jpa.JPA;
 
 import javax.annotation.Nullable;
@@ -21,6 +23,8 @@ public abstract class AbstractDAO<T> {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     protected AbstractDAO() {
+        Logger.info("A new dao was created! This should be done with dependency injection!");
+
         Class<? extends AbstractDAO> clazz = getClass();
         while (!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
             //noinspection RedundantCast

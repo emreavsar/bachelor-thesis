@@ -28,14 +28,15 @@ public class QualitDeadboltHandler extends AbstractDeadboltHandler {
         try {
             return JPA.withTransaction(new play.libs.F.Function0<User>() {
                 public User apply() {
-                    String u = context.session().get("user");
+                    // TODO emre: move to userid instead of username -> easier
+                    String u = context.session().get("username");
                     UserDao userDao = new UserDao();
                     User loggedInUser = userDao.findByUsername(u);
                     return loggedInUser;
                 }
             });
         } catch (Throwable throwable) {
-            play.Logger.error("Error at initializing database with conf/initial-data.yml file");
+            play.Logger.error("Error at accessing the database.");
         }
 
         return null;

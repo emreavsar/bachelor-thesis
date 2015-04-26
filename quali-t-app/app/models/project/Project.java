@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
+import models.authentication.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +40,9 @@ public class Project extends AbstractEntity {
     @ManyToOne(optional = true)
     @JsonBackReference
     private Customer projectCustomer;
+
     private String name;
+
     @ManyToMany(mappedBy = "usedByProject")
     @JsonManagedReference
     private Set<QualityProperty> qualityProperties = new HashSet<>();

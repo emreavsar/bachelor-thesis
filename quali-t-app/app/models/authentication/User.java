@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
+import models.misc.user.Task;
+import models.project.Project;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -34,14 +36,23 @@ public class User extends AbstractEntity implements Subject {
     @JoinTable(name = "role_user",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-
     @JsonManagedReference
     private List<Role> roles = new ArrayList<>();
-
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Token> token = new ArrayList<>();
+
+    @OneToMany(mappedBy = "assignee")
+    @JsonManagedReference
+    private List<Task> tasks = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "favorite_project",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")})
+    @JsonManagedReference
+    private Set<Project> favorites = new HashSet<>();
 
     public User() {
     }
@@ -87,15 +98,6 @@ public class User extends AbstractEntity implements Subject {
     }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("name", name)
-                .append("roles", roles)
-                .append("token", token)
-                .toString();
-    }
-
-    @Override
     public List<Role> getRoles() {
         return roles;
     }
@@ -109,4 +111,34 @@ public class User extends AbstractEntity implements Subject {
     public String getIdentifier() {
         return getId().toString();
     }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Set<Project> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Project> favorites) {
+        this.favorites = favorites;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("roles", roles)
+                .append("token", token)
+                .toString();
+    }
+
 }

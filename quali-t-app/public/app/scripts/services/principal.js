@@ -26,6 +26,7 @@ angular.module('qualitApp')
       },
       authenticate: function (identity) {
         $rootScope._identity = {
+          userid: identity.id,
           username: identity.username,
           token: identity.token
         };
@@ -64,6 +65,7 @@ angular.module('qualitApp')
               roles.push(role.name);
             });
             $rootScope._identity = {
+              userid: data.user.id,
               username: $rootScope._identity.username,
               token: data.token,
               password: "", // remove the password
@@ -78,6 +80,7 @@ angular.module('qualitApp')
           })
           .error(function () {
             $rootScope._identity = {
+              userid: null,
               username: null,
               token: null,
               roles: null

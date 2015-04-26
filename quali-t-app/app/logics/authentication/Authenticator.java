@@ -3,6 +3,7 @@ package logics.authentication;
 import dao.authentication.RoleDao;
 import dao.authentication.TokenDao;
 import dao.models.UserDao;
+import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.PasswordsNotMatchException;
 import models.authentication.Role;
@@ -13,17 +14,26 @@ import org.joda.time.DateTime;
 import play.Logger;
 
 import javax.annotation.Nullable;
+import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
 import java.security.InvalidParameterException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by emre on 31/03/15.
  */
+@Singleton
 public class Authenticator {
+    UserDao userDao = new UserDao();
+    TokenDao tokenDao;
+    RoleDao roleDao;
+
+    public Authenticator() {
+        Logger.info("constructor Authenticator() is called");
+    }
+
     /**
      * Does simple authentication. Returns the user if authentication was ok. Otherwise null.
      *
@@ -32,7 +42,7 @@ public class Authenticator {
      * @param token
      * @return user
      */
-    public static Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException {
+    public static Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException, PasswordsNotMatchException {
         if (username == null) {
             throw new InvalidParameterException("Username must not be specified!");
         }
@@ -55,7 +65,7 @@ public class Authenticator {
                 }
             } else {
                 // no token
-                if (Authenticator.isPasswordCorrect(u, password)) {
+                if (Authenticator.checkPassword(u, password)) {
                     Token newToken = Authenticator.generateToken(u);
                     u.getToken().add(newToken);
                     userDao.persist(u);
@@ -102,8 +112,17 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public static boolean isPasswordCorrect(@Nullable User user, @NotNull String password) {
-        return user != null && user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password));
+    public static boolean checkPassword(@Nullable User user, @NotNull String password) throws PasswordsNotMatchException, EntityNotFoundException {
+        if(user != null) {
+            if(user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))){
+               return true ;
+            }
+            else {
+                throw new PasswordsNotMatchException("Wrong password provided");
+            }
+        } else {
+            throw new EntityNotFoundException("User not found");
+        }
     }
 
     /**
@@ -166,9 +185,8 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public static String registerUser(String username, String password) {
+    public static User registerUser(String username, String password) throws EntityNotCreatedException {
         // Default roles for registered user
-        // TODO refactor into logic maybe?
         RoleDao roleDao = new RoleDao();
         List<Role> defaultRoles = roleDao.findDefaultRoles();
         UserDao userDao = new UserDao();
@@ -182,11 +200,9 @@ public class Authenticator {
             user.setHashedPassword(calculatePasswordHash(user.getSalt(), password));
             user.getRoles().addAll(roleDao.findDefaultRoles());
             userDao.persist(user);
-            // TODO refactor messages to somewhere more static!
-            return "User successfully created";
+            return user;
         } else {
-            // TODO refactor messages to somewhere more static!
-            return "User already exists!";
+            throw new EntityNotCreatedException("User already exists");
         }
     }
 
@@ -197,7 +213,7 @@ public class Authenticator {
      * @param token
      * @return
      */
-    public static String invalidateUserSession(String username, String token) {
+    public static void invalidateUserSession(String username, String token) throws EntityNotFoundException {
         UserDao userDao = new UserDao();
         User user = userDao.findByUsername(username);
 
@@ -210,22 +226,32 @@ public class Authenticator {
                 user.removeToken(userToken);
                 userDao.persist(user);
                 tokenDao.remove(userToken);
-                // TODO refactor messages to somewhere more static!
-                return "User session successfully invalidated.";
             } else {
-                // TODO refactor messages to somewhere more static!
-                return "Error at invalidating user session.";
+                throw new EntityNotFoundException("Error at invalidating user session.");
             }
         } else {
-            return "User session successfully invalidated.";
+            throw new EntityNotFoundException("No token for user found");
         }
     }
 
-    public static void changePassword(User user, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException {
+    public static void changePassword(String username, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException {
+        UserDao userDao = new UserDao();
+        User user = userDao.findByUsername(username);
+
         if (newPassword.equals(newPasswordRepeated)) {
             user.setHashedPassword(calculatePasswordHash(user.getSalt(), newPassword));
         } else {
             throw new PasswordsNotMatchException("New and repeated password do not match!");
         }
     }
+
+    public static User getUser(long userid) throws EntityNotFoundException {
+        UserDao userDao = new UserDao();
+        User u = userDao.readById(userid);
+        if(u == null) {
+            throw new EntityNotFoundException("No user found");
+        }
+        return u;
+    }
+
 }

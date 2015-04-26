@@ -17,7 +17,10 @@ libraryDependencies ++= Seq(
   "joda-time"                 %   "joda-time"               % "2.7",
   "org.jadira.usertype"       %   "usertype.core"           % "3.2.0.GA",
   "commons-lang"              %   "commons-lang"            % "2.6",
-  "be.objectify"              %   "deadbolt-java_2.11"      % "2.3.3"
+  "be.objectify"              %   "deadbolt-java_2.11"      % "2.3.3",
+  "com.google.inject" % "guice" % "4.0-beta"
+//  "org.springframework"       %   "spring-context"          % "4.1.6.RELEASE",
+//  "org.springframework"       %   "spring-tx"               % "4.1.6.RELEASE"
 )
 
 // HEROKU sbt plugin

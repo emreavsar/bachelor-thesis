@@ -1,3 +1,37 @@
 <div>
   <h3>My Tasks</h3>
-</div>
+
+  <div class="no-tems-found" ng-show="!tasks.length">No tasks found. You lucky guy!</div>
+  <div id="tasks" ng-show="tasks.length">
+    <div class="information-box">
+      <span class="text-info">
+        <i class="fa fa-info-circle"/>
+        These are your tasks. When you complete a task, you can simply mark it as done by clicking on the checkbox.
+      </span>
+    </div>
+    <table class="table table-hover">
+      <tr>
+        <th>
+          ID
+        </th>
+        <th>
+          Task Description
+        </th>
+        <th>
+          Done
+        </th>
+      </tr>
+      <tr ng-repeat="task in tasks">
+        <td>
+          {{ task.id }}
+        </td>
+        <td>
+          {{ task.description }}
+        </td>
+        <td>
+          <input type="checkbox" ng-checked="task.done" ng-click="toggleDoneState(task.id, task.done)"/>
+        </td>
+      </tr>
+    </table>
+    <!--</div>-->
+  </div>

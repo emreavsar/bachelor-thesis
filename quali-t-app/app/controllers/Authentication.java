@@ -2,6 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import dao.models.UserDao;
+import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.PasswordsNotMatchException;
 import logics.authentication.Authenticator;
@@ -20,7 +21,6 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Authentication extends Controller {
-
     @Transactional
     public static Result login() {
         Logger.info("login called");
@@ -32,11 +32,15 @@ public class Authentication extends Controller {
         Token t = null;
         try {
             t = Authenticator.authenticate(username, password, token);
-            session("user", t.getUser().getName());
+            session("username", t.getUser().getName());
+            session("userid", String.valueOf(t.getUser().getId()));
             return ok(Json.toJson(t));
         } catch (EntityNotFoundException e) {
             return status(422, e.getMessage());
         } catch (InvalidParameterException e) {
+            // TODO emre: multiple catch with same body can be unified maybe?
+            return status(400, e.getMessage());
+        } catch (PasswordsNotMatchException e) {
             return status(400, e.getMessage());
         }
     }
@@ -48,13 +52,12 @@ public class Authentication extends Controller {
         String password = requestData.get("password");
 
         ArrayList<Role> roles = new ArrayList<>();
-        String message = Authenticator.registerUser(username, password);
-
-        // TODO refactor messages to somewhere more static!
-        if (message.equals("User successfully created")) {
-            return ok(Json.toJson(message));
-        } else {
-            return notFound(message);
+        String message = null;
+        try {
+            User registeredUser = Authenticator.registerUser(username, password);
+            return ok(Json.toJson(registeredUser));
+        } catch (EntityNotCreatedException e) {
+            return notFound(e.getMessage());
         }
     }
 
@@ -66,14 +69,12 @@ public class Authentication extends Controller {
         String username = requestData.get("username");
         String token = requestData.get("token");
 
-        String message = Authenticator.invalidateUserSession(username, token);
-
-        // TODO refactor messages to somewhere more static!
-        if (message.equals("User session successfully invalidated.")) {
+        try {
+            Authenticator.invalidateUserSession(username, token);
             session().remove("user");
-            return ok(Json.toJson(message));
-        } else {
-            return notFound(message);
+            return ok();
+        } catch (EntityNotFoundException e) {
+            return notFound(e.getMessage());
         }
     }
 
@@ -88,16 +89,20 @@ public class Authentication extends Controller {
         String newPassword = requestData.get("newPassword");
         String newPasswordRepeated = requestData.get("newPasswordRepeated");
 
+
         UserDao userDao = new UserDao();
         User user = userDao.findByUsername(username);
 
-        if (!Authenticator.isPasswordCorrect(user, currentPassword)) {
-            return status(400, "User and password do not match");
-        }
         try {
-            Authenticator.changePassword(user, newPassword, newPasswordRepeated);
-            return ok(Json.toJson("Password changed"));
+            if (!Authenticator.checkPassword(user, currentPassword)) {
+                return status(400, "User and password do not match");
+            }
+            Authenticator.changePassword(username, newPassword, newPasswordRepeated);
+            return ok();
         } catch (PasswordsNotMatchException e) {
+            // TODO emre: multiple catch with same body can be unified maybe?
+            return status(400, e.getMessage());
+        } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
     }
