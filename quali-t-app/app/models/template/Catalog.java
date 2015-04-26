@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,10 +23,11 @@ public class Catalog extends AbstractEntity {
     public Catalog() {
     }
 
-    public Catalog(String name, String description, String  pictureURL){
+    public Catalog(String name, String description, String  pictureURL, List<QA> qas){
         this.name = name;
         this.description = description;
         this.pictureURL = pictureURL;
+        this.addTemplates(qas);
     }
 
     private String name;
@@ -33,7 +36,7 @@ public class Catalog extends AbstractEntity {
 
     private String pictureURL;
 
-    @OneToMany(mappedBy = "catalog")
+    @OneToMany(mappedBy = "catalog", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private Set<CatalogQA> templates = new HashSet<>();
 
@@ -72,6 +75,12 @@ public class Catalog extends AbstractEntity {
     public void addTemplate(QA QA) {
         CatalogQA catalogQA = new CatalogQA(QA, this);
         this.templates.add(catalogQA);
+    }
+
+    public void addTemplates(List<QA> qas) {
+        for (QA qa : qas) {
+            this.addTemplate(qa);
+        }
     }
 
 

@@ -30,10 +30,12 @@ angular.module('qualitApp')
       if ($scope.currentStep == 0) {
         $scope.choose($scope.name, $scope.image);
       } else if ($scope.currentStep == 1) {
-        $scope.customize();
-      } else if ($scope.currentStep == 2) {
+//        $scope.customize();
         $scope.createCatalog();
         isLastStep = true;
+//      } else if ($scope.currentStep == 2) {
+//        $scope.createCatalog();
+//        isLastStep = true;
       } else {
         $scope.currentStep = 0; // restart
       }
@@ -43,12 +45,14 @@ angular.module('qualitApp')
     }
 
     $scope.back = function (currentStep) {
+      if (currentStep == 2) {
+        $scope.selection = $scope.selectionqp;
+      }
       $scope.currentStep = currentStep - 1;
     }
 
     $scope.toggleSelection = function (qa) {
       console.log("toggleling the selection for qa with id: " + qa.id);
-
       var indexInArr = $scope.selection.indexOf(qa);
       if (indexInArr > -1) {
         console.log("qa with id=" + qa.id + " is selected, will be deselected now");
@@ -110,13 +114,14 @@ angular.module('qualitApp')
     }
 
     $scope.customize = function () {
-      // TODO implement me
+      console.log("create is clicked");
     }
 
     $scope.createCatalog = function () {
-      // TODO implement me
       $http.post('/api/catalog', {
-        qualityAttributes: $scope.selection
+        qualityAttributes: $scope.selection,
+        name: $scope.name,
+        image: $scope.image
       }).
         success(function (data, status, headers, config) {
           console.log(status + " data: " + data);
@@ -154,6 +159,6 @@ angular.module('qualitApp')
         checkbox.prop('checked', 'checked');
       }
 
-      var id = $(clickedElement).prop('data-id');
+      var id = $(clickedElement).data('id');
     }
   });

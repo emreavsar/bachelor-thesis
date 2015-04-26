@@ -31,7 +31,8 @@ INSERT INTO role_user VALUES (1003, 2001);
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO customer VALUES (3000, 'UBS', 'Zürich');
+INSERT INTO customer VALUES (3000, 'Zürich', 'UBS');
+INSERT INTO customer VALUES (3001, 'Rapperswil', 'HSR');
 
 --
 -- Data for Name: qacategory; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -47,3 +48,28 @@ INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
 
 INSERT INTO qa VALUES (5000, '<p>Das System soll ______ % verfügbar sein.</p>');
 INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');
+
+--
+-- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO catalog VALUES (6000, 'Dies ist der Standardkatalog', 'Standard Katalog', NULL);
+INSERT INTO catalog VALUES (6001, 'Katalog für Cloud Templates', 'Cloud Katalog', NULL);
+
+--
+-- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO catalogqa VALUES (7000, 6000, 5000);
+INSERT INTO catalogqa VALUES (7001, 6000, 5001);
+INSERT INTO catalogqa VALUES (7002, 6001, 5000);
+
+--
+-- Data for Name: qualityproperty; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO qualityproperty VALUES (8000, 'Specific', 'S');
+INSERT INTO qualityproperty VALUES (8001, 'Measurable', 'M');
+INSERT INTO qualityproperty VALUES (8002, 'Agreed Upon', 'A');
+INSERT INTO qualityproperty VALUES (8003, 'Realistic', 'R');
+INSERT INTO qualityproperty VALUES (8004, 'Time-bound', 'T');

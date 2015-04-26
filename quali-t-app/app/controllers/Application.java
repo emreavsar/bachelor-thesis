@@ -3,8 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import dao.models.QualityAttributeDAO;
-import models.template.*;
-import models.template.Catalog;
+import models.template.QA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -35,11 +34,11 @@ public class Application extends Controller {
     @Transactional
     public static Result setCustomerProject(String customername) {
         QA qa = new QA("Der Use Case Einkaufsabwicklung muss mit weniger als 5 Klicks durchfuehrbar sein.");
-        models.template.Catalog cat = new Catalog(customername, "", "");
-        qa.addUsedInCatalog(cat);
-        cat.addTemplate(qa);
-        QualityAttributeDAO qadao = new QualityAttributeDAO();
-        qadao.persist(qa);
+//        models.template.Catalog cat = new Catalog(customername, "", "", "");
+//        qa.addUsedInCatalog(cat);
+//        cat.addTemplate(qa);
+//        QualityAttributeDAO qadao = new QualityAttributeDAO();
+//        qadao.persist(qa);
 //        Customer customer = new Customer(customername, "adress");
 //        Set<QualityProperty> q_set = new HashSet<QualityProperty>();
 //        QualityProperty q1 = new QualityProperty("S", "Specified");

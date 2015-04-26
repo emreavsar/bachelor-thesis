@@ -69,4 +69,20 @@ public class QualityAttribute {
         List<QACategory> cats = catDAO.readAllSuperclasses();
         return cats;
     }
+
+    public static QACategory createCat(String name, Long parentid) {
+        Logger.info("logic called. name: " + name + " parent: " + parentid);
+        QACategoryDAO catDao = new QACategoryDAO();
+
+        if (parentid == null) {
+            QACategory cat = new QACategory(name);
+            catDao.persist(cat);
+            return cat;
+        } else  {
+            QACategory parent = catDao.readById(parentid);
+            QACategory cat = new QACategory(parent, name);
+            catDao.persist(parent);
+            return cat;
+        }
+    }
 }
