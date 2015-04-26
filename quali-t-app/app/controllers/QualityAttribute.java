@@ -48,12 +48,6 @@ public class QualityAttribute extends Controller {
     }
 
     @Transactional
-    public static Result createCat(String name) {
-        QACategory cat = logics.template.QualityAttribute.createCat(name);
-        return ok(Json.toJson(cat));
-    }
-
-    @Transactional
     public static Result createSubCat(Long id, String name) {
         QACategory cat = logics.template.QualityAttribute.createSubCat(id, name);
         return ok(Json.toJson(cat));
@@ -68,5 +62,21 @@ public class QualityAttribute extends Controller {
     public static Result getAllCats() {
         List<QACategory> cats = logics.template.QualityAttribute.getAllCats();
         return ok(Json.toJson(cats));
+    }
+    @Transactional
+    public static Result createCat() {
+        Logger.info("creatcat controller called");
+        DynamicForm requestData = Form.form().bindFromRequest();
+        String name = requestData.get("name");
+        String parent = requestData.get("parent");
+        if (parent.equals("")) {
+            QACategory cat = logics.template.QualityAttribute.createCat(name, null);
+            return ok(Json.toJson(cat));
+        } else
+        {
+            Long parentid = Long.parseLong(parent);
+            QACategory cat = logics.template.QualityAttribute.createCat(name, parentid);
+            return ok(Json.toJson(cat));
+        }
     }
 }

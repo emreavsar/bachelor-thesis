@@ -13,6 +13,7 @@ angular.module('qualitApp')
       scope: {
         hideCheckbox: '&',
         callback: '&',
+        editCat: '&',
         categories: '='
       },
       template: '<div class="panel-group id=" id="filter"></ul>',
@@ -98,6 +99,37 @@ angular.module('qualitApp')
               e.stopPropagation();
             });
           }
+
+          if (!scope.editCat()) {
+
+            var buttonGrp = $('<div/>', {
+              class: 'btn-group pull-right'
+            }).appendTo(li)
+
+            var addCat = $('<button/>', {
+              type: 'button',
+              id: 'add',
+              'bs-modal': 'editCatStrap',
+              class: 'btn-xs btn-default glyphicon glyphicon-plus'
+            }).appendTo(buttonGrp);
+
+            var deleteCat = $('<button/>', {
+              type: 'button',
+              id: 'delete',
+              'ng-click': 'deleteCat()',
+              class: 'btn-xs btn-default glyphicon glyphicon-minus'
+            }).appendTo(buttonGrp);
+
+            var editCat = $('<button/>', {
+              type: 'button',
+              id: 'edit',
+              'bs-modal': 'editCatStrap',
+              class: 'btn-xs btn-default glyphicon glyphicon-cog'
+            }).appendTo(buttonGrp);
+          }
+
+          $(editCat).click(function (e) {
+          });
 
           if (subCategories.length > 0) {
             var ul = $('<ul/>', {

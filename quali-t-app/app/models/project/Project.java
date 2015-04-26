@@ -40,9 +40,7 @@ public class Project extends AbstractEntity {
     @ManyToOne(optional = true)
     @JsonBackReference
     private Customer projectCustomer;
-
     private String name;
-
     @ManyToMany(mappedBy = "usedByProject")
     @JsonManagedReference
     private Set<QualityProperty> qualityProperties = new HashSet<>();
@@ -62,7 +60,6 @@ public class Project extends AbstractEntity {
     public void setProjectCustomer(Customer projectCustomer) {
         this.projectCustomer = projectCustomer;
     }
-
 
     public Set<QualityProperty> getQualityProperties() {
         return qualityProperties;

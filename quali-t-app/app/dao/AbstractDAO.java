@@ -1,6 +1,5 @@
 package dao;
 
-import org.hibernate.service.spi.InjectService;
 import play.Logger;
 import play.db.jpa.JPA;
 

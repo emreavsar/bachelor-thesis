@@ -1,2 +1,13 @@
-<p>this.catList</p>
+<div class="filter">
+  <h5>Categories</h5>
+  <filter hide-checkbox="true" callback="showDetail" categories="catList"></filter>
+
+  <form>
+    <div class="form-group">
+        <input type="text" class="form-control" id="name" ng-model="name"/>
+        <button type="button" ng-clickclass="btn btn-success" ng-click="createSuperCat(name)">
+        <span class="glyphicon glyphicon-plus" /> Add Supercategory</button>
+      </div>
+    </form>
+</div>
 
