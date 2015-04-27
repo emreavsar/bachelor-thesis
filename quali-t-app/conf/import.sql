@@ -60,7 +60,14 @@ INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
 --
 
 INSERT INTO qa VALUES (5000, '<p>Das System soll ______ % verfügbar sein.</p>');
-INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');
+INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');+
+
+--
+-- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO task (id, description, done, assignee_id) VALUES (6000, 'Evaluate Catalog HSR Mobile App', true, 1000);
+INSERT INTO task (id, description, done, assignee_id) VALUES (6001, 'Create Catalog for Cloud Apps', false, 1000);
 
 --
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: qualit
