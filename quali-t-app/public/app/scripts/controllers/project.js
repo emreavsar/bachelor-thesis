@@ -50,7 +50,8 @@ angular.module('qualitApp')
         catalog: $scope.catalog
       }).
         success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
+          console.dir(status + " data: " + data);
+          console.dir(data);
 
           var alert = $alert({
             title: 'Congratulations!',

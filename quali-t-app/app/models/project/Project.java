@@ -27,21 +27,19 @@ import java.util.Set;
 @Nullable
 public class Project extends AbstractEntity {
 
-    public Project() {
-    }
-
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private Customer projectCustomer;
-
     private String name;
-
     @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private Set<QualityProperty> qualityProperties = new HashSet<>();
-
     @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference
     private Set<Instance> qualityAttributes = new HashSet<>();
+
+    public Project() {
+    }
 
     public Project(String name, Customer projectCustomer, Catalog catalog, List<Instance> qas, List<QualityProperty> qps) {
         this.name = name;
@@ -82,6 +80,7 @@ public class Project extends AbstractEntity {
     public void addQualityProperties(List<QualityProperty> qps) {
         for (QualityProperty qp : qps) {
             this.addQualityProperty(qp);
+            qp.addUsedByProject(this);
         }
     }
 

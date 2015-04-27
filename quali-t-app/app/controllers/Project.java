@@ -37,7 +37,7 @@ public class Project extends Controller {
         Logger.info(name + " " + customerId + " " + catalogId + " " + qaIds.toString() + " " + qpIds.toString());
         try {
             models.project.Project project = logics.project.Project.createProject(name, customerId, catalogId, qaIds, qpIds);
-            return ok("Name: " + name + " QAs: " + qaIds + " QPs: " + qpIds);
+            return ok(Json.toJson(project));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }

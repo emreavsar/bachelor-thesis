@@ -58,4 +58,4 @@ POST        /api/cat                           controllers.QualityAttribute.crea
 GET         /api/cat                           controllers.QualityAttribute.getAllCats()
 
 # QualityProperties
-GET         /api/qp                            controllers.Project.getAllQualityProperties
+GET        /api/qp        controllers.Project.getAllQualityProperties()

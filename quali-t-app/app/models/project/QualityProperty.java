@@ -1,14 +1,12 @@
 package models.project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.nfritem.QualityPropertyStatus;
 
 import javax.annotation.Nullable;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +18,15 @@ import java.util.Set;
 @Table(name = "qualityproperty")
 @Nullable
 public class QualityProperty extends AbstractEntity {
+    private String name;
+    private String description;
+    @ManyToMany
+    @JsonBackReference
+    private Set<Project> usedByProject = new HashSet<Project>();
+    @OneToMany(mappedBy = "qp", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
+    private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
+
     public QualityProperty() {
     }
 
@@ -27,17 +34,6 @@ public class QualityProperty extends AbstractEntity {
         this.name = name;
         this.description = description;
     }
-
-    private String name;
-
-    private String description;
-
-    @ManyToMany
-    @JsonBackReference
-    private Set<Project> usedByProject = new HashSet<Project>();
-
-    @OneToMany(mappedBy= "qp")
-    private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
 
     public String getName() {
         return name;

@@ -7,7 +7,6 @@ import models.project.QualityProperty;
 import models.project.nfritem.Instance;
 import models.template.Catalog;
 import models.template.CatalogQA;
-import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

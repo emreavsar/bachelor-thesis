@@ -1,5 +1,7 @@
 package models.project.nfritem;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.QualityProperty;
 
@@ -18,9 +20,13 @@ import javax.persistence.Table;
 @Nullable
 public class QualityPropertyStatus extends AbstractEntity {
     @ManyToOne
+    @JsonBackReference
     private Instance qa;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @ManyToOne
+    @JsonManagedReference
     private QualityProperty qp;
+
     private boolean status;
 
     public QualityPropertyStatus() {
