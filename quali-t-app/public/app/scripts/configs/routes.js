@@ -69,36 +69,58 @@ angular.module('qualitApp')
       .state('customer', {
         templateUrl: 'views/customer/show.html',
         url: '/authenticated/customer/view',
-        controller: 'CustomerCtrl'
+        controller: 'CustomerCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
+
       })
       .state('customerCreate', {
         templateUrl: 'views/customer/new.html',
         url: '/authenticated/customer/create',
-        controller: 'CustomerCtrl'
+        controller: 'CustomerCtrl',
+        data: {
+          roles: ['analyst', 'admin']
+        }
       })
       .state('newQA', {
         templateUrl: 'views/qa/new.html',
         url: '/authenticated/qa/create',
-        controller: 'QACtrl'
+        controller: 'QACtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
       })
       .state('showQA', {
         templateUrl: 'views/qa/show.html',
         url: '/authenticated/qa/show',
-        controller: 'QACtrl'
+        controller: 'QACtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
       })
       .state('newCatalog', {
         templateUrl: 'views/catalog/new.html',
         url: '/authenticated/catalog/create',
-        controller: 'CatalogCtrl'
+        controller: 'CatalogCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
       })
       .state('newProject', {
         templateUrl: 'views/project/createProject.html',
         url: '/authenticated/project/create',
-        controller: 'ProjectCtrl'
+        controller: 'ProjectCtrl',
+        data: {
+          roles: ['analyst', 'admin']
+        }
       })
       .state('editCategories', {
         templateUrl: 'views/category/edit.html',
         url: '/authenticated/category/edit',
-        controller: 'CategoryCtrl'
+        controller: 'CategoryCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
       })
   });

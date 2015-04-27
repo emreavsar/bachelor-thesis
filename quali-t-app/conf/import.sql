@@ -13,6 +13,11 @@ INSERT INTO "user" VALUES (1003, 'd5506a1c7feda5c81f98f73cb547821d82d04d60', 'oz
 
 INSERT INTO role VALUES (2000, 'admin');
 INSERT INTO role VALUES (2001, 'dashboard');
+INSERT INTO role VALUES (2002, 'curator');
+INSERT INTO role VALUES (2003, 'analyst');
+INSERT INTO role VALUES (2004, 'synthesizer');
+INSERT INTO role VALUES (2005, 'evaluator');
+INSERT INTO role VALUES (2006, 'projectmanager');
 
 --
 -- Data for Name: role_user; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -20,7 +25,7 @@ INSERT INTO role VALUES (2001, 'dashboard');
 
 INSERT INTO role_user VALUES (1000, 2000);
 INSERT INTO role_user VALUES (1000, 2001);
-INSERT INTO role_user VALUES (1001, 2000);
+--INSERT INTO role_user VALUES (1001, 2000);
 INSERT INTO role_user VALUES (1001, 2001);
 INSERT INTO role_user VALUES (1002, 2000);
 INSERT INTO role_user VALUES (1002, 2001);
@@ -93,3 +98,4 @@ INSERT INTO qualityproperty VALUES (8001, 'Measurable', 'M');
 INSERT INTO qualityproperty VALUES (8002, 'Agreed Upon', 'A');
 INSERT INTO qualityproperty VALUES (8003, 'Realistic', 'R');
 INSERT INTO qualityproperty VALUES (8004, 'Time-bound', 'T');
+
