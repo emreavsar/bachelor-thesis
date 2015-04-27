@@ -3,7 +3,10 @@ angular.module('qualitApp')
     return {
       authorize: function () {
         if (principal.isAuthenticated()) {
-          return true;
+          if ($rootScope.toState.data == undefined || $rootScope.toState.data.roles == undefined
+            || $rootScope.toState.data.roles.length == 0 || principal.isInAnyRole($rootScope.toState.data.roles)) {
+            return true;
+          }
         }
         return principal.identity()
           .then(function () {
