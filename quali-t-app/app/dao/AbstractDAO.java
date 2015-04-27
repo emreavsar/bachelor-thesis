@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.EntityNotFoundException;
 import play.Logger;
 import play.db.jpa.JPA;
 
@@ -35,8 +36,12 @@ public abstract class AbstractDAO<T> {
         queryDeleteAll = "delete from " + entity.getName();
     }
 
-    public T readById(Long id) {
-        return JPA.em().find(entity, id);
+    public T readById(Long id) throws EntityNotFoundException {
+        T t = JPA.em().find(entity, id);
+        if(t==null) {
+            throw new EntityNotFoundException("No object found with id: " + id);
+        }
+        return t;
     }
 
     public List<T> readAll() {
@@ -82,5 +87,6 @@ public abstract class AbstractDAO<T> {
         final List<T> results = findAll(query, params);
         return results.isEmpty() ? null : results.get(0);
     }
+
 
 }
