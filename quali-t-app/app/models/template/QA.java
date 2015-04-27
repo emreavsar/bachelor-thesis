@@ -35,18 +35,6 @@ public class QA extends AbstractEntity {
     @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QACategory> categories = new HashSet<>();
 
-    public Set<QACategory> getCategories() {
-        return categories;
-    }
-
-    public void addCategories(QACategory category) {
-        categories.add(category);
-    }
-
-    public void setCategories(Set<QACategory> categories) {
-        this.categories = categories;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -63,8 +51,11 @@ public class QA extends AbstractEntity {
         this.usedInCatalog = usedInCatalog;
     }
 
-    public void addUsedInCatalog(Catalog catalog) {
-        CatalogQA nfrtemplatecatalog = new CatalogQA(this, catalog);
-        this.usedInCatalog.add(nfrtemplatecatalog);
+    public Set<QACategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<QACategory> categories) {
+        this.categories = categories;
     }
 }

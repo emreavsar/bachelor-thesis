@@ -1,11 +1,14 @@
 package logics.project;
 
-import dao.models.CustomerDAO;
-import dao.models.ProjectDAO;
-import dao.models.QualityPropertyDAO;
+import dao.models.*;
 import models.project.Customer;
 import models.project.QualityProperty;
+import models.project.nfritem.Instance;
+import models.template.Catalog;
+import models.template.CatalogQA;
+import play.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,8 +64,25 @@ public class Project {
     public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) {
         ProjectDAO projectDAO = new ProjectDAO();
         CustomerDAO customerDAO = new CustomerDAO();
-        C
-        Project p = new models.project.Project(name, customerId, qaIds, qpIds);
-        return null;
+        CatalogDAO catalogDAO = new CatalogDAO();
+        QualityPropertyDAO qualityPropertyDAO = new QualityPropertyDAO();
+        CatalogQADAO catalogQADAO = new CatalogQADAO();
+        QADAO qaDAO = new QADAO();
+
+        Customer customer = customerDAO.readById(customerId);
+        Catalog catalog = catalogDAO.readById(catalogId);
+        List<CatalogQA> qas = new ArrayList<>();
+        for (Long qa : qaIds){
+            qas.add(catalogQADAO.findByCatalogAndId(catalog, qaDAO.readById(qa)));
+        }
+
+        List<QualityProperty> qps = qualityPropertyDAO.readAllById(qpIds);
+        List<Instance> qaInstances = new ArrayList<>();
+        for (CatalogQA qa : qas) {
+            qaInstances.add(new Instance(qa.getQa().getDescription(), qa, qps));
+        }
+        models.project.Project p = new models.project.Project(name, customer,  catalog, qaInstances, qps);
+        projectDAO.persist(p);
+        return p;
     }
 }

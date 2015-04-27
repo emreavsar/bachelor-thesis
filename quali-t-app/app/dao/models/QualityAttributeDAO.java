@@ -15,9 +15,9 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
         return findAll("select q from CatalogQA q where q.catalog=?", cat);
 }
 
-    public List<QA> findAllById(List<Long> qa_ids) {
+    public List<QA> findAllById(List<Long> qaIds) {
         List<QA> qas = new ArrayList();
-        for (Long qa : qa_ids) {
+        for (Long qa : qaIds) {
             qas.add(readById(qa));
         }
         return qas;
