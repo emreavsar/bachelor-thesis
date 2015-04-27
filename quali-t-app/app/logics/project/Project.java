@@ -1,6 +1,7 @@
 package logics.project;
 
 import dao.models.*;
+import exceptions.EntityNotFoundException;
 import models.project.Customer;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -19,7 +20,6 @@ public class Project {
      * Creates and persists customer.
      *
      * @param name
-     * @param address
      * @return Customer
      */
 
@@ -61,7 +61,7 @@ public class Project {
         return qp;
     }
 
-    public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) {
+    public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) throws EntityNotFoundException {
         ProjectDAO projectDAO = new ProjectDAO();
         CustomerDAO customerDAO = new CustomerDAO();
         CatalogDAO catalogDAO = new CatalogDAO();

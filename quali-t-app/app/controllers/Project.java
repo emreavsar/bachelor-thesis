@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
+import exceptions.EntityNotFoundException;
 import models.project.QualityProperty;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -33,10 +34,14 @@ public class Project extends Controller {
         list = node.findValuesAsText("id");
         List<Long> qpIds = Lists.transform(list, Helper.parseLongFunction());
 
-        Logger.info(name + " " + customerId+ " " + catalogId+ " " + qaIds.toString()+ " " + qpIds.toString());
-        models.project.Project project = logics.project.Project.createProject(name, customerId, catalogId, qaIds, qpIds);
+        Logger.info(name + " " + customerId + " " + catalogId + " " + qaIds.toString() + " " + qpIds.toString());
+        try {
+            models.project.Project project = logics.project.Project.createProject(name, customerId, catalogId, qaIds, qpIds);
             return ok("Name: " + name + " QAs: " + qaIds + " QPs: " + qpIds);
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
         }
+    }
 
 
     @Transactional

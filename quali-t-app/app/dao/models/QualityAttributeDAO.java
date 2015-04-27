@@ -16,7 +16,7 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
         return findAll("select q from CatalogQA q where q.catalog=?", cat);
     }
     
-    public List<QA> findAllById(List<Long> qa_ids) throws EntityNotFoundException {
+    public List<QA> findAllById(List<Long> qaIds) throws EntityNotFoundException {
         List<QA> qas = new ArrayList();
         for (Long qa : qaIds) {
             qas.add(readById(qa));
