@@ -20,6 +20,15 @@ POST        /api/auth/logout                   controllers.Authentication.logout
 POST        /api/auth/register                 controllers.Authentication.register()
 POST        /api/auth/changePw                 controllers.Authentication.changePassword()
 
+# USER
+GET         /api/mytasks/                      controllers.Misc.getTasksOfCurrentUser()
+
+# Favorites
+GET         /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()
+
+# Search
+GET         /api/search/:searchArgument        controllers.Search.search(searchArgument: String)
+
 # Testing
 GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
 

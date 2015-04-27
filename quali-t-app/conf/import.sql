@@ -30,9 +30,22 @@ INSERT INTO role_user VALUES (1003, 2001);
 --
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: qualit
 --
+INSERT INTO customer (id, address, name) VALUES (3000, 'Zürich', 'UBS');
+INSERT INTO customer (id, address, name) VALUES (3001, 'Rapperswil', 'HSR');
 
-INSERT INTO customer VALUES (3000, 'Zürich', 'UBS');
-INSERT INTO customer VALUES (3001, 'Rapperswil', 'HSR');
+--
+-- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO project (id, name, projectcustomer_id) VALUES (11000, 'Campus Mobile App (iOS)', 3001);
+INSERT INTO project (id, name, projectcustomer_id) VALUES (11001, 'Cloud Banking', 3000);
+
+--
+-- Data for Name: favorite_project; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO favorite_project (user_id, project_id) VALUES (1000, 11000);
+INSERT INTO favorite_project (user_id, project_id) VALUES (1000, 11001);
+INSERT INTO favorite_project (user_id, project_id) VALUES (1001, 11001);
 
 --
 -- Data for Name: qacategory; Type: TABLE DATA; Schema: public; Owner: qualit
