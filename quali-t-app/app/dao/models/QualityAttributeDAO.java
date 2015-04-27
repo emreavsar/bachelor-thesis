@@ -1,6 +1,7 @@
 package dao.models;
 
 import dao.AbstractDAO;
+import exceptions.EntityNotFoundException;
 import models.template.Catalog;
 import models.template.QA;
 
@@ -15,7 +16,7 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
         return findAll("select q from CatalogQA q where q.catalog=?", cat);
 }
 
-    public List<QA> findAllById(List<Long> qa_ids) {
+    public List<QA> findAllById(List<Long> qa_ids) throws EntityNotFoundException {
         List<QA> qas = new ArrayList();
         for (Long qa : qa_ids) {
             qas.add(readById(qa));
