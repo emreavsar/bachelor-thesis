@@ -73,7 +73,9 @@ public abstract class AbstractDAO<T> {
         Query q = JPA.em().createQuery(query);
         for (int i = 1; i <= params.length; i++) {
             q.setParameter(i, params[i - 1]);
+            Logger.debug(q.getParameterValue(i).getClass().toString());
         }
+        Logger.debug("looked for " + query, params, params.toString());
         return getResultList(q);
     }
 

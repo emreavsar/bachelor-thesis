@@ -35,13 +35,9 @@ public class Project extends Controller {
 
         Logger.info(name + " " + customerId+ " " + catalogId+ " " + qaIds.toString()+ " " + qpIds.toString());
         models.project.Project project = logics.project.Project.createProject(name, customerId, catalogId, qaIds, qpIds);
-//        models.template.Catalog catalog = logics.template.Catalog.create(name, image, qas_id);
-        if(name.equals("") | qaIds.isEmpty()) {
-            return badRequest("Missing parameter [name] or no selected QAs");
-        } else {
             return ok("Name: " + name + " QAs: " + qaIds + " QPs: " + qpIds);
         }
-    }
+
 
     @Transactional
     public static Result getAllQualityProperties() {

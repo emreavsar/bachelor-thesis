@@ -14,11 +14,11 @@ import java.util.List;
 public class QualityAttributeDAO extends AbstractDAO<QA> {
     public List<QA> findByCatalog(Catalog cat) {
         return findAll("select q from CatalogQA q where q.catalog=?", cat);
-}
-
+    }
+    
     public List<QA> findAllById(List<Long> qa_ids) throws EntityNotFoundException {
         List<QA> qas = new ArrayList();
-        for (Long qa : qa_ids) {
+        for (Long qa : qaIds) {
             qas.add(readById(qa));
         }
         return qas;

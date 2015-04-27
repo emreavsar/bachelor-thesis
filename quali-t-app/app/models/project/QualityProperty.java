@@ -1,12 +1,13 @@
 package models.project;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import models.project.nfritem.QualityPropertyStatus;
 
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +36,9 @@ public class QualityProperty extends AbstractEntity {
     @JsonBackReference
     private Set<Project> usedByProject = new HashSet<Project>();
 
+    @OneToMany(mappedBy= "qp")
+    private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
+
     public String getName() {
         return name;
     }
@@ -61,5 +65,13 @@ public class QualityProperty extends AbstractEntity {
 
     public void addUsedByProject(Project project) {
         usedByProject.add(project);
+    }
+
+    public Set<QualityPropertyStatus> getQualityPropertyStatus() {
+        return qualityPropertyStatus;
+    }
+
+    public void setQualityPropertyStatus(Set<QualityPropertyStatus> qualityPropertyStatus) {
+        this.qualityPropertyStatus = qualityPropertyStatus;
     }
 }

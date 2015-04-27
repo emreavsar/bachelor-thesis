@@ -1,18 +1,20 @@
 package models.project;
 
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.authentication.User;
+import models.project.nfritem.Instance;
+import models.template.Catalog;
+import models.template.CatalogQA;
+import models.template.QA;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,22 +30,26 @@ public class Project extends AbstractEntity {
     public Project() {
     }
 
-    public Project(String name) {
-        this.name = name;
-    }
-
-    public Project(String name, Customer projectCustomer) {
-        this.name = name;
-        this.projectCustomer = projectCustomer;
-    }
-
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private Customer projectCustomer;
+
     private String name;
-    @ManyToMany(mappedBy = "usedByProject")
+
+    @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private Set<QualityProperty> qualityProperties = new HashSet<>();
+
+    @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Instance> qualityAttributes = new HashSet<>();
+
+    public Project(String name, Customer projectCustomer, Catalog catalog, List<Instance> qas, List<QualityProperty> qps) {
+        this.name = name;
+        this.projectCustomer = projectCustomer;
+        this.addQualityProperties(qps);
+        this.addQualityAttributes(qas);
+
+    }
 
     public String getName() {
         return name;
@@ -69,8 +75,32 @@ public class Project extends AbstractEntity {
         this.qualityProperties = qualityProperties;
     }
 
-    public void addQualityAttribute(QualityProperty q) {
-        this.qualityProperties.add(q);
+    public void addQualityProperty(QualityProperty qp) {
+        this.qualityProperties.add(qp);
+    }
+
+    public void addQualityProperties(List<QualityProperty> qps) {
+        for (QualityProperty qp : qps) {
+            this.addQualityProperty(qp);
+        }
+    }
+
+    public Set<Instance> getQualityAttributes() {
+        return qualityAttributes;
+    }
+
+    public void setQualityAttributes(Set<Instance> qualityAttributes) {
+        this.qualityAttributes = qualityAttributes;
+    }
+
+    public void addQualityAttribute(Instance qa) {
+        this.qualityAttributes.add(qa);
+    }
+
+    public void addQualityAttributes(List<Instance> qas) {
+        for (Instance qa : qas) {
+            this.addQualityAttribute(qa);
+        }
     }
 }
 
