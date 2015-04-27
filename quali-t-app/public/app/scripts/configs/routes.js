@@ -48,7 +48,8 @@ angular.module('qualitApp')
         templateUrl: 'views/profile/mytasks.html'
       })
       .state('accessdenied', {
-        templateUrl: 'views/errors/access_denied.html'
+        templateUrl: 'views/errors/access_denied.html',
+        url: '/authenticated/accessdenied'
       })
       .state('dashboard', {
         url: '/authenticated/dashboard',
