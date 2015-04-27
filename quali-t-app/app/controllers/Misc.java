@@ -1,5 +1,6 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import logics.user.Task;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 public class Misc extends Controller {
 
+    @SubjectPresent
     @Transactional
     public static Result getTasksOfCurrentUser() {
         Logger.info("getTasksOfCurrentUser called");
@@ -30,6 +32,7 @@ public class Misc extends Controller {
         }
     }
 
+    @SubjectPresent
     @Transactional
     public static Result getFavoritesOfCurrentUser() {
         Logger.info("getFavoritesOfCurrentUser called");
@@ -42,6 +45,9 @@ public class Misc extends Controller {
         }
     }
 
+//    Todo: "Check, ob notwendig das überprüft wird das eingeloggter user nur Tasks von sich sieht."
+
+    @SubjectPresent
     @Transactional
     public static Result toggleStateOfTask() {
         Logger.info("toggleStateOfTask called");

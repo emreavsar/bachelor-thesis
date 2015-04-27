@@ -61,6 +61,7 @@ public class Authentication extends Controller {
         }
     }
 
+    @SubjectPresent
     @Transactional
     public static Result logout() {
         Logger.info("logout called");

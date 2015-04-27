@@ -1,5 +1,8 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
@@ -18,6 +21,7 @@ import java.util.List;
  */
 public class Project extends Controller {
 
+    @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result createProject() {
         JsonNode json = request().body().asJson();
@@ -43,7 +47,7 @@ public class Project extends Controller {
         }
     }
 
-
+    @SubjectPresent
     @Transactional
     public static Result getAllQualityProperties() {
         List<QualityProperty> qualityProperties = logics.project.Project.getAllQualityProperties();

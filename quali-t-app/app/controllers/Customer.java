@@ -1,5 +1,8 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import logics.project.Project;
 import play.Logger;
 import play.data.DynamicForm;
@@ -16,6 +19,7 @@ import java.util.List;
  */
 public class Customer extends Controller {
 
+    @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result createCustomer() {
         Logger.info("createcustomer called");
@@ -31,6 +35,7 @@ public class Customer extends Controller {
         }
     }
 
+    @SubjectPresent
     @Transactional
     public static Result getAll(){
         Logger.info("getAllCustomers Customres called");

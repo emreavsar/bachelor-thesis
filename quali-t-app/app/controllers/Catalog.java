@@ -1,5 +1,8 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
@@ -18,6 +21,7 @@ import java.util.List;
  */
 public class Catalog extends Controller {
 
+    @SubjectPresent
     @Transactional
     public static Result getAllCatalogs() {
         Logger.info("getAllCatalogs Ctrl called");
@@ -25,6 +29,7 @@ public class Catalog extends Controller {
         return ok(Json.toJson(catalogs));
     }
 
+    @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     @BodyParser.Of(BodyParser.Json.class)
     public static Result create() {
@@ -42,13 +47,5 @@ public class Catalog extends Controller {
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
-
-//        if (name.equals("") | qas_id.isEmpty()) {
-//            return badRequest("Missing parameter [name] or no selected QAs");
-//        } else {
-//            return ok("Name: " + name + "/br QAS: " + qas_id);
-//        }
-
-
     }
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import models.AbstractEntity;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 
 public class Search extends Controller {
 
+    @SubjectPresent
     @Transactional
     public static Result search(String searchArgument) {
         Logger.info("search called");
