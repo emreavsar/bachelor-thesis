@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.EntityNotFoundException;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
@@ -34,7 +35,7 @@ public class QualityAttribute extends Controller {
     }
 
     @Transactional
-    public static Result getAllQAs(){
+    public static Result getAllQAs() {
         Logger.info("getAllCustomers QAs called");
         List<QA> qas = logics.template.QualityAttribute.getAllQAs();
         return ok(Json.toJson(qas));
@@ -43,19 +44,32 @@ public class QualityAttribute extends Controller {
     @Transactional
     public static Result getQAsByCatalog(long id) {
         Logger.info("getQAsbyCatalogID QAs called");
-        List<CatalogQA> qas = logics.template.QualityAttribute.getQAsByCatalog(id);
-        return ok(Json.toJson(qas));
+        try {
+            List<CatalogQA> qas = logics.template.QualityAttribute.getQAsByCatalog(id);
+            return ok(Json.toJson(qas));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
     }
 
     @Transactional
     public static Result createSubCat(Long id, String name) {
-        QACategory cat = logics.template.QualityAttribute.createSubCat(id, name);
-        return ok(Json.toJson(cat));
+        try {
+            QACategory cat = logics.template.QualityAttribute.createSubCat(id, name);
+            return ok(Json.toJson(cat));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
     }
+
     @Transactional
     public static Result getCategoryTree(long id) {
-        QACategory cat = logics.template.QualityAttribute.getCategoryTree(id);
-        return ok(Json.toJson(cat));
+        try {
+            QACategory cat = logics.template.QualityAttribute.getCategoryTree(id);
+            return ok(Json.toJson(cat));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
     }
 
     @Transactional
@@ -63,6 +77,7 @@ public class QualityAttribute extends Controller {
         List<QACategory> cats = logics.template.QualityAttribute.getAllCats();
         return ok(Json.toJson(cats));
     }
+
     @Transactional
     public static Result createCat() {
         Logger.info("creatcat controller called");
@@ -70,13 +85,20 @@ public class QualityAttribute extends Controller {
         String name = requestData.get("name");
         String parent = requestData.get("parent");
         if (parent.equals("")) {
-            QACategory cat = logics.template.QualityAttribute.createCat(name, null);
-            return ok(Json.toJson(cat));
-        } else
-        {
+            try {
+                QACategory cat = logics.template.QualityAttribute.createCat(name, null);
+                return ok(Json.toJson(cat));
+            } catch (EntityNotFoundException e) {
+                return status(400, e.getMessage());
+            }
+        } else {
             Long parentid = Long.parseLong(parent);
-            QACategory cat = logics.template.QualityAttribute.createCat(name, parentid);
-            return ok(Json.toJson(cat));
+            try {
+                QACategory cat = logics.template.QualityAttribute.createCat(name, parentid);
+                return ok(Json.toJson(cat));
+            } catch (EntityNotFoundException e) {
+                return status(400, e.getMessage());
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Task {
 
-    public static List<models.misc.user.Task> getTasksOfUser(long userid) throws EntityNotFoundException {
+    public static List<models.user.Task> getTasksOfUser(long userid) throws EntityNotFoundException {
         UserDao userDao = new UserDao();
         User u = userDao.readById(userid);
 

@@ -40,9 +40,9 @@ angular.module('qualitApp')
     $scope.htmlizeResults = function (searchResults) {
       var html = "";
 
-      html += $scope.htmlizeResultsQA(searchResults.qualityAttributes);
-      html += $scope.htmlizeResultsCatalog(searchResults.catalogs);
-      html += $scope.htmlizeResultsProject(searchResults.projects);
+      //html += $scope.htmlizeResultsQA(searchResults.qualityAttributes);
+      //html += $scope.htmlizeResultsCatalog(searchResults.catalogs);
+      //html += $scope.htmlizeResultsProject(searchResults.projects);
 
       return html;
     }
@@ -58,14 +58,15 @@ angular.module('qualitApp')
           $scope.searchResults = data;
           $scope.searchInProgress = false;
 
-          // if search results were found, open in modal view
-          var modal = $modal({
-            title: 'Search results for ' + searchArgument,
-            content: $scope.htmlizeResults($scope.searchResults),
-            template: "templates/modal.tpl.html",
-            html: true
-          });
+          // create new isolated scope for modal view
+          var searchResultsScope = $scope.$new(true);
+          searchResultsScope.searchResults = $scope.searchResults;
 
+          var modal = $modal({
+            scope: searchResultsScope,
+            title: "Search results for " + searchArgument,
+            template: "templates/searchresults-modal.tpl.html"
+          })
         })
         .error(function (data, status) {
           console.log(status)

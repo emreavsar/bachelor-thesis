@@ -1,8 +1,7 @@
-package logics.misc;
+package logics.search;
 
 import dao.models.CatalogDAO;
 import dao.models.ProjectDAO;
-import dao.models.QACategoryDAO;
 import dao.models.QualityAttributeDAO;
 import models.AbstractEntity;
 import models.project.Project;
@@ -41,7 +40,7 @@ public class Search {
         ArrayList<Project> projects;
 
         ProjectDAO projectDAO = new ProjectDAO();
-        projects = (ArrayList<Project>) projectDAO.readAll();
+        projects = projectDAO.search(searchArgument);
 
         return projects;
     }

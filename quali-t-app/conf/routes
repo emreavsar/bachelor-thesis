@@ -22,6 +22,7 @@ POST        /api/auth/changePw                 controllers.Authentication.change
 
 # USER
 GET         /api/mytasks/                      controllers.Misc.getTasksOfCurrentUser()
+POST        /api/mytasks/toggle/               controllers.Misc.toggleStateOfTask()
 
 # Favorites
 GET         /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()

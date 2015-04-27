@@ -1,6 +1,8 @@
 <div>
   <h3>My Tasks</h3>
 
+  <div id="alerts-container"></div>
+
   <div class="no-tems-found" ng-show="!tasks.length">No tasks found. You lucky guy!</div>
   <div id="tasks" ng-show="tasks.length">
     <div class="information-box">
@@ -29,7 +31,7 @@
           {{ task.description }}
         </td>
         <td>
-          <input type="checkbox" ng-checked="task.done" ng-click="toggleDoneState(task.id, task.done)"/>
+          <input type="checkbox" ng-checked="task.done" ng-click="toggleDoneState(task.id)"/>
         </td>
       </tr>
     </table>

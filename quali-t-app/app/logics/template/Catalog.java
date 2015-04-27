@@ -2,6 +2,7 @@ package logics.template;
 
 import dao.models.CatalogDAO;
 import dao.models.QualityAttributeDAO;
+import exceptions.EntityNotFoundException;
 import models.template.QA;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class Catalog {
         return catalogs;
     }
 
-    public static models.template.Catalog create(String name, String image, List<Long> qas_id) {
+    public static models.template.Catalog create(String name, String image, List<Long> qas_id) throws EntityNotFoundException {
         CatalogDAO catalogDAO = new CatalogDAO();
         QualityAttributeDAO qaDAO = new QualityAttributeDAO();
         List<QA> qas = qaDAO.findAllById(qas_id);

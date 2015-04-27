@@ -4,6 +4,7 @@ import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QACategoryDAO;
 import dao.models.QualityAttributeDAO;
+import exceptions.EntityNotFoundException;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
@@ -32,7 +33,7 @@ public class QualityAttribute {
         return qas;
     }
 
-    public static List<CatalogQA> getQAsByCatalog(long id) {
+    public static List<CatalogQA> getQAsByCatalog(long id) throws EntityNotFoundException {
         CatalogQADAO catqaDAO = new CatalogQADAO();
         QualityAttributeDAO qadao= new QualityAttributeDAO();
         CatalogDAO catalogDAO = new CatalogDAO();
@@ -42,7 +43,7 @@ public class QualityAttribute {
         return qas;
     }
 
-    public static QACategory createSubCat(Long id, String name) {
+    public static QACategory createSubCat(Long id, String name) throws EntityNotFoundException {
         QACategoryDAO catDao = new QACategoryDAO();
         QACategory parent = catDao.readById(id);
         QACategory cat = new QACategory(parent, name);
@@ -58,7 +59,7 @@ public class QualityAttribute {
     return cat;
     }
 
-    public static QACategory getCategoryTree(Long id) {
+    public static QACategory getCategoryTree(Long id) throws EntityNotFoundException {
         QACategoryDAO catDAO = new QACategoryDAO();
         QACategory cat = catDAO.readById(id);
         return cat;
@@ -70,7 +71,7 @@ public class QualityAttribute {
         return cats;
     }
 
-    public static QACategory createCat(String name, Long parentid) {
+    public static QACategory createCat(String name, Long parentid) throws EntityNotFoundException {
         Logger.info("logic called. name: " + name + " parent: " + parentid);
         QACategoryDAO catDao = new QACategoryDAO();
 

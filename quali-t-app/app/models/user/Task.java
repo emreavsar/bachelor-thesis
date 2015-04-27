@@ -1,4 +1,4 @@
-package models.misc.user;
+package models.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
@@ -60,5 +60,9 @@ public class Task extends AbstractEntity {
 //    }
 
     public Task() {
+    }
+
+    public void toggleState() {
+        this.done = !this.done;
     }
 }

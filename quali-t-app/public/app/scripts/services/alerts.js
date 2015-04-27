@@ -29,7 +29,7 @@ angular.module('qualitApp')
           placement: 'top-right',
           type: 'error',
           container: container,
-          show: true
+          show: true,
         });
         return alert;
       }

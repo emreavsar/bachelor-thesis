@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import dao.models.QualityAttributeDAO;
+import exceptions.EntityNotFoundException;
 import models.template.QA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -20,13 +21,12 @@ public class Application extends Controller {
     @Transactional
     public static Result getFirstQA() {
         QualityAttributeDAO qualityAttributeDAO = new QualityAttributeDAO();
-        QA qa = qualityAttributeDAO.readById(5000L);
-
-        // TODO (emre): avoid checking for null somehow
-        if (qa != null) {
+        QA qa = null;
+        try {
+            qa = qualityAttributeDAO.readById(5000L);
             return ok(Json.toJson(qa));
-        } else {
-            return notFound();
+        } catch (EntityNotFoundException e) {
+            return notFound(e.getMessage());
         }
     }
 

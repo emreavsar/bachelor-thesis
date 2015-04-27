@@ -226,6 +226,14 @@ html {
   }
 }
 
+.search-results-container {
+  margin-top: 30px;
+
+  h4 {
+    color: #00BF56;
+  }
+}
+
 /*small/medium side display*/
 @media (min-width: 768px) {
   /*Allow main to be next to Nav*/
