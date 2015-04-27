@@ -45,8 +45,6 @@ public class Misc extends Controller {
         }
     }
 
-//    Todo: "Check, ob notwendig das überprüft wird das eingeloggter user nur Tasks von sich sieht."
-
     @SubjectPresent
     @Transactional
     public static Result toggleStateOfTask() {
