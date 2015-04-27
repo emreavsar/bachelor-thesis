@@ -17,7 +17,7 @@ public class Search extends Controller {
     public static Result search(String searchArgument) {
         Logger.info("search called");
 
-        HashMap<String, ArrayList<? extends AbstractEntity>> results = logics.search.Search.search(searchArgument);
+        HashMap<String, ArrayList<? extends AbstractEntity>> results = logics.search.Search.search(searchArgument.toLowerCase());
 
         return ok(Json.toJson(results));
     }

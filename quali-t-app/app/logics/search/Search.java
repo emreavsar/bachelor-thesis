@@ -1,6 +1,8 @@
 package logics.search;
 
+import controllers.Customer;
 import dao.models.CatalogDAO;
+import dao.models.CustomerDAO;
 import dao.models.ProjectDAO;
 import dao.models.QualityAttributeDAO;
 import models.AbstractEntity;
@@ -18,6 +20,7 @@ public class Search {
     public static HashMap<String, ArrayList<? extends AbstractEntity>> search(String searchArgument) {
         HashMap<String, ArrayList<? extends AbstractEntity>> results = new HashMap<>();
 
+        results.put("customer", searchCustomer(searchArgument));
         results.put("projects", searchProjects(searchArgument));
         results.put("catalogs", searchCatalogs(searchArgument));
         results.put("qualityAttributes", searchQAs(searchArgument));
@@ -26,17 +29,25 @@ public class Search {
     }
 
     private static ArrayList<Catalog> searchCatalogs(String searchArgument) {
-        // TODO emre: implement real search
         ArrayList<Catalog> catalogs;
 
         CatalogDAO catalogDAO = new CatalogDAO();
-        catalogs = (ArrayList<Catalog>) catalogDAO.readAll();
+        catalogs = (ArrayList<Catalog>) catalogDAO.search(searchArgument);
 
         return catalogs;
     }
 
+    private static ArrayList<models.project.Customer> searchCustomer(String searchArgument) {
+        ArrayList<models.project.Customer> customers;
+
+        CustomerDAO customerDAO = new CustomerDAO();
+        customers = customerDAO.search(searchArgument);
+
+        return customers;
+    }
+
+
     private static ArrayList<Project> searchProjects(String searchArgument) {
-        // TODO emre: implement real search
         ArrayList<Project> projects;
 
         ProjectDAO projectDAO = new ProjectDAO();
@@ -51,7 +62,7 @@ public class Search {
         ArrayList<QA> qas;
 
         QualityAttributeDAO qualityAttributeDAO = new QualityAttributeDAO();
-        qas = (ArrayList<QA>) qualityAttributeDAO.readAll();
+        qas = (ArrayList<QA>) qualityAttributeDAO.search(searchArgument);
 
         return qas;
     }

@@ -15,12 +15,19 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
     public List<QA> findByCatalog(Catalog cat) {
         return findAll("select q from CatalogQA q where q.catalog=?", cat);
     }
-    
+
     public List<QA> findAllById(List<Long> qaIds) throws EntityNotFoundException {
         List<QA> qas = new ArrayList();
         for (Long qa : qaIds) {
             qas.add(readById(qa));
         }
         return qas;
+    }
+
+    public ArrayList<QA> search(String searchArgument) {
+        ArrayList<QA> searchResults = new ArrayList<>();
+        searchArgument = "%" + searchArgument + "%";
+        searchResults = (ArrayList<QA>) findAll("select q from QA q where lower(q.description) like ?", searchArgument);
+        return searchResults;
     }
 }

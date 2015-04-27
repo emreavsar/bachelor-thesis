@@ -8,65 +8,83 @@
       </div>
 
       <div class="modal-body">
-        Here are some search results:
-
-        <div class="search-results-container" id="search-results-projects">
-          <h4>Projects:</h4>
-
-          <div class="information-box" ng-hide="searchResults.projects">
-            <span class="text-info">
-              <i class="fa fa-error-circle"/>
-              No projects were found.
-            </span>
-          </div>
-
-          <div ng-show="searchResults.projects">
-            <ul>
-              <li ng-repeat="project in searchResults.projects">
-                {{ project.name }}
-              </li>
-            </ul>
-          </div>
+        <div
+          ng-hide="searchResults.projects.length > 0 || searchResults.customers.length > 0 || searchResults.catalogs.length > 0 || searchResults.qualityAttributes.length > 0">
+          <i class="fa fa-exclamation-circle"/>
+          Nothing was found.
         </div>
 
-        <div class="search-results-container" id="search-results-catalogs">
-          <h4>Catalogs:</h4>
+        <div
+          ng-show="searchResults.projects.length > 0 || searchResults.customers.length > 0 || searchResults.catalogs.length > 0 || searchResults.qualityAttributes.length > 0">
 
-          <div class="information-box" ng-hide="searchResults.catalogs">
-            <span class="text-info">
-              <i class="fa fa-error-circle"/>
-              No catalogs were found.
-            </span>
+          <div class="search-results-container" id="search-results-projects">
+            <h4>Projects:</h4>
+
+          <span ng-hide="searchResults.projects.length > 0">
+            <i class="fa fa-exclamation-circle"/>
+            No projects attributes were found.
+          </span>
+
+            <div ng-show="searchResults.projects">
+              <ul>
+                <li ng-repeat="project in searchResults.projects">
+                  {{ project.name }}
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div ng-show="searchResults.catalogs">
-            <ul>
-              <li ng-repeat="catalog in searchResults.catalogs">
-                {{ catalog.name }}
-              </li>
-            </ul>
+          <div class="search-results-container" id="search-results-customers">
+            <h4>Customers:</h4>
+
+          <span ng-hide="searchResults.customers.length > 0">
+            <i class="fa fa-exclamation-circle"/>
+            No customers were found.
+          </span>
+
+            <div ng-show="searchResults.customers">
+              <ul>
+                <li ng-repeat="customer in searchResults.customers">
+                  {{ customer.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="search-results-container" id="search-results-catalogs">
+            <h4>Catalogs:</h4>
+
+          <span ng-hide="searchResults.catalogs.length > 0">
+            <i class="fa fa-exclamation-circle"/>
+            No catalogs attributes were found.
+          </span>
+
+            <div ng-show="searchResults.catalogs">
+              <ul>
+                <li ng-repeat="catalog in searchResults.catalogs">
+                  {{ catalog.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="search-results-container" id="search-results-qas">
+            <h4>Quality Attributes:</h4>
+
+          <span ng-hide="searchResults.qualityAttributes.length > 0">
+            <i class="fa fa-exclamation-circle"/>
+            No quality attributes were found.
+          </span>
+
+            <div ng-show="searchResults.qualityAttributes.length > 0">
+              <ul>
+                <li ng-repeat="qualityAttribute in searchResults.qualityAttributes">
+                  <span ng-bind-html="qualityAttribute.description"/>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-
-        <div class="search-results-container" id="search-results-qas">
-          <h4>Quality Attributes:</h4>
-
-          <div class="information-box" ng-hide="searchResults.qualityAttributes">
-            <span class="text-info">
-              <i class="fa fa-error-circle"/>
-              No quality attributes were found.
-            </span>
-          </div>
-
-          <div ng-show="searchResults.qualityAttributes">
-            <ul>
-              <li ng-repeat="qualityAttribute in searchResults.qualityAttributes">
-                <span ng-bind-html="qualityAttribute.description"/>
-              </li>
-            </ul>
-          </div>
-        </div>
-
       </div>
 
       <div class="modal-footer">

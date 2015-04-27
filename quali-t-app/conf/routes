@@ -28,6 +28,7 @@ POST        /api/mytasks/toggle/               controllers.Misc.toggleStateOfTas
 GET         /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()
 
 # Search
+GET         /api/search/                       controllers.Search.search(searchArgument: String ?= "")
 GET         /api/search/:searchArgument        controllers.Search.search(searchArgument: String)
 
 # Testing

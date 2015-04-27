@@ -13,40 +13,6 @@ angular.module('qualitApp')
     $scope.searchInProgress = false;
     $scope.searchResults = new Array();
 
-    $scope.htmlizeResultsQA = function (qualityAttributes) {
-      // TODO emre: find out how to render a view in the controller and get the html
-
-      var html = "here come the quality attribues!";
-
-      return html;
-    };
-
-    $scope.htmlizeResultsCatalog = function (catalogs) {
-      // TODO emre: find out how to render a view in the controller and get the html
-
-      var html = "here come the catalogs!";
-
-      return html;
-    };
-
-    $scope.htmlizeResultsProject = function (projects) {
-      // TODO emre: find out how to render a view in the controller and get the html
-
-      var html = "here come the projects!";
-
-      return html;
-    };
-
-    $scope.htmlizeResults = function (searchResults) {
-      var html = "";
-
-      //html += $scope.htmlizeResultsQA(searchResults.qualityAttributes);
-      //html += $scope.htmlizeResultsCatalog(searchResults.catalogs);
-      //html += $scope.htmlizeResultsProject(searchResults.projects);
-
-      return html;
-    }
-
     $scope.search = function (searchArgument) {
       // reset
       $scope.searchResults = new Array();
@@ -69,6 +35,7 @@ angular.module('qualitApp')
           })
         })
         .error(function (data, status) {
+          // TODO emre: add error handling
           console.log(status)
           $scope.searchInProgress = false;
         });

@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 public class ProjectDAO extends AbstractDAO<Project> {
     public ArrayList<Project> search(String searchArgument) {
-//        searchArgument = "%" + searchArgument + "%";
         ArrayList<Project> searchResults = new ArrayList<>();
-        searchResults = (ArrayList<Project>) findAll("select p from Project p where p.name like ?", searchArgument);
+        searchArgument = "%" + searchArgument + "%";
+        searchResults = (ArrayList<Project>) findAll("select p from Project p where lower(p.name) like ?", searchArgument);
         return searchResults;
     }
 }
