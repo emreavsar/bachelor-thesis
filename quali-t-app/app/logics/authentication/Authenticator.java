@@ -83,7 +83,7 @@ public class Authenticator {
      * @param tokenOfUser
      * @return
      */
-    private static boolean isTokenValid(Token tokenOfUser) {
+    public static boolean isTokenValid(Token tokenOfUser) {
         Logger.info("in tokenIsValid, argument=" + tokenOfUser);
         DateTime validUntil = tokenOfUser.getValidUntil();
         Logger.info("isvaliduntilbefore? = validUntil.isBefore(new DateTime())");

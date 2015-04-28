@@ -19,6 +19,32 @@ angular.module('qualitApp')
         }
 
         return errors;
+      },
+
+      validatePasswords: function (newPassword, passwordRepeat) {
+        var errors = new Array();
+
+        if (newPassword == undefined) {
+          errors.push("Please provide a new password.");
+        }
+        if (passwordRepeat == undefined) {
+          errors.push("Please repeat the provided password.");
+        }
+
+        // if something was undefined no more validation needed, return here.
+        if(errors.length > 0) {
+          return errors;
+        }
+
+        if (newPassword.length < 8) {
+          errors.push("Password must be longer than 8 characters.");
+        }
+        if (newPassword != passwordRepeat) {
+          errors.push("Password must be equal!");
+        }
+
+        return errors;
       }
     };
-  });
+  })
+;

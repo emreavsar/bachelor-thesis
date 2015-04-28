@@ -66,7 +66,7 @@ INSERT INTO qacategory VALUES (4003, 'fa fa-heart', 'Portability2', 4002);
 --
 
 INSERT INTO qa VALUES (5000, '<p>Das System soll ______ % verfügbar sein.</p>');
-INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');+
+INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');
 
 --
 -- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
