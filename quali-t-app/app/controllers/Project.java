@@ -53,4 +53,22 @@ public class Project extends Controller {
         List<QualityProperty> qualityProperties = logics.project.Project.getAllQualityProperties();
         return ok(Json.toJson(qualityProperties));
     }
+
+    @SubjectPresent
+    @Transactional
+    public static Result getAllProjects() {
+        List<models.project.Project> projects = logics.project.Project.getAllProjects();
+        return ok(Json.toJson(projects));
+    }
+
+    @SubjectPresent
+    @Transactional
+    public static Result getProject(long id) {
+        try {
+            models.project.Project project = logics.project.Project.getProject(id);
+            return ok(Json.toJson(project));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
 }

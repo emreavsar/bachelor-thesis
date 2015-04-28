@@ -78,4 +78,12 @@ public class Instance extends AbstractEntity {
     public void setValues(Set<Val> values) {
         this.values = values;
     }
+
+    public Set<QualityPropertyStatus> getQualityPropertyStatus() {
+        return qualityPropertyStatus;
+    }
+
+    public void setQualityPropertyStatus(Set<QualityPropertyStatus> qualityPropertyStatus) {
+        this.qualityPropertyStatus = qualityPropertyStatus;
+    }
 }

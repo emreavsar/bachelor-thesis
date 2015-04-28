@@ -99,6 +99,7 @@ public class Project extends AbstractEntity {
     public void addQualityAttributes(List<Instance> qas) {
         for (Instance qa : qas) {
             this.addQualityAttribute(qa);
+            qa.setProject(this);
         }
     }
 }

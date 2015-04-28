@@ -23,11 +23,7 @@ public class Project {
      */
 
     public static boolean validate(String name) {
-        if (name.equals("")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !name.equals("");
     }
 
     public static Customer createCustomer(String name, String address) {
@@ -50,14 +46,12 @@ public class Project {
 
     public static List<Customer> getAllCustomers() {
         CustomerDAO customerDAO = new CustomerDAO();
-        List<Customer> c = customerDAO.readAll();
-        return c;
+        return customerDAO.readAll();
     }
 
     public static List<QualityProperty> getAllQualityProperties() {
         QualityPropertyDAO qualityPropertyDAO = new QualityPropertyDAO();
-        List<QualityProperty> qp = qualityPropertyDAO.readAll();
-        return qp;
+        return qualityPropertyDAO.readAll();
     }
 
     public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) throws EntityNotFoundException {
@@ -83,5 +77,15 @@ public class Project {
         models.project.Project p = new models.project.Project(name, customer,  catalog, qaInstances, qps);
         projectDAO.persist(p);
         return p;
+    }
+
+    public static List<models.project.Project> getAllProjects() {
+        ProjectDAO projectDAO = new ProjectDAO();
+        return projectDAO.readAll();
+    }
+
+    public static models.project.Project getProject(Long id) throws EntityNotFoundException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        return projectDAO.readById(id);
     }
 }

@@ -4,8 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import exceptions.EntityNotFoundException;
-import models.template.CatalogQA;
-import models.template.QA;
+import exceptions.MissingParameter;
 import models.template.QACategory;
 import play.Logger;
 import play.data.DynamicForm;
@@ -25,35 +24,28 @@ public class QualityAttribute extends Controller {
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
-    public static Result createQA() {
-        Logger.info("createQA called");
+    public static Result createQA() throws MissingParameter {
         DynamicForm requestData = Form.form().bindFromRequest();
         String qaText = requestData.get("qaText");
-
-        QA qa = logics.template.QualityAttribute.createQA(qaText);
-        if (qa != null) {
-            return ok(Json.toJson(qa));
-        } else {
-            return notFound("QA text empty");
+        try {
+            return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText)));
+        } catch (MissingParameter e) {
+            return status(400, e.getMessage());
         }
     }
 
     @SubjectPresent
     @Transactional
     public static Result getAllQAs() {
-        Logger.info("getAllCustomers QAs called");
-        List<QA> qas = logics.template.QualityAttribute.getAllQAs();
-        return ok(Json.toJson(qas));
+        return ok(Json.toJson(logics.template.QualityAttribute.getAllQAs()));
     }
 
 
     @SubjectPresent
     @Transactional
     public static Result getQAsByCatalog(long id) {
-        Logger.info("getQAsbyCatalogID QAs called");
         try {
-            List<CatalogQA> qas = logics.template.QualityAttribute.getQAsByCatalog(id);
-            return ok(Json.toJson(qas));
+            return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(id)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
@@ -75,8 +67,7 @@ public class QualityAttribute extends Controller {
     @Transactional
     public static Result getCategoryTree(long id) {
         try {
-            QACategory cat = logics.template.QualityAttribute.getCategoryTree(id);
-            return ok(Json.toJson(cat));
+            return ok(Json.toJson(logics.template.QualityAttribute.getCategoryTree(id)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
@@ -98,19 +89,43 @@ public class QualityAttribute extends Controller {
         String parent = requestData.get("parent");
         if (parent.equals("")) {
             try {
-                QACategory cat = logics.template.QualityAttribute.createCat(name, null);
-                return ok(Json.toJson(cat));
+                return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, null)));
             } catch (EntityNotFoundException e) {
                 return status(400, e.getMessage());
             }
         } else {
             Long parentid = Long.parseLong(parent);
             try {
-                QACategory cat = logics.template.QualityAttribute.createCat(name, parentid);
-                return ok(Json.toJson(cat));
+                return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, parentid)));
             } catch (EntityNotFoundException e) {
                 return status(400, e.getMessage());
             }
+        }
+    }
+
+    @Restrict({@Group("curator"), @Group("admin")})
+    @Transactional
+    public static Result deleteCat() {
+        DynamicForm requestData = Form.form().bindFromRequest();
+        Long id = Long.parseLong(requestData.get("id"));
+        try {
+            logics.template.QualityAttribute.deleteCategory(id);
+            return status(202);
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
+
+    @Restrict({@Group("curator"), @Group("admin")})
+    public static Result updateCat() {
+        DynamicForm requestData = Form.form().bindFromRequest();
+        Long id = Long.parseLong(requestData.get("id"));
+        String name = requestData.get("name");
+        String icon = requestData.get("icon");
+        try {
+            return ok(Json.toJson(logics.template.QualityAttribute.updateCat(id, name, icon)));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
         }
     }
 }

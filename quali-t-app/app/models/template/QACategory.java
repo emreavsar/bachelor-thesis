@@ -18,9 +18,18 @@ import java.util.Set;
 @Table(name = "qacategory")
 @Nullable
 public class QACategory extends AbstractEntity {
+    private String name;
+    private String icon;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private QACategory parent;
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private Set<QACategory> categories = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
+    private Set<QA> usedInQA = new HashSet<>();
+
     public QACategory() {
     }
-
     public QACategory (String name) {
         this.name = name;
     }
@@ -32,19 +41,6 @@ public class QACategory extends AbstractEntity {
         this.name = name;
         registerInSuperCategory();
     }
-
-    private String name;
-
-    private String icon;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private QACategory parent;
-    @OneToMany (mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<QACategory> categories = new HashSet<>();
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
-    private Set<QA> usedInQA = new HashSet<>();
 
     public String getName() {
         return name;

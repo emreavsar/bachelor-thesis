@@ -2,60 +2,64 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /                                  controllers.Application.index()
+GET           /                                  controllers.Application.index()
 
 # TODO: check the GET route below are needed or not
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                      controllers.Assets.at(path="/public", file)
+GET           /assets/*file                      controllers.Assets.at(path="/public", file)
 
-GET         /app/bower_components/*file        controllers.ConfigurableAssets.at(path="/bower_components", file)
-GET         /app/*file                         controllers.ConfigurableAssets.at(path="/app", file)
+GET           /app/bower_components/*file        controllers.ConfigurableAssets.at(path="/bower_components", file)
+GET           /app/*file                         controllers.ConfigurableAssets.at(path="/app", file)
 
 # QUALI-47: POC: Backend-Service erstellen und mit Client-App verbinden
-GET         /api/get/nfr/first                 controllers.Application.getFirstQA()
+GET           /api/get/nfr/first                 controllers.Application.getFirstQA()
 
 # AUTHENTICATION
-POST        /api/auth/login                    controllers.Authentication.login()
-POST        /api/auth/logout                   controllers.Authentication.logout()
-POST        /api/auth/register                 controllers.Authentication.register()
-POST        /api/auth/changePw                 controllers.Authentication.changePassword()
+POST          /api/auth/login                    controllers.Authentication.login()
+POST          /api/auth/logout                   controllers.Authentication.logout()
+POST          /api/auth/register                 controllers.Authentication.register()
+POST          /api/auth/changePw                 controllers.Authentication.changePassword()
 
 # USER
-GET         /api/mytasks/                      controllers.Misc.getTasksOfCurrentUser()
-POST        /api/mytasks/toggle/               controllers.Misc.toggleStateOfTask()
+GET           /api/mytasks/                      controllers.Misc.getTasksOfCurrentUser()
+POST          /api/mytasks/toggle/               controllers.Misc.toggleStateOfTask()
 
 # Favorites
-GET         /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()
+GET           /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()
 
 # Search
-GET         /api/search/                       controllers.Search.search(searchArgument: String ?= "")
-GET         /api/search/:searchArgument        controllers.Search.search(searchArgument: String)
+GET           /api/search/                       controllers.Search.search(searchArgument: String ?= "")
+GET           /api/search/:searchArgument        controllers.Search.search(searchArgument: String)
 
 # Testing
-GET         /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
+GET           /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
 
 # Customer
-POST        /api/customer                      controllers.Customer.createCustomer()
-GET         /api/customer                      controllers.Customer.getAll()
+POST          /api/customer                      controllers.Customer.createCustomer()
+GET           /api/customer                      controllers.Customer.getAll()
 #PUT         /api/customer                      controllers.Customer.updateCustomer()
 
 # Quality Attribute
-POST        /api/qa                            controllers.QualityAttribute.createQA()
-GET         /api/qa                            controllers.QualityAttribute.getAllQAs()
-GET         /api/qa/catalog=:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
+POST          /api/qa                            controllers.QualityAttribute.createQA()
+GET           /api/qa                            controllers.QualityAttribute.getAllQAs()
+GET           /api/qa/catalog=:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
 
 # Project
-POST        /api/project                       controllers.Project.createProject()
+POST          /api/project                       controllers.Project.createProject()
+GET           /api/project                       controllers.Project.getAllProjects()
+GET           /api/project=:id                   controllers.Project.getProject(id: Long)
 
 # Catalog
-GET         /api/catalog                       controllers.Catalog.getAllCatalogs()
-POST        /api/catalog                       controllers.Catalog.create()
+GET           /api/catalog                       controllers.Catalog.getAllCatalogs()
+POST          /api/catalog                       controllers.Catalog.create()
 
 # QACategories
 #GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)
-POST        /api/cat                           controllers.QualityAttribute.createCat()
+POST          /api/cat                           controllers.QualityAttribute.createCat()
 #GET         /api/cat/get/:id                   controllers.QualityAttribute.getCategoryTree(id: Long)
-GET         /api/cat                           controllers.QualityAttribute.getAllCats()
+GET           /api/cat                           controllers.QualityAttribute.getAllCats()
+DELETE        /api/cat                           controllers.QualityAttribute.deleteCat()
+PUT           /api/cat                           controllers.QualityAttribute.updateCat()
 
 # QualityProperties
-GET        /api/qp        controllers.Project.getAllQualityProperties()
+GET           /api/qp                            controllers.Project.getAllQualityProperties()
