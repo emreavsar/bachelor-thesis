@@ -59,6 +59,7 @@ INSERT INTO favorite_project (user_id, project_id) VALUES (1001, 11001);
 INSERT INTO qacategory VALUES (4000, 'fa fa-cog', 'Functionality', NULL);
 INSERT INTO qacategory VALUES (4001, 'fa fa-heart', 'Usability', NULL);
 INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
+INSERT INTO qacategory VALUES (4003, 'fa fa-heart', 'Portability2', 4002);
 
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -67,6 +68,12 @@ INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
 INSERT INTO qa VALUES (5000, '<p>Das System soll ______ % verfügbar sein.</p>');
 INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');+
 
+--
+-- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO qacategory_qa VALUES (4000, 5000);
+INSERT INTO qacategory_qa VALUES (4002, 5000);
 --
 -- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
 --
