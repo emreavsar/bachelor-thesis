@@ -87,4 +87,16 @@ public class Project {
         ProjectDAO projectDAO = new ProjectDAO();
         return projectDAO.readById(id);
     }
+
+    public static Customer updateCustomer(Long id, String name, String address) throws EntityNotFoundException, MissingParameter {
+        if (validate(name) == true) {
+            CustomerDAO customerDAO = new CustomerDAO();
+            Customer customer = customerDAO.readById(id);
+            customer.setAddress(address);
+            customer.setName(name);
+            return customerDAO.persist(customer);
+        } else {
+            throw new MissingParameter("Name can not be empty");
+        }
+    }
 }

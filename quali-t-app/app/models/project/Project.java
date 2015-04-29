@@ -34,7 +34,7 @@ public class Project extends AbstractEntity {
     @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private Set<QualityProperty> qualityProperties = new HashSet<>();
-    @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference
     private Set<Instance> qualityAttributes = new HashSet<>();
 

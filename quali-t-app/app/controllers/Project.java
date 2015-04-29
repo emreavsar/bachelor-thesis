@@ -24,6 +24,7 @@ public class Project extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result createProject() {
+        Logger.info("create called ########################################################");
         JsonNode json = request().body().asJson();
 
         String name = json.findValue("name").asText();
@@ -37,7 +38,7 @@ public class Project extends Controller {
         node = json.findValue("qps");
         list = node.findValuesAsText("id");
         List<Long> qpIds = Lists.transform(list, Helper.parseLongFunction());
-
+        Logger.info("create called");
         Logger.info(name + " " + customerId + " " + catalogId + " " + qaIds.toString() + " " + qpIds.toString());
         try {
             models.project.Project project = logics.project.Project.createProject(name, customerId, catalogId, qaIds, qpIds);

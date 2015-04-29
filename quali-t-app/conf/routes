@@ -37,7 +37,8 @@ GET           /api/set/custproject/:cust         controllers.Application.setCust
 # Customer
 POST          /api/customer                      controllers.Customer.createCustomer()
 GET           /api/customer                      controllers.Customer.getAll()
-#PUT         /api/customer                      controllers.Customer.updateCustomer()
+PUT           /api/customer            controllers.Customer.updateCustomer()
+DELETE        /api/customer/:id        controllers.Customer.deleteCustomer(id: Long)
 
 # Quality Attribute
 POST          /api/qa                            controllers.QualityAttribute.createQA()
@@ -58,7 +59,7 @@ POST          /api/catalog                       controllers.Catalog.create()
 POST          /api/cat                           controllers.QualityAttribute.createCat()
 #GET         /api/cat/get/:id                   controllers.QualityAttribute.getCategoryTree(id: Long)
 GET           /api/cat                           controllers.QualityAttribute.getAllCats()
-DELETE        /api/cat/:id        controllers.QualityAttribute.deleteCat(id: Long)
+DELETE        /api/cat/:id             controllers.QualityAttribute.deleteCat(id: Long)
 PUT           /api/cat                           controllers.QualityAttribute.updateCat()
 
 # QualityProperties
