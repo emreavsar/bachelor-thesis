@@ -505,8 +505,6 @@ div[text-angular-toolbar] {
   }
   .categories {
     text-align: right;
-    margin-right: -19px;
-    margin-bottom: 20px;
 
     .label {
       margin-right: 3px;
@@ -532,6 +530,10 @@ div[text-angular-toolbar] {
   .panel-heading {
     .btn-group {
       margin-top: -27px;
+    }
+    input[type='checkbox'] {
+      float: left;
+      margin-right: 5px;
     }
   }
   .list-group-item {

@@ -11,11 +11,21 @@ angular.module('qualitApp')
   .controller('CatalogCtrl', function ($scope, $http, $alert) {
     $scope.name = "";
     $scope.image = "";
-    $scope.currentStep = 0;
+    $scope.currentStep = 1;
     $scope.qas = new Array();
     $scope.selection = new Array();
     $scope.currentEditedElement = null;
     $scope.newItem = null;
+    $scope.currentCategoriesFilter = new Array();
+
+    // todo emre: remove lines below only for filter impl. used temporarly
+    $http.get('/api/qa')
+      .success(function (data) {
+        $scope.qas = data;
+      })
+      .error(function (data, status) {
+        console.log(status)
+      });
 
     $http.get("/api/cat")
       .success(function (data) {
@@ -133,8 +143,6 @@ angular.module('qualitApp')
             type: 'success',
             show: true
           });
-
-          //$scope.success.push(data);
         }).
         error(function (data, status, headers, config) {
           console.log(status);
@@ -146,19 +154,87 @@ angular.module('qualitApp')
             type: 'error',
             show: true
           });
-          //$scope.errors.push(data);
         });
     }
 
-    $scope.filter = function (clickedElement) {
-      var checkbox = $(clickedElement).find("input[type='checkbox']");
-      var checkVal = checkbox.prop('checked');
-      if (checkVal) {
-        checkbox.prop('checked', '');
+    $scope.filter = function (clickedElement, isRoot) {
+      if (isRoot) {
+        var checkbox = $(clickedElement);
+        checkbox.prop('checked', !checkbox.prop('checked'));
       } else {
-        checkbox.prop('checked', 'checked');
+        var checkbox = $(clickedElement).find("input[type='checkbox']");
+      }
+      var checkVal = checkbox.prop('checked');
+      var id = $(clickedElement).data('id');
+
+
+      // check for subcategories
+      var children;
+      if (isRoot) {
+        children = $(clickedElement).parent().parent().parent().find("input[type='checkbox']");
+      } else {
+        children = $(clickedElement).parent().find("input[type='checkbox']");
       }
 
-      var id = $(clickedElement).data('id');
+      if (checkVal) {
+        checkbox.prop('checked', '');
+        var index = $scope.currentCategoriesFilter.indexOf(id);
+        $scope.currentCategoriesFilter.splice(index, 1);
+
+        $(children).each(function (index, val) {
+          // first child is the clicked one, ignore this one
+          if (index != 0) {
+            $(this).prop('checked', '');
+            var index = $scope.currentCategoriesFilter.indexOf($(this).parent().data('id'));
+            $scope.currentCategoriesFilter.splice(index, 1);
+          }
+        })
+
+      } else {
+        checkbox.prop('checked', 'checked');
+        $scope.currentCategoriesFilter.push(id);
+
+        // check for subcategories
+        $(children).each(function (index, val) {
+          // first child is the clicked one, ignore this one
+          if (index != 0) {
+            $(this).prop('checked', 'checked');
+            $scope.currentCategoriesFilter.push($(this).parent().data('id'));
+          }
+        })
+      }
+
+      console.log("filters: " + $scope.currentCategoriesFilter);
+
+      $scope.$apply();
+
+    }
+
+    $scope.filterByCategories = function (qa) {
+      // if there is a filter set
+      if ($scope.currentCategoriesFilter.length > 0) {
+        var categoryIds = $scope.categoryIdsOfQa(qa);
+        var fullfiesFilter = false;
+        for (var i = 0; i < $scope.currentCategoriesFilter.length; i++) {
+          var categoryFilter = $scope.currentCategoriesFilter[i];
+
+          for (var j = 0; j < categoryIds.length && !fullfiesFilter; j++) {
+            if (categoryFilter == categoryIds[j]) {
+              fullfiesFilter = true;
+            }
+          }
+        }
+        return fullfiesFilter;
+      } else {
+        return true;
+      }
+    }
+
+    $scope.categoryIdsOfQa = function (qa) {
+      var ids = new Array();
+      for (var i = 0; i < qa.categories.length; i++) {
+        ids.push(qa.categories[i].id);
+      }
+      return ids;
     }
   });
