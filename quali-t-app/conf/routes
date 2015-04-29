@@ -58,7 +58,7 @@ POST          /api/catalog                       controllers.Catalog.create()
 POST          /api/cat                           controllers.QualityAttribute.createCat()
 #GET         /api/cat/get/:id                   controllers.QualityAttribute.getCategoryTree(id: Long)
 GET           /api/cat                           controllers.QualityAttribute.getAllCats()
-DELETE        /api/cat                           controllers.QualityAttribute.deleteCat()
+DELETE        /api/cat/:id        controllers.QualityAttribute.deleteCat(id: Long)
 PUT           /api/cat                           controllers.QualityAttribute.updateCat()
 
 # QualityProperties

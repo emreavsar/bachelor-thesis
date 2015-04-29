@@ -3,6 +3,8 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameter;
 import models.template.QACategory;
@@ -26,10 +28,15 @@ public class QualityAttribute extends Controller {
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public static Result createQA() throws MissingParameter {
-        DynamicForm requestData = Form.form().bindFromRequest();
-        String qaText = requestData.get("qaText");
+        JsonNode json = request().body().asJson();
+
+        String qaText = json.findValue("qaText").asText();
+        JsonNode node = json.findValue("categories");
+        List<String> list = node.findValuesAsText("id");
+        List<Long> categories = Lists.transform(list, Helper.parseLongFunction());
+
         try {
-            return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText)));
+            return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText, categories)));
         } catch (MissingParameter e) {
             return status(400, e.getMessage());
         }
@@ -107,9 +114,7 @@ public class QualityAttribute extends Controller {
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
-    public static Result deleteCat() {
-        DynamicForm requestData = Form.form().bindFromRequest();
-        Long id = Long.parseLong(requestData.get("id"));
+    public static Result deleteCat(Long id) {
         try {
             logics.template.QualityAttribute.deleteCategory(id);
             return status(202);
@@ -119,6 +124,7 @@ public class QualityAttribute extends Controller {
     }
 
     @Restrict({@Group("curator"), @Group("admin")})
+    @Transactional
     public static Result updateCat() {
         DynamicForm requestData = Form.form().bindFromRequest();
         Long id = Long.parseLong(requestData.get("id"));

@@ -17,7 +17,7 @@ import java.util.List;
  * Created by corina on 09.04.2015.
  */
 public class QualityAttribute {
-    public static QA createQA(String qaText) throws MissingParameter {
+    public static QA createQA(String qaText, List<Long> categories) throws MissingParameter {
         if (qaText.equals("")) {
             throw new MissingParameter("QualityAttribute text can not be emtpy");
         }

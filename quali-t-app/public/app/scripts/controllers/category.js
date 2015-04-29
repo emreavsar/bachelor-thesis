@@ -12,13 +12,16 @@ angular.module('qualitApp')
     $scope.errors = new Array();
     $scope.success = new Array();
 
-    $http.get('/api/cat')
-      .success(function (data) {
-        $scope.catList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
+    $scope.loadCategories = function () {
+      $http.get('/api/cat')
+        .success(function (data) {
+          $scope.catList = data;
+        })
+        .error(function (data, status) {
+          console.log(status)
+        });
+    }
+    $scope.loadCategories();
 
     $scope.openModalView = function (type, clickedCat) {
       var parentId = $(clickedCat).data('id');
@@ -45,21 +48,50 @@ angular.module('qualitApp')
     }
 
     $scope.delete = function (clickedCat) {
-      console.log("delete button was clicked");
-      alert("implement me");
+      console.log("delete button was clicked", clickedCat);
+      alert("category deleted");
+      $http.delete('/api/cat/' + $(clickedCat).attr("data-id")
+      ).
+        success(function (data, status, headers, config) {
+          console.log(status + " data: " + data);
+          $scope.success.push(data);
+          alert("category deleted");
+
+          // reload when categories has changed
+          $scope.loadCategories();
+        }).
+        error(function (data, status, headers, config) {
+          console.log(status);
+          $scope.errors.push(data);
+        });
+
+
     }
 
     $scope.edit = function (clickedCat) {
       $scope.openModalView("edit", clickedCat);
     }
 
-    $scope.updateSubCategory = function (name, icon, parent) {
-      // TODO corina, please implement this (cheers emre)
-      alert("implement me!");
+    $scope.updateSubCategory = function (name, icon, id) {
+      $http.put('/api/cat', {
+        name: name,
+        icon: icon,
+        id: id
+      }).
+        success(function (data, status, headers, config) {
+          console.log(status + " data: " + data);
+          $scope.success.push(data);
+
+          // reload when categories has changed
+          $scope.loadCategories();
+        }).
+        error(function (data, status, headers, config) {
+          console.log(status);
+          $scope.errors.push(data);
+        });
     }
 
     $scope.createSubCategory = function (name, icon, parent) {
-
       $http.post('/api/cat', {
         name: name,
         icon: icon,
@@ -70,13 +102,7 @@ angular.module('qualitApp')
           $scope.success.push(data);
 
           // reload when categories has changed
-          $http.get('/api/cat')
-            .success(function (data) {
-              $scope.catList = data;
-            })
-            .error(function (data, status) {
-              console.log(status)
-            });
+          $scope.loadCategories();
         }).
         error(function (data, status, headers, config) {
           console.log(status);
@@ -85,6 +111,8 @@ angular.module('qualitApp')
     }
 
     $scope.createSuperCat = function (name, icon) {
+      console.log(name);
+      console.dir(name);
       // simulate a clicked element
       var clickedElement = $("<div/>", {
         'data-id': '',
