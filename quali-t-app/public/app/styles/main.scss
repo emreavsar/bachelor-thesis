@@ -447,6 +447,7 @@ body {
   .end-row {
     text-align: center;
     margin-top: 100px;
+    margin-bottom: 20px;
   }
 }
 
@@ -527,7 +528,17 @@ div[text-angular-toolbar] {
   cursor: pointer;
 }
 
-.filter {
+#filter {
+  .panel-heading {
+    .btn-group {
+      margin-top: -27px;
+    }
+  }
+  .list-group-item {
+    .btn-group {
+      margin-top: -5px;
+    }
+  }
   a {
     width: 100%;
     display: block;

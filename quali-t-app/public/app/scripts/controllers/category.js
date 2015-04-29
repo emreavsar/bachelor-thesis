@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CategoryCtrl', function ($scope, $http) {
+  .controller('CategoryCtrl', function ($scope, $http, $modal) {
     $scope.errors = new Array();
     $scope.success = new Array();
 
@@ -19,51 +19,78 @@ angular.module('qualitApp')
       .error(function (data, status) {
         console.log(status)
       });
-    $scope.deleteCat = function () {
-      console.log("deleted called: ");
-    }
-    $scope.showDetail = function (clickedCat) {
-      console.dir($(clickedCat));
-      var button;
-      $("button").click(function() {
-        button = this.id;
-      });
-      var id = $(clickedCat).data('id');
-      alert("category with id=" + id+ " was clicked");
-      console.log(button);
 
-      var num = null;
-      $(".btn-group > button").on("click", function(){
-        num = +this.innerHTML;
-        alert("Value is " + num);
-      });
+    $scope.openModalView = function (type, clickedCat) {
+      var parentId = $(clickedCat).data('id');
+      var name = $(clickedCat).data('name');
 
-
-      if (button == 'add'){
-        console.log("add");
-        scope.editCatStrap = {
-          "title": "Title",
-          "content": "Hello Modal<br />This is a multiline message!"
-        };
+      // create new isolated scope for modal view
+      var modalScope = $scope.$new(true);
+      modalScope.type = type;
+      modalScope.category = {
+        name: name,
+        parentId: parentId
       }
+      modalScope.updateSubCategory = $scope.updateSubCategory;
+      modalScope.createSubCategory = $scope.createSubCategory;
 
-      var id = $(clickedCat).data('id');
-      alert("category with id=" + id+ " was clicked");
-
+      var modal = $modal({
+        scope: modalScope,
+        template: "templates/category-modal.tpl.html"
+      });
     }
 
-    $scope.createSuperCat = function (name) {
+    $scope.add = function (clickedCat) {
+      $scope.openModalView("add", clickedCat);
+    }
+
+    $scope.delete = function (clickedCat) {
+      console.log("delete button was clicked");
+      alert("implement me");
+    }
+
+    $scope.edit = function (clickedCat) {
+      $scope.openModalView("edit", clickedCat);
+    }
+
+    $scope.updateSubCategory = function (name, icon, parent) {
+      // TODO corina, please implement this (cheers emre)
+      alert("implement me!");
+    }
+
+    $scope.createSubCategory = function (name, icon, parent) {
+
       $http.post('/api/cat', {
         name: name,
-        parent: ""
+        icon: icon,
+        parent: parent
       }).
-        success(function(data, status, headers, config) {
+        success(function (data, status, headers, config) {
           console.log(status + " data: " + data);
           $scope.success.push(data);
+
+          // reload when categories has changed
+          $http.get('/api/cat')
+            .success(function (data) {
+              $scope.catList = data;
+            })
+            .error(function (data, status) {
+              console.log(status)
+            });
         }).
-        error(function(data, status, headers, config) {
+        error(function (data, status, headers, config) {
           console.log(status);
           $scope.errors.push(data);
         });
+    }
+
+    $scope.createSuperCat = function (name, icon) {
+      // simulate a clicked element
+      var clickedElement = $("<div/>", {
+        'data-id': '',
+        'data-name': ''
+      });
+
+      $scope.add(clickedElement);
     }
   });

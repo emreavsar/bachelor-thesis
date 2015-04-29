@@ -13,7 +13,9 @@ angular.module('qualitApp')
       scope: {
         hideCheckbox: '&',
         callback: '&',
-        editCat: '&',
+        addCallback: '&',
+        editCallback: '&',
+        deleteCallback: '&',
         categories: '='
       },
       template: '<div class="panel-group id=" id="filter"></ul>',
@@ -41,6 +43,9 @@ angular.module('qualitApp')
           var h4Icon = $('<i/>', {
             class: category.icon + ' category-icon'
           }).prependTo(h4Link);
+
+
+          scope.addButtons(panelHeading, category);
         }
 
         scope.createPanelBody = function (category, isFirstCategory) {
@@ -67,6 +72,62 @@ angular.module('qualitApp')
             var subCategory = category.categories[i];
             var paddingLeft = $(ul).css('padding-left').split('px')[0] * 1 + 15 + "px";
             scope.createPanelLink(subCategory, ul, paddingLeft);
+          }
+        }
+
+        scope.addButtons = function (container, category) {
+          if (scope.addCallback() != undefined || scope.editCallback() != undefined || scope.deleteCallback() != undefined) {
+
+            var buttonGrp = $('<div/>', {
+              class: 'btn-group pull-right'
+            }).appendTo(container);
+
+            if (!scope.addCallback() != undefined) {
+              var addCat = $('<button/>', {
+                type: 'button',
+                class: 'btn-xs btn-default fa fa-plus',
+                'data-id': category.id,
+                'data-name': category.name,
+                title: 'Add Category'
+              }).appendTo(buttonGrp);
+
+
+              $(addCat).click(function (e) {
+                scope.addCallback()(this);
+                e.stopPropagation();
+              });
+            }
+
+            if (!scope.deleteCallback() != undefined) {
+              var deleteCat = $('<button/>', {
+                type: 'button',
+                class: 'btn-xs btn-default fa fa-minus',
+                'data-id': category.id,
+                'data-name': category.name,
+                title: 'Delete Category'
+              }).appendTo(buttonGrp);
+
+              $(deleteCat).click(function (e) {
+                scope.deleteCallback()(this);
+                e.stopPropagation();
+              });
+            }
+
+            if (!scope.editCallback() != undefined) {
+
+              var editCat = $('<button/>', {
+                type: 'button',
+                class: 'btn-xs btn-default fa fa-pencil',
+                'data-id': category.id,
+                'data-name': category.name,
+                title: 'Edit Category'
+              }).appendTo(buttonGrp);
+
+              $(editCat).click(function (e) {
+                scope.editCallback()(this);
+                e.stopPropagation();
+              });
+            }
           }
         }
 
@@ -100,45 +161,17 @@ angular.module('qualitApp')
             });
           }
 
-          if (!scope.editCat()) {
-
-            var buttonGrp = $('<div/>', {
-              class: 'btn-group pull-right'
-            }).appendTo(li)
-
-            var addCat = $('<button/>', {
-              type: 'button',
-              id: 'add',
-              'bs-modal': 'editCatStrap',
-              class: 'btn-xs btn-default glyphicon glyphicon-plus'
-            }).appendTo(buttonGrp);
-
-            var deleteCat = $('<button/>', {
-              type: 'button',
-              id: 'delete',
-              'ng-click': 'deleteCat()',
-              class: 'btn-xs btn-default glyphicon glyphicon-minus'
-            }).appendTo(buttonGrp);
-
-            var editCat = $('<button/>', {
-              type: 'button',
-              id: 'edit',
-              'bs-modal': 'editCatStrap',
-              class: 'btn-xs btn-default glyphicon glyphicon-cog'
-            }).appendTo(buttonGrp);
-          }
-
-          $(editCat).click(function (e) {
-          });
+          scope.addButtons(li, category);
 
           if (subCategories.length > 0) {
             var ul = $('<ul/>', {
               class: 'list-group'
             }).appendTo(container);
 
+
+            var paddingLeft = paddingLeft.split('px')[0] * 1 + 15 + "px";
             for (var i = 0; i < subCategories.length; i++) {
               var subCat = subCategories[i];
-              var paddingLeft = paddingLeft.split('px')[0] * 1 + 15 + "px";
               scope.createPanelLink(subCat, ul, paddingLeft);
             }
           }
@@ -149,6 +182,7 @@ angular.module('qualitApp')
           if (nv == undefined) {
             return;
           } else {
+            $('#filter').empty();
 
             var categories = scope.categories;
             for (var i = 0; i < categories.length; i++) {

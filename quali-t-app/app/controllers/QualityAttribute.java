@@ -6,6 +6,7 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameter;
 import models.template.QACategory;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -86,8 +87,9 @@ public class QualityAttribute extends Controller {
         Logger.info("creatcat controller called");
         DynamicForm requestData = Form.form().bindFromRequest();
         String name = requestData.get("name");
+        String icon = requestData.get("icon");
         String parent = requestData.get("parent");
-        if (parent.equals("")) {
+        if (StringUtils.isBlank(parent)) {
             try {
                 return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, null)));
             } catch (EntityNotFoundException e) {

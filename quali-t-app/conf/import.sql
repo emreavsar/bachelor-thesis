@@ -60,6 +60,7 @@ INSERT INTO qacategory VALUES (4000, 'fa fa-cog', 'Functionality', NULL);
 INSERT INTO qacategory VALUES (4001, 'fa fa-heart', 'Usability', NULL);
 INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
 INSERT INTO qacategory VALUES (4003, 'fa fa-heart', 'Portability2', 4002);
+INSERT INTO qacategory VALUES (4004, 'fa fa-heart', 'Portability3', 4003);
 
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
