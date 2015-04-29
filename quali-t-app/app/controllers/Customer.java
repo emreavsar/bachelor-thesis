@@ -3,6 +3,8 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import exceptions.EntityAlreadyExistsException;
+import exceptions.MissingParameter;
 import logics.project.Project;
 import play.Logger;
 import play.data.DynamicForm;
@@ -27,11 +29,13 @@ public class Customer extends Controller {
         String name = requestData.get("name");
         String address = requestData.get("address");
 
-        models.project.Customer customer = Project.createCustomer(name, address);
-        if (customer != null) {
+        try {
+            models.project.Customer customer = Project.createCustomer(name, address);
             return ok(Json.toJson(customer));
-        } else {
-            return notFound("User already exists or name empty");
+        } catch (EntityAlreadyExistsException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameter e) {
+            return status(400, e.getMessage());
         }
     }
 

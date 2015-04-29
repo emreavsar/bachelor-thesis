@@ -32,7 +32,7 @@ public class Application extends Controller {
     // Creates two projects with all 5 SMART qa's with customer and return json
     @Transactional
     public static Result setCustomerProject(String customername) {
-        QA qa = new QA("Der Use Case Einkaufsabwicklung muss mit weniger als 5 Klicks durchfuehrbar sein.");
+//        QA qa = new QA("Der Use Case Einkaufsabwicklung muss mit weniger als 5 Klicks durchfuehrbar sein.");
 //        models.template.Catalog cat = new Catalog(customername, "", "", "");
 //        qa.addUsedInCatalog(cat);
 //        cat.addTemplate(qa);

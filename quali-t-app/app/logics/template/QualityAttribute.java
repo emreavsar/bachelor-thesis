@@ -17,13 +17,15 @@ import java.util.List;
  * Created by corina on 09.04.2015.
  */
 public class QualityAttribute {
-    public static QA createQA(String qaText, List<Long> categories) throws MissingParameter {
+    public static QA createQA(String qaText, List<Long> categoryIds) throws MissingParameter, EntityNotFoundException {
         if (qaText.equals("")) {
             throw new MissingParameter("QualityAttribute text can not be emtpy");
         }
         else {
             QualityAttributeDAO qaDAO = new QualityAttributeDAO();
-            QA qa = new QA(qaText);
+            QACategoryDAO qaCategoryDAO = new QACategoryDAO();
+            List<QACategory> qaCategories = qaCategoryDAO.readAllById(categoryIds);
+            QA qa = new QA(qaText, qaCategories);
             return qaDAO.persist(qa);
         }
     }
@@ -84,7 +86,6 @@ public class QualityAttribute {
         QACategoryDAO qaCategoryDAO = new QACategoryDAO();
         QACategory category = getCategoryTree(id);
         qaCategoryDAO.remove(category);
-
     }
 
     public static QACategory updateCat(Long id, String name, String icon) throws EntityNotFoundException {

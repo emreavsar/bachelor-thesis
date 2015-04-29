@@ -34,10 +34,11 @@ public class QualityAttribute extends Controller {
         JsonNode node = json.findValue("categories");
         List<String> list = node.findValuesAsText("id");
         List<Long> categories = Lists.transform(list, Helper.parseLongFunction());
-
         try {
             return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText, categories)));
         } catch (MissingParameter e) {
+            return status(400, e.getMessage());
+        } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
     }

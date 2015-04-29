@@ -19,21 +19,20 @@ import java.util.Set;
 @Table(name = "qa")
 @Nullable
 public class QA extends AbstractEntity {
-    public QA() {
-    }
-
-    public QA(String description) {
-        this.description = description;
-    }
-
     private String description;
-
     @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private Set<CatalogQA> usedInCatalog = new HashSet<>();
-
     @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<QACategory> categories = new HashSet<>();
+
+    public QA() {
+    }
+
+    public QA(String description, List<QACategory> categories) {
+        this.description = description;
+        this.addCategories(categories);
+    }
 
     public String getDescription() {
         return description;
@@ -57,5 +56,16 @@ public class QA extends AbstractEntity {
 
     public void setCategories(Set<QACategory> categories) {
         this.categories = categories;
+    }
+
+    private void addCategory(QACategory category) {
+        this.categories.add(category);
+        category.addUsedInTemplate(this);
+    }
+
+    public void addCategories(List<QACategory> categories) {
+        for (QACategory category : categories){
+            this.addCategory(category);
+        }
     }
 }

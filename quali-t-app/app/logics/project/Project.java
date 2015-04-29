@@ -1,7 +1,9 @@
 package logics.project;
 
 import dao.models.*;
+import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameter;
 import models.project.Customer;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -26,21 +28,19 @@ public class Project {
         return !name.equals("");
     }
 
-    public static Customer createCustomer(String name, String address) {
+    public static Customer createCustomer(String name, String address) throws MissingParameter, EntityAlreadyExistsException {
         if (validate(name) == true) {
             CustomerDAO customerDAO = new CustomerDAO();
             Customer c = customerDAO.findByName(name);
-
             if (c == null) {
                 c = new Customer(name, address);
-                customerDAO.persist(c);
-                return c;
+                return customerDAO.persist(c);
             } else {
-                return null;
+                throw new EntityAlreadyExistsException("Customer name already exists");
             }
 
         } else {
-            return null;
+            throw new MissingParameter("Missing required paramter");
         }
     }
 
@@ -75,8 +75,7 @@ public class Project {
             qaInstances.add(new Instance(qa.getQa().getDescription(), qa, qps));
         }
         models.project.Project p = new models.project.Project(name, customer,  catalog, qaInstances, qps);
-        projectDAO.persist(p);
-        return p;
+        return projectDAO.persist(p);
     }
 
     public static List<models.project.Project> getAllProjects() {
