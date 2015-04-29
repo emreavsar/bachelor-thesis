@@ -19,6 +19,7 @@ angular.module('qualitApp')
     $scope.qpList = new Array();
     $scope.selectionqp = new Array()
     $scope.catalog = "";
+    $scope.qas = new Array();
 
     $scope.nextStep = function () {
       var isLastStep = false;
@@ -41,12 +42,15 @@ angular.module('qualitApp')
 
     $scope.createProject = function() {
       console.log("Data: " + $scope.name, $scope.customer, $scope.selectionqp, $scope.catalog, $scope.selection);
-
+      $scope.qas = $scope.selection;
+      for (var i in $scope.qas) {
+        delete $scope.qas[i].categories;
+      }
       $http.post('/api/project', {
         name: $scope.name,
         customer: $scope.customer,
         qps: $scope.selectionqp,
-        qas: $scope.selection,
+        qas: $scope.qas,
         catalog: $scope.catalog
       }).
         success(function (data, status, headers, config) {
