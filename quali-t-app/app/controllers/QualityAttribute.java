@@ -98,14 +98,14 @@ public class QualityAttribute extends Controller {
         String parent = requestData.get("parent");
         if (StringUtils.isBlank(parent)) {
             try {
-                return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, null)));
+                return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, null, icon)));
             } catch (EntityNotFoundException e) {
                 return status(400, e.getMessage());
             }
         } else {
             Long parentid = Long.parseLong(parent);
             try {
-                return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, parentid)));
+                return ok(Json.toJson(logics.template.QualityAttribute.createCat(name, parentid, icon)));
             } catch (EntityNotFoundException e) {
                 return status(400, e.getMessage());
             }

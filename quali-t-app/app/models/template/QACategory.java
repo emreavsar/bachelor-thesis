@@ -30,15 +30,18 @@ public class QACategory extends AbstractEntity {
 
     public QACategory() {
     }
-    public QACategory (String name) {
+
+    public QACategory(String name, String icon) {
         this.name = name;
+        this.icon = icon;
     }
 
-    public QACategory (QACategory parent, String name) {
+    public QACategory(QACategory parent, String name, String icon) {
         if(parent==null) throw new IllegalArgumentException("parent required");
 
         this.parent = parent;
         this.name = name;
+        this.icon = icon;
         registerInSuperCategory();
     }
 

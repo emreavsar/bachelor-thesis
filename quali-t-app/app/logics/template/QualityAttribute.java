@@ -49,11 +49,11 @@ public class QualityAttribute {
 //        return cat;
 //    }
 
-    public static QACategory createCat(String name) {
-        QACategory cat = new QACategory(name);
-        QACategoryDAO catDao = new QACategoryDAO();
-        return catDao.persist(cat);
-    }
+//    public static QACategory createCat(String name) {
+//        QACategory cat = new QACategory(name);
+//        QACategoryDAO catDao = new QACategoryDAO();
+//        return catDao.persist(cat);
+//    }
 
     public static QACategory getCategoryTree(Long id) throws EntityNotFoundException {
         QACategoryDAO catDAO = new QACategoryDAO();
@@ -65,16 +65,16 @@ public class QualityAttribute {
         return catDAO.readAllSuperclasses();
     }
 
-    public static QACategory createCat(String name, Long parentid) throws EntityNotFoundException {
-        Logger.info("logic called. name: " + name + " parent: " + parentid);
+    public static QACategory createCat(String name, Long parentid, String icon) throws EntityNotFoundException {
+        Logger.info("logic called. name: " + name + " parent: " + parentid + " icon:  " + icon);
         QACategoryDAO catDao = new QACategoryDAO();
 
         if (parentid == null) {
-            QACategory cat = new QACategory(name);
+            QACategory cat = new QACategory(name, icon);
             return catDao.persist(cat);
         } else  {
             QACategory parent = catDao.readById(parentid);
-            QACategory cat = new QACategory(parent, name);
+            QACategory cat = new QACategory(parent, name, icon);
             catDao.persist(parent);
             return cat;
         }
