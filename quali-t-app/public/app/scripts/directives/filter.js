@@ -45,6 +45,20 @@ angular.module('qualitApp')
           }).prependTo(h4Link);
 
 
+          if (!scope.hideCheckbox()) {
+            var checkBox = $('<input/>', {
+              type: 'checkbox',
+              'data-id': category.id,
+              'data-name': category.name
+            }).prependTo(h4);
+
+            $(checkBox).click(function (e) {
+              scope.callback()(this, true);
+              e.stopPropagation();
+            });
+          }
+
+
           scope.addButtons(panelHeading, category);
         }
 
@@ -148,7 +162,7 @@ angular.module('qualitApp')
 
 
           $(li).click(function (e) {
-            scope.callback()(this);
+            scope.callback()(this, false);
           });
 
           if (!scope.hideCheckbox()) {

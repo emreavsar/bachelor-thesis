@@ -61,6 +61,8 @@ INSERT INTO qacategory VALUES (4001, 'fa fa-heart', 'Usability', NULL);
 INSERT INTO qacategory VALUES (4002, 'fa fa-heart', 'Portability', 4001);
 INSERT INTO qacategory VALUES (4003, 'fa fa-heart', 'Portability2', 4002);
 INSERT INTO qacategory VALUES (4004, 'fa fa-heart', 'Portability3', 4003);
+INSERT INTO qacategory VALUES (4005, 'fa fa-cog', 'Availability', NULL);
+INSERT INTO qacategory VALUES (4006, 'fa fa-cog', 'SubcategoryOfAvailability', 4005);
 
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -75,6 +77,9 @@ INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>a
 
 INSERT INTO qacategory_qa VALUES (4000, 5000);
 INSERT INTO qacategory_qa VALUES (4002, 5000);
+INSERT INTO qacategory_qa VALUES (4003, 5001);
+INSERT INTO qacategory_qa VALUES (4006, 5001);
+
 --
 -- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
 --
