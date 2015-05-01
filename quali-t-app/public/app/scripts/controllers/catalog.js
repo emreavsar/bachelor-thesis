@@ -119,6 +119,10 @@ angular.module('qualitApp')
     }
 
     $scope.createCatalog = function () {
+
+      for (var i in $scope.selection) {
+        delete $scope.selection[i].categories;
+      }
       $http.post('/api/catalog', {
         qualityAttributes: $scope.selection,
         name: $scope.name,
