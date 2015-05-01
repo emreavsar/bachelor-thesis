@@ -11,21 +11,12 @@ angular.module('qualitApp')
   .controller('CatalogCtrl', function ($scope, $http, $alert) {
     $scope.name = "";
     $scope.image = "";
-    $scope.currentStep = 1;
+    $scope.currentStep = 0;
     $scope.qas = new Array();
     $scope.selection = new Array();
     $scope.currentEditedElement = null;
     $scope.newItem = null;
     $scope.currentCategoriesFilter = new Array();
-
-    // todo emre: remove lines below only for filter impl. used temporarly
-    $http.get('/api/qa')
-      .success(function (data) {
-        $scope.qas = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
 
     $http.get("/api/cat")
       .success(function (data) {
@@ -43,9 +34,9 @@ angular.module('qualitApp')
 //        $scope.customize();
         $scope.createCatalog();
         isLastStep = true;
-//      } else if ($scope.currentStep == 2) {
-//        $scope.createCatalog();
-//        isLastStep = true;
+      } else if ($scope.currentStep == 2) {
+        $scope.createCatalog();
+        isLastStep = true;
       } else {
         $scope.currentStep = 0; // restart
       }
@@ -158,56 +149,41 @@ angular.module('qualitApp')
     }
 
     $scope.filter = function (clickedElement, isRoot) {
-      if (isRoot) {
-        var checkbox = $(clickedElement);
-        checkbox.prop('checked', !checkbox.prop('checked'));
-      } else {
-        var checkbox = $(clickedElement).find("input[type='checkbox']");
-      }
-      var checkVal = checkbox.prop('checked');
-      var id = $(clickedElement).data('id');
-
+      $scope.currentCategoriesFilter = new Array();
+      var checkbox = $(clickedElement).find("input[type='checkbox']");
 
       // check for subcategories
       var children;
       if (isRoot) {
-        children = $(clickedElement).parent().parent().parent().find("input[type='checkbox']");
+        children = $(clickedElement).parent().parent().parent().parent().find("input[type='checkbox']");
       } else {
-        children = $(clickedElement).parent().find("input[type='checkbox']");
+        children = $(clickedElement).parent().parent().find("input[type='checkbox']");
       }
 
-      if (checkVal) {
-        checkbox.prop('checked', '');
-        var index = $scope.currentCategoriesFilter.indexOf(id);
-        $scope.currentCategoriesFilter.splice(index, 1);
-
-        $(children).each(function (index, val) {
-          // first child is the clicked one, ignore this one
-          if (index != 0) {
-            $(this).prop('checked', '');
-            var index = $scope.currentCategoriesFilter.indexOf($(this).parent().data('id'));
-            $scope.currentCategoriesFilter.splice(index, 1);
-          }
-        })
-
-      } else {
-        checkbox.prop('checked', 'checked');
-        $scope.currentCategoriesFilter.push(id);
+      if (checkbox.prop('checked')) {
 
         // check for subcategories
         $(children).each(function (index, val) {
           // first child is the clicked one, ignore this one
           if (index != 0) {
             $(this).prop('checked', 'checked');
-            $scope.currentCategoriesFilter.push($(this).parent().data('id'));
           }
         })
+
+      } else {
+        $(children).each(function (index, val) {
+          // first child is the clicked one, ignore this one
+          if (index != 0) {
+            $(this).prop('checked', '');
+          }
+        });
       }
 
-      console.log("filters: " + $scope.currentCategoriesFilter);
+      $("#filter input[type='checkbox']:checked").each(function () {
+        $scope.currentCategoriesFilter.push($(this).data('id'));
+      });
 
       $scope.$apply();
-
     }
 
     $scope.filterByCategories = function (qa) {

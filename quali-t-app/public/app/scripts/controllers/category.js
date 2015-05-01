@@ -48,8 +48,6 @@ angular.module('qualitApp')
     }
 
     $scope.delete = function (clickedCat) {
-      console.log("delete button was clicked", clickedCat);
-      alert("category deleted");
       $http.delete('/api/cat/' + $(clickedCat).attr("data-id")
       ).
         success(function (data, status, headers, config) {

@@ -1,6 +1,11 @@
 <h3>Create new Quality Attribute Template</h3>
 <h3 class="steps">Step 1: Provide information</h3>
 <div class="form crud-form">
+  <h5>Categories</h5>
+
+  <p>Choose the categories for your quality attribute. </p>
+  <filter id="categories" callback="filter"  hide-checkbox="false" categories="catList"></filter>
+
   <div class="form-group">
     <label for="qa-Text">Specify your Quality Attribute below</label>
     <text-angular ng-model="qaText" id="qa-Text"></text-angular>

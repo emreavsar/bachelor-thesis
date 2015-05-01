@@ -11,7 +11,7 @@ angular.module('qualitApp')
   .controller('ProjectCtrl', function ($scope, $http, $alert) {
     $scope.currentStep = 1;
     $scope.model = "Project";
-    $scope.qaList = new Array();
+    $scope.qas = new Array();
     $scope.selection = new Array();
     $scope.currentEditedElement = null;
     $scope.name = "";
@@ -20,6 +20,7 @@ angular.module('qualitApp')
     $scope.selectionqp = new Array()
     $scope.catalog = "";
     $scope.qas = new Array();
+    $scope.currentCategoriesFilter = new Array();
 
     $scope.nextStep = function () {
       var isLastStep = false;
@@ -40,7 +41,7 @@ angular.module('qualitApp')
       $scope.currentStep = currentStep - 1;
     }
 
-    $scope.createProject = function() {
+    $scope.createProject = function () {
       console.log("Data: " + $scope.name, $scope.customer, $scope.selectionqp, $scope.catalog, $scope.selection);
       $scope.qas = $scope.selection;
       for (var i in $scope.qas) {
@@ -84,11 +85,15 @@ angular.module('qualitApp')
     $scope.loadQAs = function (catalog) {
       console.log("Selected Catalog: " + catalog);
       $scope.catalog = catalog;
-      $http.get('/api/qa/catalog='+ catalog)
+      $http.get('/api/qa/catalog=' + catalog)
         .success(function (data) {
-          console.log("success" + data)
-          $scope.qaList = data;
-//          console.log(qaList)
+          console.log("success" + data);
+          $scope.qas = new Array();
+
+          $(data).each(function(index, val){
+            var qa = data[index].qa;
+            $scope.qas.push(qa);
+          });
         })
         .error(function (data, status) {
           console.log("error" + status)
@@ -106,8 +111,8 @@ angular.module('qualitApp')
 
     $http.get('/api/customer')
       .success(function (data) {
-      $scope.customerList = data;
-    })
+        $scope.customerList = data;
+      })
       .error(function (data, status) {
         console.log(status)
       });
@@ -134,24 +139,81 @@ angular.module('qualitApp')
       // TODO emre: save the image somewhere localy / temporarly
       $scope.selectionqp = selectionqp;
       $scope.selection = [];
-      console.log(name,customer, selectionqp)
+      console.log(name, customer, selectionqp)
     }
 
     $scope.switchCurrentEditedElement = function (qa) {
       $scope.currentEditedElement = qa;
     }
 
-    $scope.filter = function (clickedElement) {
+    $scope.filter = function (clickedElement, isRoot) {
+
+      $scope.currentCategoriesFilter = new Array();
       var checkbox = $(clickedElement).find("input[type='checkbox']");
-      var checkVal = checkbox.prop('checked');
-      if (checkVal) {
-        checkbox.prop('checked', '');
+
+      // check for subcategories
+      var children;
+      if (isRoot) {
+        children = $(clickedElement).parent().parent().parent().parent().find("input[type='checkbox']");
       } else {
-        checkbox.prop('checked', 'checked');
+        children = $(clickedElement).parent().parent().find("input[type='checkbox']");
       }
 
-      var id = $(clickedElement).data('id');
+      if (checkbox.prop('checked')) {
+
+        // check for subcategories
+        $(children).each(function (index, val) {
+          // first child is the clicked one, ignore this one
+          if (index != 0) {
+            $(this).prop('checked', 'checked');
+          }
+        })
+
+      } else {
+        $(children).each(function (index, val) {
+          // first child is the clicked one, ignore this one
+          if (index != 0) {
+            $(this).prop('checked', '');
+          }
+        });
+      }
+
+      $("#filter input[type='checkbox']:checked").each(function () {
+        $scope.currentCategoriesFilter.push($(this).data('id'));
+      });
+
+      $scope.$apply();
     }
+
+    $scope.filterByCategories = function (qa) {
+      // TODO emre: some filter functions are in catalog.js and project.js maybe this could be refactored into filter.js
+      // if there is a filter set
+      if ($scope.currentCategoriesFilter.length > 0) {
+        var categoryIds = $scope.categoryIdsOfQa(qa);
+        var fullfiesFilter = false;
+        for (var i = 0; i < $scope.currentCategoriesFilter.length; i++) {
+          var categoryFilter = $scope.currentCategoriesFilter[i];
+
+          for (var j = 0; j < categoryIds.length && !fullfiesFilter; j++) {
+            if (categoryFilter == categoryIds[j]) {
+              fullfiesFilter = true;
+            }
+          }
+        }
+        return fullfiesFilter;
+      } else {
+        return true;
+      }
+    }
+
+    $scope.categoryIdsOfQa = function (qa) {
+      var ids = new Array();
+      for (var i = 0; i < qa.categories.length; i++) {
+        ids.push(qa.categories[i].id);
+      }
+      return ids;
+    }
+
 
     $scope.toggleSelection = function (qa) {
       console.log("toggleling the selection for qa with id: " + qa.id);

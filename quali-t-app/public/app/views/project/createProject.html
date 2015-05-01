@@ -67,20 +67,23 @@
           <div class="all-qas col-sm-8">
             <h5>All Quality Attributes</h5>
 
-            <div class="qa well row" ng-repeat="qa in qaList" ng-click="toggleSelection(qa.qa)"
-                 ng-class="{ selected: selection.indexOf(qa.qa) > -1}"
+            <div class="qa well row" ng-repeat="qa in qas | filter:filterByCategories" ng-click="toggleSelection(qa)"
+                 ng-class="{ selected: selection.indexOf(qa) > -1}"
               >
+
               <div class="categories">
-            <span class="label label-default" ng-repeat="category in qa.qa.categories">
-              {{category}}
+            <span class="label label-default" ng-repeat="category in qa.categories">
+              {{category.name}}
             </span>
               </div>
               <div class="col-sm-10">
-                <span class="description" ng-bind-html="qa.qa.description"/>
+                <span class="description" ng-bind-html="qa.description"/>
               </div>
               <div class="col-sm-2">
-                <i class="fa fa-check" ng-show="selection.indexOf(qa.qa) > -1"></i>
+                <i class="fa fa-check" ng-show="selection.indexOf(qa) > -1"></i>
               </div>
+
+
             </div>
           </div>
 

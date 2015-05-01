@@ -36,13 +36,16 @@ angular.module('qualitApp')
             'data-toggle': "collapse",
             'data-parent': "#accordion",
             href: $location.absUrl() + "#collapse-" + category.name,
-            text: category.name,
             onClick: 'return false;'
           }).appendTo(h4);
 
+          var label = $('<label/>', {
+            text: category.name
+          }).appendTo(h4Link);
+
           var h4Icon = $('<i/>', {
             class: category.icon + ' category-icon'
-          }).prependTo(h4Link);
+          }).prependTo(label);
 
 
           if (!scope.hideCheckbox()) {
@@ -50,10 +53,12 @@ angular.module('qualitApp')
               type: 'checkbox',
               'data-id': category.id,
               'data-name': category.name
-            }).prependTo(h4);
+            }).prependTo(label);
 
-            $(checkBox).click(function (e) {
-              scope.callback()(this, true);
+            $(label).click(function (e) {
+              if (scope.callback() != undefined) {
+                scope.callback()(this, true);
+              }
               e.stopPropagation();
             });
           }
@@ -153,24 +158,27 @@ angular.module('qualitApp')
 
           var li = $('<li/>', {
             class: 'list-group-item',
-            'data-id': category.id,
             css: {
               'padding-left': paddingLeft
             },
-            text: category.name
           }).appendTo(container);
 
-
-          $(li).click(function (e) {
-            scope.callback()(this, false);
+          var label = $('<label/>', {
+            text: category.name
           });
+
+          label.appendTo(li);
 
           if (!scope.hideCheckbox()) {
             var checkBox = $('<input/>', {
-              type: 'checkbox'
-            }).prependTo(li);
+              type: 'checkbox',
+              'data-id': category.id
+            }).prependTo(label);
 
-            $(checkBox).click(function (e) {
+            $(label).click(function (e) {
+              if (scope.callback() != undefined) {
+                scope.callback()(this, false);
+              }
               e.stopPropagation();
             });
           }
