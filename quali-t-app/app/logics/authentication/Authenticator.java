@@ -3,7 +3,7 @@ package logics.authentication;
 import dao.authentication.RoleDao;
 import dao.authentication.TokenDao;
 import dao.models.UserDao;
-import exceptions.EntityNotCreatedException;
+import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.PasswordsNotMatchException;
 import models.authentication.Role;
@@ -185,7 +185,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public static User registerUser(String username, String password) throws EntityNotCreatedException {
+    public static User registerUser(String username, String password) throws EntityAlreadyExistsException {
         // Default roles for registered user
         RoleDao roleDao = new RoleDao();
         List<Role> defaultRoles = roleDao.findDefaultRoles();
@@ -202,7 +202,7 @@ public class Authenticator {
             userDao.persist(user);
             return user;
         } else {
-            throw new EntityNotCreatedException("User already exists");
+            throw new EntityAlreadyExistsException("User already exists");
         }
     }
 

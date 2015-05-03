@@ -2,7 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import dao.models.UserDao;
-import exceptions.EntityNotCreatedException;
+import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.PasswordsNotMatchException;
 import logics.authentication.Authenticator;
@@ -56,7 +56,7 @@ public class Authentication extends Controller {
         try {
             User registeredUser = Authenticator.registerUser(username, password);
             return ok(Json.toJson(registeredUser));
-        } catch (EntityNotCreatedException e) {
+        } catch (EntityAlreadyExistsException e) {
             return notFound(e.getMessage());
         }
     }

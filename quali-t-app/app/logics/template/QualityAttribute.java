@@ -5,7 +5,7 @@ import dao.models.CatalogQADAO;
 import dao.models.QACategoryDAO;
 import dao.models.QualityAttributeDAO;
 import exceptions.EntityNotFoundException;
-import exceptions.MissingParameter;
+import exceptions.MissingParameterException;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
@@ -17,9 +17,9 @@ import java.util.List;
  * Created by corina on 09.04.2015.
  */
 public class QualityAttribute {
-    public static QA createQA(String qaText, List<Long> categoryIds) throws MissingParameter, EntityNotFoundException {
+    public static QA createQA(String qaText, List<Long> categoryIds) throws MissingParameterException, EntityNotFoundException {
         if (qaText.equals("")) {
-            throw new MissingParameter("QualityAttribute text can not be emtpy");
+            throw new MissingParameterException("QualityAttribute text can not be emtpy");
         }
         else {
             QualityAttributeDAO qaDAO = new QualityAttributeDAO();

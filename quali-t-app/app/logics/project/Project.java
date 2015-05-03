@@ -3,7 +3,7 @@ package logics.project;
 import dao.models.*;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
-import exceptions.MissingParameter;
+import exceptions.MissingParameterException;
 import models.project.Customer;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -28,7 +28,7 @@ public class Project {
         return !name.equals("");
     }
 
-    public static Customer createCustomer(String name, String address) throws MissingParameter, EntityAlreadyExistsException {
+    public static Customer createCustomer(String name, String address) throws MissingParameterException, EntityAlreadyExistsException {
         if (validate(name) == true) {
             CustomerDAO customerDAO = new CustomerDAO();
             Customer c = customerDAO.findByName(name);
@@ -40,7 +40,7 @@ public class Project {
             }
 
         } else {
-            throw new MissingParameter("Missing required paramter");
+            throw new MissingParameterException("Missing required paramter");
         }
     }
 
@@ -88,7 +88,7 @@ public class Project {
         return projectDAO.readById(id);
     }
 
-    public static Customer updateCustomer(Long id, String name, String address) throws EntityNotFoundException, MissingParameter {
+    public static Customer updateCustomer(Long id, String name, String address) throws EntityNotFoundException, MissingParameterException {
         if (validate(name) == true) {
             CustomerDAO customerDAO = new CustomerDAO();
             Customer customer = customerDAO.readById(id);
@@ -96,7 +96,7 @@ public class Project {
             customer.setName(name);
             return customerDAO.persist(customer);
         } else {
-            throw new MissingParameter("Name can not be empty");
+            throw new MissingParameterException("Name can not be empty");
         }
     }
 }

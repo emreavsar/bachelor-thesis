@@ -6,7 +6,7 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
-import exceptions.MissingParameter;
+import exceptions.MissingParameterException;
 import models.template.QACategory;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -27,7 +27,7 @@ public class QualityAttribute extends Controller {
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
-    public static Result createQA() throws MissingParameter {
+    public static Result createQA() throws MissingParameterException {
         JsonNode json = request().body().asJson();
 
         String qaText = json.findValue("qaText").asText();
@@ -36,7 +36,7 @@ public class QualityAttribute extends Controller {
         List<Long> categories = Lists.transform(list, Helper.parseLongFunction());
         try {
             return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText, categories)));
-        } catch (MissingParameter e) {
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());

@@ -6,7 +6,7 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import dao.models.CustomerDAO;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
-import exceptions.MissingParameter;
+import exceptions.MissingParameterException;
 import logics.project.Project;
 import play.Logger;
 import play.data.DynamicForm;
@@ -36,7 +36,7 @@ public class Customer extends Controller {
             return ok(Json.toJson(customer));
         } catch (EntityAlreadyExistsException e) {
             return status(400, e.getMessage());
-        } catch (MissingParameter e) {
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
@@ -62,7 +62,7 @@ public class Customer extends Controller {
             return ok(Json.toJson(customer));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
-        } catch (MissingParameter e) {
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
