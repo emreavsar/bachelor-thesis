@@ -49,11 +49,6 @@ public class Project {
         return customerDAO.readAll();
     }
 
-    public static List<QualityProperty> getAllQualityProperties() {
-        QualityPropertyDAO qualityPropertyDAO = new QualityPropertyDAO();
-        return qualityPropertyDAO.readAll();
-    }
-
     public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) throws EntityNotFoundException {
         ProjectDAO projectDAO = new ProjectDAO();
         CustomerDAO customerDAO = new CustomerDAO();

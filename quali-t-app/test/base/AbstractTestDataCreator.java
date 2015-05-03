@@ -1,12 +1,20 @@
 package base;
 
-import exceptions.EntityNotCreatedException;
+import exceptions.EntityAlreadyExistsException;
+import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import logics.authentication.Authenticator;
 import models.authentication.User;
 import models.project.Customer;
+import models.project.QualityProperty;
+import models.template.Catalog;
+import models.template.QA;
+import models.template.QACategory;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Credits: EEPPI Project
@@ -29,7 +37,7 @@ public abstract class AbstractTestDataCreator {
         return JPA.withTransaction(() -> createUser(name, password));
     }
 
-    public static User createUser(String name, String password) throws EntityNotCreatedException {
+    public static User createUser(String name, String password) throws EntityAlreadyExistsException {
         return Authenticator.registerUser(name, password);
     }
 
@@ -37,5 +45,23 @@ public abstract class AbstractTestDataCreator {
         Customer c = new Customer(name, address);
         persistAndFlush(c);
         return c;
+    }
+
+    public static QA createQA(String qa) throws EntityNotFoundException, MissingParameterException {
+        List<Long> categories = new ArrayList();
+        return logics.template.QualityAttribute.createQA(qa, categories);
+    }
+
+    public static Catalog createCatalog(String name, String icon, List<Long> qaIds) throws EntityNotFoundException {
+        return logics.template.Catalog.create(name, icon, qaIds);
+
+    }
+
+    public static QACategory createCategory(String name, Long parent, String icon) throws EntityNotFoundException {
+        return logics.template.QualityAttribute.createCat(name, parent, icon);
+    }
+
+    public static QualityProperty createQualityProperty(String name) {
+        return logics.project.QualityProperty.createQualityProperty(name, "");
     }
 }

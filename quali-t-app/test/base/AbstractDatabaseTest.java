@@ -10,9 +10,7 @@ import play.test.Helpers;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
 import java.util.HashMap;
-import java.util.Map;
 
 import static play.test.Helpers.inMemoryDatabase;
 

@@ -1,6 +1,7 @@
 package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -21,8 +22,10 @@ public class QACategory extends AbstractEntity {
     private String name;
     private String icon;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
     private QACategory parent;
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JsonManagedReference
     private Set<QACategory> categories = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
@@ -73,11 +76,23 @@ public class QACategory extends AbstractEntity {
         return Collections.unmodifiableSet(this.categories);
     }
 
+    public void setCategories(Set<QACategory> categories) {
+        this.categories = categories;
+    }
+
     public String getIcon() {
         return icon;
     }
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public QACategory getParent() {
+        return parent;
+    }
+
+    public void setParent(QACategory parent) {
+        this.parent = parent;
     }
 }

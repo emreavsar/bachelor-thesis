@@ -1,10 +1,10 @@
-package unit.daos.user;
+package unit.daos.project;
 
+import base.AbstractDatabaseTest;
+import base.AbstractTestDataCreator;
 import dao.models.CustomerDAO;
 import models.project.Customer;
 import org.junit.Test;
-import base.AbstractDatabaseTest;
-import base.AbstractTestDataCreator;
 
 import static org.fest.assertions.Assertions.assertThat;
 

@@ -1,14 +1,14 @@
 package unit.logic.user;
 
 
+import base.AbstractDatabaseTest;
+import base.AbstractTestDataCreator;
 import com.fasterxml.jackson.databind.JsonNode;
-import exceptions.EntityNotCreatedException;
+import exceptions.EntityAlreadyExistsException;
 import models.authentication.User;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
-import base.AbstractDatabaseTest;
-import base.AbstractTestDataCreator;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -23,7 +23,7 @@ public class UserLogicTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void testHashAndSaltFieldsNotReturned() throws EntityNotCreatedException {
+    public void testHashAndSaltFieldsNotReturned() throws EntityAlreadyExistsException {
         final JsonNode json = Json.toJson(user);
 
         assertThat(json.get("name").asText()).isEqualTo("test-user");

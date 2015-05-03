@@ -51,7 +51,7 @@ public class Project extends Controller {
     @SubjectPresent
     @Transactional
     public static Result getAllQualityProperties() {
-        List<QualityProperty> qualityProperties = logics.project.Project.getAllQualityProperties();
+        List<QualityProperty> qualityProperties = logics.project.QualityProperty.getAllQualityProperties();
         return ok(Json.toJson(qualityProperties));
     }
 
