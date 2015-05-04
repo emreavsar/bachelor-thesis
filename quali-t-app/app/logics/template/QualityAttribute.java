@@ -1,5 +1,6 @@
 package logics.template;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QACategoryDAO;
@@ -13,20 +14,27 @@ import play.Logger;
 
 import java.util.List;
 
+import static logics.template.Catalog.addQaToCatalog;
+import static logics.template.Variables.addVarsToQA;
+
 /**
  * Created by corina on 09.04.2015.
  */
 public class QualityAttribute {
-    public static QA createQA(String qaText, List<Long> categoryIds) throws MissingParameterException, EntityNotFoundException {
+    public static QA createQA(String qaText, List<Long> categoryIds, JsonNode vars) throws MissingParameterException, EntityNotFoundException {
         if (qaText.equals("")) {
             throw new MissingParameterException("QualityAttribute text can not be emtpy");
         }
         else {
             QualityAttributeDAO qaDAO = new QualityAttributeDAO();
             QACategoryDAO qaCategoryDAO = new QACategoryDAO();
+
             List<QACategory> qaCategories = qaCategoryDAO.readAllById(categoryIds);
-            QA qa = new QA(qaText, qaCategories);
-            return qaDAO.persist(qa);
+            QA qa = qaDAO.persist(new QA(qaText, qaCategories));
+            CatalogQA catalogQA = addQaToCatalog(qa.getId(), Long.valueOf(6000));
+            Logger.info("Values Node:   " + vars.toString());
+            addVarsToQA(catalogQA, vars);
+            return qa;
         }
     }
 
@@ -37,7 +45,6 @@ public class QualityAttribute {
 
     public static List<CatalogQA> getQAsByCatalog(long id) throws EntityNotFoundException {
         CatalogQADAO catqaDAO = new CatalogQADAO();
-        QualityAttributeDAO qadao = new QualityAttributeDAO();
         CatalogDAO catalogDAO = new CatalogDAO();
         models.template.Catalog cat = catalogDAO.readById(id);
         return catqaDAO.findByCatalog(cat);

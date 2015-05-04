@@ -1,5 +1,6 @@
 package models.template;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -14,11 +15,18 @@ import javax.persistence.*;
 @Nullable
 public class ValRange extends AbstractEntity {
     private float min;
-
     private float max;
-
     @OneToOne(optional = true)
+    @JsonBackReference
     private QAVar rangeInVar;
+
+    public ValRange() {
+    }
+
+    public ValRange(Float min, Float max) {
+        this.min = min;
+        this.max = max;
+    }
 
     public float getMin() {
         return min;

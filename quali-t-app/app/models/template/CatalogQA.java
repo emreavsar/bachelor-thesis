@@ -8,6 +8,7 @@ import models.AbstractEntity;
 import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,6 +19,16 @@ import java.util.Set;
 @Table(name = "catalogqa")
 @Nullable
 public class CatalogQA extends AbstractEntity {
+    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
+    private Catalog catalog;
+    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference
+    private QA qa;
+    @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference
+    private Set<QAVar> vars = new HashSet<>();
+
     public CatalogQA() {
     }
 
@@ -25,17 +36,6 @@ public class CatalogQA extends AbstractEntity {
         this.catalog = catalog;
         this.qa = qa;
     }
-
-    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
-    private Catalog catalog;
-
-    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
-    private QA qa;
-
-    @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<QAVar> vars = new HashSet<>();
 
     public Set<QAVar> getVars() {
         return vars;
@@ -59,5 +59,16 @@ public class CatalogQA extends AbstractEntity {
 
     public void setQa(QA qaID) {
         this.qa = qaID;
+    }
+
+    public void addVars(List<QAVar> qaVars) {
+        for (QAVar var : qaVars) {
+            this.addVar(var);
+        }
+    }
+
+    private void addVar(QAVar var) {
+        this.vars.add(var);
+        var.setTemplate(this);
     }
 }

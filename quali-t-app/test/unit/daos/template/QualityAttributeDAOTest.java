@@ -30,7 +30,6 @@ public class QualityAttributeDAOTest extends AbstractDatabaseTest {
         qaIds = new ArrayList<>();
         qaIds.add(qa1.getId());
         qaIds.add(qa2.getId());
-
     }
 
     @Test

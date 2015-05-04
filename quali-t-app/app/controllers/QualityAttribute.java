@@ -30,12 +30,13 @@ public class QualityAttribute extends Controller {
     public static Result createQA() throws MissingParameterException {
         JsonNode json = request().body().asJson();
 
-        String qaText = json.findValue("qaText").asText();
+        String qaText = json.findValue("description").asText();
         JsonNode node = json.findValue("categories");
         List<String> list = node.findValuesAsText("id");
         List<Long> categories = Lists.transform(list, Helper.parseLongFunction());
+        JsonNode vars = json.findValue("variables");
         try {
-            return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText, categories)));
+            return ok(Json.toJson(logics.template.QualityAttribute.createQA(qaText, categories, vars)));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         } catch (EntityNotFoundException e) {

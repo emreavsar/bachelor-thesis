@@ -1,5 +1,6 @@
 package models.template;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -13,21 +14,15 @@ import javax.persistence.*;
 @Table(name = "qavarval")
 @Nullable
 public class QAVarVal extends AbstractEntity {
-    private String value;
 
     @ManyToOne
+    @JsonBackReference
     private QAVar valInVar;
 
-//    @OneToOne(optional = true)
-//    private QAVar defaultValIn;
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
+    @OneToOne(optional = true)
+    @JsonBackReference
+    private QAVar defaultValIn;
 
     public QAVar getValInVar() {
         return valInVar;
@@ -37,11 +32,11 @@ public class QAVarVal extends AbstractEntity {
         this.valInVar = usedInVar;
     }
 
-//    public QAVar getDefaultValIn() {
-//        return defaultValIn;
-//    }
-//
-//    public void setDefaultValIn(QAVar defaultValIn) {
-//        this.defaultValIn = defaultValIn;
-//    }
+    public QAVar getDefaultValIn() {
+        return defaultValIn;
+    }
+
+    public void setDefaultValIn(QAVar defaultValIn) {
+        this.defaultValIn = defaultValIn;
+    }
 }
