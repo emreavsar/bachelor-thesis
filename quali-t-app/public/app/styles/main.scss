@@ -456,12 +456,23 @@ body {
   margin-top: 50px;
 }
 
+.margin-top-50 {
+  margin-top: 50px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
 /** TEXTANGULAR CUSTOMIZATION **/
 div[text-angular-toolbar] {
   background-color: #e7e7e7 !important;
   margin-left: 0px !important;
   .btn-group {
     margin-left: 0px;
+    &:last-of-type {
+      clear: both;
+    }
   }
   button {
     box-shadow: none !important;
@@ -585,4 +596,9 @@ div[text-angular-toolbar] {
     margin-right: 10px;
     margin-top: 5px;
   }
+}
+
+.qa-preview {
+  padding: 0px 15px 15px;
+  margin: 0 -15px 15px;
 }

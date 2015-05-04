@@ -172,7 +172,8 @@ angular.module('qualitApp')
           if (!scope.hideCheckbox()) {
             var checkBox = $('<input/>', {
               type: 'checkbox',
-              'data-id': category.id
+              'data-id': category.id,
+              'data-name': category.name
             }).prependTo(label);
 
             $(label).click(function (e) {
