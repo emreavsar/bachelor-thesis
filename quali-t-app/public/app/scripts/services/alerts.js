@@ -32,6 +32,18 @@ angular.module('qualitApp')
           show: true,
         });
         return alert;
+      },
+
+      createLocalWarning: function (content, container) {
+        var alert = $alert({
+          title: 'Oh no!',
+          content: content,
+          placement: 'top-right',
+          type: 'error',
+          container: container,
+          show: true
+        });
+        return alert;
       }
     }
   });

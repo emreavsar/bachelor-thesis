@@ -1,102 +1,204 @@
-<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="AddVarModalCtrl"
+     ng-init="bindHide($hide)">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
-        <h4 class="modal-title" ng-show="type == 'FREENUMBER'">
-          Add new free number variable
+        <h4 class="modal-title" ng-show="isFree()">
+          Add field text / number variable
         </h4>
 
-        <h4 class="modal-title" ng-show="type == 'ENUMTEXT'">
-          Add new enumeration (text) variable
-        </h4>
-
-        <h4 class="modal-title" ng-show="type == 'ENUMNUMBER'">
-          Add new enumeration (number) variable
+        <h4 class="modal-title" ng-show="isEnum()">
+          Add dropdown text / number variable
         </h4>
       </div>
-      <div class="modal-body" ng-show="type == 'FREENUMBER'">
-        <div class="information-box">
-          <span class="text-info">
-            <i class="fa fa-info-circle"></i>
-            You can set a range for the free number variable if you want to.
-            This range gets evaluated when using the quality attribute inside a project.
-          </span>
-        </div>
 
-        <label> <input type="checkbox" ng-model="useRange"> I want to use a range </label>
+      <!-- START: FREETEXT OR FREENUMBER -->
+      <div class="modal-body" ng-show="isFree()">
+        <h5>Select the type of your textfield:</h5>
 
-        <div class="form" ng-show="useRange">
-          <div class="form-input">
-            <label for="minValue" class="control-label">Minimum value</label>
+        <label class="col-md-6">
+          <input type="radio" ng-model="subType" value="TEXT"> Text (String)
+        </label>
 
-            <div>
-              <input type="number" ng-model="minValue" class="form-input" id="minValue">
+        <label class="col-md-6">
+          <input type="radio" ng-model="subType" value="NUMBER"> Numeric (Floating Point)
+        </label>
+
+        <div ng-show="subType" class="row">
+          <div ng-show="isNumeric()" class="row">
+            <div class="row">
+              <label>
+                <input type="checkbox" ng-model="useRange"> I want to use a range
+                <i class="fa fa-info-circle" data-trigger="hover" data-type="success" data-title="{{tooltipsRange}}"
+                   bs-tooltip></i>
+              </label>
+
+              <div class="form" ng-show="useRange">
+                <div class="form-input col-md-6">
+                  <label for="minValue" class="control-label">Minimum value</label>
+
+                  <div>
+                    <input type="number" ng-model="minValue" class="form-input" id="minValue">
+                  </div>
+                </div>
+                <div class="form-input col-md-6">
+                  <label for="maxValue" class="control-label">Maximum value</label>
+
+                  <div>
+                    <input type="number" ng-model="maxValue" class="form-input" id="maxValue">
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="form-input">
-            <label for="maxValue" class="control-label">Maximum value</label>
 
-            <div>
-              <input type="number" ng-model="maxValue" class="form-input" id="maxValue">
-            </div>
-          </div>
-        </div>
-
-        <button type="button" class="btn btn-default btn-md"
-                ng-click="add(editor, savedSelection, type, null, minValue, maxValue, null);$hide()">Add number variable
-        </button>
-
-
-      </div>
-
-      <div class="modal-body" ng-show="type == 'ENUMTEXT'">
-        <!-- TODO emre: put a info box which explains how to use the modal view -->
-        <div>
-
-          <div>
-            <h3>Create your enumeration: </h3>
-
-            <div ng-show="enumList">
-              Elements of your enumeration:
-              <ul>
-                <li ng-repeat="enumElement in enumList">
-                  {{enumElement}}
-                  <i class="fa fa-trash-o pointer" ng-click="removeFromList(type, enumElement, enumList);"/>
-                  <i class="fa fa-pencil"/>
-                </li>
-              </ul>
-            </div>
-            <input type="text" ng-model="enumElementText"/>
-            <button class="btn btn-default btn-sm" type="button" ng-click="addToList(type, enumElementText, enumList)">
-              <i class="fa fa-plus"/> Add
-            </button>
-          </div>
-
-          <div>
-            <h3>Preview in Project mode: </h3>
-            <select ng-show="enumList">
-              <!-- TODO emre: implement default value if desired -->
-              <option value="">Select a value</option>
-              <option ng-repeat="enumElement in enumList" value="enumElement">{{enumElement}}</option>
-            </select>
           </div>
 
           <div class="margin-top-50 text-center">
             <button type="button" class="btn btn-default btn-md"
-                    ng-click="add(editor, savedSelection, type, enumList, minValue, maxValue, null); $hide()">Add variable to
-              quality
-              attribute
+                    ng-click="add(editor, savedSelection, type, subType, null, minValue, maxValue, null, null)">
+              Add specified variable
             </button>
           </div>
         </div>
       </div>
+      <!-- END:   FREETEXT OR FREENUMBER -->
 
-      <div class="modal-body" ng-show="type == 'ENUMNUMBER'">
-        Free Number content
+
+      <!-- START: ENUMTEXT OR ENUMNUMBER -->
+      <div class="modal-body" ng-show="type=='ENUM'">
+        <h5>Select the type of your dropdown:</h5>
+
+        <label class="col-md-6">
+          <input type="radio" ng-model="subType" value="TEXT"> Text (String)
+        </label>
+
+        <label class="col-md-6">
+          <input type="radio" ng-model="subType" value="NUMBER"> Numeric (Floating Point)
+        </label>
+
+        <div ng-show="subType" class="row">
+          <div class="row">
+            <div class="col-md-6">
+              Add elements to your dropdown:
+              <div ng-show="enumList">
+                Elements of your enumeration:
+                <ul>
+                  <li ng-repeat="enumElement in enumList">
+                    {{enumElement}}
+                    <i class="fa fa-trash-o pointer" ng-click="removeFromList(enumElement);"/>
+                  </li>
+                </ul>
+              </div>
+              <form name="newElementsForm" ng-submit="addToList(subType, enumElementText)">
+                <input type="text" ng-model="enumElementText" name="nameText" ng-minlength="0"
+                       ng-show="subType=='TEXT'"/>
+
+                <input type="text" ng-model="enumElementText" name="nameNumber" ng-minlength="0"
+                       ng-pattern="/^[0-9]+(?:[\,\.]{1}[0-9]*)?$/" ng-show="isNumeric()"/>
+
+                <button class="btn btn-default btn-sm" type="submit">
+                  <i class="fa fa-plus"/> Add
+                </button>
+
+                <!-- FORM VALIDATION -->
+                <div>
+                  <span class="text-danger" ng-show="newElementsForm.nameText.$error.minlength">
+                    <i class="fa fa-exclamation-circle"></i> THe element must be at least 1 character long</span>
+                  <span class="text-danger" ng-show="newElementsForm.nameNumber.$error.minlength">
+                    <i class="fa fa-exclamation-circle"></i> THe element must be at least 1 character long</span>
+                  <span class="text-danger"
+                        ng-show="newElementsForm.nameNumber.$error.pattern && isNumeric()">
+                    <i class="fa fa-exclamation-circle"></i>
+                    Not a valid number. Examples of valid numbers:
+                    <ul>
+                      <li>1234</li>
+                      <li>1234.56</li>
+                      <li>12</li>
+                      <li>12.34</li>
+                    </ul>
+                  </span>
+                </div>
+              </form>
+
+
+            </div>
+            <div class="col-md-6">
+              Preview of your dropdown:
+              <select ng-show="enumList" class="form-control">
+                <!-- TODO emre: implement default value if desired -->
+                <option value="">Select a value</option>
+                <option ng-repeat="enumElement in enumList" value="{{enumElement}}">{{enumElement}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <h5>Special configuration:</h5>
+
+            <div class="row">
+              <label>
+                <input type="checkbox" ng-model="isExtendable"> User can add custom values (extendable dropdowns)
+              </label>
+              <i class="fa fa-info-circle" data-trigger="hover" data-type="success" data-title="{{tooltipsExtendable}}"
+                 bs-tooltip></i>
+            </div>
+
+            <div class="row" ng-show="isNumeric() && isExtendable">
+              <label>
+                <input type="checkbox" ng-model="useRange"> I want to use a range
+                <i class="fa fa-info-circle" data-trigger="hover" data-type="success" data-title="{{tooltipsRange}}"
+                   bs-tooltip></i>
+              </label>
+
+              <div class="form" ng-show="useRange">
+                <div class="form-input col-md-6">
+                  <label for="minValue" class="control-label">Minimum value</label>
+
+                  <div>
+                    <input type="number" ng-model="minValue" class="form-input" id="minValue">
+                  </div>
+                </div>
+                <div class="form-input col-md-6">
+                  <label for="maxValue" class="control-label">Maximum value</label>
+
+                  <div>
+                    <input type="number" ng-model="maxValue" class="form-input" id="maxValue">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label>
+                <input type="checkbox" ng-model="useDefaultValue"> Set a default value in the dropdown
+              </label>
+              <i class="fa fa-info-circle" data-trigger="hover" data-type="success"
+                 data-title="{{tooltipsDefaultvalue}}"
+                 bs-tooltip></i>
+            </div>
+
+            <div class="form" ng-show="useDefaultValue">
+              <label for="defaultValueSelection">
+                Select the default value
+              </label>
+              <select ng-show="enumList" class="form-control" ng-model="defaultValue" id="defaultValueSelection">
+                <option ng-repeat="enumElement in enumList" value="{{enumElement}}">{{enumElement}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="margin-top-50 text-center">
+            <button type="button" class="btn btn-default btn-md"
+                    ng-click="add(editor, savedSelection, type, subType, enumList, minValue, maxValue, defaultValue, isExtendable);">
+              Add specified variable
+            </button>
+          </div>
+        </div>
       </div>
+      <!-- END:   FREETEXT OR FREENUMBER -->
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>

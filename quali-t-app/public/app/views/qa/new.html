@@ -1,18 +1,33 @@
 <h3>Create new Quality Attribute Template</h3>
-<h3 class="steps">Step 1: Provide information</h3>
+<h3 class="steps">Step 1: Select categories</h3>
 <div class="form crud-form">
   <h4>Categories</h4>
   <label>Choose the categories for your quality attribute. </label>
   <filter id="categories" callback="" hide-checkbox="false" categories="catList"></filter>
 
-  <h4>Quality Attribute Information</h4>
-  <div class="form-group">
-    <label for="qa-Text">Specify your Quality Attribute below</label>
-    <text-angular ng-model="qaText" id="qa-Text"></text-angular>
+
+  <h3 class="steps">Step 2: Write your Quality Attribute's text with variables</h3>
+
+  <div class="form-group row">
+    <div class="col-md-9">
+      <h4>Quality Attribute Information</h4>
+      <text-angular ng-model="qaText" id="qa-Text"></text-angular>
+    </div>
+    <div class="used-variables col-md-3">
+      <h4>Used Variables:</h4>
+      <span ng-hide="usedVariables.length">No variables used yet.</span>
+      <ul class="list-group">
+        <li ng-repeat="variable in usedVariables" class="list-group-item">
+          {{variable.type + "_" + variable.number}} <i class="fa fa-trash-o" ng-click="removeVariable(variable)"/>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="preview">
-    <h4>Preview in Catalog / Project mode: </h4>
+    <h3 class="steps">Step 3: Verify your desired result:</h3>
+    <h4>Preview in new Catalog / Project mode: </h4>
+
     <div ng-bind-html="qaPreview()" class="qa-preview"></div>
   </div>
 

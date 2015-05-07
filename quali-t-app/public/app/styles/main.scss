@@ -531,6 +531,10 @@ div[text-angular-toolbar] {
     font-size: 22px;
     color: #00893B;
   }
+  select {
+    width: inherit;
+    display: initial;
+  }
 }
 
 .clickable {
@@ -601,4 +605,19 @@ div[text-angular-toolbar] {
 .qa-preview {
   padding: 0px 15px 15px;
   margin: 0 -15px 15px;
+}
+
+.modal {
+  .close {
+    color: #000 !important;
+  }
+  .modal-body {
+    margin-bottom: 20px;
+
+    .row {
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-top: 15px;
+    }
+  }
 }

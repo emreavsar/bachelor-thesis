@@ -13,14 +13,74 @@ angular.module('qualitApp')
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
 
+    // only for controlling of used variables
+    $scope.usedVariables=new Array();
+
+    /**
+     * This watch is needed to bind the variables to the quality attributes text
+     * For example when the user removes a variable by hand.
+     */
+    $scope.$watch('qaText', function (newValue, oldValue) {
+      if (newValue != oldValue) {
+
+        // TODO: emre cleanup here
+        // verify if a quality attribute is not used twice (same ID)
+        //var variables = $scope.getVariables(newValue, true);
+        //var uniqueVariables = _.uniq(variables, 'number');
+        //var difference = _.uniq(_.difference(variables, uniqueVariables), 'number');
+
+        //// multiple usage of qa -> reset and send a warning
+        //if (difference.length > 0) {
+        //  var multipleUsedVariableName = "";
+        //  $(difference).each(function (index, value) {
+        //    multipleUsedVariableName += value.type + "_" + value.number;
+        //    if (index + 1 < difference.length) {
+        //      multipleUsedVariableName += ", ";
+        //    }
+        //  });
+        //  var alert = alerts.createLocalWarning('Multiple usage of a variable is not permitted: ' + multipleUsedVariableName, 'body ');
+        //}
+        //else {
+        $scope.taOptions.variables = $scope.getVariables(newValue, true);
+        $scope.usedVariables = $scope.getVariables(newValue, false);
+        //}
+      }
+    });
+
     $scope.getSelectedCategories = function () {
       var selectedCategories = new Array();
       $scope.selectedCategories = new Array();
       $("#categories input[type='checkbox']:checked").each(function () {
-        selectedCategories.push({id: $(this).data('id')});
-        selectedCategories.push({name: $(this).data('name')});
+        selectedCategories.push({
+          id: $(this).data('id'),
+          name: $(this).data('name')
+        });
       });
       return selectedCategories;
+    }
+
+    $scope.getVarKey = function (variable) {
+      return "%VARIABLE_" + variable.type + "_" + variable.number + "%";
+    }
+
+    $scope.removeVariable = function (variable, key) {
+      delete $scope.taOptions.variables[key];
+      $scope.qaText = $scope.getUpdatedQaText($scope.qaText, variable);
+    }
+
+    /**
+     * Returns the quality attributes text after removing a given variable
+     * @param qaText
+     * @param variableToRemove
+     * @returns {*}
+     */
+    $scope.getUpdatedQaText = function (qaText, variableToRemove) {
+      var updatedQaText = qaText;
+
+      var textToDelete = "%VARIABLE_" + variableToRemove.type + "_" + variableToRemove.number + "%";
+      updatedQaText = updatedQaText.replace(textToDelete, "");
+
+      return updatedQaText;
     }
 
     /**
@@ -28,11 +88,13 @@ angular.module('qualitApp')
      * @returns {string} HTML
      */
     $scope.qaPreview = function () {
-      var variables = $scope.getVariables($scope.qaText);
+      var variables = $scope.getVariables($scope.qaText, true);
       var descContainerHtml = "";
-      var nextVariableToUse = 0;
-      var tokens = ($scope.qaText.split(/%VARIABLE_(FREETEXT|FREENUMBER|ENUM|ENUMPLUS){1}_\d*%/g) || []);
 
+      // these are all text tokens (normal text split by variables)
+      var tokens = ($scope.qaText.split(/%VARIABLE_(FREETEXT|FREENUMBER|ENUMTEXT|ENUMNUMBER){1}_\d*%/g) || []);
+      // these are all variables in text (%VARIABLES_TYPE_NUMBER_%)
+      var varTokens = ($scope.qaText.match(/%VARIABLE_(FREETEXT|FREENUMBER|ENUMTEXT|ENUMNUMBER){1}_\d*%/g) || []);
 
       // TODO emre: can be refactored to a custom directive, used in catalog, project and here
       var qaContainer = $("<div/>", {
@@ -44,11 +106,19 @@ angular.module('qualitApp')
       }).appendTo(qaContainer);
 
       var selectedCategories = $scope.getSelectedCategories();
-      for (var j = 0; j < selectedCategories.length; j++) {
+      if (selectedCategories.length == 0) {
         $("<span/>", {
           class: "label label-default",
-          text: selectedCategories[j].name
+          text: "No category selected"
         }).appendTo(categories);
+      } else {
+
+        for (var j = 0; j < selectedCategories.length; j++) {
+          $("<span/>", {
+            class: "label label-default",
+            text: selectedCategories[j].name
+          }).appendTo(categories);
+        }
       }
 
       var descContainer = $("<div/>", {
@@ -56,17 +126,19 @@ angular.module('qualitApp')
       }).appendTo(qaContainer);
 
 
+      var nextToken = 0;
       for (var i = 0; i < tokens.length; i++) {
         var token = tokens[i];
 
         // if its a token, do special htmlizing
         if ($scope.isVariable(token)) {
-          var variable = variables[nextVariableToUse];
+          var variable = variables[varTokens[nextToken]];
+          nextToken++;
 
           if (variable.type == "FREETEXT") {
             descContainerHtml += "<input type='text' placeholder='' />";
           } else if (variable.type == "FREENUMBER") {
-            if (variable.min != undefined) {
+            if (variable.min != undefined && variable.max != undefined) {
               var placeholderText = "Value must be between " + variable.min + " and " + variable.max;
               var inputSize = placeholderText.length;
             } else {
@@ -74,15 +146,31 @@ angular.module('qualitApp')
               var inputSize = 10; // default for numbers
             }
             descContainerHtml += "<input type='text' placeholder='" + placeholderText + "' size='" + inputSize + "'/>";
-          } else if (variable.type == "ENUM") {
-            descContainerHtml += "enums not implemented yet";
+          } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
+            descContainerHtml += "<select class='form-control'>";
+            descContainerHtml += "<option class='form-option' value=''>Select a value</option>";
+            if(variable.values == undefined) {
+              var localWarning = alerts.createLocalWarning("Have you inserted the variable (" +  $scope.getVarKey(variable) + ") manually?", "#alerts-container");
+            } else {
 
-          } else if (variable.type == "ENUMPLUS") {
-            descContainerHtml += "enumplus not implemented yet";
+            for (var j = 0; j < variable.values.length; j++) {
+              var selectedAttr = "";
+              // if there was a default value, make selection
+              if (variable.defaultValue != undefined) {
+                selectedAttr = (variable.values[j] == variable.defaultValue ? "selected" : "");
+              }
+              descContainerHtml += "<option class='form-option' " + selectedAttr + ">" + variable.values[j] + "</option>";
+            }
+            descContainerHtml += "</select>";
+            if (variable.extendable) {
+              var extendablePlaceholderText = "or add a new value";
+              if (variable.min != undefined && variable.max != undefined) {
+                extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
+              }
+              descContainerHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' />";
+            }
+              }
           }
-
-          // move to next variable
-          nextVariableToUse++;
         } else {
           // only append
           descContainerHtml += token;
@@ -94,45 +182,54 @@ angular.module('qualitApp')
     }
 
     $scope.isVariable = function (strToTest) {
-      return (strToTest == "FREETEXT" || strToTest == "FREENUMBER" || strToTest == "ENUM" || strToTest == "ENUMPLUS");
+      return (strToTest == "FREETEXT" || strToTest == "FREENUMBER" || strToTest == "ENUMTEXT" || strToTest == "ENUMNUMBER");
     }
+
 
     /**
      * Does the parsing of the quality attribute string and prepares the object structure with variables sent to the backend
+     * @param qaText
+     * @param associativeArr
      * @returns {Array}
      */
-    $scope.getVariables = function (qaText) {
+    $scope.getVariables = function (qaText, associativeArr) {
       var variables = new Array();
 
-      var tokens = (qaText.match(/%VARIABLE_(FREETEXT|FREENUMBER|ENUM|ENUMPLUS){1}_\d*%/g) || []);
+      var tokens = (qaText.match(/%VARIABLE_(FREETEXT|FREENUMBER|ENUMTEXT|ENUMNUMBER){1}_\d*%/g) || []);
       for (var i = 0; i < tokens.length; i++) {
         var token = tokens[i];
-        var type = token.match(new RegExp(/(FREETEXT|FREENUMBER|ENUM|ENUMPLUS){1}/g) || [])[0];
+        var options = new RegExp(/(FREETEXT|FREENUMBER|ENUMTEXT|ENUMNUMBER)_(\d+)/g).exec(token);
+        var type = options[1];
+        var number = options[2];
 
         // these are the basic values for all variable types
         var variable = {
           type: type,
-          number: i
+          number: number
         }
 
         // qa type specific content, will not be saved in the string -> only setable with ui-interactions
         // check if has key
-        if (Object.keys($scope.taOptions.variables).indexOf(i) && $scope.taOptions.variables[i] != undefined) {
-          var varOptions = $scope.taOptions.variables[i];
-        } else {
+        var varOptions = $scope.taOptions.variables[token];
+        if (varOptions == undefined) {
           var varOptions = {
             min: '',
             max: '',
-            defaultValue: ''
+            defaultValue: '',
+            extendable: '',
           };
         }
-        if (type == "FREENUMBER" || type == "ENUMPLUS") {
-          variable.min = varOptions.min;
-          variable.max = varOptions.max;
-        } else if (type == "ENUM" || type == "ENUMPLUS") {
-          variable.defaultValue = varOptions.defaultValue;
+
+        // add options as key-value to the variable object
+        _.forEach(varOptions, function (value, key) {
+          variable[key] = value;
+        });
+
+        if (associativeArr) {
+          variables[$scope.getVarKey(variable)] = variable;
+        } else {
+          variables.push(variable);
         }
-        variables.push(variable);
       }
 
       return variables;
@@ -151,7 +248,9 @@ angular.module('qualitApp')
         qa: {
           description: qaText,
           categories: $scope.getSelectedCategories(),
-          variables: $scope.getVariables(qaText)
+        },
+        catalogQa: {
+          variables: $scope.getVariables(qaText, false)
         }
       }, {headers: {'Content-Type': 'application/json'}}).
         success(function (data, status, headers, config) {
