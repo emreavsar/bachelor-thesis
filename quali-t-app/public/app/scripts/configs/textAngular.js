@@ -32,7 +32,7 @@ angular.module('qualitApp')
 
         // TODO emre: is this desired in every textangular instance or not?
         taRegisterTool('addVarFree', {
-          iconclass: "fa fa-list-ol",
+          iconclass: "fa fa-font",
           buttontext: "Freetext Variable",
           action: function () {
             openNewVariableModal('FREE', this.$editor());
