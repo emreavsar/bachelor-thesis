@@ -27,11 +27,11 @@ public class QA extends AbstractEntity {
 //    @JsonManagedReference(value="qaCategories")
     @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "id2")
     private Set<QACategory> categories = new HashSet<>();
-    private boolean isDeleted;
+    private boolean deleted;
     private int versionNumber;
 
     public QA() {
-        this.isDeleted = false;
+        this.deleted = false;
     }
 
     public QA(String description, int versionNumber) {
@@ -76,11 +76,11 @@ public class QA extends AbstractEntity {
     }
 
     public boolean isDeleted() {
-        return isDeleted;
+        return deleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public int getVersionNumber() {

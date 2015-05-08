@@ -64,28 +64,6 @@ INSERT INTO qacategory VALUES (4004, 'fa fa-heart', 'Portability3', 4003);
 INSERT INTO qacategory VALUES (4005, 'fa fa-cog', 'Availability', NULL);
 INSERT INTO qacategory VALUES (4006, 'fa fa-cog', 'SubcategoryOfAvailability', 4005);
 
---
--- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
---
-
-INSERT INTO qa VALUES (5000, '<p>Das System soll ______ % verfügbar sein.</p>');
-INSERT INTO qa VALUES (5001, '<p>The _________ System is ______ of the year <b>available.</b></p>');
-
---
--- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
---
-
-INSERT INTO qacategory_qa VALUES (4000, 5000);
-INSERT INTO qacategory_qa VALUES (4002, 5000);
-INSERT INTO qacategory_qa VALUES (4003, 5001);
-INSERT INTO qacategory_qa VALUES (4006, 5001);
-
---
--- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
---
-
-INSERT INTO task (id, description, done, assignee_id) VALUES (6000, 'Evaluate Catalog HSR Mobile App', true, 1000);
-INSERT INTO task (id, description, done, assignee_id) VALUES (6001, 'Create Catalog for Cloud Apps', false, 1000);
 
 --
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -93,14 +71,6 @@ INSERT INTO task (id, description, done, assignee_id) VALUES (6001, 'Create Cata
 
 INSERT INTO catalog VALUES (6000, 'Dies ist der Standardkatalog', 'Standard Katalog', NULL);
 INSERT INTO catalog VALUES (6001, 'Katalog für Cloud Templates', 'Cloud Katalog', NULL);
-
---
--- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
---
-
-INSERT INTO catalogqa VALUES (7000, 6000, 5000);
-INSERT INTO catalogqa VALUES (7001, 6000, 5001);
-INSERT INTO catalogqa VALUES (7002, 6001, 5000);
 
 --
 -- Data for Name: qualityproperty; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -112,3 +82,38 @@ INSERT INTO qualityproperty VALUES (8002, 'Agreed Upon', 'A');
 INSERT INTO qualityproperty VALUES (8003, 'Realistic', 'R');
 INSERT INTO qualityproperty VALUES (8004, 'Time-bound', 'T');
 
+--
+-- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO qa (id, description, deleted, versionnumber) VALUES (3000, '<p>Das System ist %VARIABLE_ENUMNUMBER_0%% im Jahr verfügbar.</p>', true, 1);
+
+
+--
+-- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (4005, 3000);
+
+--
+-- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (4000, false, 6000, 3000);
+
+--
+-- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO qavar (id, type, varindex, template_id) VALUES (5000, 'enumNumber', 0, 4000);
+
+--
+-- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (6000, false, 'number', '90', 5000);
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (7000, false, 'number', '99.9', 5000);
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (8000, false, 'number', '99', 5000);
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (9000, true, 'number', '95', 5000);
+
+--
+-- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO task (id, description, done, assignee_id) VALUES (6000, 'Evaluate Catalog HSR Mobile App', true, 1000);
+INSERT INTO task (id, description, done, assignee_id) VALUES (6001, 'Create Catalog for Cloud Apps', false, 1000);

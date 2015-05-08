@@ -27,6 +27,6 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
     }
 
     public List<QA> readAllLatest() {
-        return findAll("select q from QA q where q.isDeleted=false");
+        return findAll("select q from QA q where q.deleted=false");
     }
 }
