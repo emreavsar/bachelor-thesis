@@ -1,7 +1,8 @@
 package models.project;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import models.AbstractEntity;
 import models.project.nfritem.QualityPropertyStatus;
 
@@ -21,10 +22,14 @@ public class QualityProperty extends AbstractEntity {
     private String name;
     private String description;
     @ManyToMany
-    @JsonBackReference
+//    @JsonBackReference(value = "qualityProperty")
+    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
     private Set<Project> usedByProject = new HashSet<Project>();
     @OneToMany(mappedBy = "qp", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+//    @JsonBackReference("qpStatus")
+    @JsonIgnore
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="id")
     private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
 
     public QualityProperty() {

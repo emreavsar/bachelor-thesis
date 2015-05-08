@@ -24,7 +24,8 @@ angular.module('qualitApp')
     $scope.loadCategories();
 
     $scope.openModalView = function (type, clickedCat) {
-      var parentId = $(clickedCat).data('id');
+      var parentId = ($(clickedCat).data('id') == "" ? null : $(clickedCat).data('id'));
+      var name = $(clickedCat).data('name');
       var name = $(clickedCat).data('name');
 
       // create new isolated scope for modal view

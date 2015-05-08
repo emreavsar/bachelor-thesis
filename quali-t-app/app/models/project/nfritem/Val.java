@@ -1,5 +1,6 @@
 package models.project.nfritem;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -20,6 +21,7 @@ public class Val extends AbstractEntity {
     private String value;
 
     @ManyToOne(optional = true)
+    @JsonBackReference("qaInstanceValues")
     private Instance instance;
 
     public int getVarIndex() {

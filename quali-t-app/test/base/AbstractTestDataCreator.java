@@ -49,7 +49,8 @@ public abstract class AbstractTestDataCreator {
 
     public static QA createQA(String qa) throws EntityNotFoundException, MissingParameterException {
         List<Long> categories = new ArrayList();
-        return logics.template.QualityAttribute.createQA(qa, categories);
+//        return logics.template.QualityAttribute.createQA(qa, categories);$
+        return null;
     }
 
     public static Catalog createCatalog(String name, String icon, List<Long> qaIds) throws EntityNotFoundException {
@@ -58,10 +59,12 @@ public abstract class AbstractTestDataCreator {
     }
 
     public static QACategory createCategory(String name, Long parent, String icon) throws EntityNotFoundException {
-        return logics.template.QualityAttribute.createCat(name, parent, icon);
+//        return logics.template.QualityAttribute.createCat(name, parent, icon);
+        return null;
     }
 
     public static QualityProperty createQualityProperty(String name) {
-        return logics.project.QualityProperty.createQualityProperty(name, "");
+//        return logics.project.QualityProperty.createQualityProperty(name, "");
+        return null;
     }
 }

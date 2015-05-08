@@ -1,12 +1,13 @@
 package models.project.nfritem;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import models.AbstractEntity;
 import models.project.QualityProperty;
 
 import javax.annotation.Nullable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -20,11 +21,13 @@ import javax.persistence.Table;
 @Nullable
 public class QualityPropertyStatus extends AbstractEntity {
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference("qaStatus")
     private Instance qa;
 
     @ManyToOne
-    @JsonManagedReference
+//    @JsonManagedReference("qpStatus")
+    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
     private QualityProperty qp;
 
     private boolean status;

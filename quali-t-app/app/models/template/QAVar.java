@@ -1,13 +1,13 @@
 package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,19 +21,16 @@ import java.util.Set;
 public class QAVar extends AbstractEntity {
     private int varIndex;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "variables")
     private CatalogQA template;
     @Enumerated(EnumType.STRING)
     private QAType type;
     @OneToMany(mappedBy = "valInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonManagedReference(value = "variableValue")
     private Set<QAVarVal> values = new HashSet<>();
     @OneToOne(mappedBy = "rangeInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonManagedReference(value = "variableRange")
     private ValRange valRange;
-    @OneToOne(mappedBy = "defaultValIn", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
-    private QAVarVal defaultVal;
 
     public QAVar(int varNumber) {
         this.varIndex = varNumber;
@@ -94,11 +91,22 @@ public class QAVar extends AbstractEntity {
         }
     }
 
-    public QAVarVal getDefaultVal() {
-        return defaultVal;
+    public QAVarVal getDefaultValue() {
+        for (QAVarVal val : this.values) {
+            if (val.isDefault) {
+                return val;
+            }
+        }
+        return null;
     }
 
-    public void setDefaultVal(QAVarVal defaultVal) {
-        this.defaultVal = defaultVal;
+    public void setDefaultValue(String defaultValue) {
+        for (QAVarVal val : this.values) {
+            if (val.getValue().equals(defaultValue)) {
+                val.setIsDefault(true);
+            } else {
+                val.setIsDefault(false);
+            }
+        }
     }
 }

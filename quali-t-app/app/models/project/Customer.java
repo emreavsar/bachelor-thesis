@@ -1,5 +1,6 @@
 package models.project;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import org.hibernate.annotations.CascadeType;
@@ -21,7 +22,8 @@ public class Customer extends AbstractEntity {
     private String name;
     private String address;
     @OneToMany(mappedBy = "projectCustomer", cascade = javax.persistence.CascadeType.REMOVE)
-    @JsonManagedReference
+//    @JsonManagedReference(value = "userProjects")
+    @JsonIgnore
     private List<Project> projects = new ArrayList<>();
 
     public Customer() {
@@ -54,5 +56,15 @@ public class Customer extends AbstractEntity {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", projects=" + projects +
+                ", id'" + getId() +
+                '}';
     }
 }

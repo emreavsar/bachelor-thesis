@@ -5,7 +5,9 @@ import javax.persistence.*;
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import models.AbstractEntity;
 import models.authentication.User;
 import models.project.nfritem.Instance;
@@ -28,14 +30,15 @@ import java.util.Set;
 public class Project extends AbstractEntity {
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+    @JsonBackReference(value = "userProjects")
     private Customer projectCustomer;
     private String name;
     @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+//    @JsonManagedReference(value = "qualityProperty")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@qaProperties")
     private Set<QualityProperty> qualityProperties = new HashSet<>();
     @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JsonManagedReference
+    @JsonManagedReference(value = "qualityAttributes")
     private Set<Instance> qualityAttributes = new HashSet<>();
 
     public Project() {
@@ -43,7 +46,7 @@ public class Project extends AbstractEntity {
 
     public Project(String name, Customer projectCustomer, Catalog catalog, List<Instance> qas, List<QualityProperty> qps) {
         this.name = name;
-        this.projectCustomer = projectCustomer;
+//        this.projectCustomer = projectCustomer;
         this.addQualityProperties(qps);
         this.addQualityAttributes(qas);
 

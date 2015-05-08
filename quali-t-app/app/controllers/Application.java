@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static logics.template.Variables.createVariable;
-
 
 public class Application extends Controller {
     public static Result index() {
@@ -45,7 +43,7 @@ public class Application extends Controller {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("1", "Text1");
         parameters.put("2", "Text2");
-        QAVar qaVar = createVariable(1, "enumText", parameters);
+//        QAVar qaVar = createVariable(1, "enumText", parameters);
 //        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
         parameters.clear();
         parameters.put("1", "5");
@@ -53,10 +51,10 @@ public class Application extends Controller {
         parameters.put("min", "0");
         parameters.put("max", "15");
         parameters.put("default", "5");
-        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
+//        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
         List<QAVar> list = new ArrayList<>();
-        list.add(qaVar);
-        list.add(qaVar2);
+//        list.add(qaVar);
+//        list.add(qaVar2);
 //        new QAVarValDAO().persist();
         CatalogQA qa = new CatalogQA();
         qa.addVars(list);

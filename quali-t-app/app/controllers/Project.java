@@ -6,7 +6,6 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
-import models.project.QualityProperty;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -46,13 +45,6 @@ public class Project extends Controller {
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
-    }
-
-    @SubjectPresent
-    @Transactional
-    public static Result getAllQualityProperties() {
-        List<QualityProperty> qualityProperties = logics.project.QualityProperty.getAllQualityProperties();
-        return ok(Json.toJson(qualityProperties));
     }
 
     @SubjectPresent

@@ -25,4 +25,8 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
         searchResults = (ArrayList<QA>) findAll("select q from QA q where lower(q.description) like ?", searchArgument);
         return searchResults;
     }
+
+    public List<QA> readAllLatest() {
+        return findAll("select q from QA q where q.isDeleted=false");
+    }
 }

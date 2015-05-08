@@ -1,7 +1,6 @@
 package models.template;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -18,17 +17,20 @@ import java.util.Set;
 @Entity
 @Table(name = "qacategory")
 @Nullable
+@JsonIgnoreProperties({"id2"})
 public class QACategory extends AbstractEntity {
     private String name;
     private String icon;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+    @JsonBackReference(value = "categoryParent")
     private QACategory parent;
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JsonManagedReference
+    @JsonManagedReference(value = "categoryParent")
     private Set<QACategory> categories = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+//    @JsonBackReference(value="qaCategories")
+    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "id2")
     private Set<QA> usedInQA = new HashSet<>();
 
     public QACategory() {

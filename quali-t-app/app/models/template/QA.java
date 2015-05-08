@@ -1,7 +1,6 @@
 package models.template;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
@@ -17,21 +16,28 @@ import java.util.Set;
 @Entity
 @Table(name = "qa")
 @Nullable
+@JsonIgnoreProperties({"id2"})
 public class QA extends AbstractEntity {
     private String description;
     @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+    @JsonBackReference(value = "QA")
+    @JsonIgnore
     private Set<CatalogQA> usedInCatalog = new HashSet<>();
     @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+//    @JsonManagedReference(value="qaCategories")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "id2")
     private Set<QACategory> categories = new HashSet<>();
+    private boolean isDeleted;
+    private int versionNumber;
 
     public QA() {
+        this.isDeleted = false;
     }
 
-    public QA(String description, List<QACategory> categories) {
+    public QA(String description, int versionNumber) {
+        super();
+        this.versionNumber = versionNumber;
         this.description = description;
-        this.addCategories(categories);
     }
 
     public String getDescription() {
@@ -67,5 +73,21 @@ public class QA extends AbstractEntity {
         for (QACategory category : categories){
             this.addCategory(category);
         }
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public int getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(int versionNumber) {
+        this.versionNumber = versionNumber;
     }
 }

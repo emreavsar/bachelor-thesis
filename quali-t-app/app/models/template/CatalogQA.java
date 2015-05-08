@@ -2,6 +2,8 @@ package models.template;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 
@@ -18,21 +20,25 @@ import java.util.Set;
 @Entity
 @Table(name = "catalogqa")
 @Nullable
+@JsonIgnoreProperties({"id2"})
 public class CatalogQA extends AbstractEntity {
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+    @JsonBackReference(value = "catalogQAs")
     private Catalog catalog;
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonManagedReference(value = "QA")
     private QA qa;
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonManagedReference(value = "variables")
     private Set<QAVar> vars = new HashSet<>();
+    private boolean isDeleted;
 
     public CatalogQA() {
+        this.isDeleted = false;
     }
 
     public CatalogQA(QA qa, Catalog catalog) {
+        super();
         this.catalog = catalog;
         this.qa = qa;
     }
@@ -70,5 +76,13 @@ public class CatalogQA extends AbstractEntity {
     private void addVar(QAVar var) {
         this.vars.add(var);
         var.setTemplate(this);
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

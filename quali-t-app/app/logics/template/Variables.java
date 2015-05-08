@@ -11,42 +11,63 @@ import java.util.*;
  * Created by corina on 04.05.2015.
  */
 public class Variables {
-    public static CatalogQA addVarsToQA(CatalogQA catalogQA, JsonNode vars) {
-        CatalogQADAO catalogQADAO = new CatalogQADAO();
+    static CatalogQADAO catalogQADAO = new CatalogQADAO();
+
+    public static CatalogQA addVarsToQA(CatalogQA catalogQA, JsonNode json) {
+        JsonNode vars = json.findValue("variables");
         List<QAVar> qaVars = new ArrayList<>();
+
+//        for (JsonNode node : vars) {
         Iterator<JsonNode> varIterator = vars.elements();
-        Map<String, String> values = new HashMap<>();
+        Map<String, String> variableParameters = new HashMap<>();
+        List<String> variableValues = new ArrayList<>();
+        JsonNode valueNode;
         while (varIterator.hasNext()) {
             JsonNode var = varIterator.next();
+            valueNode = var.findValue("values");
+//                variableValues = valueNode.findValuesAsText("");
+            if (valueNode != null) {
+                for (Iterator<JsonNode> textNode = valueNode.elements(); textNode.hasNext(); ) {
+                    variableValues.add(textNode.next().asText());
+                }
+            }
+
             Iterator<Map.Entry<String, JsonNode>> parameters = var.fields();
             while (parameters.hasNext()) {
                 Map.Entry<String, JsonNode> entry = parameters.next();
-                values.put(entry.getKey(), entry.getValue().asText());
+                if (entry.getKey().equals("variables")) {
+
+                } else {
+                    variableParameters.put(entry.getKey(), entry.getValue().asText());
+                }
             }
-            Logger.info("Value Map:    " + values.toString());
-            qaVars.add(createVariable(Integer.parseInt(values.get("number")), values.get("type"), values));
-        }
+            Logger.info("Value Map:    " + variableParameters.toString());
+            if (!variableParameters.isEmpty()) {
+                qaVars.add(createVariable(variableParameters, variableValues));
+            }
+            }
+
         catalogQA.addVars(qaVars);
-        return catalogQADAO.persist(catalogQA);
+        return catalogQADAO.update(catalogQA);
     }
 
-    public static QAVar createVariable(int varNumber, String type, Map<String, String> values) {
-        QAVar var = new QAVar(varNumber);
-        switch (type) {
+    public static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
+        QAVar var = new QAVar(Integer.parseInt(parameters.get("number")));
+        switch (parameters.get("type")) {
             case "FREENUMBER":
-                var = createValRange(values, var);
+                var = createValRange(parameters, var);
                 var.setType(QAType.freeNumber);
                 break;
             case "FREETEXT":
                 var.setType(QAType.freeText);
                 break;
-            case "enumNumber":
-                var = createValRange(values, var);
-                var = createVariableValues(values, TYPE.number, var);
+            case "ENUMNUMBER":
+                var = createValRange(parameters, var);
+                var = createVariableValues(parameters, ValueType.number, var, variableValues);
                 var.setType(QAType.enumNumber);
                 break;
-            case "enumText":
-                var = createVariableValues(values, TYPE.text, var);
+            case "ENUMTEXT":
+                var = createVariableValues(parameters, ValueType.text, var, variableValues);
                 var.setType(QAType.enumText);
                 break;
             default:
@@ -57,33 +78,32 @@ public class Variables {
 
     }
 
-    private static QAVar createVariableValues(Map<String, String> values, TYPE type, QAVar var) {
+    private static QAVar createVariableValues(Map<String, String> values, ValueType type, QAVar var, List<String> variableValues) {
         List<QAVarVal> varVals = new ArrayList<>();
         String defaultValue = "";
-        if (values.containsKey("default")) {
-            defaultValue = values.get("default");
+        for (String val : variableValues) {
+            QAVarVal value = new QAVarVal(val, type);
+            varVals.add(value);
         }
-        if (type.equals(TYPE.number)) {
-            for (Map.Entry<String, String> val : values.entrySet()) {
-                QAVarVal value = new NumberVarVal(Float.parseFloat(val.getValue()));
-                if (checkDefaultVal(defaultValue, val.getValue())) {
-                    var.setDefaultVal(value);
-                }
-                varVals.add(value);
-            }
-        } else {
-            for (Map.Entry<String, String> val : values.entrySet()) {
-                QAVarVal value = new StringVarVal(val.getValue());
-                if (checkDefaultVal(defaultValue, val.getValue())) {
-                    var.setDefaultVal(value);
-                }
-                varVals.add(value);
-            }
-        }
+
+//            for (Map.Entry<String, String> val : values.entrySet()) {
+//                QAVarVal value = new QAVarVal(val.getValue(), type);
+//                if (checkDefaultVal(defaultValue, val.getValue())) {
+//                    var.setDefaultValue(value);
+//                }
+//                varVals.add(value);
+//            }
+
         var.addValues(varVals);
         Logger.debug("var   " + var.toString());
+        if (values.containsKey("defaultValue")) {
+            defaultValue = values.get("defaultValue");
+            Logger.info("Default value:     " + defaultValue);
+            var.setDefaultValue(defaultValue);
+        }
         return var;
     }
+
 
     private static QAVar createValRange(Map<String, String> values, QAVar var) {
         Logger.info(Boolean.toString(values.containsKey("min")) + values.containsKey("max"));
@@ -91,7 +111,6 @@ public class Variables {
             var.setValRange(new ValRange(Float.parseFloat(values.get("min")), Float.parseFloat(values.get("max"))));
             values.remove("min");
             values.remove("max");
-        } else {
         }
         return var;
     }
@@ -100,5 +119,4 @@ public class Variables {
         return defaultValue.equals(value);
     }
 
-    private enum TYPE {number, text}
 }

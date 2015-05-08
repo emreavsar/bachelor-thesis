@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 
 import javax.annotation.Nullable;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +17,13 @@ import java.util.Set;
 @Table(name = "catalog")
 @Nullable
 public class Catalog extends AbstractEntity {
+    private String name;
+    private String description;
+    private String pictureURL;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "catalog", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference(value = "catalogQAs")
+    private Set<CatalogQA> templates = new HashSet<>();
+
     public Catalog() {
     }
 
@@ -29,16 +33,6 @@ public class Catalog extends AbstractEntity {
         this.pictureURL = pictureURL;
         this.addTemplates(qas);
     }
-
-    private String name;
-
-    private String description;
-
-    private String pictureURL;
-
-    @OneToMany(mappedBy = "catalog", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
-    private Set<CatalogQA> templates = new HashSet<>();
 
     public String getName() {
         return name;
@@ -72,9 +66,10 @@ public class Catalog extends AbstractEntity {
         this.templates = templates;
     }
 
-    public void addTemplate(QA QA) {
+    public Catalog addTemplate(QA QA) {
         CatalogQA catalogQA = new CatalogQA(QA, this);
         this.templates.add(catalogQA);
+        return this;
     }
 
     public void addTemplates(List<QA> qas) {

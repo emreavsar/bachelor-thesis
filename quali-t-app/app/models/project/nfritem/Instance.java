@@ -24,16 +24,16 @@ public class Instance extends AbstractEntity {
 
     private String description;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "qualityAttributes")
     private Project project;
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
+    @JsonBackReference("qaTemplate")
     private CatalogQA template;
     @OneToMany(mappedBy = "instance")
-    @JsonManagedReference
+    @JsonManagedReference("qaInstanceValues")
     private Set<Val> values = new HashSet<>();
     @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
+    @JsonManagedReference("qaStatus")
     private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
 
     public Instance() {

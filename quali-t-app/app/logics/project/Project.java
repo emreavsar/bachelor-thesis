@@ -1,9 +1,7 @@
 package logics.project;
 
 import dao.models.*;
-import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
-import exceptions.MissingParameterException;
 import models.project.Customer;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -23,31 +21,6 @@ public class Project {
      * @param name
      * @return Customer
      */
-
-    public static boolean validate(String name) {
-        return !name.equals("");
-    }
-
-    public static Customer createCustomer(String name, String address) throws MissingParameterException, EntityAlreadyExistsException {
-        if (validate(name) == true) {
-            CustomerDAO customerDAO = new CustomerDAO();
-            Customer c = customerDAO.findByName(name);
-            if (c == null) {
-                c = new Customer(name, address);
-                return customerDAO.persist(c);
-            } else {
-                throw new EntityAlreadyExistsException("Customer name already exists");
-            }
-
-        } else {
-            throw new MissingParameterException("Missing required paramter");
-        }
-    }
-
-    public static List<Customer> getAllCustomers() {
-        CustomerDAO customerDAO = new CustomerDAO();
-        return customerDAO.readAll();
-    }
 
     public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) throws EntityNotFoundException {
         ProjectDAO projectDAO = new ProjectDAO();
@@ -81,17 +54,5 @@ public class Project {
     public static models.project.Project getProject(Long id) throws EntityNotFoundException {
         ProjectDAO projectDAO = new ProjectDAO();
         return projectDAO.readById(id);
-    }
-
-    public static Customer updateCustomer(Long id, String name, String address) throws EntityNotFoundException, MissingParameterException {
-        if (validate(name) == true) {
-            CustomerDAO customerDAO = new CustomerDAO();
-            Customer customer = customerDAO.readById(id);
-            customer.setAddress(address);
-            customer.setName(name);
-            return customerDAO.persist(customer);
-        } else {
-            throw new MissingParameterException("Name can not be empty");
-        }
     }
 }

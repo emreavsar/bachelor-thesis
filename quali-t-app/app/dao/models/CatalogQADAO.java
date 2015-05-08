@@ -12,10 +12,14 @@ import java.util.List;
  */
 public class CatalogQADAO extends AbstractDAO<CatalogQA> {
     public List<CatalogQA> findByCatalog(Catalog cat) {
-        return findAll("select q from CatalogQA q where q.catalog=?", cat);
+        return findAll("select q from CatalogQA q where q.catalog=? and q.isDeleted=false", cat);
     }
 
     public CatalogQA findByCatalogAndId(Catalog cat, QA qa) {
         return find("select q from CatalogQA q where q.qa=? and q.catalog=?", qa, cat);
+    }
+
+    public List<CatalogQA> findAllByQA(QA qa) {
+        return findAll("select q from CatalogQA q where q.qa=?", qa);
     }
 }

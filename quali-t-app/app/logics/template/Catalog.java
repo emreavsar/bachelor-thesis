@@ -12,28 +12,23 @@ import java.util.List;
  * Created by corina on 10.04.2015.
  */
 public class Catalog {
+    static CatalogDAO catalogDAO = new CatalogDAO();
+    static QualityAttributeDAO qaDAO = new QualityAttributeDAO();
+    static CatalogQADAO catalogQADAO = new CatalogQADAO();
 
     public static List<models.template.Catalog> getAllCatalogs(){
-        CatalogDAO catalogDAO = new CatalogDAO();
         return catalogDAO.readAll();
     }
 
     public static models.template.Catalog create(String name, String image, List<Long> qas_id) throws EntityNotFoundException {
-        CatalogDAO catalogDAO = new CatalogDAO();
-        QualityAttributeDAO qaDAO = new QualityAttributeDAO();
         List<QA> qas = qaDAO.findAllById(qas_id);
         models.template.Catalog catalog = new models.template.Catalog(name, "description", image, qas);
         return catalogDAO.persist(catalog);
     }
 
-    public static models.template.CatalogQA addQaToCatalog(Long qaId, Long catalogId) throws EntityNotFoundException {
-        CatalogDAO catalogDAO = new CatalogDAO();
-        QualityAttributeDAO qaDAO = new QualityAttributeDAO();
-        CatalogQADAO catalogQADAO = new CatalogQADAO();
-        models.template.Catalog catalog = catalogDAO.readById(catalogId);
-        QA qa = qaDAO.readById(qaId);
-        catalog.addTemplate(qa);
-        catalogDAO.persist(catalog);
-        return catalogQADAO.findByCatalogAndId(catalog, qa);
+    public static models.template.CatalogQA addQaToCatalog(QA qa, models.template.Catalog catalog) throws EntityNotFoundException {
+        models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId()).addTemplate(qa);
+        catalogDAO.persist(updatedCatalog);
+        return catalogQADAO.findByCatalogAndId(updatedCatalog, qa);
     }
 }
