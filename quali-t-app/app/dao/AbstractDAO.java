@@ -61,6 +61,11 @@ public abstract class AbstractDAO<T> {
         JPA.em().flush();
     }
 
+    public T update (T entity) {
+        JPA.em().merge(entity);
+        return entity;
+    }
+
     public int removeAll() {
         return JPA.em().createQuery(queryDeleteAll).executeUpdate();
     }
@@ -75,7 +80,7 @@ public abstract class AbstractDAO<T> {
             q.setParameter(i, params[i - 1]);
             Logger.debug(q.getParameterValue(i).getClass().toString());
         }
-        Logger.debug("looked for " + query, params, params.toString());
+        Logger.debug("looked for " + query + params + params.toString());
         return getResultList(q);
     }
 
