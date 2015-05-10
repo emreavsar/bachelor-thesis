@@ -30,7 +30,7 @@ public class QACategoryDAOTEST extends AbstractDatabaseTest {
         super.setUp();
         superCategory1 = AbstractTestDataCreator.createCategory("Super1", null, "icon");
         superCategory2 = AbstractTestDataCreator.createCategory("Super2", null, "icon");
-        subCategory1 = AbstractTestDataCreator.createCategory("Sub1", superCategory1.getId(), "icon");
+        subCategory1 = AbstractTestDataCreator.createCategory("Sub1", superCategory1, "icon");
     }
 
     @Test

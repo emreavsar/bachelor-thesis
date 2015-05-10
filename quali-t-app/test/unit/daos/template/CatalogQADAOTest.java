@@ -29,15 +29,15 @@ public class CatalogQADAOTest extends AbstractDatabaseTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        List<Long> qaIds = new ArrayList<>();
+        List<QA> qas = new ArrayList<>();
 
         qa1 = AbstractTestDataCreator.createQA("Test QA1");
         qa2 = AbstractTestDataCreator.createQA("Test QA2");
         qa3 = AbstractTestDataCreator.createQA("Test QA3");
-        qaIds.add(qa1.getId());
-        qaIds.add(qa2.getId());
-        catalog = AbstractTestDataCreator.createCatalog("Catalog", "icon", qaIds);
-        AbstractTestDataCreator.createCatalog("Catalog2", "icon", qaIds);
+        qas.add(qa1);
+        qas.add(qa2);
+        catalog = AbstractTestDataCreator.createCatalog("Catalog", "icon", "description", qas);
+        AbstractTestDataCreator.createCatalog("Catalog2", "icon", "descirption", qas);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class CatalogQADAOTest extends AbstractDatabaseTest {
 
     @Test
     public void findByCatalgTestEmptyCatalog() throws EntityNotFoundException {
-        Catalog emptyCatalog = AbstractTestDataCreator.createCatalog("Catalog2", "icon", new ArrayList<>());
+        Catalog emptyCatalog = AbstractTestDataCreator.createCatalog("Catalog2", "icon", "description", new ArrayList<>());
         List<CatalogQA> catalogQAs = new CatalogQADAO().findByCatalog(emptyCatalog);
         assertThat(catalogQAs.isEmpty());
     }

@@ -47,24 +47,34 @@ public abstract class AbstractTestDataCreator {
         return c;
     }
 
-    public static QA createQA(String qa) throws EntityNotFoundException, MissingParameterException {
+    public static QA createQA(String qaDescirption) throws EntityNotFoundException, MissingParameterException {
         List<Long> categories = new ArrayList();
-//        return logics.template.QualityAttribute.createQA(qa, categories);$
-        return null;
+        QA qa = new QA(qaDescirption, 1);
+        persistAndFlush(qa);
+        return qa;
     }
 
-    public static Catalog createCatalog(String name, String icon, List<Long> qaIds) throws EntityNotFoundException {
-        return logics.template.Catalog.create(name, icon, qaIds);
-
+    public static Catalog createCatalog(String name, String image, String description, List<QA> qas) throws EntityNotFoundException {
+        Catalog catalog = new Catalog(name, description, image);
+        catalog.addTemplates(qas);
+        persistAndFlush(catalog);
+        return catalog;
     }
 
-    public static QACategory createCategory(String name, Long parent, String icon) throws EntityNotFoundException {
-//        return logics.template.QualityAttribute.createCat(name, parent, icon);
-        return null;
+    public static QACategory createCategory(String name, QACategory parent, String icon) throws EntityNotFoundException {
+        QACategory category;
+        if (parent == null) {
+            category = new QACategory(name, icon);
+        } else {
+            category = new QACategory(parent, name, icon);
+        }
+        persistAndFlush(category);
+        return category;
     }
 
-    public static QualityProperty createQualityProperty(String name) {
-//        return logics.project.QualityProperty.createQualityProperty(name, "");
-        return null;
+    public static QualityProperty createQualityProperty(String name, String description) {
+        QualityProperty qualityProperty = new QualityProperty(name, description);
+        persistAndFlush(qualityProperty);
+        return qualityProperty;
     }
 }

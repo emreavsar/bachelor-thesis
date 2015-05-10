@@ -26,8 +26,8 @@ public class QualityPropertyDAOTest extends AbstractDatabaseTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        qp1 = AbstractTestDataCreator.createQualityProperty("QP1");
-        qp2 = AbstractTestDataCreator.createQualityProperty("QP2");
+        qp1 = AbstractTestDataCreator.createQualityProperty("QP1", "descirption QP1");
+        qp2 = AbstractTestDataCreator.createQualityProperty("QP2", "descirption QP2");
         qpIds = new ArrayList<>();
         qpIds.add(qp1.getId());
         qpIds.add(qp2.getId());
