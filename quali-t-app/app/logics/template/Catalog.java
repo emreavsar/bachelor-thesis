@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QualityAttributeDAO;
+import exceptions.EntityCanNotBeDeleted;
 import exceptions.EntityNotFoundException;
 import models.template.CatalogQA;
 import models.template.QA;
@@ -25,9 +26,10 @@ public class Catalog {
         return catalogDAO.readAll();
     }
 
-    public static models.template.Catalog create(String name, String image, JsonNode qas) throws EntityNotFoundException {
-//        List<QA> qas = qaDAO.findAllById(qas_id);
-        models.template.Catalog catalog = catalogDAO.persist(new models.template.Catalog(name, "description", image));
+    public static models.template.Catalog create(JsonNode json) throws EntityNotFoundException {
+        models.template.Catalog catalog = catalogDAO.persist(new models.template.Catalog(json.findPath("name").asText(), json.findPath("descirption").asText(), json.findPath("image").asText()));
+        //get node with QAs and create them with variables
+        JsonNode qas = json.findValue("selectedQualityAttributes");
         for (Iterator<JsonNode> qaNodes = qas.elements(); qaNodes.hasNext(); ) {
             JsonNode qaNode = qaNodes.next();
             QA qa = qaDAO.readById(qaNode.findValue("id").asLong());
@@ -43,13 +45,48 @@ public class Catalog {
         return catalogQADAO.findByCatalogAndId(updatedCatalog, qa);
     }
 
-    public static void deleteCatalog(long id) throws EntityNotFoundException {
-        models.template.Catalog catalog = catalogDAO.readById(id);
-        for (CatalogQA catalogQA : catalog.getTemplates()) {
-            catalogQA.setDeleted(true);
-            catalogQA.setCatalog(null);
-            catalogQADAO.persist(catalogQA);
+    public static void deleteCatalog(long id) throws EntityNotFoundException, EntityCanNotBeDeleted {
+        if (id != 6000) {
+            models.template.Catalog catalog = catalogDAO.readById(id);
+            for (CatalogQA catalogQA : catalog.getTemplates()) {
+                catalogQA.setDeleted(true);
+                catalogQA.setCatalog(null);
+                catalogQADAO.persist(catalogQA);
+            }
+            catalogDAO.remove(catalogDAO.readById(id));
+        } else {
+            throw new EntityCanNotBeDeleted("It is not possible to delete the Standard Catalog!");
         }
-        catalogDAO.remove(catalogDAO.readById(id));
+    }
+
+    public static models.template.CatalogQA createCatalogQA(JsonNode qaNode, JsonNode catalogQANode) throws EntityNotFoundException {
+        QA qa = qaDAO.readById(qaNode.findPath("id").asLong());
+        models.template.Catalog catalog = catalogDAO.readById(catalogQANode.findPath("catalog").asLong());
+        CatalogQA catalogQA = addQaToCatalog(qa, catalog);
+        addVarsToQA(catalogQA, catalogQANode);
+        return catalogQA;
+    }
+
+    public static void removeQaFromCatalog(Long id) throws EntityNotFoundException {
+        CatalogQA catalogQA = catalogQADAO.readById(id);
+        catalogQA.setDeleted(true);
+        catalogQADAO.update(catalogQA);
+    }
+
+    public static models.template.Catalog update(JsonNode json) throws EntityNotFoundException {
+        models.template.Catalog catalog = catalogDAO.readById(json.findPath("id").asLong());
+        catalog.setDescription(json.findPath("description").asText());
+        catalog.setName(json.findPath("name").asText());
+        catalog.setPictureURL(json.findPath("image").asText());
+        return catalogDAO.update(catalog);
+    }
+
+    public static models.template.CatalogQA updateCatalogQA(JsonNode catalogQANode) throws EntityNotFoundException {
+        CatalogQA catalogQA = catalogQADAO.readById(catalogQANode.findPath("id").asLong());
+        models.template.Catalog catalog = catalogDAO.readById(catalogQANode.findPath("catalog").asLong());
+        removeQaFromCatalog(catalogQA.getId());
+        CatalogQA newCatalogQA = addQaToCatalog(catalogQA.getQa(), catalog);
+        addVarsToQA(newCatalogQA, catalogQANode);
+        return newCatalogQA;
     }
 }

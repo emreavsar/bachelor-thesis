@@ -27,18 +27,10 @@ public class Catalog extends AbstractEntity {
     public Catalog() {
     }
 
-    public Catalog(String name, String description, String  pictureURL, List<QA> qas){
-        this.name = name;
-        this.description = description;
-        this.pictureURL = pictureURL;
-        this.addTemplates(qas);
-    }
-
     public Catalog(String name, String description, String image) {
-        super();
         this.name = name;
         this.description = description;
-        this.pictureURL = pictureURL;
+        this.pictureURL = image;
     }
 
     public String getName() {
