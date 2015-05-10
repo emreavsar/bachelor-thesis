@@ -46,7 +46,6 @@ GET           /api/qa                            controllers.QualityAttribute.ge
 GET           /api/qa/catalog=:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
 PUT           /api/qa                  controllers.QualityAttribute.updateQA()
 DELETE        /api/qa/:id              controllers.QualityAttribute.deleteQA(id: Long)
-DELETE        /api/qa/:id              controllers.QualityAttribute.deleteQA(id: Long)
 
 # Project
 POST          /api/project                       controllers.Project.createProject()
@@ -57,7 +56,7 @@ GET           /api/project=:id                   controllers.Project.getProject(
 GET           /api/catalog                       controllers.Catalog.getAllCatalogs()
 POST        /api/catalog        controllers.Catalog.createCatalog()
 #PUT           /api/catalog
-#DELETE        /api/catalog
+DELETE        /api/catalog/:id        controllers.Catalog.deleteCatalog(id: Long)
 
 # QACategories
 #GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)

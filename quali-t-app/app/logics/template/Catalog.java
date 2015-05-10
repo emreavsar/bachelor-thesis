@@ -34,9 +34,6 @@ public class Catalog {
             CatalogQA catalogQA = addQaToCatalog(qa, catalog);
             addVarsToQA(catalogQA, qaNode);
         }
-
-//        qas = JsPath.json.findValuesAsText("id");
-//        models.template.Catalog catalog = new models.template.Catalog(name, "description", image, qas);
         return catalog;
     }
 
@@ -44,5 +41,15 @@ public class Catalog {
         models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId()).addTemplate(qa);
         catalogDAO.persist(updatedCatalog);
         return catalogQADAO.findByCatalogAndId(updatedCatalog, qa);
+    }
+
+    public static void deleteCatalog(long id) throws EntityNotFoundException {
+        models.template.Catalog catalog = catalogDAO.readById(id);
+        for (CatalogQA catalogQA : catalog.getTemplates()) {
+            catalogQA.setDeleted(true);
+            catalogQA.setCatalog(null);
+            catalogQADAO.persist(catalogQA);
+        }
+        catalogDAO.remove(catalogDAO.readById(id));
     }
 }

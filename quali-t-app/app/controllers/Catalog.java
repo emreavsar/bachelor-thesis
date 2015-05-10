@@ -33,18 +33,25 @@ public class Catalog extends Controller {
     public static Result createCatalog() {
         JsonNode json = request().body().asJson();
         JsonNode qas = json.findValue("selectedQualityAttributes");
-//        List<String> qas = new ArrayList();
-
-//        qas = json.findValuesAsText("id");
         String name = json.findValue("name").asText();
         String image = json.findValue("image").asText();
-//        List<Long> qas_id = Lists.transform(qas, Helper.parseLongFunction());
-//        Logger.info(qas_id.toString());
         try {
             models.template.Catalog catalog = logics.template.Catalog.create(name, image, qas);
-            return ok("Name: " + name + "/br QAS: " + qas);
+            return ok(Json.toJson(catalog));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
     }
+
+    @Restrict({@Group("curator"), @Group("admin")})
+    @Transactional
+    public static Result deleteCatalog(long id) {
+        try {
+            logics.template.Catalog.deleteCatalog(id);
+            return status(202);
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
+
 }
