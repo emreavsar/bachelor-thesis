@@ -41,6 +41,7 @@ dist/
 
 ### compiled css files not needed ###
 *.css
+*.css.map
 
 ### Bower ###
 .bower-cache
