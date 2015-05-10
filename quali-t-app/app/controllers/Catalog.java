@@ -4,7 +4,6 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -13,7 +12,6 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,18 +30,19 @@ public class Catalog extends Controller {
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result create() {
+    public static Result createCatalog() {
         JsonNode json = request().body().asJson();
-        List<String> qas = new ArrayList();
+        JsonNode qas = json.findValue("selectedQualityAttributes");
+//        List<String> qas = new ArrayList();
 
-        qas = json.findValuesAsText("id");
+//        qas = json.findValuesAsText("id");
         String name = json.findValue("name").asText();
         String image = json.findValue("image").asText();
-        List<Long> qas_id = Lists.transform(qas, Helper.parseLongFunction());
-        Logger.info(qas_id.toString());
+//        List<Long> qas_id = Lists.transform(qas, Helper.parseLongFunction());
+//        Logger.info(qas_id.toString());
         try {
-            models.template.Catalog catalog = logics.template.Catalog.create(name, image, qas_id);
-            return ok("Name: " + name + "/br QAS: " + qas_id);
+            models.template.Catalog catalog = logics.template.Catalog.create(name, image, qas);
+            return ok("Name: " + name + "/br QAS: " + qas);
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }

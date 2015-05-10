@@ -85,7 +85,7 @@ INSERT INTO qualityproperty VALUES (8004, 'Time-bound', 'T');
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qa (id, description, deleted, versionnumber) VALUES (3000, '<p>Das System ist %VARIABLE_ENUMNUMBER_0%% im Jahr verfügbar.</p>', true, 1);
+INSERT INTO qa (id, description, deleted, versionnumber) VALUES (3000, '<p>Das System ist zu %VARIABLE_ENUMNUMBER_0%% im Jahr verfügbar.</p>', false, 1);
 
 
 --

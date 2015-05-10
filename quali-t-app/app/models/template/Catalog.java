@@ -34,6 +34,13 @@ public class Catalog extends AbstractEntity {
         this.addTemplates(qas);
     }
 
+    public Catalog(String name, String description, String image) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.pictureURL = pictureURL;
+    }
+
     public String getName() {
         return name;
     }

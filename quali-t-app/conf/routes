@@ -55,7 +55,9 @@ GET           /api/project=:id                   controllers.Project.getProject(
 
 # Catalog
 GET           /api/catalog                       controllers.Catalog.getAllCatalogs()
-POST          /api/catalog                       controllers.Catalog.create()
+POST        /api/catalog        controllers.Catalog.createCatalog()
+#PUT           /api/catalog
+#DELETE        /api/catalog
 
 # QACategories
 #GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)
