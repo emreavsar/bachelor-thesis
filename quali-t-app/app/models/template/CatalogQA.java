@@ -2,7 +2,6 @@ package models.template;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
@@ -31,10 +30,10 @@ public class CatalogQA extends AbstractEntity {
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "variables")
     private Set<QAVar> vars = new HashSet<>();
-    private boolean isDeleted;
+    private boolean deleted;
 
     public CatalogQA() {
-        this.isDeleted = false;
+        this.deleted = false;
     }
 
     public CatalogQA(QA qa, Catalog catalog) {
@@ -79,10 +78,10 @@ public class CatalogQA extends AbstractEntity {
     }
 
     public boolean isDeleted() {
-        return isDeleted;
+        return deleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

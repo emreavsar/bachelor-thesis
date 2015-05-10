@@ -84,12 +84,12 @@ public class QualityAttribute {
         for (CatalogQA catalogQA : catalogQAList) {
             markAsDeleted(catalogQA);
         }
-        qa.setIsDeleted(true);
+        qa.setDeleted(true);
         qaDAO.update(qa);
     }
 
     private static void markAsDeleted(CatalogQA catalogQA) {
-        catalogQA.setIsDeleted(true);
+        catalogQA.setDeleted(true);
         catalogQADAO.update(catalogQA);
     }
 
@@ -114,7 +114,7 @@ public class QualityAttribute {
                     addQaToCatalog(newQA, catalogQA.getCatalog());
                 }
             }
-            currentQA.setIsDeleted(true);
+            currentQA.setDeleted(true);
             qaDAO.update(currentQA);
             return newQA;
         }
