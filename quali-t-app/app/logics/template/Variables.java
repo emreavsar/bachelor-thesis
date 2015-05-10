@@ -14,38 +14,41 @@ public class Variables {
     static CatalogQADAO catalogQADAO = new CatalogQADAO();
 
     public static CatalogQA addVarsToQA(CatalogQA catalogQA, JsonNode json) {
+        //get all nodes within variables node.
         JsonNode vars = json.findValue("variables");
         List<QAVar> qaVars = new ArrayList<>();
 
-//        for (JsonNode node : vars) {
-        Iterator<JsonNode> varIterator = vars.elements();
+        //create MAP to get all VariableParameters
         Map<String, String> variableParameters = new HashMap<>();
+        //create List to save all VariableValues from Parameters
         List<String> variableValues = new ArrayList<>();
-        JsonNode valueNode;
-        while (varIterator.hasNext()) {
-            JsonNode var = varIterator.next();
-            valueNode = var.findValue("values");
-//                variableValues = valueNode.findValuesAsText("");
-            if (valueNode != null) {
-                for (Iterator<JsonNode> textNode = valueNode.elements(); textNode.hasNext(); ) {
-                    variableValues.add(textNode.next().asText());
-                }
-            }
-
-            Iterator<Map.Entry<String, JsonNode>> parameters = var.fields();
-            while (parameters.hasNext()) {
-                Map.Entry<String, JsonNode> entry = parameters.next();
-                if (entry.getKey().equals("variables")) {
-
+        //create iterator for each variable
+        for (Iterator<JsonNode> varIterator = vars.elements(); varIterator.hasNext(); ) {
+            //clear all used fields
+            variableParameters.clear();
+            variableValues.clear();
+            //get all VariableParameter nodes and push them to variableParameters Map
+            Map.Entry<String, JsonNode> variableParametersEntry = null;
+            for (Iterator<Map.Entry<String, JsonNode>> parameters = varIterator.next().fields(); parameters.hasNext(); ) {
+                variableParametersEntry = parameters.next();
+                //if Parameters is value node, put all values to variableValues List, otherwise put them to variableParameters map
+                if (variableParametersEntry.getKey().equals("values")) {
+                    JsonNode valueNode = variableParametersEntry.getValue();
+                    if (valueNode != null) {
+                        for (Iterator<JsonNode> textNode = valueNode.elements(); textNode.hasNext(); ) {
+                            variableValues.add(textNode.next().asText());
+                        }
+                    }
                 } else {
-                    variableParameters.put(entry.getKey(), entry.getValue().asText());
+                    variableParameters.put(variableParametersEntry.getKey(), variableParametersEntry.getValue().asText());
                 }
             }
             Logger.info("Value Map:    " + variableParameters.toString());
+            //check if QA has any variables and create them
             if (!variableParameters.isEmpty()) {
                 qaVars.add(createVariable(variableParameters, variableValues));
             }
-            }
+        }
 
         catalogQA.addVars(qaVars);
         return catalogQADAO.update(catalogQA);
