@@ -25,6 +25,7 @@ public class QAVar extends AbstractEntity {
     private CatalogQA template;
     @Enumerated(EnumType.STRING)
     private QAType type;
+    private boolean extendable;
     @OneToMany(mappedBy = "valInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "variableValue")
     private Set<QAVarVal> values = new HashSet<>();
@@ -98,6 +99,14 @@ public class QAVar extends AbstractEntity {
             }
         }
         return null;
+    }
+
+    public boolean isExtendable() {
+        return extendable;
+    }
+
+    public void setExtendable(boolean extendable) {
+        this.extendable = extendable;
     }
 
     public void setDefaultValue(String defaultValue) {

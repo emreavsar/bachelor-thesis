@@ -13,6 +13,7 @@ angular.module('qualitApp')
     $scope.image = "";
     $scope.currentStep = 0;
     $scope.qas = new Array();
+    $scope.variables = new Array();
     $scope.selection = new Array();
     $scope.currentEditedElement = null;
     $scope.newItem = null;
@@ -31,9 +32,7 @@ angular.module('qualitApp')
       if ($scope.currentStep == 0) {
         $scope.choose($scope.name, $scope.image);
       } else if ($scope.currentStep == 1) {
-//        $scope.customize();
-        $scope.createCatalog();
-        isLastStep = true;
+        $scope.customize();
       } else if ($scope.currentStep == 2) {
         $scope.createCatalog();
         isLastStep = true;
@@ -105,9 +104,12 @@ angular.module('qualitApp')
       // TODO emre: save the image somewhere localy / temporarly
 
       // load all qa-s
-      $http.get('/api/qa')
+      $http.get('/api/qa/catalog=6000')
         .success(function (data) {
-          $scope.qas = data;
+          _.forEach(data, function (value, key) {
+            $scope.qas.push(value.qa);
+            $scope.variables[value.qa.id] = value.vars;
+          });
         })
         .error(function (data, status) {
           console.log(status)
@@ -118,13 +120,26 @@ angular.module('qualitApp')
       console.log("create is clicked");
     }
 
+    $scope.getSelectedQas = function () {
+      var selectedQualityAttributes = new Array();
+      _.forEach($scope.selection, function (value, key) {
+        var qa = {
+          id: value.id,
+          variables: $scope.variables[value.id]
+        };
+
+        selectedQualityAttributes.push(qa);
+      });
+      return selectedQualityAttributes;
+    }
+
     $scope.createCatalog = function () {
 
       for (var i in $scope.selection) {
         delete $scope.selection[i].categories;
       }
       $http.post('/api/catalog', {
-        qualityAttributes: $scope.selection,
+        selectedQualityAttributes: $scope.getSelectedQas(),
         name: $scope.name,
         image: $scope.image
       }).

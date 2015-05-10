@@ -45,7 +45,8 @@
     </div>
   </div>
   <!-- sidebar -->
-  <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation"
+  <!--TODO: col-sm-3-->
+  <div ng-if="inAuthArea" class="col-xs-6 col-sm-0 sidebar-offcanvas" id="sidebar" role="navigation"
        ng-controller="NavigationCtrl">
     <div class="current-location col-xs-6">
       <img src="images/white_small_without_name.png">
@@ -98,7 +99,9 @@
   </div>
 
   <!-- main area -->
-  <div ng-if="inAuthArea" class="col-xs-12 col-sm-9 main-content" ng-controller="RootCtrl">
+
+  <!--TODO: col-sm-9-->
+  <div ng-if="inAuthArea" class="col-xs-12 col-sm-12 main-content" ng-controller="RootCtrl">
     <i class="fa fa-angle-left toggle-sidebar-btn" sidebar-btn title="Toggle Navigation"></i>
 
     <div class="search-bar">
@@ -200,6 +203,9 @@
   <script src="scripts/controllers/favorites.js"></script>
   <script src="scripts/controllers/bisig.js"></script>
   <script src="scripts/controllers/addVarModal.js"></script>
+  <script src="scripts/directives/qa.js"></script>
+  <script src="scripts/services/qaText.js"></script>
+  <script src="scripts/services/qatextservice.js"></script>
   <!-- endbuild -->
 </body>
 </html>

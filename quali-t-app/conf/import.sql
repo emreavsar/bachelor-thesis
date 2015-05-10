@@ -25,6 +25,7 @@ INSERT INTO role VALUES (2006, 'projectmanager');
 
 INSERT INTO role_user VALUES (1000, 2000);
 INSERT INTO role_user VALUES (1000, 2001);
+
 --INSERT INTO role_user VALUES (1001, 2000);
 INSERT INTO role_user VALUES (1001, 2001);
 INSERT INTO role_user VALUES (1002, 2000);
@@ -85,35 +86,43 @@ INSERT INTO qualityproperty VALUES (8004, 'Time-bound', 'T');
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qa (id, description, deleted, versionnumber) VALUES (3000, '<p>Das System ist zu %VARIABLE_ENUMNUMBER_0%% im Jahr verfügbar.</p>', false, 1);
+INSERT INTO qa (id, deleted, description, versionnumber) VALUES (2000, false, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>', 1);
+INSERT INTO qa (id, deleted, description, versionnumber) VALUES (2011, false, '<p>Dieses QA hat einen Range von 0 bis 100 %VARIABLE_FREENUMBER_0% </p>', 1);
 
 
---
 -- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (4005, 3000);
+INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (4005, 2000);
 
 --
 -- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (4000, false, 6000, 3000);
+INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (3000, false, 6000, 2000);
+INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (3012, false, 6000, 2011);
 
 --
 -- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qavar (id, type, varindex, template_id) VALUES (5000, 'enumNumber', 0, 4000);
+INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (4020, 'FREETEXT', false,  0, 3000);
+INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (5020, 'ENUMNUMBER', true, 1, 3000);
+INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (6020, 'FREENUMBER', false, 0, 3012);
 
 --
--- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
+-- Data for Name: qavarval; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (6000, false, 'number', '90', 5000);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (7000, false, 'number', '99.9', 5000);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (8000, false, 'number', '99', 5000);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (9000, true, 'number', '95', 5000);
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (6012, false, 'NUMBER', '95', 5020);
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (6013, false, 'NUMBER', '90', 5020);
+INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (6014, true, 'NUMBER', '99', 5020);
+
+--
+-- Data for Name: valrange; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+INSERT INTO valrange (id, max, min, rangeinvar_id) VALUES (3314, 100, 0, 6020);
+
 
 --
 -- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO task (id, description, done, assignee_id) VALUES (6000, 'Evaluate Catalog HSR Mobile App', true, 1000);
-INSERT INTO task (id, description, done, assignee_id) VALUES (6001, 'Create Catalog for Cloud Apps', false, 1000);
+INSERT INTO task (id, description, done, assignee_id) VALUES (6010, 'Evaluate Catalog HSR Mobile App', true, 1000);
+INSERT INTO task (id, description, done, assignee_id) VALUES (6011, 'Create Catalog for Cloud Apps', false, 1000);

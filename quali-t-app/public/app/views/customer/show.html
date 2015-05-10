@@ -5,11 +5,15 @@
     <th>Id</th>
     <th>Customer</th>
     <th>Address</th>
+    <th>Actions</th>
   </tr>
   <tr ng-repeat="cust in customerList">
     <td>{{cust.id}}</td>
     <td>{{cust.name}}</td>
     <td>{{cust.address}}</td>
+    <td>
+      <i class="fa fa-trash-o" ng-click="delete(cust)" />
+    </td>
   </tr>
 </table>
 </div>

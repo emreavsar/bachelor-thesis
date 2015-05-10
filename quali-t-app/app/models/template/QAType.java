@@ -5,10 +5,8 @@ package models.template;
  */
 
 public enum QAType {
-    freeNumber,
-    freeText,
-    enumNumberPlus,
-    enumTextPlus,
-    enumNumber,
-    enumText;
+    FREENUMBER,
+    FREETEXT,
+    ENUMNUMBER,
+    ENUMTEXT
 }

@@ -50,17 +50,7 @@
 
         <div class="qa well row" ng-repeat="qa in qas | filter:filterByCategories" ng-click="toggleSelection(qa)"
              ng-class="{ selected: selection.indexOf(qa) > -1}">
-          <div class="categories">
-            <span class="label label-default" ng-repeat="category in qa.categories">
-              {{category.name}}
-            </span>
-          </div>
-          <div class="col-sm-10">
-            <span class="description" ng-bind-html="qa.description"/>
-          </div>
-          <div class="col-sm-2">
-            <i class="fa fa-check" ng-show="selection.indexOf(qa) > -1"></i>
-          </div>
+          <qa categories="categories" qa="qa" context="catalog" variables="variables"/>
         </div>
       </div>
 
@@ -81,6 +71,12 @@
         <small>for {{name}}</small>
       </h3>
 
+      <!-- TODO emre: make it look nicer -->
+      <p>
+        In this step, you can edit ranges in free number fields, customize values in dropdown selections and add new
+        quality attributes for this catalog (new qas will not appear in the standard catalog).
+      </p>
+
       <div class="all-qas">
         <h5>Your selected Quality Attribute Templates</h5>
 
@@ -88,42 +84,47 @@
              ng-repeat="qa in selection"
              ng-click="switchCurrentEditedElement(qa)"
              ng-class="{ editing: currentEditedElement == qa}">
-          <div class="categories">
 
-            <span class="label label-default" ng-repeat="category in qa.categories">
-              {{category}}
-            </span>
-          </div>
-          <span class="description" ng-bind-html="qa.description" ng-hide="currentEditedElement == qa"/>
-          <span class="description text-muted" ng-show="currentEditedElement == qa" ng-bind-html="::qa.description"/>
-          <text-angular ng-model="qa.description" ng-show="currentEditedElement == qa"
-                        ng-blur="switchCurrentEditedElement(null)"></text-angular>
+          <qa categories="qa.categories" qa="qa" context="catalog" variables="variables" editable="true"/>
+
+          <!--<div class="categories">-->
+
+          <!--<span class="label label-default" ng-repeat="category in qa.categories">-->
+          <!--{{category}}-->
+          <!--</span>-->
+          <!--</div>-->
+          <!--<span class="description" ng-bind-html="qa.description" ng-hide="currentEditedElement == qa"/>-->
+          <!--<span class="description text-muted" ng-show="currentEditedElement == qa" ng-bind-html="::qa.description"/>-->
+          <!--<text-angular ng-model="qa.description" ng-show="currentEditedElement == qa"-->
+          <!--ng-blur="switchCurrentEditedElement(null)"></text-angular>-->
+          <!---->
         </div>
       </div>
 
-      <div class="row">
-        <i class="fa fa-plus-circle clickable" ng-click="toggleNewItem()"
-           title="Toggle Create new Quality Attribute Area">
-          You can also create your custom new Quality Attribute Templates
-        </i>
+      <!-- TODO: check if this is needed or not here or only in project -->
+      <!--<div class="row">-->
+      <!--<i class="fa fa-plus-circle clickable" ng-click="toggleNewItem()"-->
+      <!--title="Toggle Create new Quality Attribute Area">-->
+      <!--You can also create your custom new Quality Attribute Templates-->
+      <!--</i>-->
 
 
-        <div class="qa well row editing" ng-show="newItem != null">
-          <div class="categories">
-            <span class="label label-default">TODO</span>
-          </div>
+      <!--<div class="qa well row editing" ng-show="newItem != null">-->
+      <!--<div class="categories">-->
+      <!--<span class="label label-default">TODO</span>-->
+      <!--</div>-->
 
-          <span class="description" ng-bind-html="newItem.description" ng-hide="currentEditedElement == newItem"/>
-          <span class="description text-muted" ng-show="currentEditedElement == newItem"
-                ng-bind-html="::newItem.description"/>
-          <text-angular ng-model="newItem.description" ng-show="currentEditedElement == newItem"
-                        ng-blur="switchCurrentEditedElement(null)"></text-angular>
-        </div>
+      <!--<span class="description" ng-bind-html="newItem.description" ng-hide="currentEditedElement == newItem"/>-->
+      <!--<span class="description text-muted" ng-show="currentEditedElement == newItem"-->
+      <!--ng-bind-html="::newItem.description"/>-->
+      <!--<text-angular ng-model="newItem.description" ng-show="currentEditedElement == newItem"-->
+      <!--ng-blur="switchCurrentEditedElement(null)"></text-angular>-->
+      <!--</div>-->
 
-        <div class="row" ng-show="newItem != null">
-          <button type="button" ng-click="addNew(newItem)" class="btn btn-default btn-md">Add</button>
-        </div>
-      </div>
+      <!--<div class="row" ng-show="newItem != null">-->
+      <!--<button type="button" ng-click="addNew(newItem)" class="btn btn-default btn-md">Add</button>-->
+      <!--</div>-->
+      <!--</div>-->
 
 
       <div class="row end-row">

@@ -55,23 +55,23 @@ public class Variables {
     }
 
     public static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
-        QAVar var = new QAVar(Integer.parseInt(parameters.get("number")));
+        QAVar var = new QAVar(Integer.parseInt(parameters.get("varIndex")));
         switch (parameters.get("type")) {
             case "FREENUMBER":
                 var = createValRange(parameters, var);
-                var.setType(QAType.freeNumber);
+                var.setType(QAType.FREENUMBER);
                 break;
             case "FREETEXT":
-                var.setType(QAType.freeText);
+                var.setType(QAType.FREETEXT);
                 break;
             case "ENUMNUMBER":
                 var = createValRange(parameters, var);
-                var = createVariableValues(parameters, ValueType.number, var, variableValues);
-                var.setType(QAType.enumNumber);
+                var = createVariableValues(parameters, ValueType.NUMBER, var, variableValues);
+                var.setType(QAType.ENUMNUMBER);
                 break;
             case "ENUMTEXT":
-                var = createVariableValues(parameters, ValueType.text, var, variableValues);
-                var.setType(QAType.enumText);
+                var = createVariableValues(parameters, ValueType.TEXT, var, variableValues);
+                var.setType(QAType.ENUMTEXT);
                 break;
             default:
                 break;
