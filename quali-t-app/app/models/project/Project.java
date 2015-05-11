@@ -30,7 +30,7 @@ import java.util.Set;
 public class Project extends AbstractEntity {
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference(value = "userProjects")
+    @JsonManagedReference(value = "userProjects")
     private Customer projectCustomer;
     private String name;
     @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -41,6 +41,10 @@ public class Project extends AbstractEntity {
     private Set<Instance> qualityAttributes = new HashSet<>();
 
     public Project() {
+    }
+
+    public Project(List<QualityProperty> qps) {
+        this.addQualityProperties(qps);
     }
 
     public Project(String name, Customer projectCustomer, List<QualityProperty> qps) {

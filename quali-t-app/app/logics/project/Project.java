@@ -11,8 +11,7 @@ import models.project.nfritem.Instance;
 
 import java.util.List;
 
-import static logics.project.QAInstance.addQaInstanceToProject;
-import static logics.project.QAInstance.createQAInstance;
+import static logics.project.QAInstance.*;
 
 /**
  * Created by corina on 08.04.2015.
@@ -41,7 +40,8 @@ public class Project {
         List<QualityProperty> qualityProperties = qualityPropertyDAO.readAllById(qpIds);
         Customer customer = customerDAO.readById(customerId);
 
-        models.project.Project project = projectDAO.persist(new models.project.Project(name, customer, qualityProperties));
+        models.project.Project project = projectDAO.persist(new models.project.Project(qualityProperties));
+        setProjectParameters(project, json);
         JsonNode qaNode = json.findPath("qualityAttributes");
         for (JsonNode qa : qaNode) {
             Instance instance = createQAInstance(qa);
@@ -50,11 +50,34 @@ public class Project {
         return project;
     }
 
+    private static models.project.Project setProjectParameters(models.project.Project project, JsonNode json) throws EntityNotFoundException {
+        project.setName(json.findPath("name").asText());
+        project.setProjectCustomer(customerDAO.readById(json.findPath("customer").asLong()));
+        return projectDAO.update(project);
+    }
+
     public static List<models.project.Project> getAllProjects() {
         return projectDAO.readAll();
     }
 
     public static models.project.Project getProject(Long id) throws EntityNotFoundException {
         return projectDAO.readById(id);
+    }
+
+    public static models.project.Project updateProject(JsonNode json) throws EntityNotFoundException {
+        //update project parameters
+        models.project.Project project = getProject(json.findPath("id").asLong());
+        setProjectParameters(project, json);
+        JsonNode qaNode = json.findPath("qualityAttributes");
+        //update Variable Values
+        for (JsonNode qa : qaNode) {
+            if (qa.findPath("id").asLong() == 0) {
+                Instance instance = createQAInstance(qa);
+                project.addQualityAttribute(instance);
+            } else {
+                updateQAInstance(qa);
+            }
+        }
+        return project;
     }
 }

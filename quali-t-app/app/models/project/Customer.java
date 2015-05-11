@@ -1,12 +1,12 @@
 package models.project;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
-import org.hibernate.annotations.CascadeType;
 
 import javax.annotation.Nullable;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class Customer extends AbstractEntity {
     private String name;
     private String address;
     @OneToMany(mappedBy = "projectCustomer", cascade = javax.persistence.CascadeType.REMOVE)
-    @JsonManagedReference(value = "userProjects")
+    @JsonBackReference(value = "userProjects")
     private List<Project> projects = new ArrayList<>();
 
     public Customer() {

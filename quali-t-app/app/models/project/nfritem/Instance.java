@@ -27,7 +27,7 @@ public class Instance extends AbstractEntity {
     @JsonBackReference(value = "qualityAttributes")
     private Project project;
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference("qaTemplate")
+    @JsonManagedReference("qaTemplate")
     private CatalogQA template;
     @OneToMany(mappedBy = "instance", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("qaInstanceValues")

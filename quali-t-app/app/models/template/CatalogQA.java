@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
+import models.project.nfritem.Instance;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -21,6 +22,9 @@ import java.util.Set;
 @Nullable
 @JsonIgnoreProperties({"id2"})
 public class CatalogQA extends AbstractEntity {
+    @OneToMany
+    @JsonManagedReference("qaTemplate")
+    private Set<Instance> qaInstances = new HashSet<>();
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference(value = "catalogQAs")
     private Catalog catalog;

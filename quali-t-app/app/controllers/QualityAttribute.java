@@ -77,4 +77,14 @@ public class QualityAttribute extends Controller {
             return status(400, e.getMessage());
         }
     }
+
+    @SubjectPresent
+    @Transactional
+    public static Result getAllStandardCatalogQAs() {
+        try {
+            return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(Long.parseLong("6000"))));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
 }
