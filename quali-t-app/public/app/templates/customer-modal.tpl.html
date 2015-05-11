@@ -1,0 +1,45 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
+          aria-hidden="true">&times;</span></button>
+
+        <h4 class="modal-title" ng-show="type == 'add'">Add new Customer</h4>
+        <h4 class="modal-title" ng-show="type == 'edit'">Edit Customer {{customer.id}} {{customer.name}}</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form crud-form">
+          <form>
+            <div class="form-group">
+              <label for="name">Customer name</label>
+
+              <input type="text" class="form-control" id="name" ng-model="customer.name" required/>
+
+              <label for="address">Address</label>
+              <input type="text" class="form-control" id="address" ng-model="customer.address"/>
+            </div>
+
+            <button type="submit" class="btn btn-success" ng-show="type == 'add'"
+                    ng-click="callBackFunction(customer); $hide()">
+              <i class="fa fa-plus"/> Add
+              Customer
+            </button>
+            <button type="submit" class="btn btn-success" ng-show="type == 'edit'"
+                    ng-click="callBackFunction(customer); $hide()">
+              <i class="fa fa-plus"/> Save
+              Customer
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
