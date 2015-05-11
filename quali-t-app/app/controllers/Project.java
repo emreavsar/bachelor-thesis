@@ -51,7 +51,12 @@ public class Project extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result deleteProject(Long id) {
-        return play.mvc.Results.TODO;
+        try {
+            logics.project.Project.deleteProject(id);
+            return status(202);
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
@@ -69,12 +74,23 @@ public class Project extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result createInstance() {
-        return play.mvc.Results.TODO;
+        JsonNode json = request().body().asJson();
+        try {
+            models.project.Project project = logics.project.Project.createInstance(json);
+            return ok(Json.toJson(project));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result deleteInstance(Long id) {
-        return play.mvc.Results.TODO;
+        try {
+            logics.project.Project.deleteInstance(id);
+            return status(202);
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
     }
 }

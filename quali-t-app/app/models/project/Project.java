@@ -106,5 +106,12 @@ public class Project extends AbstractEntity {
             this.addQualityAttribute(qa);
         }
     }
+
+    public void removeQualityProperties() {
+        for (QualityProperty qp : this.qualityProperties) {
+            qp.getUsedByProject().remove(this);
+        }
+        this.qualityProperties.clear();
+    }
 }
 

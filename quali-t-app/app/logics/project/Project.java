@@ -68,9 +68,8 @@ public class Project {
         //update project parameters
         models.project.Project project = getProject(json.findPath("id").asLong());
         setProjectParameters(project, json);
-        JsonNode qaNode = json.findPath("qualityAttributes");
         //update Variable Values
-        for (JsonNode qa : qaNode) {
+        for (JsonNode qa : json.findPath("qualityAttributes")) {
             if (qa.findPath("id").asLong() == 0) {
                 Instance instance = createQAInstance(qa);
                 project.addQualityAttribute(instance);
@@ -79,5 +78,24 @@ public class Project {
             }
         }
         return project;
+    }
+
+    public static void deleteProject(Long id) throws EntityNotFoundException {
+        models.project.Project project = projectDAO.readById(id);
+        project.removeQualityProperties();
+        projectDAO.remove(projectDAO.update(project));
+    }
+
+    public static models.project.Project createInstance(JsonNode json) throws EntityNotFoundException {
+        models.project.Project project = getProject(json.findPath("id").asLong());
+        for (JsonNode qa : json.findPath("qualityAttributes")) {
+            Instance instance = createQAInstance(qa);
+            project.addQualityAttribute(instance);
+        }
+        return projectDAO.update(project);
+    }
+
+    public static void deleteInstance(Long id) throws EntityNotFoundException {
+        qaInstanceDAO.remove(qaInstanceDAO.readById(id));
     }
 }

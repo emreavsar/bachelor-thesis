@@ -29,10 +29,10 @@ public class Instance extends AbstractEntity {
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("qaTemplate")
     private CatalogQA template;
-    @OneToMany(mappedBy = "instance", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "instance", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference("qaInstanceValues")
     private Set<Val> values = new HashSet<>();
-    @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference("qaStatus")
     private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
 
