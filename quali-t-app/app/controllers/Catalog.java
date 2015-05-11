@@ -85,7 +85,7 @@ public class Catalog extends Controller {
     public static Result updateCatalog() {
         JsonNode json = request().body().asJson();
         try {
-            models.template.Catalog catalog = logics.template.Catalog.update(json);
+            models.template.Catalog catalog = logics.template.Catalog.update(json, json.findPath("id").asLong());
             return ok(Json.toJson(catalog));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());

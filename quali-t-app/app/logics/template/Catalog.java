@@ -28,7 +28,7 @@ public class Catalog {
 
     public static models.template.Catalog create(JsonNode json) throws EntityNotFoundException {
         models.template.Catalog catalog = catalogDAO.persist(new models.template.Catalog());
-        catalog = update(json);
+        catalog = update(json, catalog.getId());
         //get node with QAs and create them with variables
         JsonNode qas = json.findValue("selectedQualityAttributes");
         for (Iterator<JsonNode> qaNodes = qas.elements(); qaNodes.hasNext(); ) {
@@ -74,12 +74,12 @@ public class Catalog {
         catalogQADAO.update(catalogQA);
     }
 
-    public static models.template.Catalog update(JsonNode json) throws EntityNotFoundException {
-        models.template.Catalog catalog = catalogDAO.readById(json.findPath("id").asLong());
-        catalog.setDescription(json.findPath("description").asText());
-        catalog.setName(json.findPath("name").asText());
-        catalog.setPictureURL(json.findPath("image").asText());
-        return catalogDAO.update(catalog);
+    public static models.template.Catalog update(JsonNode json, Long catalogId) throws EntityNotFoundException {
+        models.template.Catalog updatedCatalog = catalogDAO.readById(catalogId);
+        updatedCatalog.setDescription(json.findPath("description").asText());
+        updatedCatalog.setName(json.findPath("name").asText());
+        updatedCatalog.setPictureURL(json.findPath("image").asText());
+        return catalogDAO.update(updatedCatalog);
     }
 
     public static models.template.CatalogQA updateCatalogQA(JsonNode catalogQANode) throws EntityNotFoundException {
