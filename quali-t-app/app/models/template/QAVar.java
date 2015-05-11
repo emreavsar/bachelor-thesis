@@ -34,10 +34,12 @@ public class QAVar extends AbstractEntity {
     private ValRange valRange;
 
     public QAVar(int varNumber) {
+        super();
         this.varIndex = varNumber;
     }
 
     public QAVar() {
+        this.extendable = false;
     }
 
     public int getVarIndex() {
@@ -101,14 +103,6 @@ public class QAVar extends AbstractEntity {
         return null;
     }
 
-    public boolean isExtendable() {
-        return extendable;
-    }
-
-    public void setExtendable(boolean extendable) {
-        this.extendable = extendable;
-    }
-
     public void setDefaultValue(String defaultValue) {
         for (QAVarVal val : this.values) {
             if (val.getValue().equals(defaultValue)) {
@@ -117,5 +111,13 @@ public class QAVar extends AbstractEntity {
                 val.setIsDefault(false);
             }
         }
+    }
+
+    public boolean isExtendable() {
+        return extendable;
+    }
+
+    public void setExtendable(boolean extendable) {
+        this.extendable = extendable;
     }
 }

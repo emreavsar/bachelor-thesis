@@ -55,7 +55,7 @@ public class Variables {
     }
 
     public static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
-        QAVar var = new QAVar(Integer.parseInt(parameters.get("varIndex")));
+        QAVar var = new QAVar(Integer.parseInt(parameters.get("number")));
         switch (parameters.get("type")) {
             case "FREENUMBER":
                 var = createValRange(parameters, var);
@@ -66,11 +66,13 @@ public class Variables {
                 break;
             case "ENUMNUMBER":
                 var = createValRange(parameters, var);
+                var = setExtendable(parameters, var);
                 var = createVariableValues(parameters, ValueType.NUMBER, var, variableValues);
                 var.setType(QAType.ENUMNUMBER);
                 break;
             case "ENUMTEXT":
                 var = createVariableValues(parameters, ValueType.TEXT, var, variableValues);
+                var = setExtendable(parameters, var);
                 var.setType(QAType.ENUMTEXT);
                 break;
             default:
@@ -89,14 +91,6 @@ public class Variables {
             varVals.add(value);
         }
 
-//            for (Map.Entry<String, String> val : values.entrySet()) {
-//                QAVarVal value = new QAVarVal(val.getValue(), type);
-//                if (checkDefaultVal(defaultValue, val.getValue())) {
-//                    var.setDefaultValue(value);
-//                }
-//                varVals.add(value);
-//            }
-
         var.addValues(varVals);
         Logger.debug("var   " + var.toString());
         if (values.containsKey("defaultValue")) {
@@ -112,14 +106,17 @@ public class Variables {
         Logger.info(Boolean.toString(values.containsKey("min")) + values.containsKey("max"));
         if (values.containsKey("min") && values.containsKey("max")) {
             var.setValRange(new ValRange(Float.parseFloat(values.get("min")), Float.parseFloat(values.get("max"))));
-            values.remove("min");
-            values.remove("max");
+//            values.remove("min");
+//            values.remove("max");
         }
         return var;
     }
 
-    public static boolean checkDefaultVal(String defaultValue, String value) {
-        return defaultValue.equals(value);
+    private static QAVar setExtendable(Map<String, String> values, QAVar var) {
+        if (values.get("extendable") == "true") {
+            var.setExtendable(true);
+        }
+//        values.remove("extendable");
+        return var;
     }
-
 }
