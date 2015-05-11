@@ -55,7 +55,7 @@ public class Variables {
     }
 
     public static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
-        QAVar var = new QAVar(Integer.parseInt(parameters.get("number")));
+        QAVar var = new QAVar(Integer.parseInt(parameters.get("varIndex")));
         switch (parameters.get("type")) {
             case "FREENUMBER":
                 var = createValRange(parameters, var);
