@@ -9,8 +9,8 @@ import models.template.CatalogQA;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,7 +29,7 @@ public class Instance extends AbstractEntity {
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference("qaTemplate")
     private CatalogQA template;
-    @OneToMany(mappedBy = "instance")
+    @OneToMany(mappedBy = "instance", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("qaInstanceValues")
     private Set<Val> values = new HashSet<>();
     @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -39,9 +39,12 @@ public class Instance extends AbstractEntity {
     public Instance() {
     }
 
-    public Instance(String description, CatalogQA qa, List<QualityProperty> qps) {
+    public Instance(String description, CatalogQA qa) {
         this.description = description;
         this.template = qa;
+    }
+
+    public void addQualityProperty(Collection<QualityProperty> qps) {
         for (QualityProperty qp : qps) {
             qualityPropertyStatus.add(new QualityPropertyStatus(this, qp));
         }
@@ -85,5 +88,10 @@ public class Instance extends AbstractEntity {
 
     public void setQualityPropertyStatus(Set<QualityPropertyStatus> qualityPropertyStatus) {
         this.qualityPropertyStatus = qualityPropertyStatus;
+    }
+
+    public void addValue(Val val) {
+        this.values.add(val);
+        val.setInstance(this);
     }
 }

@@ -4,9 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
-import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -23,24 +21,9 @@ public class Project extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result createProject() {
-        Logger.info("create called ########################################################");
         JsonNode json = request().body().asJson();
-
-        String name = json.findValue("name").asText();
-        Long customerId = json.findValue("customer").asLong();
-        Long catalogId = json.findValue("catalog").asLong();
-
-        JsonNode node = json.findValue("qas");
-        List<String> list = node.findValuesAsText("id");
-        List<Long> qaIds = Lists.transform(list, Helper.parseLongFunction());
-
-        node = json.findValue("qps");
-        list = node.findValuesAsText("id");
-        List<Long> qpIds = Lists.transform(list, Helper.parseLongFunction());
-        Logger.info("create called");
-        Logger.info(name + " " + customerId + " " + catalogId + " " + qaIds.toString() + " " + qpIds.toString());
         try {
-            models.project.Project project = logics.project.Project.createProject(name, customerId, catalogId, qaIds, qpIds);
+            models.project.Project project = logics.project.Project.createProject(json);
             return ok(Json.toJson(project));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());

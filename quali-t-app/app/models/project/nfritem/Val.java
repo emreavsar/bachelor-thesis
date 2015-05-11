@@ -24,6 +24,13 @@ public class Val extends AbstractEntity {
     @JsonBackReference("qaInstanceValues")
     private Instance instance;
 
+    public Val() {
+    }
+
+    public Val(int varIndex, String value) {
+        this.varIndex = varIndex;
+        this.value = value;
+    }
     public int getVarIndex() {
         return varIndex;
     }

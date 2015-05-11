@@ -97,15 +97,15 @@ INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (4005, 2000);
 --
 -- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (3000, false, 6000, 2000);
-INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (3012, false, 6000, 2011);
+INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (7000, false, 6000, 2000);
+INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (7012, false, 6000, 2011);
 
 --
 -- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (4020, 'FREETEXT', false,  0, 3000);
-INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (5020, 'ENUMNUMBER', true, 1, 3000);
-INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (6020, 'FREENUMBER', false, 0, 3012);
+INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (4020, 'FREETEXT', false,  0, 7000);
+INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (5020, 'ENUMNUMBER', true, 1, 7000);
+INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (6020, 'FREENUMBER', false, 0, 7012);
 
 --
 -- Data for Name: qavarval; Type: TABLE DATA; Schema: public; Owner: qualit

@@ -44,12 +44,10 @@ public class Project extends AbstractEntity {
     public Project() {
     }
 
-    public Project(String name, Customer projectCustomer, Catalog catalog, List<Instance> qas, List<QualityProperty> qps) {
+    public Project(String name, Customer projectCustomer, List<QualityProperty> qps) {
         this.name = name;
-//        this.projectCustomer = projectCustomer;
+        this.projectCustomer = projectCustomer;
         this.addQualityProperties(qps);
-        this.addQualityAttributes(qas);
-
     }
 
     public String getName() {
@@ -97,12 +95,12 @@ public class Project extends AbstractEntity {
 
     public void addQualityAttribute(Instance qa) {
         this.qualityAttributes.add(qa);
+        qa.setProject(this);
     }
 
     public void addQualityAttributes(List<Instance> qas) {
         for (Instance qa : qas) {
             this.addQualityAttribute(qa);
-            qa.setProject(this);
         }
     }
 }

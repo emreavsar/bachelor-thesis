@@ -1,58 +1,60 @@
 package logics.project;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
+import controllers.Helper;
 import dao.models.*;
 import exceptions.EntityNotFoundException;
 import models.project.Customer;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
-import models.template.Catalog;
-import models.template.CatalogQA;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static logics.project.QAInstance.addQaInstanceToProject;
+import static logics.project.QAInstance.createQAInstance;
 
 /**
  * Created by corina on 08.04.2015.
  */
 public class Project {
+    static ProjectDAO projectDAO = new ProjectDAO();
+    static CustomerDAO customerDAO = new CustomerDAO();
+    static CatalogDAO catalogDAO = new CatalogDAO();
+    static QualityPropertyDAO qualityPropertyDAO = new QualityPropertyDAO();
+    static CatalogQADAO catalogQADAO = new CatalogQADAO();
+    static QADAO qaDAO = new QADAO();
     /**
      * Creates and persists customer.
      *
-     * @param name
-     * @return Customer
+     * @param json
+     * @return Project
      */
 
-    public static models.project.Project createProject(String name, Long customerId, Long catalogId, List<Long> qaIds, List<Long> qpIds) throws EntityNotFoundException {
-        ProjectDAO projectDAO = new ProjectDAO();
-        CustomerDAO customerDAO = new CustomerDAO();
-        CatalogDAO catalogDAO = new CatalogDAO();
-        QualityPropertyDAO qualityPropertyDAO = new QualityPropertyDAO();
-        CatalogQADAO catalogQADAO = new CatalogQADAO();
-        QADAO qaDAO = new QADAO();
+    public static models.project.Project createProject(JsonNode json) throws EntityNotFoundException {
 
+        String name = json.findValue("name").asText();
+        Long customerId = json.findValue("customer").asLong();
+
+        JsonNode qualityPropertyNode = json.findValue("qualityProperties");
+        List<Long> qpIds = Lists.transform(qualityPropertyNode.findValuesAsText("id"), Helper.parseLongFunction());
+        List<QualityProperty> qualityProperties = qualityPropertyDAO.readAllById(qpIds);
         Customer customer = customerDAO.readById(customerId);
-        Catalog catalog = catalogDAO.readById(catalogId);
-        List<CatalogQA> qas = new ArrayList<>();
-        for (Long qa : qaIds){
-            qas.add(catalogQADAO.findByCatalogAndId(catalog, qaDAO.readById(qa)));
-        }
 
-        List<QualityProperty> qps = qualityPropertyDAO.readAllById(qpIds);
-        List<Instance> qaInstances = new ArrayList<>();
-        for (CatalogQA qa : qas) {
-            qaInstances.add(new Instance(qa.getQa().getDescription(), qa, qps));
+        models.project.Project project = projectDAO.persist(new models.project.Project(name, customer, qualityProperties));
+        JsonNode qaNode = json.findPath("qualityAttributes");
+        for (JsonNode qa : qaNode) {
+            Instance instance = createQAInstance(qa);
+            addQaInstanceToProject(instance, project);
         }
-        models.project.Project p = new models.project.Project(name, customer,  catalog, qaInstances, qps);
-        return projectDAO.persist(p);
+        return project;
     }
 
     public static List<models.project.Project> getAllProjects() {
-        ProjectDAO projectDAO = new ProjectDAO();
         return projectDAO.readAll();
     }
 
     public static models.project.Project getProject(Long id) throws EntityNotFoundException {
-        ProjectDAO projectDAO = new ProjectDAO();
         return projectDAO.readById(id);
     }
 }

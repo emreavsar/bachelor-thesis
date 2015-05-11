@@ -27,7 +27,8 @@ public class Catalog {
     }
 
     public static models.template.Catalog create(JsonNode json) throws EntityNotFoundException {
-        models.template.Catalog catalog = catalogDAO.persist(new models.template.Catalog(json.findPath("name").asText(), json.findPath("descirption").asText(), json.findPath("image").asText()));
+        models.template.Catalog catalog = catalogDAO.persist(new models.template.Catalog());
+        catalog = update(json);
         //get node with QAs and create them with variables
         JsonNode qas = json.findValue("selectedQualityAttributes");
         for (Iterator<JsonNode> qaNodes = qas.elements(); qaNodes.hasNext(); ) {
