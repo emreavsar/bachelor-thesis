@@ -3,7 +3,6 @@
 
 <div class="form crud-form">
   <form class="form-horizontal" ng-submit="nextStep()">
-    <div id="alerts-container"></div>
     <!-- STEP 0 -->
     <div ng-show="currentStep==0">
       <h3 class="steps">Step 1: Provide information</h3>
@@ -24,7 +23,7 @@
         </div>
       </div>
 
-      <div class="row end-row">
+      <div class="row end-row col-sm-12">
         <input type="submit" class="btn btn-success btn-lg" value="Choose Quality Attribute Templates"/>
       </div>
     </div>
@@ -54,7 +53,7 @@
         </div>
       </div>
 
-      <div class="row end-row">
+      <div class="row end-row col-sm-12">
         <input type="submit" class="btn btn-success btn-lg" value="Customize Quality Attributes"/>
       </div>
       <!-- END STEP 1 -->
@@ -86,48 +85,10 @@
              ng-class="{ editing: currentEditedElement == qa}">
 
           <qa categories="qa.categories" qa="qa" context="catalog" variables="variables" editable="true"/>
-
-          <!--<div class="categories">-->
-
-          <!--<span class="label label-default" ng-repeat="category in qa.categories">-->
-          <!--{{category}}-->
-          <!--</span>-->
-          <!--</div>-->
-          <!--<span class="description" ng-bind-html="qa.description" ng-hide="currentEditedElement == qa"/>-->
-          <!--<span class="description text-muted" ng-show="currentEditedElement == qa" ng-bind-html="::qa.description"/>-->
-          <!--<text-angular ng-model="qa.description" ng-show="currentEditedElement == qa"-->
-          <!--ng-blur="switchCurrentEditedElement(null)"></text-angular>-->
-          <!---->
         </div>
       </div>
 
-      <!-- TODO: check if this is needed or not here or only in project -->
-      <!--<div class="row">-->
-      <!--<i class="fa fa-plus-circle clickable" ng-click="toggleNewItem()"-->
-      <!--title="Toggle Create new Quality Attribute Area">-->
-      <!--You can also create your custom new Quality Attribute Templates-->
-      <!--</i>-->
-
-
-      <!--<div class="qa well row editing" ng-show="newItem != null">-->
-      <!--<div class="categories">-->
-      <!--<span class="label label-default">TODO</span>-->
-      <!--</div>-->
-
-      <!--<span class="description" ng-bind-html="newItem.description" ng-hide="currentEditedElement == newItem"/>-->
-      <!--<span class="description text-muted" ng-show="currentEditedElement == newItem"-->
-      <!--ng-bind-html="::newItem.description"/>-->
-      <!--<text-angular ng-model="newItem.description" ng-show="currentEditedElement == newItem"-->
-      <!--ng-blur="switchCurrentEditedElement(null)"></text-angular>-->
-      <!--</div>-->
-
-      <!--<div class="row" ng-show="newItem != null">-->
-      <!--<button type="button" ng-click="addNew(newItem)" class="btn btn-default btn-md">Add</button>-->
-      <!--</div>-->
-      <!--</div>-->
-
-
-      <div class="row end-row">
+      <div class="row end-row col-sm-12">
         <input type="submit" class="btn btn-success btn-lg" value="Create Catalog"/>
       </div>
       <!-- END STEP 2 -->

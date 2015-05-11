@@ -16,7 +16,7 @@ angular.module('qualitApp')
         taskId: taskId
       }).
         error(function (data, status, headers, config) {
-          var alert = alerts.createError(status, data, "#alerts-container");
+          var alert = alerts.createError(status, data);
         });
     }
 

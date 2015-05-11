@@ -26,6 +26,8 @@ angular.module('qualitApp')
           // in project mode is everything editable
           if (context == "project") {
             return true;
+          } else if (context == "createproject") { // in create project everything is disabled
+            return false;
           } else { // in catalog mode there must be a check for type and the parameter (editable)
             if (editable == false) {
               return false;
@@ -51,8 +53,8 @@ angular.module('qualitApp')
               var disabled = "";
               var isEditable = scope.isEditable(variable.type);
 
-              if(!isEditable) {
-                  disabled = "disabled='disabled'";
+              if (!isEditable) {
+                disabled = "disabled='disabled'";
               }
 
               if (variable.type == "FREETEXT") {
@@ -81,7 +83,7 @@ angular.module('qualitApp')
                   if (variable.min != undefined && variable.max != undefined) {
                     extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
                   }
-                  qaHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' />";
+                  qaHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' " + disabled + "/>";
                 }
               }
               qaVarIndex++;
@@ -99,7 +101,8 @@ angular.module('qualitApp')
 
         var qa = scope.qa;
         var categories = qa.categories;
-        var variables = scope.variables;
+        var categories = (qa.categories != undefined ? qa.categories : new Array());
+        var variables = (scope.variables != undefined ? scope.variables : new Array());
         var context = (scope.context != undefined ? scope.context : "");
 
         var qaId = "qa-" + qa.id;
@@ -121,14 +124,10 @@ angular.module('qualitApp')
         }).appendTo(element);
 
 
-        if (context == "catalog") {
-          var qaDescSpan = $("<span/>", {
-            class: "description",
-            html: scope.getQaHtml(qa, variables)
-          }).appendTo(qaDiv);
-        } else {
-          alert("not implemented for context: " + context);
-        }
+        var qaDescSpan = $("<span/>", {
+          class: "description",
+          html: scope.getQaHtml(qa, variables)
+        }).appendTo(qaDiv);
 
         var qaCheckboxDiv = $("<div/>", {
           class: "col-sm-2"

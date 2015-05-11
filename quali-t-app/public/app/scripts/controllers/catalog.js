@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CatalogCtrl', function ($scope, $http, $alert) {
+  .controller('CatalogCtrl', function ($scope, $http, alerts) {
     $scope.name = "";
     $scope.image = "";
     $scope.currentStep = 0;
@@ -16,7 +16,6 @@ angular.module('qualitApp')
     $scope.variables = new Array();
     $scope.selection = new Array();
     $scope.currentEditedElement = null;
-    $scope.newItem = null;
     $scope.currentCategoriesFilter = new Array();
 
     $http.get("/api/cat")
@@ -46,7 +45,7 @@ angular.module('qualitApp')
 
     $scope.back = function (currentStep) {
       if (currentStep == 2) {
-        $scope.selection = $scope.selectionqp;
+        $scope.selection = new Array();
       }
       $scope.currentStep = currentStep - 1;
     }
@@ -63,36 +62,6 @@ angular.module('qualitApp')
       }
     }
 
-    $scope.toggleNewItem = function () {
-      // create a new item
-      if ($scope.newItem == null) {
-        $scope.newItem = {
-          id: '',
-          description: '',
-          categories: {}
-        }
-
-        $scope.currentEditedElement = $scope.newItem;
-
-      } else {
-        // close new template area
-        $scope.newItem = null;
-      }
-    }
-
-    $scope.addNew = function (newItem) {
-      // TODO validation
-      // TODO implement categories
-
-      var qa = {
-        description: newItem.description,
-        categories: []
-      }
-
-      $scope.selection.push(qa);
-
-      $scope.newItem = null;
-    }
 
     $scope.switchCurrentEditedElement = function (qa) {
       $scope.currentEditedElement = qa;
@@ -103,8 +72,8 @@ angular.module('qualitApp')
 
       // TODO emre: save the image somewhere localy / temporarly
 
-      // load all qa-s
-      $http.get('/api/qa/catalog=6000')
+      // load all qas from standard catalog
+      $http.get('/api/qa/standardcatalog')
         .success(function (data) {
           _.forEach(data, function (value, key) {
             $scope.qas.push(value.qa);
@@ -127,14 +96,12 @@ angular.module('qualitApp')
           id: value.id,
           variables: $scope.variables[value.id]
         };
-
         selectedQualityAttributes.push(qa);
       });
       return selectedQualityAttributes;
     }
 
     $scope.createCatalog = function () {
-
       for (var i in $scope.selection) {
         delete $scope.selection[i].categories;
       }
@@ -144,26 +111,10 @@ angular.module('qualitApp')
         image: $scope.image
       }).
         success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
-
-          var alert = $alert({
-            title: 'Congratulations!',
-            content: 'Your Catalog was created successfully.',
-            container: "#alerts-container",
-            type: 'success',
-            show: true
-          });
+          alerts.createSuccess("Catalog " + data.name + " created successfully.");
         }).
         error(function (data, status, headers, config) {
-          console.log(status);
-
-          var alert = $alert({
-            title: 'Oh no!',
-            content: 'An error occured. TODO more specific information',
-            'data-container': "#alerts-container",
-            type: 'error',
-            show: true
-          });
+          alerts.createError(status, data);
         });
     }
 

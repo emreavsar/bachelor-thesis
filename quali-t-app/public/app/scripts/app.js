@@ -20,7 +20,8 @@ angular.module('qualitApp', [
   'restangular',
   'mgcrea.ngStrap',
   'ui.gravatar',
-  'textAngular'
+  'textAngular',
+  'ui.select'
 ])
   .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
     function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {

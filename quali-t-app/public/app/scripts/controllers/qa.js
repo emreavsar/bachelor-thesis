@@ -150,7 +150,7 @@ angular.module('qualitApp')
             descContainerHtml += "<select class='form-control'>";
             descContainerHtml += "<option class='form-option' value=''>Select a value</option>";
             if(variable.values == undefined) {
-              var localWarning = alerts.createLocalWarning("Have you inserted the variable (" +  $scope.getVarKey(variable) + ") manually?", "#alerts-container");
+              var localWarning = alerts.createLocalWarning("Have you inserted the variable (" +  $scope.getVarKey(variable) + ") manually?");
             } else {
 
             for (var j = 0; j < variable.values.length; j++) {
@@ -200,12 +200,12 @@ angular.module('qualitApp')
         var token = tokens[i];
         var options = new RegExp(/(FREETEXT|FREENUMBER|ENUMTEXT|ENUMNUMBER)_(\d+)/g).exec(token);
         var type = options[1];
-        var number = options[2];
+        var varIndex = options[2];
 
         // these are the basic values for all variable types
         var variable = {
           type: type,
-          number: number
+          varIndex: varIndex
         }
 
         // qa type specific content, will not be saved in the string -> only setable with ui-interactions
@@ -255,10 +255,10 @@ angular.module('qualitApp')
       }, {headers: {'Content-Type': 'application/json'}}).
         success(function (data, status, headers, config) {
           $scope.qaText = "";
-          var alert = alerts.createSuccess('QA created successfully', "#alerts-container");
+          var alert = alerts.createSuccess('QA created successfully');
         }).
         error(function (data, status, headers, config) {
-          var alert = alerts.createError(status, data, "#alerts-container");
+          var alert = alerts.createError(status, data);
         });
     }
 

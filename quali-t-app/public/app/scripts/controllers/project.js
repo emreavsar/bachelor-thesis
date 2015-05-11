@@ -8,29 +8,75 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('ProjectCtrl', function ($scope, $http, $alert) {
-    $scope.currentStep = 1;
+  .controller('ProjectCtrl', function ($scope, $http, alerts, $state) {
+    $scope.currentStep = 0;
     $scope.model = "Project";
-    $scope.qas = new Array();
+    $scope.filteredCatalogQas = new Array();
+    $scope.catalogQas = new Array();
     $scope.selection = new Array();
-    $scope.currentEditedElement = null;
+    $scope.selectionAdditional = new Array();
+    $scope.newQaInEdit = false;
     $scope.name = "";
     $scope.customer = "";
     $scope.qpList = new Array();
-    $scope.selectionqp = new Array()
     $scope.catalog = "";
-    $scope.qas = new Array();
+    // local unbinded variable => used for not loading the same catalog twice (see loadQAs)
+    $scope.selectedCatalog = "";
+    $scope.variables = new Array();
     $scope.currentCategoriesFilter = new Array();
+    $scope.selectedQualityProperties = new Array();
+    $scope.selectedCustomer = {};
+
+    // qa's which are created on the fly
+    $scope.additionalQas = new Array();
+
+    $scope.newItem = {
+      id: '',
+      description: ''
+    }
+
+    $scope.addNew = function (newItem) {
+      // TODO implement categories
+      var qa = {
+        description: newItem.description,
+        categories: []
+      }
+
+      $scope.additionalQas.push(qa);
+      $scope.toggleSelection(qa, $scope.selectionAdditional);
+
+      $scope.newItem = {
+        id: '',
+        description: ''
+      }
+    }
+
 
     $scope.nextStep = function () {
       var isLastStep = false;
+      if ($scope.currentStep == 0) {
+        var errors = new Array();
+        // check required fields
+        if ($scope.name == "") {
+          errors.push("You must set a project name.");
+        }
+        if ($scope.selectedQualityProperties.length == 0) {
+          errors.push("You must select at least one quality property for a project.");
+        }
+        if ($scope.selectedCustomer.id == undefined) {
+          errors.push("You must select the customer of the project.");
+        }
+
+        if (errors.length > 0) {
+          var err = alerts.createLocalWarning(errors);
+          return false;
+        }
+      }
       if ($scope.currentStep == 1) {
-        $scope.choose($scope.name, $scope.customer, $scope.selection);
-      } else if ($scope.currentStep == 2) {
-        $scope.createProject()
+        $scope.create()
         isLastStep = true;
       } else {
-        $scope.currentStep = 1; // restart
+        $scope.currentStep = 0; // restart
       }
       if (!isLastStep) {
         $scope.currentStep++;
@@ -41,64 +87,65 @@ angular.module('qualitApp')
       $scope.currentStep = currentStep - 1;
     }
 
-    $scope.createProject = function () {
-      console.log("Data: " + $scope.name, $scope.customer, $scope.selectionqp, $scope.catalog, $scope.selection);
-      $scope.qas = $scope.selection;
-      for (var i in $scope.qas) {
-        delete $scope.qas[i].categories;
+    $scope.create = function () {
+
+      var selectedCatalogQAs = new Array();
+      var selectedAdditionalQas = new Array();
+
+      for (var i in $scope.selection) {
+        var qa = {
+          // this is the id of catalogQA != id of id
+          id: $scope.selection[i].id,
+          description: $scope.selection[i].qa.description
+        };
+        selectedCatalogQAs.push(qa);
       }
+
+      for (var i in $scope.selectionAdditional) {
+        var qa = {
+          id: $scope.selectionAdditional[i].id,
+          description: $scope.selectionAdditional[i].description
+        };
+        selectedAdditionalQas.push(qa);
+      }
+
+
       $http.post('/api/project', {
         name: $scope.name,
-        customer: $scope.customer,
-        qps: $scope.selectionqp,
-        qas: $scope.qas,
-        catalog: $scope.catalog
+        customer: $scope.selectedCustomer.id,
+        qualityProperties: $scope.selectedQualityProperties,
+        qualityAttributes: selectedCatalogQAs,
+        additionalQualityAttributes: selectedAdditionalQas
       }).
         success(function (data, status, headers, config) {
-          console.dir(status + " data: " + data);
-          console.dir(data);
-
-          var alert = $alert({
-            title: 'Congratulations!',
-            content: 'Your Project was created successfully.',
-            container: "#alerts-container",
-            type: 'success',
-            show: true
+          alerts.createSuccess("Your Project was created successfully.");
+          $state.go('editProject', {
+            projectId: data.id
           });
-
-          //$scope.success.push(data);
         }).
         error(function (data, status, headers, config) {
-          console.log(status);
-
-          var alert = $alert({
-            title: 'Oh no!',
-            content: 'An error occured. TODO more specific information',
-            'data-container': "#alerts-container",
-            type: 'error',
-            show: true
-          });
-          //$scope.errors.push(data);
+          alerts.createError(status, data);
         });
     }
 
-    $scope.loadQAs = function (catalog) {
-      console.log("Selected Catalog: " + catalog);
-      $scope.catalog = catalog;
-      $http.get('/api/qa/catalog=' + catalog)
-        .success(function (data) {
-          console.log("success" + data);
-          $scope.qas = new Array();
+    $scope.loadQAs = function (catalog, selectedCatalog) {
+      if (selectedCatalog != catalog) {
+        $scope.catalog = catalog;
+        $scope.selectedCatalog = catalog;
+        $http.get('/api/qa/catalog/' + catalog.id)
+          .success(function (data) {
+            $scope.catalogQas = new Array();
+            $scope.variables = new Array();
 
-          $(data).each(function(index, val){
-            var qa = data[index].qa;
-            $scope.qas.push(qa);
+            _.forEach(data, function (value, key) {
+              $scope.catalogQas.push(value);
+              $scope.variables[value.qa.id] = value.vars;
+            });
+          })
+          .error(function (data, status) {
+            alerts.createError(status, data);
           });
-        })
-        .error(function (data, status) {
-          console.log("error" + status)
-        });
-
+      }
     }
 
     $http.get('/api/qp')
@@ -132,19 +179,6 @@ angular.module('qualitApp')
       .error(function (data, status) {
         console.log(status)
       });
-
-    $scope.choose = function (name, customer, selectionqp) {
-      // TODO emre: validation of first step's values -> if ok, go to next step
-
-      // TODO emre: save the image somewhere localy / temporarly
-      $scope.selectionqp = selectionqp;
-      $scope.selection = [];
-      console.log(name, customer, selectionqp)
-    }
-
-    $scope.switchCurrentEditedElement = function (qa) {
-      $scope.currentEditedElement = qa;
-    }
 
     $scope.filter = function (clickedElement, isRoot) {
 
@@ -185,11 +219,11 @@ angular.module('qualitApp')
       $scope.$apply();
     }
 
-    $scope.filterByCategories = function (qa) {
+    $scope.filterByCategories = function (catalogQa) {
       // TODO emre: some filter functions are in catalog.js and project.js maybe this could be refactored into filter.js
       // if there is a filter set
       if ($scope.currentCategoriesFilter.length > 0) {
-        var categoryIds = $scope.categoryIdsOfQa(qa);
+        var categoryIds = $scope.categoryIdsOfQa(catalogQa.qa);
         var fullfiesFilter = false;
         for (var i = 0; i < $scope.currentCategoriesFilter.length; i++) {
           var categoryFilter = $scope.currentCategoriesFilter[i];
@@ -198,6 +232,12 @@ angular.module('qualitApp')
             if (categoryFilter == categoryIds[j]) {
               fullfiesFilter = true;
             }
+          }
+        }
+        if(!fullfiesFilter) {
+          var indexInArr = $scope.selection.indexOf(catalogQa);
+          if (indexInArr > -1) {
+            $scope.selection.splice(indexInArr, 1);
           }
         }
         return fullfiesFilter;
@@ -215,15 +255,12 @@ angular.module('qualitApp')
     }
 
 
-    $scope.toggleSelection = function (qa) {
-      console.log("toggleling the selection for qa with id: " + qa.id);
-      var indexInArr = $scope.selection.indexOf(qa);
+    $scope.toggleSelection = function (selectedObject, fromSelectionArray) {
+      var indexInArr = fromSelectionArray.indexOf(selectedObject);
       if (indexInArr > -1) {
-        console.log("qa with id=" + qa.id + " is selected, will be deselected now");
-        $scope.selection.splice(indexInArr, 1);
+        fromSelectionArray.splice(indexInArr, 1);
       } else {
-        console.log("qa with id=" + qa.id + " was not selected, will be added to selection now");
-        $scope.selection.push(qa);
+        fromSelectionArray.push(selectedObject);
       }
     }
   });

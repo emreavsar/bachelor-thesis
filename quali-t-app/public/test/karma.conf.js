@@ -44,6 +44,7 @@ module.exports = function(config) {
       'bower_components/textAngular/src/textAngular.js',
       'bower_components/textAngular/src/textAngular-sanitize.js',
       'bower_components/textAngular/src/textAngularSetup.js',
+      'bower_components/angular-ui-select/dist/select.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -108,8 +108,16 @@ angular.module('qualitApp')
         }
       })
       .state('newProject', {
-        templateUrl: 'views/project/createProject.html',
+        templateUrl: 'views/project/new.html',
         url: '/authenticated/project/create',
+        controller: 'ProjectCtrl',
+        data: {
+          roles: ['analyst', 'admin']
+        }
+      })
+      .state('editProject', {
+        templateUrl: 'views/project/edit.html',
+        url: '/authenticated/project/edit/:projectId',
         controller: 'ProjectCtrl',
         data: {
           roles: ['analyst', 'admin']

@@ -1,0 +1,166 @@
+<h3>Create new Project</h3>
+
+
+<div class="form crud-form">
+  <form class="form-horizontal">
+    <!-- STEP 1 -->
+    <div ng-show="currentStep == 0">
+      <h3 class="steps">Step 1: Provide general information</h3>
+
+      <div class="form-group">
+        <label for="projectName">Project Title</label>
+        <input type="text" class="form-control" id="projectName" ng-model="name" required="required"/>
+      </div>
+
+      <div class="form-group">
+        <label for="customerName">Customer</label>
+
+        <ui-select id="customerName" required="required" ng-model="$parent.selectedCustomer" theme="bootstrap"
+                   ng-disabled="disabled">
+          <ui-select-match placeholder="Select customer...">{{$select.selected.name}}</ui-select-match>
+
+          <ui-select-choices repeat="customer in customerList | filter:$select.search">
+            <div ng-bind-html="customer.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+
+      <div class="form-group">
+        <label>Quality Properties</label>
+
+        <ui-select ng-model="$parent.selectedQualityProperties"
+                   multiple theme="bootstrap" ng-disabled="disabled"
+                   class="qualityproperties-selection">
+          <ui-select-match placeholder="Select quality properties...">{{$item.description}}</ui-select-match>
+
+          <ui-select-choices repeat="qp in qpList | filter:$select.search">
+            <div ng-bind-html="'<b>'+qp.name + '</b> - ' + qp.description | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+
+      <div class="row end-row col-sm-12">
+        <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg">Choose Catalog and QAs</button>
+      </div>
+    </div>
+    <!-- END STEP 1 -->
+
+    <!-- END STEP 2 -->
+    <div ng-show="currentStep == 1">
+      <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i class="fa fa-arrow-left"></i>
+        Back
+      </button>
+
+      <h3 class="steps">Step 2: Select Catalog and Quality Attributes</h3>
+
+      <p>Choose the appropriate catalog with a set of predefined quality attributes inside for your project. Select the
+        quality attributes which are essential in the project and add new quality attributes if you can not find a
+        matching one.</p>
+
+      <p>
+        After creating the project you can fill out the variables of the quality attributes and edit them if you want.
+        You are also able to set the status of the quality properties for each quality attribute and statistics are
+        enabled.
+      </p>
+
+      <div class="form crud-form">
+        <div class="form-group col-sm-12">
+
+          <!-- TODO EMRE: make multiple catalog selection possible -->
+          <label for="catalog">Catalog</label>
+          <ui-select id="catalog" required="required" ng-model="$parent.catalog" theme="bootstrap"
+                     ng-disabled="disabled" on-select="loadQAs($item, selectedCatalog)">
+            <ui-select-match placeholder="Select catalog...">{{$select.selected.name}}</ui-select-match>
+
+            <ui-select-choices repeat="catalog in catalogList | filter:$select.search">
+              <div
+                ng-bind-html="catalog.name + '<br/><small>' + catalog.description + '</small>' | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+
+        </div>
+
+        <div class="filter col-sm-4">
+          <h5>Filter</h5>
+          <filter hide-checkbox="false" callback="filter" categories="catList"></filter>
+        </div>
+
+        <div class="all-qas col-sm-8">
+          <div>
+            <h5>Quality attributes in selected catalog</h5>
+
+            <span ng-show="qas.length == 0 && catalog != ''">
+              There are no quality attributes in this catalog.
+            </span>
+            <span ng-show="catalog == ''">
+              Select a catalog first.
+            </span>
+
+            <span ng-show="filteredCatalogQas.length==0 && currentCategoriesFilter.length > 0">
+              No quality attributes found with the given filter.
+            </span>
+
+            <div class="qa well row"
+                 ng-repeat="catalogQa in filteredCatalogQas= (catalogQas | filter:filterByCategories)"
+                 ng-click="toggleSelection(catalogQa, selection)"
+                 ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
+              <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="createproject" variables="variables"/>
+            </div>
+          </div>
+          <div ng-show="additionalQas.length>0">
+
+            <h5>Custom added quality attributes</h5>
+            <!--TODO: add delete button -->
+            <div class="qa well row"
+                 ng-repeat="addtionalQa in additionalQas"
+                 ng-click="toggleSelection(addtionalQa, selectionAdditional)"
+                 ng-class="{ selected: selectionAdditional.indexOf(addtionalQa) > -1}">
+              <qa categories="addtionalQa.categories" qa="addtionalQa" context="createproject" variables="variables"/>
+            </div>
+          </div>
+        </div>
+
+        <!--<div ng-show="catalog != ''">-->
+        <div class="col-sm-12 add-new-qa">
+          <div class="row">
+            <i class="fa fa-plus-circle clickable" ng-click="newQaInEdit = !newQaInEdit"
+               title="Toggle Create new Quality Attribute Area">
+              Looking for a non existent quality attribute? Create a new one just for your project.
+            </i>
+
+            <div ng-show="newQaInEdit">
+              <div class="well qa">
+                <div class="categories">
+                  <span class="label label-default">CATEGORY: TODO</span>
+                </div>
+                <!-- NO VARIABLES IN TOOLBAR -->
+                <text-angular ta-toolbar="[
+              ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
+              ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'clear'],
+              ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+              ['html', 'insertImage', 'insertLink', 'wordcount', 'charcount']
+              ]" ng-model="newItem.description" ng-show="newQaInEdit"></text-angular>
+              </div>
+            </div>
+
+            <div class="col-md-12" ng-show="newQaInEdit">
+              <button type="button" ng-disabled="newItem.description.length==0" ng-click="addNew(newItem)"
+                      class="btn btn-default btn-md">Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row end-row col-sm-12">
+          <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg">Create Project and set values for
+            QAs
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- END STEP 2 -->
+  </form>
+</div>
+
+
+

@@ -631,3 +631,53 @@ div[text-angular-toolbar] {
     }
   }
 }
+
+.ui-select-match-close {
+  color: #000;
+}
+
+#alerts-container {
+  z-index: 999;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+
+  /** based on: http://red-team-design.com/cool-notification-messages-with-css3-jquery/ */
+  .alert {
+    background-size: 40px 40px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    animation: animate-bg 5s linear infinite;
+    position: initial;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    strong {
+      line-height: 2em;
+      display: block;
+    }
+    span {
+      margin-left: -5px;
+    }
+  }
+
+  .alert-error {
+    background-color: #de4343;
+    border-color: #c43d3d;
+  }
+  .warning {
+    background-color: #eaaf51;
+    border-color: #d99a36;
+  }
+
+  .success {
+    background-color: #61b832;
+    border-color: #55a12c;
+  }
+}
+
+.add-new-qa {
+  margin-top: 30px;
+}

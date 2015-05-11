@@ -26,13 +26,13 @@ angular.module('qualitApp')
             $scope.currentPassword = "";
             $scope.newPassword = "";
             $scope.newPasswordRepeated = "";
-            var alert = alerts.createSuccess(data, "#alerts-container");
+            var alert = alerts.createSuccess(data);
           })
           .error(function (data, status, headers, config) {
-            var alert = alerts.createError(status, data, "#alerts-container");
+            var alert = alerts.createError(status, data);
           });
       } else {
-        var alert = alerts.createError("Client error", errors.join(" "), "#alerts-container")
+        var alert = alerts.createError("Client error", errors.join(" "))
       }
 
     }

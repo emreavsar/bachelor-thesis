@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -26,6 +27,9 @@
   <!-- endbuild -->
 </head>
 <body ng-app="qualitApp">
+
+<div ng-if="inAuthArea" id="alerts-container">
+</div>
 
 <div ng-class="inAuthArea ? 'row-offcanvas row-offcanvas-left container content-container' : ''">
 
@@ -45,7 +49,6 @@
     </div>
   </div>
   <!-- sidebar -->
-  <!--TODO: col-sm-3-->
   <div ng-if="inAuthArea" class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation"
        ng-controller="NavigationCtrl">
     <div class="current-location col-xs-6">
@@ -99,8 +102,6 @@
   </div>
 
   <!-- main area -->
-
-  <!--TODO: col-sm-9-->
   <div ng-if="inAuthArea" class="col-xs-12 col-sm-9 main-content" ng-controller="RootCtrl">
     <i class="fa fa-angle-left toggle-sidebar-btn" sidebar-btn title="Toggle Navigation"></i>
 
@@ -169,6 +170,7 @@
   <script src="bower_components/textAngular/src/textAngular.js"></script>
   <script src="bower_components/textAngular/src/textAngular-sanitize.js"></script>
   <script src="bower_components/textAngular/src/textAngularSetup.js"></script>
+  <script src="bower_components/angular-ui-select/dist/select.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 
