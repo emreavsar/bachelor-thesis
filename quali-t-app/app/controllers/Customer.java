@@ -4,7 +4,6 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import dao.models.CustomerDAO;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
@@ -61,8 +60,7 @@ public class Customer extends Controller {
     @Transactional
     public static Result deleteCustomer(Long id) {
         try {
-            CustomerDAO customerDAO = new CustomerDAO();
-            customerDAO.remove(customerDAO.readById(id));
+            logics.project.Customer.deleteCustomer(id);
             return status(202);
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());

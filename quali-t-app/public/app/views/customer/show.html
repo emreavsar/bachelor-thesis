@@ -1,5 +1,12 @@
 <h3>Show all Customers</h3>
 <h3 class="steps"></h3>
+<div class="form crud-form">
+  <div class="row text-center" style="margin-bottom:20px;">
+    <button type="submit" class="btn btn-success" ng-click="add(cust)">
+      <i class="fa fa-plus"/> Add Supercategory
+    </button>
+  </div>
+</div>
 <table class="table table-hover">
   <tr>
     <th>Id</th>
@@ -7,12 +14,13 @@
     <th>Address</th>
     <th>Actions</th>
   </tr>
-  <tr ng-repeat="cust in customerList">
+  <tr ng-repeat="cust in customerList | orderBy:'name'">
     <td>{{cust.id}}</td>
     <td>{{cust.name}}</td>
     <td>{{cust.address}}</td>
     <td>
       <i class="fa fa-trash-o" ng-click="delete(cust)" />
+      <i class="fa fa-cog" ng-click="edit(cust)"/>
     </td>
   </tr>
 </table>

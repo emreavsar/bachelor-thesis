@@ -8,6 +8,8 @@ import exceptions.MissingParameterException;
 
 import java.util.List;
 
+import static logics.project.Project.deleteProject;
+
 /**
  * Created by corina on 06.05.2015.
  */
@@ -46,5 +48,13 @@ public class Customer {
 
     public static List<models.project.Customer> getAllCustomers() {
         return customerDAO.readAll();
+    }
+
+    public static void deleteCustomer(Long id) throws EntityNotFoundException {
+        models.project.Customer customer = customerDAO.readById(id);
+        for (models.project.Project project : customer.getProjects()) {
+            deleteProject(project.getId());
+        }
+        customerDAO.remove(customer);
     }
 }
