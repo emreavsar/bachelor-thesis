@@ -28,9 +28,7 @@ public class QACategory extends AbstractEntity {
     @JsonManagedReference(value = "categoryParent")
     private Set<QACategory> categories = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JsonBackReference(value="qaCategories")
-    @JsonIgnore
-    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "id2")
+    @JsonBackReference(value = "qaCategories")
     private Set<QA> usedInQA = new HashSet<>();
 
     public QACategory() {

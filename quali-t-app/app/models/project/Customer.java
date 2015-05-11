@@ -22,8 +22,7 @@ public class Customer extends AbstractEntity {
     private String name;
     private String address;
     @OneToMany(mappedBy = "projectCustomer", cascade = javax.persistence.CascadeType.REMOVE)
-//    @JsonManagedReference(value = "userProjects")
-    @JsonIgnore
+    @JsonManagedReference(value = "userProjects")
     private List<Project> projects = new ArrayList<>();
 
     public Customer() {

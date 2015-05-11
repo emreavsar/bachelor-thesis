@@ -25,11 +25,8 @@ public class Customer extends Controller {
     @Transactional
     public static Result createCustomer() {
         JsonNode json = request().body().asJson();
-        models.project.Customer ent = Json.fromJson(json, models.project.Customer.class);
-        Logger.debug(ent.toString());
-
         try {
-            models.project.Customer customer = logics.project.Customer.createCustomer(ent);
+            models.project.Customer customer = logics.project.Customer.createCustomer(json);
             return ok(Json.toJson(customer));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
@@ -49,24 +46,14 @@ public class Customer extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result updateCustomer() {
-//        DynamicForm requestData = Form.form().bindFromRequest();
-//        String name = requestData.get("name");
-//        String address = requestData.get("address");
-//        Long id = Long.parseLong(requestData.get("id"));
-
-
         try {
             JsonNode json = request().body().asJson();
-            models.project.Customer ent = Json.fromJson(json, models.project.Customer.class);
-            Logger.debug(ent.toString());
-//            models.project.Customer customer = Project.updateCustomer(id, name, address);
-//            return ok(Json.toJson(customer));
-            models.project.Customer customer = logics.project.Customer.updateCustomer(ent);
+            models.project.Customer customer = logics.project.Customer.updateCustomer(json);
             return ok(Json.toJson(customer));
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
-//        } catch (MissingParameterException e) {
-//            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
         }
     }
 

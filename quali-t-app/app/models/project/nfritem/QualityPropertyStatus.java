@@ -1,9 +1,7 @@
 package models.project.nfritem;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.QualityProperty;
 
@@ -25,9 +23,7 @@ public class QualityPropertyStatus extends AbstractEntity {
     private Instance qa;
 
     @ManyToOne
-//    @JsonManagedReference("qpStatus")
-    @JsonIgnore
-    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
+    @JsonManagedReference("qpStatus")
     private QualityProperty qp;
 
     private boolean status;

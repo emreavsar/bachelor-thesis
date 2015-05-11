@@ -34,8 +34,7 @@ public class Project extends AbstractEntity {
     private Customer projectCustomer;
     private String name;
     @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JsonManagedReference(value = "qualityProperty")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@qaProperties")
+    @JsonManagedReference(value = "qualityProperty")
     private Set<QualityProperty> qualityProperties = new HashSet<>();
     @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference(value = "qualityAttributes")

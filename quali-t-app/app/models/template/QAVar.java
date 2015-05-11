@@ -33,9 +33,9 @@ public class QAVar extends AbstractEntity {
     @JsonManagedReference(value = "variableRange")
     private ValRange valRange;
 
-    public QAVar(int varNumber) {
+    public QAVar(int varIndex) {
         super();
-        this.varIndex = varNumber;
+        this.varIndex = varIndex;
     }
 
     public QAVar() {
