@@ -1,1 +1,54 @@
-TODO: this will be the edit page! {{ $stateParams }}
+<div ng-init="init()">
+  <div class="text-center favorite-icons">
+    <i class="fa fa-star-o pointer" ng-show="!isProjectFavorite"
+       title="Favorite this project"
+       ng-click="addToFavorites(projectId)"></i>
+    <i class="fa fa-star pointer" ng-show="isProjectFavorite"
+       title="Unfavorite this project"
+       ng-click="removeFromFavorites(projectId)"></i>
+  </div>
+
+  <h3>{{project.name}}
+    <small> edit</small>
+  </h3>
+
+  <div class="col-sm-12">
+    <h3 class="steps">Project properties:</h3>
+
+    <div class="form-group col-sm-4">
+      <label for="customerName">Customer</label>
+      <ui-select id="customerName" required="required" ng-model="$parent.selectedCustomer" theme="bootstrap"
+                 ng-disabled="disabled">
+        <ui-select-match placeholder="Select customer...">{{$select.selected.name}}</ui-select-match>
+
+        <ui-select-choices repeat="customer in customerList | filter:$select.search">
+          <div ng-bind-html="customer.name | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+
+    <div class="form-group col-sm-4">
+      <label>Quality Properties</label>
+
+      <ui-select ng-model="$parent.selectedQualityProperties"
+                 multiple theme="bootstrap" ng-disabled="disabled"
+                 class="qualityproperties-selection">
+        <ui-select-match placeholder="Select quality properties...">{{$item.description}}</ui-select-match>
+
+        <ui-select-choices repeat="qp in qualityPropertiesList | filter:$select.search">
+          <div ng-bind-html="'<b>'+qp.name + '</b> - ' + qp.description | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+
+    <div class="form-group col-sm-4">
+      <label for="jiraKey">JIRA Key</label>
+      <input id="jiraKey" type="text" required="required" placeholder="Find in JIRA" class="form-control"/>
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+    <h3 class="steps">Quality attributes:</h3>
+  </div>
+
+</div>

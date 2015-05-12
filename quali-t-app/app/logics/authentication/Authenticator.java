@@ -34,6 +34,12 @@ public class Authenticator {
         Logger.info("constructor Authenticator() is called");
     }
 
+    public static User update(User u) {
+        UserDao userDao = new UserDao();
+        userDao.update(u);
+        return u;
+    }
+
     /**
      * Does simple authentication. Returns the user if authentication was ok. Otherwise null.
      *
@@ -113,11 +119,10 @@ public class Authenticator {
      * @return
      */
     public static boolean checkPassword(@Nullable User user, @NotNull String password) throws PasswordsNotMatchException, EntityNotFoundException {
-        if(user != null) {
-            if(user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))){
-               return true ;
-            }
-            else {
+        if (user != null) {
+            if (user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))) {
+                return true;
+            } else {
                 throw new PasswordsNotMatchException("Wrong password provided");
             }
         } else {
@@ -248,10 +253,9 @@ public class Authenticator {
     public static User getUser(long userid) throws EntityNotFoundException {
         UserDao userDao = new UserDao();
         User u = userDao.readById(userid);
-        if(u == null) {
+        if (u == null) {
             throw new EntityNotFoundException("No user found");
         }
         return u;
     }
-
 }

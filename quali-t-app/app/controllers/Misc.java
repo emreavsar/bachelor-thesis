@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import logics.user.Task;
+import models.authentication.User;
 import models.project.Project;
 import play.Logger;
 import play.data.DynamicForm;
@@ -56,6 +57,34 @@ public class Misc extends Controller {
         try {
             models.user.Task t = Task.changeState(taskId);
             return ok(Json.toJson(t));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
+
+    @SubjectPresent
+    @Transactional
+    public static Result updateFavorite() {
+        Logger.info("updateFavorite called");
+        try {
+            DynamicForm requestData = Form.form().bindFromRequest();
+            Long projectId = Long.valueOf(requestData.get("projectId"));
+
+            long userid = Long.parseLong(session().get("userid"));
+            boolean isFavorite = Boolean.parseBoolean(requestData.get("isFavorite"));
+            Project projectToFavorite = logics.project.Project.getProject(projectId);
+
+            User u;
+            // add favorite
+            if (isFavorite) {
+                u = Authenticator.getUser(userid).addToFavorites(projectToFavorite);
+            }
+            else { // remove favorite
+                u = Authenticator.getUser(userid).removeFromFavorites(projectToFavorite);
+            }
+            Authenticator.update(u);
+
+            return ok(Json.toJson(u));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }

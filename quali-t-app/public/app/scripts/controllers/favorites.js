@@ -8,19 +8,18 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('FavoritesCtrl', function ($scope, $http) {
+  .controller('FavoritesCtrl', function ($scope, $http, $state, apiService, alerts) {
     $scope.favoriteProjects = new Array();
 
     $scope.openFavorite = function (favoriteId) {
-      console.log("going to open favorite with id: " + favoriteId);
+      $state.go('editProject', {
+        projectId: favoriteId
+      });
     }
 
-    $http.get("/api/myfavorites/")
-      .success(function (data) {
-        $scope.favoriteProjects = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
+    var promise = apiService.getFavorites();
+    promise.then(
+      function (payload) {
+        $scope.favoriteProjects = payload.data;
       });
-
   });

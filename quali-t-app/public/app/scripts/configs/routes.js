@@ -118,7 +118,7 @@ angular.module('qualitApp')
       .state('editProject', {
         templateUrl: 'views/project/edit.html',
         url: '/authenticated/project/edit/:projectId',
-        controller: 'ProjectCtrl',
+        controller: 'EditProjectCtrl',
         data: {
           roles: ['analyst', 'admin']
         }
@@ -131,7 +131,6 @@ angular.module('qualitApp')
           roles: ['curator', 'admin']
         }
       })
-
       .state('editQualityProperties', {
         templateUrl: 'views/qp/edit.html',
         url: '/authenticated/qp/edit',

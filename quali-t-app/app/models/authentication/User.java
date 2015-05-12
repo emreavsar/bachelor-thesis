@@ -132,6 +132,16 @@ public class User extends AbstractEntity implements Subject {
         this.favorites = favorites;
     }
 
+    public User addToFavorites(Project project) {
+        favorites.add(project);
+        return this;
+    }
+
+    public User removeFromFavorites(Project projectToFavorite) {
+        favorites.remove(projectToFavorite);
+        return this;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
