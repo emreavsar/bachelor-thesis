@@ -44,7 +44,7 @@ angular.module('qualitApp')
         scope.getQaHtml = function (qa, variables) {
           var descriptionParts = qaTextService.splitVariables(qa.description);
           var qaHtml = "";
-          var qaVars = _.sortBy(variables[qa.id], ['varIndex']);
+          var qaVars = _.sortBy(variables, ['varIndex']);
           var qaVarIndex = 0;
           for (var i = 0; i < descriptionParts.length; i++) {
             var descriptionPart = descriptionParts[i];

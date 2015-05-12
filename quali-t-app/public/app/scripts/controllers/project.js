@@ -22,7 +22,6 @@ angular.module('qualitApp')
     $scope.catalog = "";
     // local unbinded variable => used for not loading the same catalog twice (see loadQAs)
     $scope.selectedCatalog = "";
-    $scope.variables = new Array();
     $scope.currentCategoriesFilter = new Array();
     $scope.selectedQualityProperties = new Array();
     $scope.selectedCustomer = {};
@@ -134,13 +133,12 @@ angular.module('qualitApp')
         $scope.selectedCatalog = catalog;
         $http.get('/api/qa/catalog/' + catalog.id)
           .success(function (data) {
-            $scope.catalogQas = new Array();
-            $scope.variables = new Array();
+            $scope.catalogQas = data;
 
-            _.forEach(data, function (value, key) {
-              $scope.catalogQas.push(value);
-              $scope.variables[value.qa.id] = value.vars;
-            });
+            //_.forEach(data, function (value, key) {
+            //  $scope.catalogQas.push(value);
+            //$scope.variables[value.qa.id] = value.vars;
+            //});
           })
           .error(function (data, status) {
             alerts.createError(status, data);
@@ -234,7 +232,7 @@ angular.module('qualitApp')
             }
           }
         }
-        if(!fullfiesFilter) {
+        if (!fullfiesFilter) {
           var indexInArr = $scope.selection.indexOf(catalogQa);
           if (indexInArr > -1) {
             $scope.selection.splice(indexInArr, 1);

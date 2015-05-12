@@ -104,7 +104,8 @@
                  ng-repeat="catalogQa in filteredCatalogQas= (catalogQas | filter:filterByCategories)"
                  ng-click="toggleSelection(catalogQa, selection)"
                  ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
-              <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="createproject" variables="variables"/>
+              <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="createproject" variables="catalogQa.vars"/>
+
             </div>
           </div>
           <div ng-show="additionalQas.length>0">

@@ -13,7 +13,7 @@ angular.module('qualitApp')
     $scope.image = "";
     $scope.currentStep = 0;
     $scope.qas = new Array();
-    $scope.variables = new Array();
+    //$scope.variables = new Array();
     $scope.selection = new Array();
     $scope.currentEditedElement = null;
     $scope.currentCategoriesFilter = new Array();
@@ -76,8 +76,8 @@ angular.module('qualitApp')
       $http.get('/api/qa/standardcatalog')
         .success(function (data) {
           _.forEach(data, function (value, key) {
-            $scope.qas.push(value.qa);
-            $scope.variables[value.qa.id] = value.vars;
+            $scope.qas.push(value);
+            //$scope.variables[value.qa.id] = value.vars;
           });
         })
         .error(function (data, status) {
@@ -93,8 +93,9 @@ angular.module('qualitApp')
       var selectedQualityAttributes = new Array();
       _.forEach($scope.selection, function (value, key) {
         var qa = {
-          id: value.id,
-          variables: $scope.variables[value.id]
+          id: value.qa.id,
+          variables: value.vars
+          //variables: $scope.variables[value.id]
         };
         selectedQualityAttributes.push(qa);
       });

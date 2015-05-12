@@ -177,6 +177,9 @@ input[disabled], select [disabled] {
 .main-view {
   h1, h2, h3, h4, h5 {
     color: #3f3f44;
+    &.steps {
+      color: #00EC78;
+    }
   }
 
   h3 {

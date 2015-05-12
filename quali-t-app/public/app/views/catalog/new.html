@@ -49,7 +49,7 @@
 
         <div class="qa well row" ng-repeat="qa in qas | filter:filterByCategories" ng-click="toggleSelection(qa)"
              ng-class="{ selected: selection.indexOf(qa) > -1}">
-          <qa categories="categories" qa="qa" context="catalog" variables="variables"/>
+          <qa categories="categories" qa="qa.qa" context="catalog" variables="qa.vars"/>
         </div>
       </div>
 
@@ -80,11 +80,10 @@
         <h5>Your selected Quality Attribute Templates</h5>
 
         <div class="qa well row"
-             ng-repeat="qa in selection"
-             ng-click="switchCurrentEditedElement(qa)"
-             ng-class="{ editing: currentEditedElement == qa}">
-
-          <qa categories="qa.categories" qa="qa" context="catalog" variables="variables" editable="true"/>
+             ng-repeat="selectedElement in selection">
+             <!--ng-click="switchCurrentEditedElement(qa)"-->
+             <!--ng-class="{ editing: currentEditedElement == qa}"-->
+          <qa categories="selectedElement.qa.categories" qa="selectedElement.qa" context="catalog" variables="selectedElement.vars" editable="true"/>
         </div>
       </div>
 

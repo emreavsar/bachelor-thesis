@@ -13,7 +13,7 @@
   </h3>
 
   <div class="col-sm-12">
-    <h3 class="steps">Project properties:</h3>
+    <h4 class="steps">Project properties:</h4>
 
     <div class="form-group col-sm-4">
       <label for="customerName">Customer</label>
@@ -48,7 +48,17 @@
   </div>
 
   <div class="col-sm-12">
-    <h3 class="steps">Quality attributes:</h3>
-  </div>
+    <h4 class="steps">Quality attributes of this project:</h4>
 
-</div>
+    <div class="qualityattributes col-md-7">
+      <h5>Quality attributes:</h5>
+
+      <div class="qa well row" ng-repeat="qa in project.qualityAttributes">
+        <qa categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"/>
+      </div>
+      <div class="qualityattributes col-md-5">
+        <h5>Quality Properties:</h5>
+      </div>
+    </div>
+
+  </div>
