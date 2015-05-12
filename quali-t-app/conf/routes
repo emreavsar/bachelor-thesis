@@ -76,6 +76,6 @@ PUT           /api/cat                       controllers.QACategory.updateCat()
 
 # QualityProperties
 GET           /api/qp                        controllers.QualityProperty.getAllQualityProperties()
-POST          /api/qp                        controllers.QualityProperty.createQualityProptery()
+POST        /api/qp        controllers.QualityProperty.createQualityProperty()
 PUT           /api/qp                        controllers.QualityProperty.updateQualityProperty()
 DELETE        /api/qp/:id                    controllers.QualityProperty.deleteQualityProperty(id: Long)

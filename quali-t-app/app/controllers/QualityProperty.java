@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -26,12 +27,11 @@ public class QualityProperty extends Controller {
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public static Result createQualityProptery() {
-        models.project.QualityProperty ent = readJson();
+    public static Result createQualityProperty() {
         try {
-            models.project.QualityProperty qualityProperty = logics.project.QualityProperty.createQualityProperty(ent);
-            return ok(Json.toJson(qualityProperty));
-        } catch (Exception e) {
+            JsonNode json = request().body().asJson();
+            return ok(Json.toJson(logics.project.QualityProperty.createQualityProperty(json)));
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
@@ -39,10 +39,9 @@ public class QualityProperty extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result updateQualityProperty() {
-        models.project.QualityProperty ent = readJson();
         try {
-            models.project.QualityProperty qualityProperty = logics.project.QualityProperty.updateQualityProperty(ent);
-            return ok(Json.toJson(qualityProperty));
+            JsonNode json = request().body().asJson();
+            return ok(Json.toJson(logics.project.QualityProperty.updateQualityProperty(json)));
         } catch (Exception e) {
             return status(400, e.getMessage());
         }

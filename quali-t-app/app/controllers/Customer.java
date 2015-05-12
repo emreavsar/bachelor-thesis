@@ -23,8 +23,8 @@ public class Customer extends Controller {
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public static Result createCustomer() {
-        JsonNode json = request().body().asJson();
         try {
+            JsonNode json = request().body().asJson();
             models.project.Customer customer = logics.project.Customer.createCustomer(json);
             return ok(Json.toJson(customer));
         } catch (MissingParameterException e) {

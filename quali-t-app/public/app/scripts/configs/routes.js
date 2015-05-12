@@ -67,8 +67,8 @@ angular.module('qualitApp')
         }
       })
       .state('customer', {
-        templateUrl: 'views/customer/show.html',
-        url: '/authenticated/customer/view',
+        templateUrl: 'views/customer/edit.html',
+        url: '/authenticated/customer/edit',
         controller: 'CustomerCtrl',
         data: {
           roles: ['curator', 'admin']
@@ -127,6 +127,15 @@ angular.module('qualitApp')
         templateUrl: 'views/category/edit.html',
         url: '/authenticated/category/edit',
         controller: 'CategoryCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
+      })
+
+      .state('editQualityProperties', {
+        templateUrl: 'views/qp/edit.html',
+        url: '/authenticated/qp/edit',
+        controller: 'QualitypropertyCtrl',
         data: {
           roles: ['curator', 'admin']
         }

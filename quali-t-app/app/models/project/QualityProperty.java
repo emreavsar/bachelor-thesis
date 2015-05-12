@@ -25,7 +25,7 @@ public class QualityProperty extends AbstractEntity {
     @ManyToMany
     @JsonBackReference(value = "qualityProperty")
     private Set<Project> usedByProject = new HashSet<Project>();
-    @OneToMany(mappedBy = "qp", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "qp", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonBackReference("qpStatus")
     private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
 

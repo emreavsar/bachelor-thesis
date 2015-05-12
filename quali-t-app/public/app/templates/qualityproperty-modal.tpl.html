@@ -1,0 +1,45 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
+          aria-hidden="true">&times;</span></button>
+
+        <h4 class="modal-title" ng-show="type == 'add'">Add new QualityProperty</h4>
+        <h4 class="modal-title" ng-show="type == 'edit'">Edit QualityProperty {{qp.id}} {{qp.name}}</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form crud-form">
+          <form>
+            <div class="form-group">
+              <label for="name">QualityProperty name</label>
+
+              <input type="text" class="form-control" id="name" ng-model="qp.name" required/>
+
+              <label for="description">QualityProperty description</label>
+              <input type="text" class="form-control" id="description" ng-model="qp.description"/>
+            </div>
+
+            <button type="submit" class="btn btn-success" ng-show="type == 'add'"
+                    ng-click="callBackFunction(qp); $hide()">
+              <i class="fa fa-plus"/> Add
+              QualityProperty
+            </button>
+            <button type="submit" class="btn btn-success" ng-show="type == 'edit'"
+                    ng-click="callBackFunction(qp); $hide()">
+              <i class="fa fa-plus"/> Save
+              QualityProperty
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
