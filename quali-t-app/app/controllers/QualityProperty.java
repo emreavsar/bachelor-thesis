@@ -6,13 +6,10 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import java.util.List;
 
 /**
  * Created by corina on 06.05.2015.
@@ -21,8 +18,7 @@ public class QualityProperty extends Controller {
     @SubjectPresent
     @Transactional
     public static Result getAllQualityProperties() {
-        List<models.project.QualityProperty> qualityProperties = logics.project.QualityProperty.getAllQualityProperties();
-        return ok(Json.toJson(qualityProperties));
+        return ok(Json.toJson(logics.project.QualityProperty.getAllQualityProperties()));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
@@ -45,13 +41,6 @@ public class QualityProperty extends Controller {
         } catch (Exception e) {
             return status(400, e.getMessage());
         }
-    }
-
-    private static models.project.QualityProperty readJson() {
-        JsonNode json = request().body().asJson();
-        models.project.QualityProperty ent = Json.fromJson(json, models.project.QualityProperty.class);
-        Logger.debug(ent.toString());
-        return ent;
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})

@@ -42,7 +42,7 @@ INSERT INTO customer (id, address, name) VALUES (3001, 'Rapperswil', 'HSR');
 --
 -- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO project (id, name, projectcustomer_id) VALUES (11000, 'Campus Mobile App (iOS)', 3001);
+INSERT INTO project (id, name, projectcustomer_id, jirakey) VALUES (11000, 'Campus Mobile App (iOS)', 3001, 'QTP');
 INSERT INTO project (id, name, projectcustomer_id) VALUES (11001, 'Cloud Banking', 3000);
 
 --
@@ -126,3 +126,13 @@ INSERT INTO valrange (id, max, min, rangeinvar_id) VALUES (3314, 100, 0, 6020);
 
 INSERT INTO task (id, description, done, assignee_id) VALUES (6010, 'Evaluate Catalog HSR Mobile App', true, 1000);
 INSERT INTO task (id, description, done, assignee_id) VALUES (6011, 'Create Catalog for Cloud Apps', false, 1000);
+
+--
+-- Data for Name: JIRAConnectoin; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO jiraconnection (id, hostAddress, username, password) VALUES (1500, 'http://sinv-56055.edu.hsr.ch:8080', 'corina','helloworld');
+
+INSERT INTO instance (id, description)VALUES (5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>');
+INSERT INTO val (id, "value", varindex, instance_id) VALUES (99, 'test 1', 0, 5);
+INSERT INTO val (id, "value", varindex, instance_id) VALUES (98, 'test 2', 1, 5);
