@@ -500,6 +500,7 @@ div[text-angular-toolbar] {
 }
 
 .qa {
+  clear: both;
   cursor: pointer;
   &.well {
     padding-top: 0px;
@@ -548,6 +549,10 @@ div[text-angular-toolbar] {
     width: inherit;
     display: initial;
   }
+}
+
+.qa-nopointer {
+  cursor: initial;
 }
 
 .clickable {
@@ -687,4 +692,19 @@ div[text-angular-toolbar] {
 
 .favorite-icons {
   color: #BABAC4;
+}
+
+.qp-header {
+  padding-bottom: 10px;
+  margin-right: -12px;
+}
+
+.quality-properties {
+  margin-top: 30px;
+}
+
+.qp-table {
+  th, td {
+    min-width: 20px;
+  }
 }

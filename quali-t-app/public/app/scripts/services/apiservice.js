@@ -67,5 +67,15 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.updateProject = function (project) {
+      return $http.put(this.apiPath + "project", project)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     return apiService;
   });

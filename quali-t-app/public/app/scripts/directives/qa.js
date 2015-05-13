@@ -15,6 +15,7 @@ angular.module('qualitApp')
       scope: {
         qa: '=',
         variables: '=',
+        qualityproperties: '=',
         context: '@',
         editable: '='
       },
@@ -39,6 +40,28 @@ angular.module('qualitApp')
               }
             }
           }
+        }
+
+        scope.getQpHtml = function (qualityPropertyStatuses) {
+          var qpsTable = $("<table/>", {
+            class: 'quality-properties qp-table'
+          });
+          var qpsTr = $("<tr/>").appendTo(qpsTable);
+
+          for (var i = 0; i < qualityPropertyStatuses.length; i++) {
+            var qualityPropertyStatus = qualityPropertyStatuses[i];
+
+            var qpsTd = $("<td/>", {}).appendTo(qpsTr);
+
+            var qpCheckbox = $("<input/>", {
+              type: 'checkbox',
+              checked: qualityPropertyStatus.status,
+              title: 'Toggle status of quality property: '
+              + qualityPropertyStatus.qp.name + ' - ' + qualityPropertyStatus.qp.description
+            }).appendTo(qpsTd);
+          }
+
+          return qpsTable;
         }
 
         scope.getQaHtml = function (qa, variables) {
@@ -93,16 +116,24 @@ angular.module('qualitApp')
             }
           }
 
+          if (context == "project") {
+            var qaHtmlDivClass = "col-sm-11";
+          }
           var qaHtmlDiv = $("<div/>", {
-            html: qaHtml
+            html: qaHtml,
+            class: qaHtmlDivClass
           });
           return qaHtmlDiv;
         }
 
         var qa = scope.qa;
-        var categories = qa.categories;
         var categories = (qa.categories != undefined ? qa.categories : new Array());
         var variables = (scope.variables != undefined ? scope.variables : new Array());
+        var qualityproperties = (scope.qualityproperties != undefined ? scope.qualityproperties : new Array());
+        // sort by qp id
+        qualityproperties = _.sortBy(qualityproperties, function(n) {
+          return n.qp.id
+        });
         var context = (scope.context != undefined ? scope.context : "");
 
         var qaId = "qa-" + qa.id;
@@ -119,23 +150,45 @@ angular.module('qualitApp')
           }).appendTo(categoriesDiv);
         }
 
+        var qaDivCSSClass = "";
+        if (context == "project") {
+          qaDivCSSClass = "col-sm-8";
+        } else {
+          qaDivCSSClass = "col-sm-10";
+        }
         var qaDiv = $("<div/>", {
-          class: "col-sm-10"
+          class: qaDivCSSClass
         }).appendTo(element);
-
 
         var qaDescSpan = $("<span/>", {
           class: "description",
           html: scope.getQaHtml(qa, variables)
         }).appendTo(qaDiv);
 
-        var qaCheckboxDiv = $("<div/>", {
-          class: "col-sm-2"
-        }).appendTo(element);
+        if (context == "project") {
+          var checkbox = $("<input/>", {
+            type: "checkbox",
+            title: "Toggle export to issue tracking system",
+            class: "col-sm-1"
+          }).prependTo(qaDescSpan);
+        }
 
-        var qaCheckboxDiv = $("<i/>", {
-          class: "fa fa-check checkbox"
-        }).appendTo(qaCheckboxDiv);
+        if (context == "project") {
+          var qaCheckboxDiv = $("<div/>", {
+            class: "col-sm-4",
+            html: scope.getQpHtml(qualityproperties)
+          }).appendTo(element);
+        } else {
+
+          var qaCheckboxDiv = $("<div/>", {
+            class: "col-sm-2"
+          }).appendTo(element);
+
+          var qaCheckboxDiv = $("<i/>", {
+            class: "fa fa-check checkbox"
+          }).appendTo(qaCheckboxDiv);
+
+        }
       }
     }
       ;

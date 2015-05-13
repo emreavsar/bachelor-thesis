@@ -15,7 +15,13 @@
   <div class="col-sm-12">
     <h4 class="steps">Project properties:</h4>
 
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-6">
+      <label for="projectName">Project name</label>
+      <input id="projectName" ng-model="project.name" type="text" required="required"
+             placeholder="Set your project name" class="form-control"/>
+    </div>
+
+    <div class="form-group col-sm-6">
       <label for="customerName">Customer</label>
       <ui-select id="customerName" required="required" ng-model="$parent.selectedCustomer" theme="bootstrap"
                  ng-disabled="disabled">
@@ -27,9 +33,8 @@
       </ui-select>
     </div>
 
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-6">
       <label>Quality Properties</label>
-
       <ui-select ng-model="$parent.selectedQualityProperties"
                  multiple theme="bootstrap" ng-disabled="disabled"
                  class="qualityproperties-selection">
@@ -41,24 +46,59 @@
       </ui-select>
     </div>
 
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-6">
       <label for="jiraKey">JIRA Key</label>
-      <input id="jiraKey" type="text" required="required" placeholder="Find in JIRA" class="form-control"/>
+      <input id="jiraKey" type="text" ng-model="project.jirakey" required="required" placeholder="Find in JIRA" class="form-control"/>
     </div>
   </div>
 
   <div class="col-sm-12">
     <h4 class="steps">Quality attributes of this project:</h4>
 
-    <div class="qualityattributes col-md-7">
-      <h5>Quality attributes:</h5>
-
-      <div class="qa well row" ng-repeat="qa in project.qualityAttributes">
-        <qa categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"/>
+    <div class="qualityattributes col-sm-12">
+      <div class="col-sm-1">
+        <h5 style="margin-top: 40px;" data-trigger="hover" data-type="success"
+            data-title="{{tooltipsExport}}"
+            bs-tooltip>Export:</h5>
       </div>
-      <div class="qualityattributes col-md-5">
+      <div class="col-sm-4 pull-right qp-header">
         <h5>Quality Properties:</h5>
+        <table class="qp-table">
+          <tr>
+            <th ng-repeat="qp in project.qualityProperties | orderBy:'id'">
+              <span data-trigger="hover" data-type="success"
+                    data-title="{{qp.name + ' - ' + qp.description}}"
+                    bs-tooltip
+                    ng-bind="qp.name"></span>
+            </th>
+          </tr>
+        </table>
+      </div>
+      <div class="qa qa-nopointer well row" ng-repeat="qa in project.qualityAttributes">
+        <qa categories="qa.template.categories" qa="qa" context="project" variables="qa.template.vars"
+            qualityproperties="qa.qualityPropertyStatus"/>
       </div>
     </div>
-
   </div>
+
+  <div class="row end-row col-sm-12 text-center">
+    <button type="button" ng-click="save()" class="btn btn-success btn-md"
+            data-trigger="hover"
+            data-type="success" data-title="{{tooltipsSave}}"
+            bs-tooltip>Save Project
+    </button>
+
+    <button type="button" ng-click="validate()" class="btn btn-success btn-md"
+            data-trigger="hover"
+            data-type="success" data-title="{{tooltipsValidate}}"
+            bs-tooltip>Validate Project
+    </button>
+
+    <button type="button" ng-click="exportToIssueTracker()" class="btn btn-success btn-md"
+            style="margin-left: 5px;"
+            data-trigger="hover"
+            data-type="success" data-title="{{tooltipsExportToIssueTracker}}"
+            bs-tooltip>Export to issue tracking system
+    </button>
+  </div>
+</div>

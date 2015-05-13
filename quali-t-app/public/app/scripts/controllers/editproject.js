@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditProjectCtrl', function ($scope, $stateParams, $http, apiService, favoritesService) {
+  .controller('EditProjectCtrl', function ($scope, $stateParams, apiService, favoritesService, alerts) {
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
@@ -17,6 +17,11 @@ angular.module('qualitApp')
     $scope.selectedQualityProperties = new Array();
     $scope.qualityPropertiesList = new Array();
     $scope.isProjectFavorite = false;
+    $scope.tooltipsSave = "Saves the project and shows warnings (statistics & fuzzyness) if there are any.";
+    $scope.tooltipsValidate = "Validate the project's quality attributes for statistics and " +
+    "fuzzyness will show you open issues and suggesstions.";
+    $scope.tooltipsExportToIssueTracker = "Export selected quality attributes to issue tracking system.";
+    $scope.tooltipsExport = "Select the quality attributes you want to export to issue tracking system.";
 
     $scope.checkIsFavorite = function (projectId, favoriteProjects) {
       return favoritesService.isProjectFavorite(projectId, favoriteProjects);
@@ -37,6 +42,32 @@ angular.module('qualitApp')
           $scope.favoriteProjects = payload.data.favorites;
           $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
         });
+    }
+
+    $scope.save = function () {
+      // get only needed information
+      var project = {
+        id: $scope.project.id,
+        name: $scope.project.name,
+        jirakey: $scope.project.jirakey,
+        customer: $scope.selectedCustomer.id,
+        qualityProperties: $scope.selectedQualityProperties
+      };
+
+      var promiseSave = apiService.updateProject(project);
+      promiseSave.then(
+        function (payload) {
+          alerts.createSuccess("Project was successfully updated.");
+          $scope.project = payload.data;
+        });
+    }
+
+    $scope.validate = function () {
+
+    }
+
+    $scope.exportToIssueTracker = function () {
+
     }
 
     $scope.init = function () {
