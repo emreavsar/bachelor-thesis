@@ -42,6 +42,21 @@ public class QAVar extends AbstractEntity {
         this.extendable = false;
     }
 
+    public QAVar copyQAVar() {
+        QAVar qaVar = new QAVar(this.varIndex);
+        qaVar.type = this.type;
+        qaVar.extendable = this.extendable;
+        if (this.getValRange() != null) {
+            qaVar.valRange = this.getValRange().copyValRange();
+        }
+        if (!this.getValues().isEmpty()) {
+            for (QAVarVal qaVarVal : this.getValues()) {
+                qaVar.addValue(qaVarVal.copyQAVarVal());
+            }
+        }
+        return qaVar;
+    }
+
     public int getVarIndex() {
         return varIndex;
     }

@@ -18,6 +18,15 @@ public class JIRAConnection extends AbstractEntity {
     private String username;
     private String password;
 
+    public JIRAConnection(String hostAddress, String username, String password) {
+        this.hostAddress = hostAddress;
+        this.username = username;
+        this.password = password;
+    }
+
+    public JIRAConnection() {
+    }
+
     public String getHostAddress() {
         return hostAddress;
     }

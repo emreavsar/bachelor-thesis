@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.QA;
@@ -84,6 +85,18 @@ public class QualityAttribute extends Controller {
         try {
             return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(Long.parseLong("6000"))));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
+
+    @Restrict({@Group("curator"), @Group("admin")})
+    @Transactional
+    public static Result cloneQA(long id) {
+        try {
+            return ok(Json.toJson(logics.template.QualityAttribute.cloneQA(id)));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (EntityNotCreatedException e) {
             return status(400, e.getMessage());
         }
     }

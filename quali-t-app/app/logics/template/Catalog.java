@@ -41,9 +41,11 @@ public class Catalog {
     }
 
     public static CatalogQA addQaToCatalog(QA qa, models.template.Catalog catalog) throws EntityNotFoundException {
-        models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId()).addTemplate(qa);
-        catalogDAO.persist(updatedCatalog);
-        return catalogQADAO.findByCatalogAndId(updatedCatalog, qa);
+        return addQaToCatalog(qa, catalog.getId());
+    }
+
+    public static CatalogQA addQaToCatalog(QA qa, Long catalogId) throws EntityNotFoundException {
+        return catalogQADAO.findByCatalogAndId(catalogDAO.persist(catalogDAO.readById(catalogId).addTemplate(qa)), qa);
     }
 
     public static void deleteCatalog(long id) throws EntityNotFoundException, EntityCanNotBeDeleted {

@@ -7,16 +7,17 @@ import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QACategoryDAO;
 import dao.models.QualityAttributeDAO;
+import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
-import play.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Long.*;
+import static java.lang.Long.parseLong;
 import static logics.template.Catalog.addQaToCatalog;
 import static logics.template.Variables.addVarsToQA;
 
@@ -44,17 +45,12 @@ public class QualityAttribute {
         String qaText = json.findValue("description").asText();
         if (qaText.equals("")) {
             throw new MissingParameterException("QualityAttribute text can not be emtpy");
-        }
-        else {
+        } else {
             QA qa = new QA(qaText, versionNumber);
-            Logger.info("before first persost");
             qa = qaDAO.persist(qa);
             qa = setCategoriesInQa(qa, json);
-            Logger.info("after categories persist" + qa.getId());
             CatalogQA catalogQA = addQaToCatalog(qa, defaultCatalog);
-            Logger.info("after catalog.update");
             addVarsToQA(catalogQA, json);
-            Logger.info("after catalogQAdao.update");
             return qa;
         }
     }
@@ -67,6 +63,10 @@ public class QualityAttribute {
         JsonNode categoriesNode = json.findValue("categories");
         List<String> list = categoriesNode.findValuesAsText("id");
         List<Long> categoryIds = Lists.transform(list, Helper.parseLongFunction());
+        return setCategoriesInQA(qa, categoryIds);
+    }
+
+    private static QA setCategoriesInQA(QA qa, List<Long> categoryIds) throws EntityNotFoundException {
         List<QACategory> qaCategories = qaCategoryDAO.readAllById(categoryIds);
         qa.getCategories().clear();
         qa.addCategories(qaCategories);
@@ -122,4 +122,24 @@ public class QualityAttribute {
     }
 
 
+    public static Object cloneQA(Long id) throws EntityNotFoundException, EntityNotCreatedException {
+        CatalogQA originalCatalogQA = catalogQADAO.readById(id);
+        if (originalCatalogQA.getCatalog().getId() == 6000) {
+            QA originalQA = originalCatalogQA.getQa();
+            //create new qa with same descirption
+            QA newQA = originalQA.copyQA();
+            //create CatalogQA
+            newQA.addCatalogQA(originalCatalogQA.copyCatalogQA());
+            qaDAO.persist(newQA);
+            //add categories to new QA
+            List<Long> categoryIds = new ArrayList<>();
+            for (QACategory qaCategory : originalQA.getCategories()) {
+                categoryIds.add(qaCategory.getId());
+            }
+            setCategoriesInQA(newQA, categoryIds);
+            return newQA;
+        } else {
+            throw new EntityNotCreatedException("It is only allowed to clone QAs from Standard Catalog!");
+        }
+    }
 }

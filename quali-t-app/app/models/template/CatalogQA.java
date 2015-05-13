@@ -46,6 +46,17 @@ public class CatalogQA extends AbstractEntity {
         this.qa = qa;
     }
 
+    public CatalogQA copyCatalogQA() {
+        CatalogQA catalogQA = new CatalogQA();
+        catalogQA.setCatalog(this.catalog);
+        if (!this.getVars().isEmpty()) {
+            for (QAVar qaVar : this.getVars()) {
+                catalogQA.addVar(qaVar.copyQAVar());
+            }
+        }
+        return catalogQA;
+    }
+
     public Set<QAVar> getVars() {
         return vars;
     }
@@ -76,9 +87,10 @@ public class CatalogQA extends AbstractEntity {
         }
     }
 
-    private void addVar(QAVar var) {
-        this.vars.add(var);
+    public CatalogQA addVar(QAVar var) {
         var.setTemplate(this);
+        this.vars.add(var);
+        return this;
     }
 
     public boolean isDeleted() {

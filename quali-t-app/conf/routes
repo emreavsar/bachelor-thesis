@@ -44,6 +44,7 @@ DELETE        /api/customer/:id                  controllers.Customer.deleteCust
 
 # Quality Attribute
 POST          /api/qa                            controllers.QualityAttribute.createQA()
+POST          /api/qa/:id                    controllers.QualityAttribute.cloneQA(id: Long)
 GET           /api/qa                            controllers.QualityAttribute.getAllQAs()
 GET           /api/qa/catalog/:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
 GET           /api/qa/standardcatalog            controllers.QualityAttribute.getAllStandardCatalogQAs()
@@ -81,3 +82,9 @@ GET           /api/qp                            controllers.QualityProperty.get
 POST          /api/qp                            controllers.QualityProperty.createQualityProperty()
 PUT           /api/qp                            controllers.QualityProperty.updateQualityProperty()
 DELETE        /api/qp/:id                        controllers.QualityProperty.deleteQualityProperty(id: Long)
+
+# JIRAConnections
+GET           /api/jiraconnection            controllers.JIRAConnection.getAllJIRAConnections()
+POST          /api/jiraconnection            controllers.JIRAConnection.createJIRAConnection()
+PUT           /api/jiraconnection            controllers.JIRAConnection.updateJIRAConnection()
+DELETE        /api/jiraconnection/:id        controllers.JIRAConnection.deleteJIRAConnection(id: Long)
