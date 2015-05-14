@@ -95,10 +95,12 @@ angular.module('qualitApp')
                 };
                 var value = " value='" + value.value + "'";
               } else {
+                // TODO check if this is needed or not!
+                var varOptions = {};
                 var varOptions = {
                   "data-for-variable": qaTextService.getVariableString(variable),
                   "data-value-id": "",
-                  "data-value-varIndex": "",
+                  "data-value-varIndex": variable.varIndex,
                   "data-value-current": ""
                 };
                 var value = " value=''";
@@ -294,7 +296,7 @@ angular.module('qualitApp')
             promiseRemove.then(
               function (payload) {
                 alerts.createSuccess("Quality Attribute was successfully removed from this project.");
-                if(scope.updateQaFunction() != undefined) {
+                if (scope.updateQaFunction() != undefined) {
                   // reload information
                   scope.updateQaFunction()();
                 }

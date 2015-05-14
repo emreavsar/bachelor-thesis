@@ -11,6 +11,8 @@ angular.module('qualitApp')
   .controller('EditQaCtrl', function ($scope, apiService) {
     $scope.isTextMode = false;
     $scope.tooltipsEditMode = "Change either the quality attribute itself (text) or set the values (variables)";
+    // when qa itself changes (isTextMode)
+    $scope.qaNew = $scope.qa;
 
     /**
      * Helper function. Workaround to hide modal through controller.
@@ -24,9 +26,14 @@ angular.module('qualitApp')
      * Updates the quality attribute instance. Either the text or the values in the variable
      */
     $scope.update = function () {
+      var instance = $scope.qa;
+      // delete not needed information
+      delete instance.qualityPropertyStatus;
+      delete instance.template;
+
       // update QAs text
       if ($scope.isTextMode) {
-
+        instance.description = qaNew.description;
       } else {
         // update QAs instance values
         var qaValues = new Array();
@@ -82,14 +89,9 @@ angular.module('qualitApp')
           }
         }
 
-        var instance = $scope.qa;
         instance.values = qaValues;
-        // delete not needed information
-        delete instance.qualityPropertyStatus;
-        delete instance.template;
-
-        apiService.updateQaInstance(instance);
       }
+      apiService.updateQaInstance(instance);
       $scope.hideModal();
     }
   });
