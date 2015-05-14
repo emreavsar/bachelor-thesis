@@ -541,7 +541,7 @@ div[text-angular-toolbar] {
     p {
       display: inline;
       &.isExtendable {
-        &> * {
+        & > * {
           margin-right: 5px;
         }
       }
@@ -728,4 +728,16 @@ div[text-angular-toolbar] {
   margin-bottom: 30px;
   border-bottom: 1px #E7E7E7 solid;
   padding-bottom: 10px;
+}
+
+.qualityattributes {
+  .description {
+    p:first-of-type {
+      display: block;
+    }
+    .export-checkbox {
+      margin-bottom: 15px;
+      margin-top: 35px;
+    }
+  }
 }

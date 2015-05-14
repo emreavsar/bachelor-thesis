@@ -239,16 +239,23 @@ angular.module('qualitApp')
           class: qaDivCSSClass
         }).appendTo(element);
 
+        // show the text with variables inside
+        var qaHtml = "";
+        if (context == "editproject") {
+          qaHtml = qaTextService.getPopulatedQa(qa, values);
+        } else {
+          qaHtml = scope.getQaHtml(qa, variables, values);
+        }
         var qaDescSpan = $("<span/>", {
           class: "description",
-          html: scope.getQaHtml(qa, variables, values)
+          html: qaHtml
         }).appendTo(qaDiv);
 
         if (context == "editproject") {
           var checkbox = $("<input/>", {
             type: "checkbox",
             title: "Toggle export to issue tracking system",
-            class: "col-sm-1"
+            class: "col-sm-1 export-checkbox"
           }).prependTo(qaDescSpan);
 
           var qaCheckboxDiv = $("<div/>", {

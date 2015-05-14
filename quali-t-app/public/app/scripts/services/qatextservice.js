@@ -35,8 +35,35 @@ angular.module('qualitApp')
       return this.variableTypes.indexOf(str) > -1;
     }
 
-    qaTextService.getVariableString = function(variable) {
+    qaTextService.getVariableString = function (variable) {
       return "%VARIABLE_" + variable.type + "_" + variable.varIndex + "%";
+    }
+
+    qaTextService.getPopulatedQa = function (qa, values) {
+      var populatedStr = "";
+
+      var parts = this.splitVariables(qa.description);
+      var actualVariableIndex = 0;
+      for (var i = 0; i < parts.length; i++) {
+        var part = parts[i];
+        if (this.isVariable(part)) {
+          // if its a variable, check if there is a value set for it, if not add the variableString
+          var value = _.findWhere(values, {'varIndex': actualVariableIndex});
+          if (value != undefined) {
+            populatedStr += value.value;
+          } else {
+            populatedStr += "<i>"+this.getVariableString({
+              type: part,
+              varIndex: actualVariableIndex
+            }) + "</i>";
+          }
+          actualVariableIndex++;
+        } else {
+          populatedStr += part;
+        }
+      }
+
+      return populatedStr;
     }
 
     return qaTextService;
