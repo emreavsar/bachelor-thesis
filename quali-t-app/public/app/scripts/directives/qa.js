@@ -18,7 +18,8 @@ angular.module('qualitApp')
         qualityproperties: '=',
         values: '=',
         context: '@',
-        editable: '='
+        editable: '=',
+        updateQaFunction: '&'
       },
       link: function postLink(scope, element, attrs) {
         scope.isEditable = function (type) {
@@ -293,6 +294,10 @@ angular.module('qualitApp')
             promiseRemove.then(
               function (payload) {
                 alerts.createSuccess("Quality Attribute was successfully removed from this project.");
+                if(scope.updateQaFunction() != undefined) {
+                  // reload information
+                  scope.updateQaFunction()();
+                }
               });
           });
         } else if (context == "createproject" || context == "catalog") {

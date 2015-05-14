@@ -89,7 +89,8 @@
         </div>
       </div>
       <div class="qa qa-nopointer well row" ng-repeat="qa in project.qualityAttributes">
-        <qa categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"
+        <qa update-qa-function="init"
+            categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"
             qualityproperties="qa.qualityPropertyStatus" values="qa.values"/>
       </div>
     </div>
