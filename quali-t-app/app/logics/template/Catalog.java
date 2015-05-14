@@ -12,12 +12,11 @@ import models.template.QA;
 import java.util.Iterator;
 import java.util.List;
 
-import static logics.template.Variables.addVarsToQA;
-
 /**
  * Created by corina on 10.04.2015.
  */
 public class Catalog {
+    public final static long defaultCatalog = new Long(6000);
     static CatalogDAO catalogDAO = new CatalogDAO();
     static QualityAttributeDAO qaDAO = new QualityAttributeDAO();
     static CatalogQADAO catalogQADAO = new CatalogQADAO();
@@ -35,7 +34,7 @@ public class Catalog {
             JsonNode qaNode = qaNodes.next();
             QA qa = qaDAO.readById(qaNode.findValue("id").asLong());
             CatalogQA catalogQA = addQaToCatalog(qa, catalog);
-            addVarsToQA(catalogQA, qaNode);
+//            addVarsToQA(catalogQA, qaNode);
         }
         return catalog;
     }
@@ -66,7 +65,7 @@ public class Catalog {
         QA qa = qaDAO.readById(qaNode.findPath("id").asLong());
         models.template.Catalog catalog = catalogDAO.readById(catalogQANode.findPath("catalog").asLong());
         CatalogQA catalogQA = addQaToCatalog(qa, catalog);
-        addVarsToQA(catalogQA, catalogQANode);
+//        addVarsToQA(catalogQA, catalogQANode);
         return catalogQA;
     }
 
@@ -89,7 +88,11 @@ public class Catalog {
         models.template.Catalog catalog = catalogDAO.readById(catalogQANode.findPath("catalog").asLong());
         removeQaFromCatalog(catalogQA.getId());
         CatalogQA newCatalogQA = addQaToCatalog(catalogQA.getQa(), catalog);
-        addVarsToQA(newCatalogQA, catalogQANode);
+//        addVarsToQA(newCatalogQA, catalogQANode);
         return newCatalogQA;
+    }
+
+    public static CatalogQA addQaToCatalog(QA qa) throws EntityNotFoundException {
+        return addQaToCatalog(qa, Long.parseLong("6000"));
     }
 }

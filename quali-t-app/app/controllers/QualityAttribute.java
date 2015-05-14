@@ -8,12 +8,14 @@ import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.QA;
+import models.template.QAVar;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -25,8 +27,13 @@ public class QualityAttribute extends Controller {
     @Transactional
     public static Result createQA() {
         try {
+            //convert JSON to Objects
             JsonNode json = request().body().asJson();
-            return ok(Json.toJson(createVersionedQA(1, json)));
+            QA qa = Converter.getQaFromJson(json);
+            List<Long> categoryIds = Converter.getQaCategoriesFromJson(json);
+            List<QAVar> qaVars = VariableConverter.getVarsFromJson(json);
+            //create QA with all relations
+            return ok(Json.toJson(logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars)));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         } catch (EntityNotFoundException e) {
@@ -55,17 +62,17 @@ public class QualityAttribute extends Controller {
     @Transactional
     public static Result updateQA() {
         try {
+            //convert JSON to Objects
             JsonNode json = request().body().asJson();
-            return ok(Json.toJson(logics.template.QualityAttribute.updateQA(json)));
+            QA qa = Converter.getQaFromJson(json);
+            List<Long> categoryIds = Converter.getQaCategoriesFromJson(json);
+            List<QAVar> qaVars = VariableConverter.getVarsFromJson(json);
+            return ok(Json.toJson(logics.template.QualityAttribute.updateQA(qa, categoryIds, qaVars)));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
-    }
-
-    private static QA createVersionedQA(int versionNumber, JsonNode json) throws EntityNotFoundException, MissingParameterException {
-        return logics.template.QualityAttribute.createQA(versionNumber, json);
     }
 
     @Restrict({@Group("curator"), @Group("admin")})
@@ -75,6 +82,8 @@ public class QualityAttribute extends Controller {
             logics.template.QualityAttribute.deleteQA(id);
             return status(202);
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
@@ -97,6 +106,8 @@ public class QualityAttribute extends Controller {
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         } catch (EntityNotCreatedException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }

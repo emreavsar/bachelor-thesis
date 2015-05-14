@@ -7,13 +7,10 @@ import logics.authentication.Authenticator;
 import models.authentication.User;
 import models.project.Customer;
 import models.project.QualityProperty;
-import models.template.Catalog;
-import models.template.QA;
-import models.template.QACategory;
+import models.template.*;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,8 +45,14 @@ public abstract class AbstractTestDataCreator {
     }
 
     public static QA createQA(String qaDescirption) throws EntityNotFoundException, MissingParameterException {
-        List<Long> categories = new ArrayList();
         QA qa = new QA(qaDescirption, 1);
+        persistAndFlush(qa);
+        return qa;
+    }
+
+    public static QA createQA(String description, List<QACategory> qaCategories) throws MissingParameterException, EntityNotFoundException {
+        QA qa = createQA(description);
+        qa.addCategories(qaCategories);
         persistAndFlush(qa);
         return qa;
     }
@@ -77,4 +80,18 @@ public abstract class AbstractTestDataCreator {
         persistAndFlush(qualityProperty);
         return qualityProperty;
     }
+
+    public static CatalogQA createCatalogQA(QA qa, Catalog catalog) {
+        CatalogQA catalogQA = new CatalogQA(qa, catalog);
+        persistAndFlush(catalogQA);
+        return catalogQA;
+    }
+
+    public static CatalogQA createCatalogQA(QA qa, Catalog catalog, List<QAVar> qaVars) {
+        CatalogQA catalogQA = createCatalogQA(qa, catalog);
+        catalogQA.addVars(qaVars);
+        persistAndFlush(catalogQA);
+        return catalogQA;
+    }
+
 }

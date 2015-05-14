@@ -10,6 +10,10 @@ public class Helper {
         return ParseLongFunction.INSTANCE;
     }
 
+    public static boolean validate(String name) {
+        return name != null && !name.isEmpty();
+    }
+
     private enum ParseLongFunction implements Function<String, Long> {
         INSTANCE;
 

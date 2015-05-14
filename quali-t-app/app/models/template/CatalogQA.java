@@ -20,7 +20,6 @@ import java.util.Set;
 @Entity
 @Table(name = "catalogqa")
 @Nullable
-@JsonIgnoreProperties({"id2"})
 public class CatalogQA extends AbstractEntity {
     @OneToMany
     @JsonManagedReference("qaTemplate")
@@ -99,5 +98,13 @@ public class CatalogQA extends AbstractEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Set<Instance> getQaInstances() {
+        return qaInstances;
+    }
+
+    public void setQaInstances(Set<Instance> qaInstances) {
+        this.qaInstances = qaInstances;
     }
 }

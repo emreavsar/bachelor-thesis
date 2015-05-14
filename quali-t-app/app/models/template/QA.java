@@ -32,6 +32,12 @@ public class QA extends AbstractEntity {
         this.deleted = false;
     }
 
+    public QA(String description) {
+        super();
+        this.versionNumber = 1;
+        this.description = description;
+    }
+
     public QA(String description, int versionNumber) {
         super();
         this.versionNumber = versionNumber;

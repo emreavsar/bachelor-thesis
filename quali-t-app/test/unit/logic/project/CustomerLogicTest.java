@@ -20,27 +20,11 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
         customer = new models.project.Customer("Name", "Address");
     }
 
-    @Test
-    public void testValidateNull() {
-        assertThat(Customer.validate(null)).isFalse();
-    }
-
-    @Test
-    public void testValidateEmtpyString() {
-        assertThat(Customer.validate("")).isFalse();
-    }
-
-    @Test
-    public void testValidateValidString() {
-        assertThat(Customer.validate("Customer Name")).isTrue();
-    }
-
     //createCustomer Tests
     @Test
-    public void testCreateValidCustomer() throws MissingParameterException, EntityAlreadyExistsException {
+    public void testCreateValidCustomer() throws MissingParameterException, EntityAlreadyExistsException, InterruptedException {
         // ACT
         models.project.Customer newCustomer = Customer.createCustomer(customer);
-
         // ASSERT
         assertThat(newCustomer.getId()).isNotNull();
         assertThat(newCustomer.getName()).isEqualTo("Name");

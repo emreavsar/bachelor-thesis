@@ -1,5 +1,6 @@
 package logics.project;
 
+import controllers.Helper;
 import dao.models.CustomerDAO;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
@@ -15,12 +16,8 @@ import static logics.project.Project.deleteProject;
 public class Customer {
     static CustomerDAO customerDAO = new CustomerDAO();
 
-    public static boolean validate(String name) {
-        return name != null && !name.isEmpty();
-    }
-
     public static models.project.Customer createCustomer(models.project.Customer customer) throws EntityAlreadyExistsException, MissingParameterException {
-        if (customer != null && validate(customer.getName())) {
+        if (customer != null && Helper.validate(customer.getName())) {
             models.project.Customer c = customerDAO.findByName(customer.getName());
             if (c == null) {
                 customer.setId(null);
@@ -34,7 +31,7 @@ public class Customer {
     }
 
     public static models.project.Customer updateCustomer(models.project.Customer updatedCustomer) throws MissingParameterException, EntityNotFoundException, EntityAlreadyExistsException {
-        if (updatedCustomer != null && updatedCustomer.getId() != null && validate(updatedCustomer.getName())) {
+        if (updatedCustomer != null && updatedCustomer.getId() != null && Helper.validate(updatedCustomer.getName())) {
             models.project.Customer c = customerDAO.findByName(updatedCustomer.getName());
             if (c == null) {
                 models.project.Customer customer = customerDAO.readById(updatedCustomer.getId());
