@@ -5,8 +5,9 @@
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
-        <h4 class="modal-title" ng-show="type == 'add'">Add new QualityProperty</h4>
-        <h4 class="modal-title" ng-show="type == 'edit'">Edit QualityProperty {{qp.id}} {{qp.name}}</h4>
+        <h4 class="modal-title" ng-show="type == 'add'">Add new JIRAConnection</h4>
+        <h4 class="modal-title" ng-show="type == 'edit'">Edit JIRAConnection {{jiraconnection.id}}
+          {{jiraconnection.hostAddress}}</h4>
       </div>
 
       <div class="modal-body">
@@ -14,22 +15,25 @@
         <div class="form crud-form">
           <form>
             <div class="form-group">
-              <label for="name">QualityProperty name</label>
-              <input type="text" class="form-control" id="name" ng-model="qp.name" required/>
+              <label for="hostAddress">JIRA Hostaddress</label>
+              <input type="text" class="form-control" id="hostAddress" ng-model="jiraconnection.hostAddress" required/>
 
-              <label for="description">QualityProperty description</label>
-              <input type="text" class="form-control" id="description" ng-model="qp.description"/>
+              <label for="username">username</label>
+              <input type="text" class="form-control" id="username" ng-model="jiraconnection.username" required/>
+
+              <label for="password">password</label>
+              <input type="text" class="form-control" id="password" ng-model="jiraconnection.password" required/>
             </div>
 
             <button type="submit" class="btn btn-success" ng-show="type == 'add'"
-                    ng-click="callBackFunction(qp); $hide()">
+                    ng-click="callBackFunction(jiraconnection); $hide()">
               <i class="fa fa-plus"/> Add
-              QualityProperty
+              JIRAConnection
             </button>
             <button type="submit" class="btn btn-success" ng-show="type == 'edit'"
-                    ng-click="callBackFunction(qp); $hide()">
+                    ng-click="callBackFunction(jiraconnection); $hide()">
               <i class="fa fa-plus"/> Save
-              QualityProperty
+              JIRAConnection
             </button>
           </form>
         </div>

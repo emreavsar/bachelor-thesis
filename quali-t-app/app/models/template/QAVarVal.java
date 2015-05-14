@@ -34,6 +34,12 @@ public class QAVarVal extends AbstractEntity {
         this.isDefault = false;
     }
 
+    public QAVarVal copyQAVarVal() {
+        QAVarVal qaVarVal = new QAVarVal(this.value, this.type);
+        qaVarVal.setIsDefault(this.isDefault);
+        return qaVarVal;
+    }
+
     public String getValue() {
         return value;
     }

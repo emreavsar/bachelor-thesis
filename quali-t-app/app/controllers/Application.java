@@ -2,20 +2,16 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import dao.models.CatalogQADAO;
+import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.QualityAttributeDAO;
 import exceptions.EntityNotFoundException;
-import models.template.CatalogQA;
 import models.template.QA;
-import models.template.QAVar;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -39,26 +35,27 @@ public class Application extends Controller {
 
     // Creates two projects with all 5 SMART qa's with customer and return json
     @Transactional
-    public static Result setCustomerProject(String customername) {
+    public static Result setCustomerProject(String customername) throws EntityNotFoundException {
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("1", "Text1");
-        parameters.put("2", "Text2");
-//        QAVar qaVar = createVariable(1, "enumText", parameters);
-//        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
-        parameters.clear();
-        parameters.put("1", "5");
-        parameters.put("2", "10");
-        parameters.put("min", "0");
-        parameters.put("max", "15");
-        parameters.put("default", "5");
-//        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
-        List<QAVar> list = new ArrayList<>();
-//        list.add(qaVar);
-//        list.add(qaVar2);
-//        new QAVarValDAO().persist();
-        CatalogQA qa = new CatalogQA();
-        qa.addVars(list);
-        new CatalogQADAO().persist(qa);
+        JsonNode blubb = logics.interfaces.JIRAExport.exportToJira();
+//        parameters.put("1", "Text1");
+//        parameters.put("2", "Text2");
+////        QAVar qaVar = createVariable(1, "enumText", parameters);
+////        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
+//        parameters.clear();
+//        parameters.put("1", "5");
+//        parameters.put("2", "10");
+//        parameters.put("min", "0");
+//        parameters.put("max", "15");
+//        parameters.put("default", "5");
+////        QAVar qaVar2 = createVariable(1, "enumNumber", parameters);
+//        List<QAVar> list = new ArrayList<>();
+////        list.add(qaVar);
+////        list.add(qaVar2);
+////        new QAVarValDAO().persist();
+//        CatalogQA qa = new CatalogQA();
+//        qa.addVars(list);
+//        new CatalogQADAO().persist(qa);
 
 
 //        QA qa = new QA("Der Use Case Einkaufsabwicklung muss mit weniger als 5 Klicks durchfuehrbar sein.");
@@ -105,7 +102,7 @@ public class Application extends Controller {
 //        CustomerDAO customerDAO = new CustomerDAO();
 //        Customer customer2 = customerDAO.persist(customer);
 //        return ok(Json.toJson(customerDAO.readById(customer2.getId())));
-          return ok(Json.toJson(qa));
+        return ok(Json.toJson(blubb));
 //        return ok();
     }
 }

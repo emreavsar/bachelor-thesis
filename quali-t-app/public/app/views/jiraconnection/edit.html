@@ -1,0 +1,30 @@
+<h3>Show all JIRAConnections</h3>
+<h3 class="steps"></h3>
+<div class="form crud-form">
+  <div class="row text-center" style="margin-bottom:20px;">
+    <button type="submit" class="btn btn-success" ng-click="add(jiraconnection)">
+      <i class="fa fa-plus"/> Add JIRAConnection
+    </button>
+  </div>
+</div>
+<table class="table table-hover">
+  <tr>
+    <th>Id</th>
+    <th>Hostaddress</th>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Actions</th>
+  </tr>
+  <tr ng-repeat="jiraconnection in jiraConnectionList | orderBy:'id'">
+    <td>{{jiraconnection.id}}</td>
+    <td>{{jiraconnection.hostAddress}}</td>
+    <td>{{jiraconnection.username}}</td>
+    <td>{{jiraconnection.password}}</td>
+    <td>
+      <i class="fa fa-trash-o" ng-click="delete(jiraconnection)"/>
+      <i class="fa fa-cog" ng-click="edit(jiraconnection)"/>
+    </td>
+  </tr>
+</table>
+</div>
+</div>

@@ -39,6 +39,7 @@ public class Project extends AbstractEntity {
     @OneToMany(mappedBy = "project", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference(value = "qualityAttributes")
     private Set<Instance> qualityAttributes = new HashSet<>();
+    private String jiraKey;
 
     public Project() {
     }
@@ -94,6 +95,14 @@ public class Project extends AbstractEntity {
 
     public void setQualityAttributes(Set<Instance> qualityAttributes) {
         this.qualityAttributes = qualityAttributes;
+    }
+
+    public String getJiraKey() {
+        return jiraKey;
+    }
+
+    public void setJiraKey(String jiraKey) {
+        this.jiraKey = jiraKey;
     }
 
     public void addQualityAttribute(Instance qa) {

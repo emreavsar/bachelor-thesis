@@ -51,4 +51,8 @@ public class ValRange extends AbstractEntity {
     public void setMax(float max) {
         this.max = max;
     }
+
+    public ValRange copyValRange() {
+        return new ValRange(this.min, this.max);
+    }
 }

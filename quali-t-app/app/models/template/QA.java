@@ -38,6 +38,11 @@ public class QA extends AbstractEntity {
         this.description = description;
     }
 
+    public QA copyQA() {
+        QA newQA = new QA(this.getDescription(), 1);
+        return newQA;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -87,5 +92,11 @@ public class QA extends AbstractEntity {
 
     public void setVersionNumber(int versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    public QA addCatalogQA(CatalogQA catalogQA) {
+        this.usedInCatalog.add(catalogQA);
+        catalogQA.setQa(this);
+        return this;
     }
 }
