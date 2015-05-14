@@ -48,34 +48,47 @@
 
     <div class="form-group col-sm-6">
       <label for="jiraKey">JIRA Key</label>
-      <input id="jiraKey" type="text" ng-model="project.jirakey" required="required" placeholder="Find in JIRA" class="form-control"/>
+      <input id="jiraKey" type="text" ng-model="project.jirakey" required="required" placeholder="Find in JIRA"
+             class="form-control"/>
     </div>
   </div>
 
   <div class="col-sm-12">
-    <h4 class="steps">Quality attributes of this project:</h4>
+    <h4 class="steps">Quality attributes of this project:
+      <button class="btn btn-xs btn-default" type="button" ng-click="addNewQas()">Add more</button>
+    </h4>
+    <span class="col-sm-12" ng-hide="project.qualityAttributes.length > 0"
+          style="padding-bottom: 25px;padding-top: 25px">
+      No quality attributes selected for this project.
+    </span>
 
-    <div class="qualityattributes col-sm-12">
+    <div class="qualityattributes col-sm-12" ng-show="project.qualityAttributes.length > 0">
       <div class="col-sm-1">
         <h5 style="margin-top: 40px;" data-trigger="hover" data-type="success"
             data-title="{{tooltipsExport}}"
             bs-tooltip>Export:</h5>
       </div>
       <div class="col-sm-4 pull-right qp-header">
-        <h5>Quality Properties:</h5>
-        <table class="qp-table">
-          <tr>
-            <th ng-repeat="qp in project.qualityProperties | orderBy:'id'">
+        <div class="col-md-6 row">
+
+          <h5>Quality Properties:</h5>
+          <table class="qp-table">
+            <tr>
+              <th ng-repeat="qp in project.qualityProperties | orderBy:'id'">
               <span data-trigger="hover" data-type="success"
                     data-title="{{qp.name + ' - ' + qp.description}}"
                     bs-tooltip
                     ng-bind="qp.name"></span>
-            </th>
-          </tr>
-        </table>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6 text-right pull-right row">
+          <h5>Actions:</h5>
+        </div>
       </div>
       <div class="qa qa-nopointer well row" ng-repeat="qa in project.qualityAttributes">
-        <qa categories="qa.template.categories" qa="qa" context="project" variables="qa.template.vars"
+        <qa categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"
             qualityproperties="qa.qualityPropertyStatus"/>
       </div>
     </div>

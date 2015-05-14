@@ -549,6 +549,13 @@ div[text-angular-toolbar] {
     width: inherit;
     display: initial;
   }
+  .actions {
+    margin-top: 25px;
+    padding: 0px;
+    i {
+      margin-right: 5px;
+    }
+  }
 }
 
 .qa-nopointer {

@@ -8,7 +8,7 @@
  * Directive to replace content with custom text.
  */
 angular.module('qualitApp')
-  .directive('qa', function (qaTextService) {
+  .directive('qa', function (qaTextService, $modal, apiService, alerts) {
     return {
       template: '',
       restrict: 'E',
@@ -25,7 +25,7 @@ angular.module('qualitApp')
           var editable = (scope.editable != undefined ? scope.editable : true);
 
           // in project mode is everything editable
-          if (context == "project") {
+          if (context == "editproject" || context == "editqa") {
             return true;
           } else if (context == "createproject") { // in create project everything is disabled
             return false;
@@ -116,7 +116,7 @@ angular.module('qualitApp')
             }
           }
 
-          if (context == "project") {
+          if (context == "editproject") {
             var qaHtmlDivClass = "col-sm-11";
           }
           var qaHtmlDiv = $("<div/>", {
@@ -131,7 +131,7 @@ angular.module('qualitApp')
         var variables = (scope.variables != undefined ? scope.variables : new Array());
         var qualityproperties = (scope.qualityproperties != undefined ? scope.qualityproperties : new Array());
         // sort by qp id
-        qualityproperties = _.sortBy(qualityproperties, function(n) {
+        qualityproperties = _.sortBy(qualityproperties, function (n) {
           return n.qp.id
         });
         var context = (scope.context != undefined ? scope.context : "");
@@ -151,7 +151,7 @@ angular.module('qualitApp')
         }
 
         var qaDivCSSClass = "";
-        if (context == "project") {
+        if (context == "editproject") {
           qaDivCSSClass = "col-sm-8";
         } else {
           qaDivCSSClass = "col-sm-10";
@@ -165,19 +165,50 @@ angular.module('qualitApp')
           html: scope.getQaHtml(qa, variables)
         }).appendTo(qaDiv);
 
-        if (context == "project") {
+        if (context == "editproject") {
           var checkbox = $("<input/>", {
             type: "checkbox",
             title: "Toggle export to issue tracking system",
             class: "col-sm-1"
           }).prependTo(qaDescSpan);
-        }
 
-        if (context == "project") {
           var qaCheckboxDiv = $("<div/>", {
-            class: "col-sm-4",
+            class: "col-sm-3",
             html: scope.getQpHtml(qualityproperties)
           }).appendTo(element);
+
+          var actions = $("<div/>", {
+            class: "col-sm-1 actions"
+          }).appendTo(element);
+
+          var editBtn = $("<i/>", {
+            title: "Edit quality attribute",
+            class: "fa fa-cog pointer"
+          }).appendTo(actions);
+
+          editBtn.click(function () {
+            var modalScope = scope.$new(true);
+            modalScope.qa = qa;
+
+            var modal = $modal({
+              title: "Edit qa",
+              scope: modalScope,
+              template: "templates/edit-qa-modal.tpl.html"
+            });
+          });
+
+          var deleteBtn = $("<i/>", {
+            title: "Delete quality attribute",
+            class: "fa fa-trash-o pointer"
+          }).appendTo(actions);
+
+          deleteBtn.click(function () {
+            var promiseRemove = apiService.removeQaInstance(qa.id);
+            promiseRemove.then(
+              function (payload) {
+                alerts.createSuccess("Quality Attribute was successfully removed from this project.");
+              });
+          });
         } else {
 
           var qaCheckboxDiv = $("<div/>", {

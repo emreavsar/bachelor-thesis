@@ -44,6 +44,10 @@ angular.module('qualitApp')
         });
     }
 
+    $scope.addNewQas = function() {
+      // TODO
+    }
+
     $scope.save = function () {
       // get only needed information
       var project = {
@@ -82,6 +86,16 @@ angular.module('qualitApp')
           $scope.selectedCustomer = $scope.project.projectCustomer;
           $scope.selectedQualityProperties = $scope.project.qualityProperties;
           $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
+
+          // sort by qp id
+          for (var i = 0; i < $scope.project.qualityAttributes.length; i++) {
+            var qa = $scope.project.qualityAttributes[i];
+
+            qa = _.sortBy(qa.qualityPropertyStatus, function (n) {
+              return n.id;
+            });
+
+          }
           return apiService.getCustomers();
         }).then(
         function (payload) {

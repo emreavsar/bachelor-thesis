@@ -77,5 +77,16 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.removeQaInstance = function(qaId) {
+      return $http.delete(this.apiPath + "project/qa/" + qaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+
+    }
+
     return apiService;
   });
