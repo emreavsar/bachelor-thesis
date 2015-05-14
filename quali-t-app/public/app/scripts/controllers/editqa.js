@@ -20,6 +20,9 @@ angular.module('qualitApp')
       $scope.hideModal = hideFunction;
     }
 
+    /**
+     * Updates the quality attribute instance. Either the text or the values in the variable
+     */
     $scope.update = function () {
       // update QAs text
       if ($scope.isTextMode) {
@@ -33,27 +36,50 @@ angular.module('qualitApp')
         for (var i = 0; i < varInputs.length; i++) {
           var varInput = varInputs[i];
           var valueId = $(varInput).data("value-id");
-          var valueVarIndex =  $(varInput).data("value-varindex");
+          var valueVarIndex = $(varInput).data("value-varindex");
           var valueUserInput = "";
+
+          var isExtendable = $(varInput).parent().hasClass("isExtendable");
+          var ignore = false;
 
           // if input, get value
           if ($(varInput).is("input")) {
-            valueUserInput = $(varInput).val();
+            if (isExtendable) {
+              // if the input text is an extendable and has a value, take it otherwise the dropdown will be taken
+              if ($(varInput).val() != "") {
+                valueUserInput = $(varInput).val();
+              } else {
+                ignore = true;
+              }
+            } else {
+              valueUserInput = $(varInput).val();
+            }
           } else if ($(varInput).is("select")) {// if select get selected option
-            valueUserInput = $(varInput).find(":selected").val();
+            // check if extendable
+            if (isExtendable) {
+              // check if the input text has a value inside, if yes -> ignore this one
+              if ($(varInput).parent().find("input").val() == "") {
+                valueUserInput = $(varInput).find(":selected").val();
+              } else {
+                ignore = true;
+              }
+            } else {
+              valueUserInput = $(varInput).find(":selected").val();
+            }
           }
 
-          var value = {
-            varIndex: valueVarIndex,
-            value: valueUserInput
-          }
+          if (!ignore) {
+            var value = {
+              varIndex: valueVarIndex,
+              value: valueUserInput
+            }
 
-          // add id only if new
-          if (valueId != "") {
-            value.id = valueId;
+            // add id only if new
+            if (valueId != "") {
+              value.id = valueId;
+            }
+            qaValues.push(value);
           }
-
-          qaValues.push(value);
         }
 
         var instance = $scope.qa;
@@ -64,6 +90,6 @@ angular.module('qualitApp')
 
         apiService.updateQaInstance(instance);
       }
-      //$scope.hideModal();
+      $scope.hideModal();
     }
   });

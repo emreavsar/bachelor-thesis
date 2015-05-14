@@ -75,61 +75,116 @@ angular.module('qualitApp')
           var qaVars = _.sortBy(variables, ['varIndex']);
           var values = _.sortBy(values, ['varIndex']);
           var qaVarIndex = 0;
+
           for (var i = 0; i < descriptionParts.length; i++) {
             var descriptionPart = descriptionParts[i];
             if (qaTextService.isVariable(descriptionPart)) {
               var variable = qaVars[qaVarIndex];
-              var disabled = "";
               var isEditable = scope.isEditable(variable.type);
 
-              if (!isEditable) {
-                disabled = "disabled='disabled'";
-              }
               // save value data in the input/select
               var value = values[qaVarIndex]
 
               if (value != undefined) {
-                var valueData = " data-for-variable='" + qaTextService.getVariableString(variable) + "' " +
-                  " data-value-id='" + value.id + "' " +
-                  " data-value-varIndex='" + value.varIndex + "' ";
+                var varOptions = {
+                  "data-for-variable": qaTextService.getVariableString(variable),
+                  "data-value-id": value.id,
+                  "data-value-varIndex": value.varIndex,
+                  "data-value-current": value.value
+                };
                 var value = " value='" + value.value + "'";
               } else {
-                var valueData = " data-for-variable='" + qaTextService.getVariableString(variable) + "' " +
-                  " data-value-id='' " +
-                  " data-value-varIndex='' ";
+                var varOptions = {
+                  "data-for-variable": qaTextService.getVariableString(variable),
+                  "data-value-id": "",
+                  "data-value-varIndex": "",
+                  "data-value-current": ""
+                };
                 var value = " value=''";
               }
 
-              if (variable.type == "FREETEXT") {
+              if (!isEditable) {
+                varOptions.disabled = "disabled";
+              }
 
-                qaHtml += "<input type='text' placeholder='' " + disabled + valueData + " />";
+              if (variable.type == "FREETEXT") {
+                varOptions.type = "text";
+                if (isEditable) {
+                  varOptions.value = varOptions["data-value-current"];
+                }
+                var variableContainer = $("<input/>", varOptions);
               } else if (variable.type == "FREENUMBER") {
                 if (variable.valRange != undefined) {
                   var placeholderText = "Value must be between " + variable.valRange.min + " and " + variable.valRange.max;
-                  var inputSize = placeholderText.length;
+                  varOptions.placeHolder = placeholderText;
+                  varOptions.size = placeholderText.length;
                 } else {
-                  var placeholderText = "";
-                  var inputSize = 10; // default for numbers
+                  varOptions.size = 10; // default for numbers
                 }
-                qaHtml += "<input type='text' placeholder='" + placeholderText + "' size='" + inputSize + "'" + disabled + valueData + "/>";
+
+                if (isEditable) {
+                  varOptions.value = varOptions["data-value-current"];
+                }
+
+                varOptions.type = "text";
+                var variableContainer = $("<input/>", varOptions);
               } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
-                qaHtml += "<select class='form-control' " + disabled + valueData + ">";
-                qaHtml += "<option class='form-option' value=''>Select a value</option>";
-                for (var j = 0; j < variable.values.length; j++) {
-                  var selectedAttr = "";
-                  // if there was a default value, make selection
-                  selectedAttr = (variable.values[j].default ? "selected" : "");
-                  qaHtml += "<option class='form-option' " + selectedAttr + ">" + variable.values[j].value + "</option>";
-                }
-                qaHtml += "</select>";
+                var extendableCSSClass = "";
                 if (variable.extendable) {
-                  var extendablePlaceholderText = "or add a new value";
+                  extendableCSSClass = "isExtendable"
+                }
+
+                var variableContainer = $("<p/>", {
+                  class: extendableCSSClass
+                });
+
+                varOptions.class = "form-control";
+                var select = $("<select/>", varOptions).appendTo(variableContainer);
+
+                var firstOption = $("<option/>", {
+                  class: "form-option",
+                  value: "",
+                  text: "Select a value"
+                }).appendTo(select);
+
+                for (var j = 0; j < variable.values.length; j++) {
+                  var selectOption = {
+                    class: "form-option",
+                    value: variable.values[j].value,
+                    text: variable.values[j].value
+                  };
+                  // if there was a default value or a selection was done, preselect
+                  if (isEditable) {
+
+                    if (varOptions["data-value-current"] != "") {
+                      if (variable.values[j].value == varOptions["data-value-current"]) {
+
+                        selectOption.selected = "selected";
+                      }
+                    } else if (variable.values[j].default) {
+                      selectOption.selected = "selected";
+                    }
+                  }
+
+                  var option = $("<option/>", selectOption).appendTo(select);
+                }
+
+                if (variable.extendable) {
+                  var extendablePlaceholderText = " or add a new value";
+
                   if (variable.min != undefined && variable.max != undefined) {
                     extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
                   }
-                  qaHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' " + disabled + valueData + "/>";
+
+                  varOptions.class = "";
+                  varOptions.type = "text";
+                  varOptions.placeholder = extendablePlaceholderText;
+                  varOptions.size = extendablePlaceholderText.length;
+                  var extensionField = $("<input/>", varOptions).appendTo(variableContainer);
                 }
               }
+
+              qaHtml += variableContainer[0].outerHTML;
               qaVarIndex++;
             } else {
               // only append text
@@ -141,9 +196,10 @@ angular.module('qualitApp')
             var qaHtmlDivClass = "col-sm-11";
           }
           var qaHtmlDiv = $("<div/>", {
-            html: qaHtml,
-            class: qaHtmlDivClass
+            class: qaHtmlDivClass,
+            html: qaHtml
           });
+
           return qaHtmlDiv;
         }
 
