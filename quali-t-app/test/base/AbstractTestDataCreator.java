@@ -41,7 +41,7 @@ public abstract class AbstractTestDataCreator {
         return Authenticator.registerUser(name, password);
     }
 
-    public static Customer createCustomer(String name, String address) throws Throwable {
+    public static Customer createCustomer(String name, String address) {
         Customer c = new Customer(name, address);
         persistAndFlush(c);
         return c;

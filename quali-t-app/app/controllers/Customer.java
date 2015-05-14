@@ -25,7 +25,7 @@ public class Customer extends Controller {
     public static Result createCustomer() {
         try {
             JsonNode json = request().body().asJson();
-            models.project.Customer customer = logics.project.Customer.createCustomer(json);
+            models.project.Customer customer = logics.project.Customer.createCustomer(getCustomerFromJson(json));
             return ok(Json.toJson(customer));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
@@ -47,11 +47,13 @@ public class Customer extends Controller {
     public static Result updateCustomer() {
         try {
             JsonNode json = request().body().asJson();
-            models.project.Customer customer = logics.project.Customer.updateCustomer(json);
+            models.project.Customer customer = logics.project.Customer.updateCustomer(getCustomerFromJson(json));
             return ok(Json.toJson(customer));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
+        } catch (EntityAlreadyExistsException e) {
             return status(400, e.getMessage());
         }
     }
@@ -64,6 +66,14 @@ public class Customer extends Controller {
             return status(202);
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
         }
+    }
+
+    private static models.project.Customer getCustomerFromJson(JsonNode json) {
+        models.project.Customer customer = new models.project.Customer(json.findPath("name").asText(), json.findPath("address").asText());
+        customer.setId(json.findPath("id").asLong());
+        return customer;
     }
 }
