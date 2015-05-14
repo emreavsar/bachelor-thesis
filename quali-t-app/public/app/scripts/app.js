@@ -21,7 +21,8 @@ angular.module('qualitApp', [
   'mgcrea.ngStrap',
   'ui.gravatar',
   'textAngular',
-  'ui.select'
+  'ui.select',
+  'frapontillo.bootstrap-switch'
 ])
   .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
     function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {

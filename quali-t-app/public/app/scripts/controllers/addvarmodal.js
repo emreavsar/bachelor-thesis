@@ -66,8 +66,9 @@ angular.module('qualitApp')
       $scope.taOptions.variables[elementText]=$scope.getVariableObject(fullType, options);
 
       editor.focussed = true;
+      editor.wrapSelection('italic');
       editor.wrapSelection("insertText", elementText, false);
-
+      editor.wrapSelection('italic');
       $scope.hideModal();
     }
 

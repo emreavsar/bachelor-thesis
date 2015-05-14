@@ -58,6 +58,7 @@ GET           /api/project/:id                   controllers.Project.getProject(
 PUT           /api/project                       controllers.Project.updateProject()
 DELETE        /api/project/:id                   controllers.Project.deleteProject(id: Long)
 POST          /api/project/qa                    controllers.Project.createInstance()
+PUT           /api/project/qa                    controllers.Project.updateInstance()
 DELETE        /api/project/qa/:id                controllers.Project.deleteInstance(id: Long)
 
 # Catalog

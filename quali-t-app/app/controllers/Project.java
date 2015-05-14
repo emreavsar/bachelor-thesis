@@ -93,4 +93,8 @@ public class Project extends Controller {
             return status(400, e.getMessage());
         }
     }
+
+    public static Result updateInstance() {
+        return play.mvc.Results.TODO;
+    }
 }

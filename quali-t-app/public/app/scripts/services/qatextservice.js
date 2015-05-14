@@ -35,5 +35,9 @@ angular.module('qualitApp')
       return this.variableTypes.indexOf(str) > -1;
     }
 
+    qaTextService.getVariableString = function(variable) {
+      return "%VARIABLE_" + variable.type + "_" + variable.varIndex + "%";
+    }
+
     return qaTextService;
   });

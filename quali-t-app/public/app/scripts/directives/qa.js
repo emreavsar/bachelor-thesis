@@ -16,6 +16,7 @@ angular.module('qualitApp')
         qa: '=',
         variables: '=',
         qualityproperties: '=',
+        values: '=',
         context: '@',
         editable: '='
       },
@@ -23,6 +24,10 @@ angular.module('qualitApp')
         scope.isEditable = function (type) {
           // default (if no parameter was given) editable is set to true
           var editable = (scope.editable != undefined ? scope.editable : true);
+
+          if (editable == true) {
+            return editable;
+          }
 
           // in project mode is everything editable
           if (context == "editproject" || context == "editqa") {
@@ -64,10 +69,11 @@ angular.module('qualitApp')
           return qpsTable;
         }
 
-        scope.getQaHtml = function (qa, variables) {
+        scope.getQaHtml = function (qa, variables, values) {
           var descriptionParts = qaTextService.splitVariables(qa.description);
           var qaHtml = "";
           var qaVars = _.sortBy(variables, ['varIndex']);
+          var values = _.sortBy(values, ['varIndex']);
           var qaVarIndex = 0;
           for (var i = 0; i < descriptionParts.length; i++) {
             var descriptionPart = descriptionParts[i];
@@ -79,9 +85,24 @@ angular.module('qualitApp')
               if (!isEditable) {
                 disabled = "disabled='disabled'";
               }
+              // save value data in the input/select
+              var value = values[qaVarIndex]
+
+              if (value != undefined) {
+                var valueData = " data-for-variable='" + qaTextService.getVariableString(variable) + "' " +
+                  " data-value-id='" + value.id + "' " +
+                  " data-value-varIndex='" + value.varIndex + "' ";
+                var value = " value='" + value.value + "'";
+              } else {
+                var valueData = " data-for-variable='" + qaTextService.getVariableString(variable) + "' " +
+                  " data-value-id='' " +
+                  " data-value-varIndex='' ";
+                var value = " value=''";
+              }
 
               if (variable.type == "FREETEXT") {
-                qaHtml += "<input type='text' placeholder='' " + disabled + "/>";
+
+                qaHtml += "<input type='text' placeholder='' " + disabled + valueData + " />";
               } else if (variable.type == "FREENUMBER") {
                 if (variable.valRange != undefined) {
                   var placeholderText = "Value must be between " + variable.valRange.min + " and " + variable.valRange.max;
@@ -90,9 +111,9 @@ angular.module('qualitApp')
                   var placeholderText = "";
                   var inputSize = 10; // default for numbers
                 }
-                qaHtml += "<input type='text' placeholder='" + placeholderText + "' size='" + inputSize + "'" + disabled + "/>";
+                qaHtml += "<input type='text' placeholder='" + placeholderText + "' size='" + inputSize + "'" + disabled + valueData + "/>";
               } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
-                qaHtml += "<select class='form-control' " + disabled + ">";
+                qaHtml += "<select class='form-control' " + disabled + valueData + ">";
                 qaHtml += "<option class='form-option' value=''>Select a value</option>";
                 for (var j = 0; j < variable.values.length; j++) {
                   var selectedAttr = "";
@@ -106,7 +127,7 @@ angular.module('qualitApp')
                   if (variable.min != undefined && variable.max != undefined) {
                     extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
                   }
-                  qaHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' " + disabled + "/>";
+                  qaHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' " + disabled + valueData + "/>";
                 }
               }
               qaVarIndex++;
@@ -130,6 +151,8 @@ angular.module('qualitApp')
         var categories = (qa.categories != undefined ? qa.categories : new Array());
         var variables = (scope.variables != undefined ? scope.variables : new Array());
         var qualityproperties = (scope.qualityproperties != undefined ? scope.qualityproperties : new Array());
+        var values = (scope.values != undefined ? scope.values : new Array());
+
         // sort by qp id
         qualityproperties = _.sortBy(qualityproperties, function (n) {
           return n.qp.id
@@ -150,10 +173,10 @@ angular.module('qualitApp')
           }).appendTo(categoriesDiv);
         }
 
-        var qaDivCSSClass = "";
+        var qaDivCSSClass = "col-sm-12";
         if (context == "editproject") {
           qaDivCSSClass = "col-sm-8";
-        } else {
+        } else if (context == "createproject" || context == "catalog") {
           qaDivCSSClass = "col-sm-10";
         }
         var qaDiv = $("<div/>", {
@@ -162,7 +185,7 @@ angular.module('qualitApp')
 
         var qaDescSpan = $("<span/>", {
           class: "description",
-          html: scope.getQaHtml(qa, variables)
+          html: scope.getQaHtml(qa, variables, values)
         }).appendTo(qaDiv);
 
         if (context == "editproject") {
@@ -209,7 +232,7 @@ angular.module('qualitApp')
                 alerts.createSuccess("Quality Attribute was successfully removed from this project.");
               });
           });
-        } else {
+        } else if (context == "createproject" || context == "catalog") {
 
           var qaCheckboxDiv = $("<div/>", {
             class: "col-sm-2"

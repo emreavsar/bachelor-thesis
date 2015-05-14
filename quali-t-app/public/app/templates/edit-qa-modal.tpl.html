@@ -10,7 +10,40 @@
 
       <div class="modal-body">
         <!-- TODO add category selection (is it needed?) -->
-        <qa categories="qa.template.categories" qa="qa" context="editqa" variables="qa.template.vars" class="row"/>
+
+        <div class="row qa-mode text-center">
+          <label for="switchQaEditMode" style="margin-right: 30px;"
+                 data-trigger="hover" data-type="success"
+                 data-title="{{tooltipsEditMode}}"
+                 bs-tooltip>Edit mode:</label>
+          <input
+            id="switchQaEditMode"
+            bs-switch
+            ng-model="isTextMode"
+            type="checkbox"
+            switch-size="small"
+            switch-on-text="Text"
+            switch-off-text="Variables"
+            switch-on-color="default"
+            switch-off-color="default"
+            />
+        </div>
+
+        <div ng-show="!isTextMode">
+          <div class="row col-sm-12"><p>Complete the quality attribute with providing project specific values.</p></div>
+          <div class="qa qa-nopointer well row ng-scope">
+            <qa categories="qa.template.categories" qa="qa" editable="true"
+                variables="qa.template.vars" class="row" values="qa.values"/>
+          </div>
+        </div>
+
+        <div ng-show="isTextMode">
+          <div class="row col-sm-12"><p>Change the quality attribute itself.</p></div>
+          <div class="qa qa-nopointer well row ng-scope">
+            <qa categories="qa.template.categories" qa="qa" editable="true"
+                variables="qa.template.vars" class="row"/>
+          </div>
+        </div>
 
 
         <div class="margin-top-50 text-center">

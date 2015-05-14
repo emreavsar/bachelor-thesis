@@ -57,6 +57,7 @@
     <h4 class="steps">Quality attributes of this project:
       <button class="btn btn-xs btn-default" type="button" ng-click="addNewQas()">Add more</button>
     </h4>
+
     <span class="col-sm-12" ng-hide="project.qualityAttributes.length > 0"
           style="padding-bottom: 25px;padding-top: 25px">
       No quality attributes selected for this project.
@@ -89,7 +90,7 @@
       </div>
       <div class="qa qa-nopointer well row" ng-repeat="qa in project.qualityAttributes">
         <qa categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"
-            qualityproperties="qa.qualityPropertyStatus"/>
+            qualityproperties="qa.qualityPropertyStatus" values="qa.values"/>
       </div>
     </div>
   </div>
