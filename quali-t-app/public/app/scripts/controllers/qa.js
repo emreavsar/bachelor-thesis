@@ -8,13 +8,14 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, $http, alerts, taOptions, $sce) {
+  .controller('QACtrl', function ($scope, $http, alerts, taOptions, $sce, qaTextService) {
     $scope.qaText = "";
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
+    $scope.previewHtml = "";
 
     // only for controlling of used variables
-    $scope.usedVariables=new Array();
+    $scope.usedVariables = new Array();
 
     /**
      * This watch is needed to bind the variables to the quality attributes text
@@ -25,25 +26,26 @@ angular.module('qualitApp')
 
         // TODO: emre cleanup here
         // verify if a quality attribute is not used twice (same ID)
-        //var variables = $scope.getVariables(newValue, true);
-        //var uniqueVariables = _.uniq(variables, 'number');
-        //var difference = _.uniq(_.difference(variables, uniqueVariables), 'number');
+        var variables = $scope.getVariables(newValue, false);
+        var uniqueVariables = _.uniq(variables, 'varIndex');
+        var difference = _.uniq(_.difference(variables, uniqueVariables), 'varIndex');
 
-        //// multiple usage of qa -> reset and send a warning
-        //if (difference.length > 0) {
-        //  var multipleUsedVariableName = "";
-        //  $(difference).each(function (index, value) {
-        //    multipleUsedVariableName += value.type + "_" + value.number;
-        //    if (index + 1 < difference.length) {
-        //      multipleUsedVariableName += ", ";
-        //    }
-        //  });
-        //  var alert = alerts.createLocalWarning('Multiple usage of a variable is not permitted: ' + multipleUsedVariableName, 'body ');
-        //}
-        //else {
-        $scope.taOptions.variables = $scope.getVariables(newValue, true);
-        $scope.usedVariables = $scope.getVariables(newValue, false);
-        //}
+        // multiple usage of same variable (for examplecopy paste) -> reset and send a warning
+        if (difference.length > 0) {
+          var multipleUsedVariableName = "";
+          $(difference).each(function (index, value) {
+            multipleUsedVariableName += value.type + "_" + value.varIndex;
+            if (index + 1 < difference.length) {
+              multipleUsedVariableName += ", ";
+            }
+          });
+          var alert = alerts.createLocalWarning('Multiple usage of a variable is not permitted: ' + multipleUsedVariableName, 'body ');
+        }
+        else {
+          $scope.taOptions.variables = $scope.getVariables(newValue, true);
+          $scope.usedVariables = $scope.getVariables(newValue, false);
+          $scope.previewHtml = $scope.qaPreview();
+        }
       }
     });
 
@@ -57,10 +59,6 @@ angular.module('qualitApp')
         });
       });
       return selectedCategories;
-    }
-
-    $scope.getVarKey = function (variable) {
-      return "%VARIABLE_" + variable.type + "_" + variable.number + "%";
     }
 
     $scope.removeVariable = function (variable, key) {
@@ -149,27 +147,27 @@ angular.module('qualitApp')
           } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
             descContainerHtml += "<select class='form-control'>";
             descContainerHtml += "<option class='form-option' value=''>Select a value</option>";
-            if(variable.values == undefined) {
-              var localWarning = alerts.createLocalWarning("Have you inserted the variable (" +  $scope.getVarKey(variable) + ") manually?");
+            if (variable.values == undefined) {
+              var localWarning = alerts.createLocalWarning("Have you inserted the variable (" + qaTextService.getVariableString(variable) + ") manually?");
             } else {
 
-            for (var j = 0; j < variable.values.length; j++) {
-              var selectedAttr = "";
-              // if there was a default value, make selection
-              if (variable.defaultValue != undefined) {
-                selectedAttr = (variable.values[j] == variable.defaultValue ? "selected" : "");
+              for (var j = 0; j < variable.values.length; j++) {
+                var selectedAttr = "";
+                // if there was a default value, make selection
+                if (variable.defaultValue != undefined) {
+                  selectedAttr = (variable.values[j] == variable.defaultValue ? "selected" : "");
+                }
+                descContainerHtml += "<option class='form-option' " + selectedAttr + ">" + variable.values[j] + "</option>";
               }
-              descContainerHtml += "<option class='form-option' " + selectedAttr + ">" + variable.values[j] + "</option>";
+              descContainerHtml += "</select>";
+              if (variable.extendable) {
+                var extendablePlaceholderText = "or add a new value";
+                if (variable.min != undefined && variable.max != undefined) {
+                  extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
+                }
+                descContainerHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' />";
+              }
             }
-            descContainerHtml += "</select>";
-            if (variable.extendable) {
-              var extendablePlaceholderText = "or add a new value";
-              if (variable.min != undefined && variable.max != undefined) {
-                extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
-              }
-              descContainerHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' />";
-            }
-              }
           }
         } else {
           // only append
@@ -182,7 +180,7 @@ angular.module('qualitApp')
     }
 
     $scope.isVariable = function (strToTest) {
-      return (strToTest == "FREETEXT" || strToTest == "FREENUMBER" || strToTest == "ENUMTEXT" || strToTest == "ENUMNUMBER");
+      return qaTextService.isVariable(strToTest);
     }
 
 
@@ -226,7 +224,7 @@ angular.module('qualitApp')
         });
 
         if (associativeArr) {
-          variables[$scope.getVarKey(variable)] = variable;
+          variables[qaTextService.getVariableString(variable)] = variable;
         } else {
           variables.push(variable);
         }
@@ -255,6 +253,7 @@ angular.module('qualitApp')
       }, {headers: {'Content-Type': 'application/json'}}).
         success(function (data, status, headers, config) {
           $scope.qaText = "";
+          $("#categories input[type='checkbox']").removeAttr("checked");
           var alert = alerts.createSuccess('QA created successfully');
         }).
         error(function (data, status, headers, config) {

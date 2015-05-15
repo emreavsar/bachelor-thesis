@@ -18,7 +18,7 @@
       <span ng-hide="usedVariables.length">No variables used yet.</span>
       <ul class="list-group">
         <li ng-repeat="variable in usedVariables" class="list-group-item">
-          {{variable.type + "_" + variable.number}} <i class="fa fa-trash-o" ng-click="removeVariable(variable)"/>
+          {{variable.type + "_" + variable.varIndex}} <i class="fa fa-trash-o" ng-click="removeVariable(variable)"/>
         </li>
       </ul>
     </div>
@@ -28,12 +28,11 @@
     <h3 class="steps">Step 3: Verify your desired result:</h3>
     <h4>Preview in new Catalog / Project mode: </h4>
 
-    <div ng-bind-html="qaPreview()" class="qa-preview"></div>
+    <div ng-bind-html="previewHtml" class="qa-preview"></div>
 
   </div>
 
   <div class="row end-row">
     <button type="submit" class="btn btn-success btn-lg" ng-click="createQA(qaText)">Create Quality Attribute</button>
-    <button type="submit" class="btn btn-success btn-lg" ng-click="test()">Test</button>
   </div>
 </div>
