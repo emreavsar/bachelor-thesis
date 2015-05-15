@@ -28,7 +28,7 @@
             <div ng-show="searchResults.projects">
               <ul>
                 <li ng-repeat="project in searchResults.projects">
-                  {{ project.name }}
+                  <a ui-sref="editProject({ projectId: project.id })" ng-click="$hide()"> {{ project.name }}</a>
                 </li>
               </ul>
             </div>
