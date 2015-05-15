@@ -16,6 +16,7 @@ angular.module('qualitApp')
     $scope.customerList = new Array();
     $scope.selectedQualityProperties = new Array();
     $scope.qualityPropertiesList = new Array();
+    $scope.qualityAttributesToUpdate = new Array();
     $scope.isProjectFavorite = false;
     $scope.tooltipsSave = "Saves the project and shows warnings (statistics & fuzzyness) if there are any.";
     $scope.tooltipsValidate = "Validate the project's quality attributes for statistics and " +
@@ -44,8 +45,43 @@ angular.module('qualitApp')
         });
     }
 
-    $scope.addNewQas = function() {
+    $scope.addNewQas = function () {
       // TODO
+    }
+
+    $scope.toggleQpStatus = function (qaId, qpId, isChecked) {
+      var qa = _.filter($scope.project.qualityAttributes, {id: qaId})[0];
+
+      // search for the quality property, and replace status
+      _.forEach(qa.qualityPropertyStatus, function (n, key) {
+        if (n.id == qpId) {
+          n.status = isChecked;
+        }
+
+        // any change needs to be persisted, save temporarly in array
+        var index = $scope.qualityAttributesToUpdate.indexOf(qa);
+        if (index != -1) { // replace if two changes on same object was done
+          $scope.qualityAttributesToUpdate.splice(index, 1);
+        }
+        $scope.qualityAttributesToUpdate.push(qa);
+      });
+    }
+
+    /**
+     * Helper function. Prepares the quality attributes to send to backend
+     * @returns {Array}
+     */
+    $scope.getQAToUpdate = function () {
+      var qasToUpdate = new Array();
+
+      _.forEach($scope.qualityAttributesToUpdate, function (n) {
+        // cleanup
+        delete n["template"];
+        delete n["values"];
+        qasToUpdate.push(n);
+      });
+
+      return qasToUpdate;
     }
 
     $scope.save = function () {
@@ -55,7 +91,8 @@ angular.module('qualitApp')
         name: $scope.project.name,
         jirakey: $scope.project.jirakey,
         customer: $scope.selectedCustomer.id,
-        qualityProperties: $scope.selectedQualityProperties
+        qualityProperties: $scope.selectedQualityProperties,
+        qualityAttributes: $scope.getQAToUpdate()
       };
 
       var promiseSave = apiService.updateProject(project);

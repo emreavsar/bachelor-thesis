@@ -19,7 +19,8 @@ angular.module('qualitApp')
         values: '=',
         context: '@',
         editable: '=',
-        updateQaFunction: '&'
+        updateQaFunction: '&',
+        toggleQpStatusFunction: '&'
       },
       link: function postLink(scope, element, attrs) {
         scope.isEditable = function (type) {
@@ -48,7 +49,7 @@ angular.module('qualitApp')
           }
         }
 
-        scope.getQpHtml = function (qualityPropertyStatuses) {
+        scope.getQpHtml = function (qualityPropertyStatuses, qaId) {
           var qpsTable = $("<table/>", {
             class: 'quality-properties qp-table'
           });
@@ -63,8 +64,16 @@ angular.module('qualitApp')
               type: 'checkbox',
               checked: qualityPropertyStatus.status,
               title: 'Toggle status of quality property: '
-              + qualityPropertyStatus.qp.name + ' - ' + qualityPropertyStatus.qp.description
+              + qualityPropertyStatus.qp.name + ' - ' + qualityPropertyStatus.qp.description,
+              'data-qa-id': qaId,
+              'data-qp-id': qualityPropertyStatus.id
             }).appendTo(qpsTd);
+
+            $(qpCheckbox).click(function() {
+              if(scope.toggleQpStatusFunction() != undefined) {
+                scope.toggleQpStatusFunction()($(this).data('qa-id'), $(this).data('qp-id'), $(this).is(':checked'));
+              }
+            });
           }
 
           return qpsTable;
@@ -263,7 +272,7 @@ angular.module('qualitApp')
 
           var qaCheckboxDiv = $("<div/>", {
             class: "col-sm-3",
-            html: scope.getQpHtml(qualityproperties)
+            html: scope.getQpHtml(qualityproperties, qa.id)
           }).appendTo(element);
 
           var actions = $("<div/>", {
