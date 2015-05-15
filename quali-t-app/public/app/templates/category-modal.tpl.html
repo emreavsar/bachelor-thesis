@@ -33,19 +33,19 @@
 
               <button type="submit" class="btn btn-success" ng-show="type == 'add'  && category.parentId != ''"
                       ng-click="createSubCategory(name, icon, category.parentId); $hide()">
-                <i class="fa fa-plus"/> Add
+                <i class="fa fa-plus"></i> Add
                 Subcategory
               </button>
 
               <button type="submit" class="btn btn-success" ng-show="type == 'add'  && category.parentId == ''"
                       ng-click="createSubCategory(name, icon, category.parentId); $hide()">
-                <i class="fa fa-plus"/> Add
+                <i class="fa fa-plus"></i> Add
                 Supercategory
               </button>
 
               <button type="submit" class="btn btn-success" ng-show="type == 'edit'"
                       ng-click="updateSubCategory(name, icon, category.parentId); $hide()">
-                <i class="fa fa-plus"/> Update
+                <i class="fa fa-plus"></i> Update
                 Subcategory
               </button>
             </div>
