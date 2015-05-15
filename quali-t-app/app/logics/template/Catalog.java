@@ -16,12 +16,13 @@ import java.util.List;
  * Created by corina on 10.04.2015.
  */
 public class Catalog {
-    public final static long defaultCatalog = new Long(6000);
+    // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
+    public final static long defaultCatalog = new Long(-6000);
     static CatalogDAO catalogDAO = new CatalogDAO();
     static QualityAttributeDAO qaDAO = new QualityAttributeDAO();
     static CatalogQADAO catalogQADAO = new CatalogQADAO();
 
-    public static List<models.template.Catalog> getAllCatalogs(){
+    public static List<models.template.Catalog> getAllCatalogs() {
         return catalogDAO.readAll();
     }
 
@@ -48,7 +49,8 @@ public class Catalog {
     }
 
     public static void deleteCatalog(long id) throws EntityNotFoundException, EntityCanNotBeDeleted {
-        if (id != 6000) {
+        // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
+        if (id != -6000) {
             models.template.Catalog catalog = catalogDAO.readById(id);
             for (CatalogQA catalogQA : catalog.getTemplates()) {
                 catalogQA.setDeleted(true);
@@ -93,6 +95,7 @@ public class Catalog {
     }
 
     public static CatalogQA addQaToCatalog(QA qa) throws EntityNotFoundException {
-        return addQaToCatalog(qa, Long.parseLong("6000"));
+        // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
+        return addQaToCatalog(qa, new Long(-6000));
     }
 }
