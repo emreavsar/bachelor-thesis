@@ -89,7 +89,7 @@ angular.module('qualitApp')
       var project = {
         id: $scope.project.id,
         name: $scope.project.name,
-        jirakey: $scope.project.jirakey,
+        jiraKey: $scope.project.jiraKey,
         customer: $scope.selectedCustomer.id,
         qualityProperties: $scope.selectedQualityProperties,
         qualityAttributes: $scope.getQAToUpdate()

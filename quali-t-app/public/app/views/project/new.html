@@ -7,36 +7,44 @@
     <div ng-show="currentStep == 0">
       <h3 class="steps">Step 1: Provide general information</h3>
 
-      <div class="form-group">
-        <label for="projectName">Project Title</label>
-        <input type="text" class="form-control" id="projectName" ng-model="name" required="required"/>
+      <div class="row margin-top-15">
+        <div class="col-md-5">
+          <label for="projectName">Project Title</label>
+          <input type="text" class="form-control" id="projectName" ng-model="name" required="required"/>
+        </div>
+
+        <div class="col-md-5 col-md-offset-1">
+          <label for="customerName">Customer</label>
+
+          <ui-select id="customerName" required="required" ng-model="$parent.selectedCustomer" theme="bootstrap"
+                     ng-disabled="disabled">
+            <ui-select-match placeholder="Select customer...">{{$select.selected.name}}</ui-select-match>
+
+            <ui-select-choices repeat="customer in customerList | filter:$select.search">
+              <div ng-bind-html="customer.name | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="customerName">Customer</label>
+      <div class="row margin-top-15">
+        <div class="col-md-5">
+          <label for="jiraKey">JIRA Project Key</label>
+          <input type="text" class="form-control" id="jiraKey" ng-model="jiraKey"/>
+        </div>
 
-        <ui-select id="customerName" required="required" ng-model="$parent.selectedCustomer" theme="bootstrap"
-                   ng-disabled="disabled">
-          <ui-select-match placeholder="Select customer...">{{$select.selected.name}}</ui-select-match>
+        <div class="col-md-5 col-md-offset-1">
+          <label>Quality Properties</label>
+          <ui-select ng-model="$parent.selectedQualityProperties"
+                     multiple theme="bootstrap" ng-disabled="disabled"
+                     class="qualityproperties-selection">
+            <ui-select-match placeholder="Select quality properties...">{{$item.description}}</ui-select-match>
 
-          <ui-select-choices repeat="customer in customerList | filter:$select.search">
-            <div ng-bind-html="customer.name | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-
-      <div class="form-group">
-        <label>Quality Properties</label>
-
-        <ui-select ng-model="$parent.selectedQualityProperties"
-                   multiple theme="bootstrap" ng-disabled="disabled"
-                   class="qualityproperties-selection">
-          <ui-select-match placeholder="Select quality properties...">{{$item.description}}</ui-select-match>
-
-          <ui-select-choices repeat="qp in qpList | filter:$select.search">
-            <div ng-bind-html="'<b>'+qp.name + '</b> - ' + qp.description | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
+            <ui-select-choices repeat="qp in qpList | filter:$select.search">
+              <div ng-bind-html="'<b>'+qp.name + '</b> - ' + qp.description | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
       </div>
 
       <div class="row end-row col-sm-12">
@@ -104,7 +112,8 @@
                  ng-repeat="catalogQa in filteredCatalogQas= (catalogQas | filter:filterByCategories)"
                  ng-click="toggleSelection(catalogQa, selection)"
                  ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
-              <qa categories="catalogQa.qa.categories" editable="false" qa="catalogQa.qa" context="createproject" variables="catalogQa.vars"/>
+              <qa categories="catalogQa.qa.categories" editable="false" qa="catalogQa.qa" context="createproject"
+                  variables="catalogQa.vars"/>
 
             </div>
           </div>

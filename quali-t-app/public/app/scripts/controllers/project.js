@@ -17,6 +17,7 @@ angular.module('qualitApp')
     $scope.selectionAdditional = new Array();
     $scope.newQaInEdit = false;
     $scope.name = "";
+    $scope.jiraKey="";
     $scope.customer = "";
     $scope.qpList = new Array();
     $scope.catalog = "";
@@ -111,6 +112,7 @@ angular.module('qualitApp')
 
       $http.post('/api/project', {
         name: $scope.name,
+        jiraKey: $scope.jiraKey,
         customer: $scope.selectedCustomer.id,
         qualityProperties: $scope.selectedQualityProperties,
         qualityAttributes: selectedCatalogQAs,
