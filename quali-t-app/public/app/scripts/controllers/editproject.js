@@ -18,6 +18,7 @@ angular.module('qualitApp')
     $scope.qualityPropertiesList = new Array();
     $scope.qualityAttributesToUpdate = new Array();
     $scope.isProjectFavorite = false;
+    $scope.exportRaw = false;
     $scope.tooltipsSave = "Saves the project and shows warnings (statistics & fuzzyness) if there are any.";
     $scope.tooltipsValidate = "Validate the project's quality attributes for statistics and " +
     "fuzzyness will show you open issues and suggesstions.";
@@ -108,7 +109,7 @@ angular.module('qualitApp')
     }
 
     $scope.exportToIssueTracker = function () {
-
+      console.log("TODO: Export JIRA Key=" + $scope.project.jiraKey + " in raw-mode=" + $scope.exportRaw);
     }
 
     $scope.init = function () {
