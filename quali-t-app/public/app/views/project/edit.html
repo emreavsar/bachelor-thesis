@@ -53,13 +53,19 @@
       <h4 class="steps">Export properties:</h4>
 
       <div class="form-group col-sm-12">
-        <label for="jiraKey">JIRA Key</label>
+        <label for="jiraKey"
+               data-trigger="hover" data-type="success"
+               data-title="{{tooltipsExportJiraKey}}"
+               bs-tooltip>JIRA Key</label>
         <input id="jiraKey" type="text" ng-model="project.jiraKey" required="required"
                placeholder="Project Key in JIRA" class="form-control"/>
       </div>
       <div class="form-group col-sm-12">
-        <label for="exportRaw">
-          <input id="exportRaw" type="checkbox" ng-model="exportRaw" value="true"> Export Raw (html will not be removed)
+        <label for="exportRaw"
+               data-trigger="hover" data-type="success"
+               data-title="{{tooltipsExportRaw}}"
+               bs-tooltip>
+          <input id="exportRaw" type="checkbox" ng-model="exportRaw" value="true"> Raw Export
         </label>
       </div>
     </div>

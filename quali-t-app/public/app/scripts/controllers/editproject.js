@@ -24,6 +24,11 @@ angular.module('qualitApp')
     "fuzzyness will show you open issues and suggesstions.";
     $scope.tooltipsExportToIssueTracker = "Export selected quality attributes to issue tracking system.";
     $scope.tooltipsExport = "Select the quality attributes you want to export to issue tracking system.";
+    $scope.tooltipsExportRaw = "JIRA does not understand HTML as QUALI-T does. You can choose between exporting in " +
+    "raw format (remove html formatting) or not (keep html formatting).";
+    $scope.tooltipsExportJiraKey = "Put the project key of the project you want to export in the quality attributes." +
+    " The project key is the first part of the string of the JIRA issue IDs. " +
+    "For example: Project Key for the JIRA: QUALI-123 would be QUALI.";
 
     $scope.checkIsFavorite = function (projectId, favoriteProjects) {
       return favoritesService.isProjectFavorite(projectId, favoriteProjects);
