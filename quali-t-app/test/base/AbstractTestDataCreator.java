@@ -83,6 +83,8 @@ public abstract class AbstractTestDataCreator {
 
     public static CatalogQA createCatalogQA(QA qa, Catalog catalog) {
         CatalogQA catalogQA = new CatalogQA(qa, catalog);
+        catalog.addCatalogQA(catalogQA);
+        qa.addCatalogQA(catalogQA);
         persistAndFlush(catalogQA);
         return catalogQA;
     }

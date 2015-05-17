@@ -9,7 +9,6 @@ import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.CatalogQA;
 import models.template.QA;
-import play.Logger;
 
 import java.util.List;
 
@@ -27,6 +26,13 @@ public class Catalog {
 
     public static List<models.template.Catalog> getAllCatalogs() {
         return catalogDAO.readAll();
+    }
+
+    public static Object getCatalogQA(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            return catalogQADAO.readById(id);
+        }
+        throw new MissingParameterException("Please provide an ID!");
     }
 
     public static models.template.Catalog createCatalog(models.template.Catalog catalog, List<CatalogQA> newCatalogQAs) throws MissingParameterException, EntityNotFoundException {
@@ -76,69 +82,55 @@ public class Catalog {
     }
 
     public static models.template.CatalogQA updateCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
+        models.template.Catalog catalog = catalogQA.getCatalog();
         deleteCatalogQA(catalogQA.getId());
         catalogQA.setId(null);
-        CatalogQA newCatalogQA = addQaToCatalog(catalogQA);
-        catalogQADAO.persist(newCatalogQA);
-        Logger.info("catalogQA persisted " + newCatalogQA.getId());
-//        return catalogQADAO.persist(addQaToCatalog(catalogQA));
-        return newCatalogQA;
+        catalogQA.setCatalog(catalog);
+        return catalogQADAO.persist(addQaToCatalog(catalogQA));
     }
 
-//    private static CatalogQA addQaToCatalog(QA qa, models.template.Catalog catalog) throws EntityNotFoundException {
-//        return addQaToCatalog(qa, catalog.getId());
-//    }
-
-    public static void deleteCatalog(Long id) throws EntityNotFoundException, EntityCanNotBeDeleted {
+    public static void deleteCatalog(Long id) throws EntityNotFoundException, EntityCanNotBeDeleted, MissingParameterException {
         // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
-        if (id != -6000 && id != null) {
-            models.template.Catalog catalog = catalogDAO.readById(id);
-            for (CatalogQA catalogQA : catalog.getTemplates()) {
-                catalogQA.setDeleted(true);
-                catalogQA.setCatalog(null);
-                catalogQADAO.persist(catalogQA);
-                Logger.info("just deleted catalogqa " + catalogQA.getId());
+        if (id != null) {
+            if (id != -6000) {
+                models.template.Catalog catalog = catalogDAO.readById(id);
+                for (CatalogQA catalogQA : catalog.getTemplates()) {
+                    deleteCatalogQA(catalogQA.getId());
+                }
+                catalogDAO.remove(catalogDAO.readById(id));
+            } else {
+                throw new EntityCanNotBeDeleted("It is not possible to delete the Standard Catalog!");
             }
-            catalogDAO.remove(catalogDAO.readById(id));
         } else {
-            throw new EntityCanNotBeDeleted("It is not possible to delete the Standard Catalog!");
+            throw new MissingParameterException("Please provide an ID!");
         }
     }
 
-    public static void deleteCatalogQA(Long id) throws EntityNotFoundException {
-        CatalogQA catalogQA = catalogQADAO.readById(id);
-        catalogQA.setDeleted(true);
-        Logger.info("deleted id " + catalogQA.getId() + catalogQA.isDeleted());
-        catalogQADAO.update(catalogQA);
+    public static void deleteCatalogQA(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            CatalogQA catalogQA = catalogQADAO.readById(id);
+            deleteCatalogQA(catalogQA);
+        } else {
+            throw new MissingParameterException("Please provide an ID!");
+        }
     }
 
-    public static CatalogQA addQaToCatalog(QA qa) throws EntityNotFoundException {
-        // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
-        return addQaToCatalog(qa, new Long(-6000));
-    }
-
-    public static CatalogQA addQaToCatalog(QA qa, Long catalogId) throws EntityNotFoundException {
-        return catalogQADAO.findByCatalogAndId(catalogDAO.persist(catalogDAO.readById(catalogId).addTemplate(qa)), qa);
+    private static void deleteCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
+        if (catalogQA != null && catalogQA.getId() != null) {
+            catalogQA.setDeleted(true);
+            catalogQA.setCatalog(null);
+            catalogQADAO.update(catalogQA);
+        } else {
+            throw new MissingParameterException("Please provide a valid CatalogQA!");
+        }
     }
 
     private static CatalogQA addQaToCatalog(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
-        if (catalogQA.getQa() != null && catalogQA.getCatalog() != null && catalogQA.getQa().getId() != null & catalogQA.getCatalog().getId() != null) {
+        if (catalogQA.getQa() != null && catalogQA.getCatalog() != null && catalogQA.getCatalog().getId() != null && catalogQA.getQa().getId() != null) {
             catalogQA.setQa(qaDAO.readById(catalogQA.getQa().getId()));
-            Logger.info("set qa id " + catalogQA.getQa().getId());
             catalogQA.setCatalog(catalogDAO.readById(catalogQA.getCatalog().getId()));
-            Logger.info("set catalog id " + catalogQA.getCatalog().getId());
-            CatalogQA newCatalogQA = catalogQADAO.persist(catalogQA);
-            Logger.info("new catalog qa" + newCatalogQA.getId());
-//            return catalogQADAO.persist(catalogQA);
-            return newCatalogQA;
+            return catalogQADAO.persist(catalogQA);
         }
         throw new MissingParameterException("Please provide a valid CatalogQA");
-    }
-
-    public static Object getCatalogQA(Long id) throws EntityNotFoundException, MissingParameterException {
-        if (id != null) {
-            return catalogQADAO.readById(id);
-        }
-        throw new MissingParameterException("Please provide an ID!");
     }
 }

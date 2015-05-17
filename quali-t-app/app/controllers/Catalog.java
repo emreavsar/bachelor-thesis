@@ -54,6 +54,8 @@ public class Catalog extends Controller {
             return status(400, e.getMessage());
         } catch (EntityCanNotBeDeleted e) {
             return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
         }
     }
 
@@ -77,6 +79,8 @@ public class Catalog extends Controller {
             logics.template.Catalog.deleteCatalogQA(id);
             return status(202);
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }

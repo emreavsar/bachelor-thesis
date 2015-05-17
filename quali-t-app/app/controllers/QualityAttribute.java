@@ -55,6 +55,8 @@ public class QualityAttribute extends Controller {
             return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(id)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
         }
     }
 
@@ -94,6 +96,8 @@ public class QualityAttribute extends Controller {
         try {
             return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(new Long(-6000))));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }

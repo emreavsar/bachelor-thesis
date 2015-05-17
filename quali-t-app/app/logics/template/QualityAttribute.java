@@ -11,13 +11,12 @@ import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
 import models.template.QAVar;
-import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static controllers.Helper.validate;
-import static logics.template.Catalog.addQaToCatalog;
+import static logics.template.Catalog.deleteCatalogQA;
 
 /**
  * Created by corina on 09.04.2015.
@@ -28,9 +27,21 @@ public class QualityAttribute {
     static QACategoryDAO qaCategoryDAO = new QACategoryDAO();
     static QualityAttributeDAO qaDAO = new QualityAttributeDAO();
 
+    public static List<QA> getAllQAs() {
+        return qaDAO.readAllLatest();
+    }
+
+    public static List<CatalogQA> getQAsByCatalog(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            models.template.Catalog cat = catalogDAO.readById(id);
+            return catalogQADAO.findByCatalog(cat);
+        }
+        throw new MissingParameterException("Please provide a valid ID");
+    }
+
     public static QA createQA(QA qa, List<Long> categoryIds, List<QAVar> qaVars) throws MissingParameterException, EntityNotFoundException {
         qa = createQA(qa, categoryIds);
-        CatalogQA catalogQA = logics.template.Catalog.addQaToCatalog(qa);
+        CatalogQA catalogQA = addQaToCatalog(qa, new Long(-6000));
         logics.template.QualityAttribute.addVarsToQA(catalogQA, qaVars);
         return qa;
     }
@@ -71,12 +82,14 @@ public class QualityAttribute {
                 throw new EntityNotFoundException("The new variable values are not compatible with the original QA variables");
 
             } else {
-                Logger.info("else is called");
                 //if there is any change in the description, a new version of the QA is created
                 qa.setVersionNumber(currentQA.getVersionNumber() + 1);
                 QA newQA = qaDAO.persist(createQA(qa, categoryIds));
                 for (CatalogQA catalogQA : catalogQADAO.findAllByQA(currentQA)) {
-                    markAsDeleted(catalogQA);
+                    models.template.Catalog catalog = catalogQA.getCatalog();
+//                    markAsDeleted(catalogQA);
+                    deleteCatalogQA(catalogQA.getId());
+                    catalogQA.setCatalog(catalog);
                     addVarsToQA(addQaToCatalog(newQA, catalogQA.getCatalog().getId()), qaVars);
                 }
                 currentQA.setDeleted(true);
@@ -117,27 +130,14 @@ public class QualityAttribute {
             QA qa = qaDAO.readById(id);
             List<CatalogQA> catalogQAList = catalogQADAO.findAllByQA(qa);
             for (CatalogQA catalogQA : catalogQAList) {
-                markAsDeleted(catalogQA);
+//                markAsDeleted(catalogQA);
+                deleteCatalogQA(catalogQA.getId());
             }
             qa.setDeleted(true);
             qaDAO.update(qa);
         } else {
             throw new MissingParameterException("Please provide a valid ID!");
         }
-    }
-
-    public static List<QA> getAllQAs() {
-        return qaDAO.readAllLatest();
-    }
-
-    public static List<CatalogQA> getQAsByCatalog(long id) throws EntityNotFoundException {
-        models.template.Catalog cat = catalogDAO.readById(id);
-        return catalogQADAO.findByCatalog(cat);
-    }
-
-    private static void markAsDeleted(CatalogQA catalogQA) {
-        catalogQA.setDeleted(true);
-        catalogQADAO.update(catalogQA);
     }
 
     private static QA setCategoriesInQa(QA qa, List<Long> categoryIds) throws EntityNotFoundException, MissingParameterException {
@@ -156,5 +156,13 @@ public class QualityAttribute {
             return catalogQADAO.update(catalogQA);
         }
         throw new MissingParameterException("Please provide valid Parameters");
+    }
+//    private static CatalogQA addQaToCatalog(QA qa) throws EntityNotFoundException {
+//        // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
+//        return addQaToCatalog(qa, new Long(-6000));
+//    }
+
+    private static CatalogQA addQaToCatalog(QA qa, Long catalogId) throws EntityNotFoundException {
+        return catalogQADAO.findByCatalogAndId(catalogDAO.persist(catalogDAO.readById(catalogId).addTemplate(qa)), qa);
     }
 }
