@@ -5,7 +5,10 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityCanNotBeDeleted;
+import exceptions.EntityCanNotBeUpdated;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
+import models.template.CatalogQA;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -24,8 +27,7 @@ public class Catalog extends Controller {
     @Transactional
     public static Result getAllCatalogs() {
         Logger.info("getAllCatalogs Ctrl called");
-        List<models.template.Catalog> catalogs = logics.template.Catalog.getAllCatalogs();
-        return ok(Json.toJson(catalogs));
+        return ok(Json.toJson(logics.template.Catalog.getAllCatalogs()));
     }
 
     @Restrict({@Group("curator"), @Group("admin")})
@@ -34,9 +36,12 @@ public class Catalog extends Controller {
     public static Result createCatalog() {
         JsonNode json = request().body().asJson();
         try {
-            models.template.Catalog catalog = logics.template.Catalog.create(json);
-            return ok(Json.toJson(catalog));
+            models.template.Catalog catalog = Converter.getCatalogFromJson(json);
+            List<CatalogQA> newCatalogQAs = Converter.getCatalogQasFromJson(json);
+            return ok(Json.toJson(logics.template.Catalog.createCatalog(catalog, newCatalogQAs)));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
@@ -59,12 +64,11 @@ public class Catalog extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static Result createCatalogQA() {
         JsonNode json = request().body().asJson();
-        JsonNode qa = json.findValue("qa");
-        JsonNode catalogQANode = json.findValue("catalogQa");
         try {
-            models.template.CatalogQA catalogQA = logics.template.Catalog.createCatalogQA(qa, catalogQANode);
-            return ok(Json.toJson(catalogQA));
+            return ok(Json.toJson(logics.template.Catalog.createCatalogQA(Converter.getCatalogQaFromJson(json))));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
@@ -73,7 +77,7 @@ public class Catalog extends Controller {
     @Transactional
     public static Result deleteCatalogQA(Long id) {
         try {
-            logics.template.Catalog.removeQaFromCatalog(id);
+            logics.template.Catalog.deleteCatalogQA(id);
             return status(202);
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
@@ -85,9 +89,12 @@ public class Catalog extends Controller {
     public static Result updateCatalog() {
         JsonNode json = request().body().asJson();
         try {
-            models.template.Catalog catalog = logics.template.Catalog.update(json, json.findPath("id").asLong());
-            return ok(Json.toJson(catalog));
+            return ok(Json.toJson(logics.template.Catalog.updateCatalog(Converter.getCatalogFromJson(json))));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (EntityCanNotBeUpdated e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
@@ -97,11 +104,11 @@ public class Catalog extends Controller {
     @Transactional
     public static Result updateCatalogQA() {
         JsonNode json = request().body().asJson();
-        JsonNode catalogQANode = json.findValue("catalogQa");
         try {
-            models.template.CatalogQA catalogQA = logics.template.Catalog.updateCatalogQA(catalogQANode);
-            return ok(Json.toJson(catalogQA));
+            return ok(Json.toJson(logics.template.Catalog.updateCatalogQA(Converter.getCatalogQaFromJson(json))));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }

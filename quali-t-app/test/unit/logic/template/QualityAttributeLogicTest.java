@@ -81,7 +81,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -95,7 +95,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -110,7 +110,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -125,7 +125,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -176,7 +176,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -190,7 +190,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -204,7 +204,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -230,7 +230,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -244,7 +244,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -273,7 +273,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -290,7 +290,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -336,7 +336,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -351,7 +351,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -393,7 +393,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -410,7 +410,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -424,7 +424,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             thrown = true;
         }
         // ASSERT
-        assertThat(thrown);
+        assertThat(thrown).isTrue();
     }
 
 }

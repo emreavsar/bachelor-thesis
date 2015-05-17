@@ -1,16 +1,18 @@
 package logics.template;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QualityAttributeDAO;
 import exceptions.EntityCanNotBeDeleted;
+import exceptions.EntityCanNotBeUpdated;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import models.template.CatalogQA;
 import models.template.QA;
 
-import java.util.Iterator;
 import java.util.List;
+
+import static controllers.Helper.validate;
 
 /**
  * Created by corina on 10.04.2015.
@@ -26,31 +28,65 @@ public class Catalog {
         return catalogDAO.readAll();
     }
 
-    public static models.template.Catalog create(JsonNode json) throws EntityNotFoundException {
-        models.template.Catalog catalog = catalogDAO.persist(new models.template.Catalog());
-        catalog = update(json, catalog.getId());
-        //get node with QAs and create them with variables
-        JsonNode qas = json.findValue("selectedQualityAttributes");
-        for (Iterator<JsonNode> qaNodes = qas.elements(); qaNodes.hasNext(); ) {
-            JsonNode qaNode = qaNodes.next();
-            QA qa = qaDAO.readById(qaNode.findValue("id").asLong());
-            CatalogQA catalogQA = addQaToCatalog(qa, catalog);
-//            addVarsToQA(catalogQA, qaNode);
+    public static models.template.Catalog createCatalog(models.template.Catalog catalog, List<CatalogQA> newCatalogQAs) throws MissingParameterException, EntityNotFoundException {
+        if (catalog != null && validate(catalog.getName())) {
+            catalog.setId(null);
+            models.template.Catalog newCatalog = catalogDAO.persist(catalog);
+            if (newCatalogQAs != null) {
+                //create CatalogQAs
+                for (CatalogQA catalogQA : newCatalogQAs) {
+                    if (catalogQA.getQa() != null && catalogQA.getQa().getId() != null) {
+                        QA qa = qaDAO.readById(catalogQA.getQa().getId());
+                        catalogQA.setQa(qa);
+                        catalogQA.setCatalog(newCatalog);
+                        catalog.addCatalogQA(catalogQA);
+                        catalog.addCatalogQA(catalogQADAO.persist(catalogQA));
+                    } else {
+                        throw new MissingParameterException("Please provide all required Parameters for the CatalogQAs");
+                    }
+                }
+            }
+            return catalog;
+        } else {
+            throw new MissingParameterException("Please provide all required Catalog Parameters");
         }
-        return catalog;
     }
 
-    public static CatalogQA addQaToCatalog(QA qa, models.template.Catalog catalog) throws EntityNotFoundException {
-        return addQaToCatalog(qa, catalog.getId());
+    public static models.template.CatalogQA createCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
+        if (catalogQA != null) {
+            return catalogQADAO.persist(addQaToCatalog(catalogQA));
+        }
+        throw new MissingParameterException("Please provide a valid CatalogQA");
     }
 
-    public static CatalogQA addQaToCatalog(QA qa, Long catalogId) throws EntityNotFoundException {
-        return catalogQADAO.findByCatalogAndId(catalogDAO.persist(catalogDAO.readById(catalogId).addTemplate(qa)), qa);
+    public static models.template.Catalog updateCatalog(models.template.Catalog catalog) throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
+        if (catalog != null && validate(catalog.getName())) {
+            if (catalog.getId() != -6000) {
+                models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId());
+                updatedCatalog.setDescription(catalog.getDescription());
+                updatedCatalog.setName(catalog.getName());
+                updatedCatalog.setPictureURL(catalog.getPictureURL());
+                return catalogDAO.update(updatedCatalog);
+            } else {
+                throw new EntityCanNotBeUpdated("It is not allowed to edit the Standard Catalog!");
+            }
+        }
+        throw new MissingParameterException("Please provide all required Catalog Parameters");
     }
 
-    public static void deleteCatalog(long id) throws EntityNotFoundException, EntityCanNotBeDeleted {
+    public static models.template.CatalogQA updateCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
+        deleteCatalogQA(catalogQA.getId());
+        catalogQA.setId(null);
+        return catalogQADAO.persist(addQaToCatalog(catalogQA));
+    }
+
+//    private static CatalogQA addQaToCatalog(QA qa, models.template.Catalog catalog) throws EntityNotFoundException {
+//        return addQaToCatalog(qa, catalog.getId());
+//    }
+
+    public static void deleteCatalog(Long id) throws EntityNotFoundException, EntityCanNotBeDeleted {
         // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
-        if (id != -6000) {
+        if (id != -6000 && id != null) {
             models.template.Catalog catalog = catalogDAO.readById(id);
             for (CatalogQA catalogQA : catalog.getTemplates()) {
                 catalogQA.setDeleted(true);
@@ -63,39 +99,27 @@ public class Catalog {
         }
     }
 
-    public static models.template.CatalogQA createCatalogQA(JsonNode qaNode, JsonNode catalogQANode) throws EntityNotFoundException {
-        QA qa = qaDAO.readById(qaNode.findPath("id").asLong());
-        models.template.Catalog catalog = catalogDAO.readById(catalogQANode.findPath("catalog").asLong());
-        CatalogQA catalogQA = addQaToCatalog(qa, catalog);
-//        addVarsToQA(catalogQA, catalogQANode);
-        return catalogQA;
-    }
-
-    public static void removeQaFromCatalog(Long id) throws EntityNotFoundException {
+    public static void deleteCatalogQA(Long id) throws EntityNotFoundException {
         CatalogQA catalogQA = catalogQADAO.readById(id);
         catalogQA.setDeleted(true);
         catalogQADAO.update(catalogQA);
     }
 
-    public static models.template.Catalog update(JsonNode json, Long catalogId) throws EntityNotFoundException {
-        models.template.Catalog updatedCatalog = catalogDAO.readById(catalogId);
-        updatedCatalog.setDescription(json.findPath("description").asText());
-        updatedCatalog.setName(json.findPath("name").asText());
-        updatedCatalog.setPictureURL(json.findPath("image").asText());
-        return catalogDAO.update(updatedCatalog);
-    }
-
-    public static models.template.CatalogQA updateCatalogQA(JsonNode catalogQANode) throws EntityNotFoundException {
-        CatalogQA catalogQA = catalogQADAO.readById(catalogQANode.findPath("id").asLong());
-        models.template.Catalog catalog = catalogDAO.readById(catalogQANode.findPath("catalog").asLong());
-        removeQaFromCatalog(catalogQA.getId());
-        CatalogQA newCatalogQA = addQaToCatalog(catalogQA.getQa(), catalog);
-//        addVarsToQA(newCatalogQA, catalogQANode);
-        return newCatalogQA;
-    }
-
     public static CatalogQA addQaToCatalog(QA qa) throws EntityNotFoundException {
         // TODO refactor default catalog id (-6000) into static ConfigClass.VARIABLE constant
         return addQaToCatalog(qa, new Long(-6000));
+    }
+
+    public static CatalogQA addQaToCatalog(QA qa, Long catalogId) throws EntityNotFoundException {
+        return catalogQADAO.findByCatalogAndId(catalogDAO.persist(catalogDAO.readById(catalogId).addTemplate(qa)), qa);
+    }
+
+    private static CatalogQA addQaToCatalog(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
+        if (catalogQA.getQa() != null && catalogQA.getCatalog() != null && catalogQA.getQa().getId() != null & catalogQA.getCatalog().getId() != null) {
+            catalogQA.setQa(qaDAO.readById(catalogQA.getQa().getId()));
+            catalogQA.setCatalog(catalogDAO.readById(catalogQA.getCatalog().getId()));
+            return catalogQADAO.persist(catalogQA);
+        }
+        throw new MissingParameterException("Please provide a valid CatalogQA");
     }
 }

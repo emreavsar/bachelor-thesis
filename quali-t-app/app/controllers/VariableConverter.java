@@ -33,23 +33,37 @@ public class VariableConverter {
                     JsonNode valueNode = variableParametersEntry.getValue();
                     if (valueNode != null) {
                         for (Iterator<JsonNode> textNode = valueNode.elements(); textNode.hasNext(); ) {
-                            variableValues.add(textNode.next().asText());
+//                        for (JsonNode value : valueNode){
+                            valueNode = textNode.next();
+                            if (valueNode.size() > 1) {
+                                variableValues.add(valueNode.findPath("value").asText());
+                            } else {
+                                variableValues.add(valueNode.asText());
+                            }
                         }
                     }
+                } else if (variableParametersEntry.getKey().equals("valRange") && variableParametersEntry.getValue().size() > 1) {
+                    variableParameters.put("min", variableParametersEntry.getValue().findPath("min").asText());
+                    variableParameters.put("max", variableParametersEntry.getValue().findPath("max").asText());
+                } else if (variableParametersEntry.getKey().equals("defaultValue") && variableParametersEntry.getValue().size() > 1) {
+                    variableParameters.put("defaultValue", variableParametersEntry.getValue().findPath("value").asText());
                 } else {
                     variableParameters.put(variableParametersEntry.getKey(), variableParametersEntry.getValue().asText());
                 }
             }
+
+
             Logger.info("Value Map:    " + variableParameters.toString());
             //check if QA has any variables and create them
             if (!variableParameters.isEmpty()) {
                 qaVars.add(createVariable(variableParameters, variableValues));
             }
+
         }
         return qaVars;
     }
 
-    public static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
+    private static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
         QAVar var = new QAVar(Integer.parseInt(parameters.get("varIndex")));
         switch (parameters.get("type")) {
             case "FREENUMBER":

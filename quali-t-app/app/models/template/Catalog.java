@@ -77,5 +77,11 @@ public class Catalog extends AbstractEntity {
         }
     }
 
+    public Catalog addCatalogQA(CatalogQA catalogQA) {
+        this.templates.add(catalogQA);
+        return this;
+    }
+
+
 
 }
