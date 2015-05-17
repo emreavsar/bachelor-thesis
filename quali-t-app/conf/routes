@@ -66,6 +66,7 @@ GET           /api/catalog                       controllers.Catalog.getAllCatal
 POST          /api/catalog                       controllers.Catalog.createCatalog()
 PUT           /api/catalog                       controllers.Catalog.updateCatalog()
 DELETE        /api/catalog/:id                   controllers.Catalog.deleteCatalog(id: Long)
+GET           /api/catalog/qa/:id            controllers.Catalog.getCatalogQA(id: Long)
 POST          /api/catalog/qa                    controllers.Catalog.createCatalogQA()
 PUT           /api/catalog/qa                    controllers.Catalog.updateCatalogQA()
 DELETE        /api/catalog/qa/:id                controllers.Catalog.deleteCatalogQA(id: Long)

@@ -9,6 +9,7 @@ import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.CatalogQA;
 import models.template.QA;
+import play.Logger;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class Catalog {
     }
 
     public static models.template.Catalog updateCatalog(models.template.Catalog catalog) throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
-        if (catalog != null && validate(catalog.getName())) {
+        if (catalog != null && validate(catalog.getName()) && catalog.getId() != null) {
             if (catalog.getId() != -6000) {
                 models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId());
                 updatedCatalog.setDescription(catalog.getDescription());
@@ -77,7 +78,11 @@ public class Catalog {
     public static models.template.CatalogQA updateCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
         deleteCatalogQA(catalogQA.getId());
         catalogQA.setId(null);
-        return catalogQADAO.persist(addQaToCatalog(catalogQA));
+        CatalogQA newCatalogQA = addQaToCatalog(catalogQA);
+        catalogQADAO.persist(newCatalogQA);
+        Logger.info("catalogQA persisted " + newCatalogQA.getId());
+//        return catalogQADAO.persist(addQaToCatalog(catalogQA));
+        return newCatalogQA;
     }
 
 //    private static CatalogQA addQaToCatalog(QA qa, models.template.Catalog catalog) throws EntityNotFoundException {
@@ -92,6 +97,7 @@ public class Catalog {
                 catalogQA.setDeleted(true);
                 catalogQA.setCatalog(null);
                 catalogQADAO.persist(catalogQA);
+                Logger.info("just deleted catalogqa " + catalogQA.getId());
             }
             catalogDAO.remove(catalogDAO.readById(id));
         } else {
@@ -102,6 +108,7 @@ public class Catalog {
     public static void deleteCatalogQA(Long id) throws EntityNotFoundException {
         CatalogQA catalogQA = catalogQADAO.readById(id);
         catalogQA.setDeleted(true);
+        Logger.info("deleted id " + catalogQA.getId() + catalogQA.isDeleted());
         catalogQADAO.update(catalogQA);
     }
 
@@ -117,9 +124,21 @@ public class Catalog {
     private static CatalogQA addQaToCatalog(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
         if (catalogQA.getQa() != null && catalogQA.getCatalog() != null && catalogQA.getQa().getId() != null & catalogQA.getCatalog().getId() != null) {
             catalogQA.setQa(qaDAO.readById(catalogQA.getQa().getId()));
+            Logger.info("set qa id " + catalogQA.getQa().getId());
             catalogQA.setCatalog(catalogDAO.readById(catalogQA.getCatalog().getId()));
-            return catalogQADAO.persist(catalogQA);
+            Logger.info("set catalog id " + catalogQA.getCatalog().getId());
+            CatalogQA newCatalogQA = catalogQADAO.persist(catalogQA);
+            Logger.info("new catalog qa" + newCatalogQA.getId());
+//            return catalogQADAO.persist(catalogQA);
+            return newCatalogQA;
         }
         throw new MissingParameterException("Please provide a valid CatalogQA");
+    }
+
+    public static Object getCatalogQA(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            return catalogQADAO.readById(id);
+        }
+        throw new MissingParameterException("Please provide an ID!");
     }
 }

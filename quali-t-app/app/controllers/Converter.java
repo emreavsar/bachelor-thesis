@@ -58,10 +58,11 @@ public class Converter {
 
     public static CatalogQA getCatalogQaFromJson(JsonNode json) {
         QA qa = new QA();
-        JsonNode json2 = json.findPath("qa");
-        json2 = json.findPath("id");
+//        JsonNode json2 = json.findPath("qa");
+//        json2 = json.findPath("id");
         qa.setId(json.findPath("qa").findPath("id").asLong());
         CatalogQA catalogQA = new CatalogQA(qa, getCatalogIdFromJson(json));
+        catalogQA.setId(json.findPath("catalogQa").findPath("id").asLong());
         catalogQA.addVars(VariableConverter.getVarsFromJson(json));
         return catalogQA;
     }

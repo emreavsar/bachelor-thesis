@@ -12,7 +12,6 @@ import models.template.CatalogQA;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -32,7 +31,6 @@ public class Catalog extends Controller {
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
-    @BodyParser.Of(BodyParser.Json.class)
     public static Result createCatalog() {
         JsonNode json = request().body().asJson();
         try {
@@ -61,7 +59,6 @@ public class Catalog extends Controller {
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
-    @BodyParser.Of(BodyParser.Json.class)
     public static Result createCatalogQA() {
         JsonNode json = request().body().asJson();
         try {
@@ -99,13 +96,24 @@ public class Catalog extends Controller {
         }
     }
 
-
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public static Result updateCatalogQA() {
         JsonNode json = request().body().asJson();
         try {
             return ok(Json.toJson(logics.template.Catalog.updateCatalogQA(Converter.getCatalogQaFromJson(json))));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
+        }
+    }
+
+    @SubjectPresent
+    @Transactional
+    public static Result getCatalogQA(Long id) {
+        try {
+            return ok(Json.toJson(logics.template.Catalog.getCatalogQA(id)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         } catch (MissingParameterException e) {
