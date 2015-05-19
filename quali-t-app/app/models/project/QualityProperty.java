@@ -1,9 +1,6 @@
 package models.project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import models.AbstractEntity;
 import models.project.nfritem.QualityPropertyStatus;
 
@@ -35,6 +32,10 @@ public class QualityProperty extends AbstractEntity {
     public QualityProperty(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public QualityProperty(Long id) {
+        this.setId(id);
     }
 
     public String getName() {

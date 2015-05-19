@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,17 +40,41 @@ public class Instance extends AbstractEntity {
     public Instance() {
     }
 
+    public Instance(String description) {
+        this.description = description;
+    }
+
     public Instance(String description, CatalogQA qa) {
+        this.description = description;
+        this.template = qa;
+    }
+
+    public Instance(String description, CatalogQA qa, List<QualityProperty> qps) {
+        this.addQualityProperty(qps);
         this.description = description;
         this.template = qa;
     }
 
     public void addQualityProperty(Collection<QualityProperty> qps) {
         for (QualityProperty qp : qps) {
-            qualityPropertyStatus.add(new QualityPropertyStatus(this, qp));
+            addQualityProperty(qp);
         }
     }
 
+    public void addQualityProperty(QualityProperty qp) {
+        qualityPropertyStatus.add(new QualityPropertyStatus(this, qp));
+    }
+
+    public void addQualityProperty(QualityProperty qp, boolean status) {
+        qualityPropertyStatus.add(new QualityPropertyStatus(this, qp, status));
+    }
+
+    public void removeQualityProperty(QualityProperty qp) {
+        for (QualityPropertyStatus qps : this.getQualityPropertyStatus()) {
+            if (qps.getQp().getId() == qp.getId()) ;
+            this.getQualityPropertyStatus().remove(qps);
+        }
+    }
     public String getDescription() {
         return description;
     }
@@ -93,5 +118,15 @@ public class Instance extends AbstractEntity {
     public void addValue(Val val) {
         this.values.add(val);
         val.setInstance(this);
+    }
+
+    public void addValues(List<Val> valueList) {
+        for (Val value : valueList) {
+            this.addValue(value);
+        }
+    }
+
+    public void addQualityPropertyStatus(QualityPropertyStatus qualityPropertyStatus) {
+        this.qualityPropertyStatus.add(qualityPropertyStatus);
     }
 }

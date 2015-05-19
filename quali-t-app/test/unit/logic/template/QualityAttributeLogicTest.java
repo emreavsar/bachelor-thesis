@@ -399,7 +399,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     @Test
     public void testUpdateNullQADescription() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        QA qaToUpdate = new QA(null);
+        QA qaToUpdate = new QA();
         qaToUpdate.setId(qa.getId());
         qaToUpdate.setVersionNumber(qa.getVersionNumber());
         boolean thrown = false;

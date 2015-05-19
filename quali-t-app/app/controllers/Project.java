@@ -5,6 +5,8 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
+import models.project.nfritem.Instance;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -23,8 +25,10 @@ public class Project extends Controller {
     public static Result createProject() {
         JsonNode json = request().body().asJson();
         try {
-            models.project.Project project = logics.project.Project.createProject(json);
-            return ok(Json.toJson(project));
+            models.project.Project project = Converter.getProjectFromJson(json);
+            List<Long> qualityAttributeIdList = Converter.getQualityAttributeIdsFromJson(json);
+            List<Long> qualityPropertyIdList = Converter.getQualityPropertiesFromJson(json);
+            return ok(Json.toJson(logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
@@ -64,8 +68,9 @@ public class Project extends Controller {
     public static Result updateProject() {
         JsonNode json = request().body().asJson();
         try {
-            models.project.Project project = logics.project.Project.updateProject(json);
-            return ok(Json.toJson(project));
+            models.project.Project project = Converter.getCompleteProjectFromJson(json);
+            List<Long> qualityPropertyList = Converter.getQualityPropertiesFromJson(json);
+            return ok(Json.toJson(logics.project.Project.updateProject(project, qualityPropertyList)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
@@ -76,7 +81,7 @@ public class Project extends Controller {
     public static Result createInstance() {
         JsonNode json = request().body().asJson();
         try {
-            models.project.Project project = logics.project.Project.createInstance(json);
+            models.project.Project project = logics.project.Project.createInstance(new Instance());
             return ok(Json.toJson(project));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
@@ -94,7 +99,17 @@ public class Project extends Controller {
         }
     }
 
+    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Transactional
     public static Result updateInstance() {
-        return play.mvc.Results.TODO;
+        JsonNode json = request().body().asJson();
+        Instance instance = Converter.getInstanceFromJson(json);
+        try {
+            return ok(Json.toJson(logics.project.Project.updateInstance(instance)));
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
+        }
     }
 }

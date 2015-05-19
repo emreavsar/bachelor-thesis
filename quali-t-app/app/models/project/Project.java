@@ -85,12 +85,12 @@ public class Project extends AbstractEntity {
 
     public void addQualityProperty(QualityProperty qp) {
         this.qualityProperties.add(qp);
+        qp.addUsedByProject(this);
     }
 
     public void addQualityProperties(List<QualityProperty> qps) {
         for (QualityProperty qp : qps) {
             this.addQualityProperty(qp);
-            qp.addUsedByProject(this);
         }
     }
 

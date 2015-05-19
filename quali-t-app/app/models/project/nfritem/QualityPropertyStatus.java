@@ -6,6 +6,7 @@ import models.AbstractEntity;
 import models.project.QualityProperty;
 
 import javax.annotation.Nullable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,11 +19,11 @@ import javax.persistence.Table;
 @Table(name = "qualitypropertystatus")
 @Nullable
 public class QualityPropertyStatus extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference("qaStatus")
     private Instance qa;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference("qpStatus")
     private QualityProperty qp;
 
@@ -35,6 +36,12 @@ public class QualityPropertyStatus extends AbstractEntity {
         this.qa = qa;
         this.qp = qp;
         this.status = false;
+    }
+
+    public QualityPropertyStatus(Instance qa, QualityProperty qp, boolean status) {
+        this.qa = qa;
+        this.qp = qp;
+        this.status = status;
     }
 
     public Instance getQa() {
@@ -59,5 +66,13 @@ public class QualityPropertyStatus extends AbstractEntity {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public QualityPropertyStatus prepareToRemove() {
+        this.getQa().getQualityPropertyStatus().remove(this);
+        this.getQp().getQualityPropertyStatus().remove(this);
+        this.setQp(null);
+        this.setQa(null);
+        return this;
     }
 }

@@ -44,6 +44,11 @@ public class QA extends AbstractEntity {
         this.description = description;
     }
 
+    public QA(Long id) {
+        super();
+        this.setId(id);
+    }
+
     public QA copyQA() {
         QA newQA = new QA(this.getDescription(), 1);
         return newQA;
