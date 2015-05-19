@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import models.AbstractEntity;
+import models.Interface.JIRAConnection;
 import models.authentication.User;
 import models.project.nfritem.Instance;
 import models.template.Catalog;
@@ -40,6 +41,10 @@ public class Project extends AbstractEntity {
     @JsonManagedReference(value = "qualityAttributes")
     private Set<Instance> qualityAttributes = new HashSet<>();
     private String jiraKey;
+
+    @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference(value = "projectsJiraConnection")
+    private JIRAConnection jiraConnection;
 
     public Project() {
     }
@@ -121,6 +126,14 @@ public class Project extends AbstractEntity {
             qp.getUsedByProject().remove(this);
         }
         this.qualityProperties.clear();
+    }
+
+    public JIRAConnection getJiraConnection() {
+        return jiraConnection;
+    }
+
+    public void setJiraConnection(JIRAConnection jiraConnection) {
+        this.jiraConnection = jiraConnection;
     }
 }
 

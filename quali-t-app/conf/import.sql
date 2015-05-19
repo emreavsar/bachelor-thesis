@@ -40,10 +40,17 @@ INSERT INTO customer (id, address, name) VALUES (-3000, 'Zürich', 'UBS');
 INSERT INTO customer (id, address, name) VALUES (-3001, 'Rapperswil', 'HSR');
 
 --
+-- Data for Name: jiraconnection; Type: TABLE DATA; Schema: public; Owner: qualit
+--
+
+INSERT INTO jiraconnection (id, hostAddress, username, password) VALUES (-1500, 'http://sinv-56055.edu.hsr.ch:8080', 'corina','helloworld');
+
+--
 -- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO project (id, name, projectcustomer_id, jirakey) VALUES (-11000, 'Campus Mobile App (iOS)', -3001, 'QTP');
-INSERT INTO project (id, name, projectcustomer_id) VALUES (-11001, 'Cloud Banking', -3000);
+
+INSERT INTO project (id, jirakey, name, jiraconnection_id, projectcustomer_id) VALUES (-11000, 'QTP', 'Campus Mobile App (iOS)', -1500, -3001);
+INSERT INTO project (id, jirakey, name, jiraconnection_id, projectcustomer_id) VALUES (-11001, null, 'Cloud Banking', -1500, -3000);
 
 --
 -- Data for Name: favorite_project; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -128,10 +135,8 @@ INSERT INTO task (id, description, done, assignee_id) VALUES (-6010, 'Evaluate C
 INSERT INTO task (id, description, done, assignee_id) VALUES (-6011, 'Create Catalog for Cloud Apps', false, -1000);
 
 --
--- Data for Name: JIRAConnectoin; Type: TABLE DATA; Schema: public; Owner: qualit
+-- Data for Name: instance; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-
-INSERT INTO jiraconnection (id, hostAddress, username, password) VALUES (-1500, 'http://sinv-56055.edu.hsr.ch:8080', 'corina','helloworld');
 
 INSERT INTO instance (id, description)VALUES (-5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>');
 INSERT INTO val (id, "value", varindex, instance_id) VALUES (-99, 'test 1', 0, -5);

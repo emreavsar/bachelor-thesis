@@ -169,5 +169,17 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.getJiraInstances = function () {
+
+      return $http.get(this.apiPath + "jiraconnection")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+
+    }
+
     return apiService;
   });

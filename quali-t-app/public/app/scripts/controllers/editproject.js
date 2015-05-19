@@ -17,6 +17,8 @@ angular.module('qualitApp')
     $scope.selectedQualityProperties = new Array();
     $scope.qualityPropertiesList = new Array();
     $scope.qualityAttributesToUpdate = new Array();
+    $scope.jiraConnections = new Array();
+    $scope.selectedJiraConnection = {};
     $scope.isProjectFavorite = false;
     $scope.exportRaw = false;
     $scope.tooltipsSave = "Saves the project and shows warnings (statistics & fuzzyness) if there are any.";
@@ -148,6 +150,10 @@ angular.module('qualitApp')
         }).then(
         function (payload) {
           $scope.qualityPropertiesList = payload.data;
+          return apiService.getJiraInstances();
+        }).then(
+        function (payload) {
+          $scope.jiraConnections = payload.data;
         }
       );
     }

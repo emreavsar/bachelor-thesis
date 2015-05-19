@@ -53,6 +53,17 @@
       <h4 class="steps">Export properties:</h4>
 
       <div class="form-group col-sm-12">
+        <label for="jiraInstance">JIRA Instance</label>
+        <ui-select id="jiraInstance" required="required" ng-model="$parent.selectedJiraConnection" theme="bootstrap"
+                   ng-disabled="disabled">
+          <ui-select-match placeholder="Select JIRA instance...">{{$select.selected.hostAddress}}</ui-select-match>
+
+          <ui-select-choices repeat="instance in jiraConnections | filter:$select.search">
+            <div ng-bind-html="instance.hostAddress| highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="form-group col-sm-12">
         <label for="jiraKey"
                data-trigger="hover" data-type="success"
                data-title="{{tooltipsExportJiraKey}}"
