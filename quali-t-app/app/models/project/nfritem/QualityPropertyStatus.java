@@ -75,4 +75,10 @@ public class QualityPropertyStatus extends AbstractEntity {
         this.setQa(null);
         return this;
     }
+
+    public QualityPropertyStatus copyQualityPropertyStatus() {
+        QualityPropertyStatus qualityPropertyStats = new QualityPropertyStatus();
+        qualityPropertyStats.setQp(this.qp);
+        return qualityPropertyStats;
+    }
 }

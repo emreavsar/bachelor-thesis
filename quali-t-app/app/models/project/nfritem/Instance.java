@@ -128,5 +128,20 @@ public class Instance extends AbstractEntity {
 
     public void addQualityPropertyStatus(QualityPropertyStatus qualityPropertyStatus) {
         this.qualityPropertyStatus.add(qualityPropertyStatus);
+        qualityPropertyStatus.setQa(this);
+    }
+
+    public Instance copyInstance() {
+        Instance instance = new Instance();
+        instance.setProject(this.project);
+        instance.setDescription(this.description);
+        instance.setTemplate(this.template);
+        for (Val value : this.values) {
+            instance.addValue(value.copyVal());
+        }
+        for (QualityPropertyStatus qualityPropertyStatus : this.qualityPropertyStatus) {
+            instance.addQualityPropertyStatus(qualityPropertyStatus.copyQualityPropertyStatus());
+        }
+        return instance;
     }
 }
