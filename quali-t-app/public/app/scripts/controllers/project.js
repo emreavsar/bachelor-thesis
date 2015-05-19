@@ -25,7 +25,7 @@ angular.module('qualitApp')
     $scope.selectedCatalog = "";
     $scope.currentCategoriesFilter = new Array();
     $scope.selectedQualityProperties = new Array();
-    $scope.selectedJiraConnection = {};
+    $scope.selectedJiraConnection = null;
     $scope.selectedCustomer = {};
 
     // qa's which are created on the fly

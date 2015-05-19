@@ -295,6 +295,23 @@ angular.module('qualitApp')
             });
           });
 
+          var cloneBtn = $("<i/>", {
+            title: "Clone quality attribute",
+            class: "fa fa-files-o pointer"
+          }).appendTo(actions);
+
+          cloneBtn.click(function () {
+            var promiseRemove = apiService.cloneQaInstance(qa.id);
+            promiseRemove.then(
+              function (payload) {
+                alerts.createSuccess("Quality Attribute was successfully cloned.");
+                if (scope.updateQaFunction() != undefined) {
+                  // reload information
+                  scope.updateQaFunction()();
+                }
+              });
+          });
+
           var deleteBtn = $("<i/>", {
             title: "Delete quality attribute",
             class: "fa fa-trash-o pointer"
