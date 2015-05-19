@@ -26,7 +26,7 @@ public class QualityProperty extends Controller {
     public static Result createQualityProperty() {
         try {
             JsonNode json = request().body().asJson();
-            return ok(Json.toJson(logics.project.QualityProperty.createQualityProperty(json)));
+            return ok(Json.toJson(logics.project.QualityProperty.createQualityProperty(Converter.getQualityPropertyFromJson(json))));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
@@ -37,7 +37,7 @@ public class QualityProperty extends Controller {
     public static Result updateQualityProperty() {
         try {
             JsonNode json = request().body().asJson();
-            return ok(Json.toJson(logics.project.QualityProperty.updateQualityProperty(json)));
+            return ok(Json.toJson(logics.project.QualityProperty.updateQualityProperty(Converter.getQualityPropertyFromJson(json))));
         } catch (Exception e) {
             return status(400, e.getMessage());
         }
@@ -50,6 +50,8 @@ public class QualityProperty extends Controller {
             logics.project.QualityProperty.deleteQualityProperty(id);
             return status(202);
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
 

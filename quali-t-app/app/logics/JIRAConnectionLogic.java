@@ -1,11 +1,13 @@
 package logics;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import dao.interfaces.JIRAConnectionDAO;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import models.Interface.JIRAConnection;
 
 import java.util.List;
+
+import static controllers.Helper.validate;
 
 /**
  * Created by corina on 13.05.2015.
@@ -21,15 +23,23 @@ public class JIRAConnectionLogic {
         jiraConnectionDAO.remove(jiraConnectionDAO.readById(id));
     }
 
-    public static JIRAConnection createJIRAConnection(JsonNode json) {
-        return jiraConnectionDAO.persist(new JIRAConnection(json.findPath("hostAddress").asText(), json.findPath("username").asText(), json.findPath("password").asText()));
+    public static JIRAConnection createJIRAConnection(JIRAConnection jiraConnection) throws MissingParameterException {
+        if (jiraConnection != null && validate(jiraConnection.getHostAddress()) && validate(jiraConnection.getPassword()) && validate(jiraConnection.getUsername())) {
+            jiraConnection.setId(null);
+            return jiraConnectionDAO.persist(jiraConnection);
+
+        }
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 
-    public static JIRAConnection updateJIRAConnection(JsonNode json) throws EntityNotFoundException {
-        JIRAConnection jiraConnection = jiraConnectionDAO.readById(json.findPath("id").asLong());
-        jiraConnection.setHostAddress(json.findPath("hostAddress").asText());
-        jiraConnection.setUsername(json.findPath("username").asText());
-        jiraConnection.setPassword(json.findPath("password").asText());
-        return jiraConnectionDAO.persist(jiraConnection);
+    public static JIRAConnection updateJIRAConnection(JIRAConnection jiraConnection) throws EntityNotFoundException, MissingParameterException {
+        if (jiraConnection != null && jiraConnection.getId() != null && validate(jiraConnection.getHostAddress()) && validate(jiraConnection.getPassword()) && validate(jiraConnection.getUsername())) {
+            JIRAConnection persistedJiraConnection = jiraConnectionDAO.readById(jiraConnection.getId());
+            persistedJiraConnection.setHostAddress(jiraConnection.getHostAddress());
+            persistedJiraConnection.setUsername(jiraConnection.getUsername());
+            persistedJiraConnection.setPassword(jiraConnection.getPassword());
+            return jiraConnectionDAO.update(persistedJiraConnection);
+        }
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 }

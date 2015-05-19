@@ -1,11 +1,13 @@
 package logics.template;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.QACategoryDAO;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import models.template.QACategory;
 
 import java.util.List;
+
+import static controllers.Helper.validate;
 
 /**
  * Created by corina on 06.05.2015.
@@ -23,31 +25,33 @@ public class QACategoryLogic {
         return qaCategoryDAO.readAllSuperclasses();
     }
 
-    public static QACategory createCategory(JsonNode json) throws EntityNotFoundException {
-        QACategory qaCategory = new QACategory(json.findPath("name").asText(), json.findPath("icon").asText());
-        if (json.findPath("parent").asLong() != 0) {
-            QACategory parent = qaCategoryDAO.readById(json.findPath("parent").asLong());
-            qaCategory.setParent(parent);
+    public static QACategory createCategory(QACategory qaCategory) throws EntityNotFoundException, MissingParameterException {
+        if (qaCategory != null && validate(qaCategory.getName())) {
+            qaCategory.setId(null);
+            if (qaCategory.getParent() != null) {
+                QACategory parent = qaCategoryDAO.readById(qaCategory.getParent().getId());
+                qaCategory.setParent(parent);
+            }
+            return qaCategoryDAO.persist(qaCategory);
         }
-        return qaCategoryDAO.persist(qaCategory);
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 
-    public static void deleteCategory(Long id) throws EntityNotFoundException {
-        QACategory category = getCategoryTree(id);
-        qaCategoryDAO.remove(category);
+    public static void deleteCategory(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            QACategory category = getCategoryTree(id);
+            qaCategoryDAO.remove(category);
+        }
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 
-    public static QACategory updateCat(JsonNode json) throws EntityNotFoundException {
-        QACategory category = qaCategoryDAO.readById(json.findPath("id").asLong());
-        category.setName(json.findPath("name").asText());
-        category.setIcon(json.findPath("icon").asText());
-        return qaCategoryDAO.update(category);
+    public static QACategory updateCat(QACategory qaCategory) throws EntityNotFoundException, MissingParameterException {
+        if (qaCategory != null && qaCategory.getId() != null && validate(qaCategory.getName())) {
+            QACategory persistedQaCategory = qaCategoryDAO.readById(qaCategory.getId());
+            persistedQaCategory.setName(qaCategory.getName());
+            persistedQaCategory.setIcon(qaCategory.getIcon());
+            return qaCategoryDAO.update(persistedQaCategory);
+        }
+        throw new MissingParameterException("Please provide all Parameters!");
     }
-//
-//    public static QACategory createSubCategory(QACategory ent, Long parentId) throws EntityNotFoundException {
-//        ent.setParent(qaCategoryDAO.readById(parentId));
-//        return null;
-////        return createCategory(ent);
-//
-//    }
 }

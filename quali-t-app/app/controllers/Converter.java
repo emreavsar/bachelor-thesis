@@ -10,9 +10,9 @@ import models.project.QualityProperty;
 import models.project.nfritem.Instance;
 import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
+import models.template.*;
 import models.template.Catalog;
-import models.template.CatalogQA;
-import models.template.QA;
+import models.template.QACategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,5 +142,27 @@ public class Converter {
             project.addQualityAttribute(getInstanceFromJson(instanceNode));
         }
         return project;
+    }
+
+    public static QualityProperty getQualityPropertyFromJson(JsonNode json){
+        QualityProperty qualityProperty = new QualityProperty(json.findPath("name").asText(), json.findPath("description").asText());
+        qualityProperty.setId(json.findPath("id").asLong());
+        return qualityProperty;
+    }
+
+    public static QACategory getCategoryFromJson(JsonNode json) {
+        QACategory qaCategory = new QACategory(json.findPath("name").asText(), json.findPath("icon").asText());
+        qaCategory.setId(json.findPath("id").asLong());
+        if (json.findPath("parent").asLong() != 0) {
+            QACategory parent = new QACategory();
+            parent.setId(json.findPath("parent").asLong());
+        }
+        return qaCategory;
+    }
+
+    public static JIRAConnection getJiraConnectionFromJson(JsonNode json) {
+        JIRAConnection jiraConnection = new JIRAConnection(json.findPath("hostAddress").asText(), json.findPath("username").asText(), json.findPath("password").asText());
+        jiraConnection.setId(json.findPath("id").asLong());
+        return jiraConnection;
     }
 }

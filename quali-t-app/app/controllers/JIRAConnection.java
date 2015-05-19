@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -33,7 +34,11 @@ public class JIRAConnection extends Controller {
     @Transactional
     public static Result createJIRAConnection() {
         JsonNode json = request().body().asJson();
-        return ok(Json.toJson(logics.JIRAConnectionLogic.createJIRAConnection(json)));
+        try {
+            return ok(Json.toJson(logics.JIRAConnectionLogic.createJIRAConnection(Converter.getJiraConnectionFromJson(json))));
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
+        }
     }
 
     @SubjectPresent
@@ -41,9 +46,12 @@ public class JIRAConnection extends Controller {
     public static Result updateJIRAConnection() {
         try {
             JsonNode json = request().body().asJson();
-            return ok(Json.toJson(logics.JIRAConnectionLogic.updateJIRAConnection(json)));
+            return ok(Json.toJson(logics.JIRAConnectionLogic.updateJIRAConnection(Converter.getJiraConnectionFromJson(json))));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
+
         }
     }
 }

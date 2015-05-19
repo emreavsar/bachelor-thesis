@@ -1,11 +1,12 @@
 package logics.project;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.QualityPropertyDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 
 import java.util.List;
+
+import static controllers.Helper.validate;
 
 /**
  * Created by corina on 03.05.2015.
@@ -17,30 +18,28 @@ public class QualityProperty {
         return qualityPropertyDAO.readAll();
     }
 
-    public static models.project.QualityProperty createQualityProperty(JsonNode json) throws MissingParameterException {
-        if (validate(json)) {
-            return qualityPropertyDAO.persist(new models.project.QualityProperty(json.findPath("name").asText(), json.findPath("description").asText()));
-        } else {
-            throw new MissingParameterException("Name and Description need to be filled!");
+    public static models.project.QualityProperty createQualityProperty(models.project.QualityProperty qualityProperty) throws MissingParameterException {
+        if (validate(qualityProperty.getName()) && validate(qualityProperty.getDescription())) {
+            qualityProperty.setId(null);
+            return qualityPropertyDAO.persist(qualityProperty);
         }
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 
-    private static boolean validate(JsonNode json) {
-        return (json.findPath("name").asText() != "" && json.findPath("description").asText() != "");
-    }
-
-    public static models.project.QualityProperty updateQualityProperty(JsonNode json) throws EntityNotFoundException, MissingParameterException {
-        if (validate(json)) {
-            models.project.QualityProperty qualityProperty = qualityPropertyDAO.readById(json.findPath("id").asLong());
-            qualityProperty.setName(json.findPath("name").asText());
-            qualityProperty.setDescription(json.findPath("description").asText());
+    public static models.project.QualityProperty updateQualityProperty(models.project.QualityProperty qualityProperty) throws EntityNotFoundException, MissingParameterException {
+        if (validate(qualityProperty.getName()) && validate(qualityProperty.getDescription()) && qualityProperty.getId() != null) {
+            models.project.QualityProperty persistedQualityProperty = qualityPropertyDAO.readById(qualityProperty.getId());
+            persistedQualityProperty.setName(qualityProperty.getName());
+            persistedQualityProperty.setDescription(qualityProperty.getDescription());
             return qualityPropertyDAO.update(qualityProperty);
-        } else {
-            throw new MissingParameterException("Name and Description need to be filled!");
         }
+        throw new MissingParameterException("Name and Description need to be filled!");
     }
 
-    public static void deleteQualityProperty(long id) throws EntityNotFoundException {
-        qualityPropertyDAO.remove(qualityPropertyDAO.readById(id));
+    public static void deleteQualityProperty(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            qualityPropertyDAO.remove(qualityPropertyDAO.readById(id));
+        }
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 }

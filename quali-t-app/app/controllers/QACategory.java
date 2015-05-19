@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -39,7 +40,7 @@ public class QACategory extends Controller {
     public static Result createCat() {
         JsonNode json = request().body().asJson();
             try {
-                return ok(Json.toJson(logics.template.QACategoryLogic.createCategory(json)));
+                return ok(Json.toJson(logics.template.QACategoryLogic.createCategory(Converter.getCategoryFromJson(json))));
             } catch (Exception e) {
                 return status(400, e.getMessage());
             }
@@ -54,6 +55,8 @@ public class QACategory extends Controller {
             return status(202);
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
         }
     }
 
@@ -62,8 +65,10 @@ public class QACategory extends Controller {
     public static Result updateCat() {
         JsonNode json = request().body().asJson();
         try {
-            return ok(Json.toJson(logics.template.QACategoryLogic.updateCat(json)));
+            return ok(Json.toJson(logics.template.QACategoryLogic.updateCat(Converter.getCategoryFromJson(json))));
         } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
             return status(400, e.getMessage());
         }
     }
