@@ -1,0 +1,49 @@
+<div ng-init="init()">
+  <h3 ng-show="catalogQa">Edit Quality Attribute Template (ID: {{catalogQa.id}})</h3>
+
+  <h3 ng-show="!catalogQa">Create new Quality Attribute Template</h3>
+
+  <h3 class="steps">Step 1: Select categories</h3>
+
+  <div class="form crud-form">
+    <h4>Categories</h4>
+    <label>Choose the categories for your quality attribute. </label>
+    <filter id="categories" callback="" hide-checkbox="false" categories="catList"></filter>
+
+    <h3 class="steps">Step 2: Write your Quality Attribute's text with variables</h3>
+
+    <div class="form-group row">
+      <div class="col-md-9">
+        <h4>Quality Attribute Information</h4>
+        <text-angular ng-model="qaText" id="qa-Text"></text-angular>
+      </div>
+      <div class="used-variables col-md-3">
+        <h4>Used Variables:</h4>
+        <span ng-hide="usedVariables.length">No variables used yet.</span>
+        <ul class="list-group">
+          <li ng-repeat="variable in usedVariables" class="list-group-item">
+            {{variable.type + "_" + variable.varIndex}}
+            <i class="fa fa-trash-o" ng-click="removeVariable(variable)"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="preview">
+      <h3 class="steps">Step 3: Verify your desired result:</h3>
+      <h4>Preview in new Catalog / Project mode: </h4>
+
+      <div ng-bind-html="previewHtml" class="qa-preview"></div>
+
+    </div>
+
+    <div class="row end-row">
+      <button ng-show="catalogQa" type="submit" class="btn btn-success btn-lg" ng-click="createOrUpdate(qaText)">
+        Update Quality Attribute Template
+      </button>
+      <button ng-show="!catalogQa" type="submit" class="btn btn-success btn-lg" ng-click="createOrUpdate(qaText)">
+        Create Quality Attribute Template
+      </button>
+    </div>
+  </div>
+</div>

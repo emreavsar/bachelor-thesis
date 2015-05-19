@@ -84,17 +84,25 @@ angular.module('qualitApp')
         }
       })
       .state('newQA', {
-        templateUrl: 'views/qa/new.html',
+        templateUrl: 'views/qa/createEdit.html',
         url: '/authenticated/qa/create',
         controller: 'QACtrl',
         data: {
           roles: ['curator', 'admin']
         }
       })
-      .state('showQA', {
-        templateUrl: 'views/qa/show.html',
-        url: '/authenticated/qa/show',
+      .state('editQA', {
+        templateUrl: 'views/qa/createEdit.html',
+        url: '/authenticated/qa/edit/:catalogQa',
         controller: 'QACtrl',
+        data: {
+          roles: ['analyst', 'admin']
+        }
+      })
+      .state('showQA', {
+        templateUrl: 'views/qa/list.html',
+        url: '/authenticated/qa/list',
+        controller: 'QaListCtrl',
         data: {
           roles: ['curator', 'admin']
         }

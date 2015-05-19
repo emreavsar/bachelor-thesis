@@ -23,6 +23,28 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.getCategories = function () {
+      return $http.get(this.apiPath + "cat")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.createQa = function (data) {
+      return $http.post(this.apiPath + "qa", data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        alerts.createError(status, "Project was not found.");
+      });
+    }
+
     apiService.getProject = function (projectId) {
       return $http.get(this.apiPath + "project/" + projectId)
         .success(function (data) {
@@ -89,6 +111,46 @@ angular.module('qualitApp')
 
     apiService.updateQaInstance = function (qaInstance) {
       return $http.put(this.apiPath + "project/qa", qaInstance)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.getStandardCatalogQas = function () {
+      return $http.get(this.apiPath + "qa/standardcatalog")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.deleteCatalogQa = function (catalogQaId) {
+      return $http.delete(this.apiPath + "catalog/qa/" + catalogQaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.getCatalogQa = function (catalogQaId) {
+      return $http.get(this.apiPath + "catalog/qa/" + catalogQaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.updateCatalogQa = function (data) {
+      return $http.put(this.apiPath + "catalog/qa", data)
         .success(function (data) {
           return data;
         })

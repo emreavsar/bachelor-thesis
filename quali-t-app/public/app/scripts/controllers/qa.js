@@ -8,11 +8,12 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, $http, alerts, taOptions, $sce, qaTextService) {
+  .controller('QACtrl', function ($scope, apiService, alerts, taOptions, $sce, qaTextService, $stateParams) {
     $scope.qaText = "";
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
     $scope.previewHtml = "";
+    $scope.catalogQa = null;
 
     // only for controlling of used variables
     $scope.usedVariables = new Array();
@@ -233,39 +234,69 @@ angular.module('qualitApp')
       return variables;
     }
 
-    $http.get("/api/cat")
-      .success(function (data) {
-        $scope.catList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
+    $scope.init = function () {
+      $scope.qaText = "";
+      $("#categories input[type='checkbox']").removeAttr("checked");
 
-    $scope.createQA = function (qaText) {
-      $http.post('/api/qa', {
-        qa: {
-          description: qaText,
-          categories: $scope.getSelectedCategories(),
-        },
-        catalogQa: {
-          variables: $scope.getVariables(qaText, false)
-        }
-      }, {headers: {'Content-Type': 'application/json'}}).
-        success(function (data, status, headers, config) {
-          $scope.qaText = "";
-          $("#categories input[type='checkbox']").removeAttr("checked");
-          var alert = alerts.createSuccess('QA created successfully');
-        }).
-        error(function (data, status, headers, config) {
-          var alert = alerts.createError(status, data);
+      if ($stateParams.catalogQa != undefined) {
+        $scope.catalogQa = $stateParams.catalogQa;
+      }
+
+      var promiseInit = apiService.getCategories();
+      promiseInit.then(
+        function (payload) {
+          $scope.catList = payload.data;
+
+          if ($stateParams.catalogQa != undefined) {
+            return apiService.getCatalogQa($stateParams.catalogQa);
+          }
+        })
+        .then(function (payload) {
+          $scope.catalogQa = payload.data;
+          $scope.qaText = $scope.catalogQa.qa.description;
+          $scope.taOptions.variables = $scope.catalogQa.vars;
         });
     }
 
-    $http.get('/api/qa')
-      .success(function (data) {
-        $scope.qaList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
+    $scope.createOrUpdate = function (qaText) {
+      var data = {
+        qa: {
+          description: qaText,
+          categories: $scope.getSelectedCategories(),
+        }
+      };
+
+      if ($stateParams.catalogQa != undefined) {
+        data.catalogQa = $scope.catalogQa;
+        data.qa.id = $scope.catalogQa.qa.id;
+        // TODO refactor standard catalog id into a configuration class
+        data.catalog = -6000;
+
+        delete data.catalogQa["qa"];
+        delete data.catalogQa["qaInstances"];
+        delete data.catalogQa["vars"];
+        // update variables
+        data.catalogQa.variables = $scope.getVariables(qaText, false);
+      } else {
+        data.catalogQa = {
+          variables: $scope.getVariables(qaText, false)
+        }
+      }
+
+      var promiseCreateOrUpdate;
+      if ($stateParams.catalogQa != undefined) {
+        promiseCreateOrUpdate = apiService.updateCatalogQa(data);
+      } else {
+        promiseCreateOrUpdate = apiService.createQa(data);
+      }
+      promiseCreateOrUpdate.then(
+        function (payload) {
+          $scope.init();
+          if ($stateParams.catalogQa != undefined) {
+            var alert = alerts.createSuccess('Quality Attribute Template updated successfully');
+          } else {
+            var alert = alerts.createSuccess('Quality Attribute Template created successfully');
+          }
+        });
+    }
   });
