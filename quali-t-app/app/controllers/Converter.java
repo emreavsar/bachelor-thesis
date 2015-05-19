@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import exceptions.EntityNotFoundException;
+import models.Interface.JIRAConnection;
 import models.project.Customer;
 import models.project.Project;
 import models.project.QualityProperty;
@@ -76,6 +77,9 @@ public class Converter {
         models.project.Project project = new models.project.Project();
         project.setName(json.findValue("name").asText());
         project.setJiraKey(json.findValue("jiraKey").asText());
+        JIRAConnection jiraConnection = new JIRAConnection();
+        jiraConnection.setId(json.findPath("jiraConnection").findPath("id").asLong());
+        project.setJiraConnection(jiraConnection);
         Customer projectCustomer = new Customer();
         projectCustomer.setId(json.findValue("customer").asLong());
         project.setProjectCustomer(projectCustomer);

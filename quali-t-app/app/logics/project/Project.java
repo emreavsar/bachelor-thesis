@@ -1,5 +1,6 @@
 package logics.project;
 
+import dao.interfaces.JIRAConnectionDAO;
 import dao.models.*;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
@@ -27,6 +28,7 @@ public class Project {
     static CatalogQADAO catalogQADAO = new CatalogQADAO();
     static QADAO qaDAO = new QADAO();
     static QAInstanceDAO qaInstanceDAO = new QAInstanceDAO();
+    static JIRAConnectionDAO jiraConnectionDAO = new JIRAConnectionDAO();
 
     /**
      * Creates and persists customer.
@@ -50,86 +52,14 @@ public class Project {
         return project;
     }
 
-    private static models.project.Project setInstanceQualityAttributeStatus(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
-        QualityPropertyStatus persistedQualityPropertyStatus;
-        List<models.project.QualityProperty> qualityProperties = qualityPropertyDAO.readAllById(qualityPropertyIdList);
-        for (Instance instance : project.getQualityAttributes()) {
-            for (QualityPropertyStatus qualityPropertyStatus : instance.getQualityPropertyStatus()) {
-                if (qualityProperties.contains(qualityPropertyDAO.readById(qualityPropertyStatus.getQp().getId()))) {
-                    persistedQualityPropertyStatus = qualityPropertyStatusDAO.readById(qualityPropertyStatus.getId());
-                    persistedQualityPropertyStatus.setStatus(qualityPropertyStatus.isStatus());
-                    qualityPropertyStatusDAO.update(persistedQualityPropertyStatus);
-                }
-            }
+    public static Instance cloneInstance(Long id) throws MissingParameterException, EntityNotFoundException {
+        if (id != null) {
+            Instance originalInstance = qaInstanceDAO.readById(id);
+            Instance newInstance = originalInstance.copyInstance();
+            return qaInstanceDAO.persist(newInstance);
+        } else {
+            throw new MissingParameterException("Please provide a valid ID!");
         }
-        return projectDAO.readById(project.getId());
-    }
-
-    private static models.project.Project setProjectQualityProperties(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
-        List<models.project.QualityProperty> qualityPropertiesToRemove = new ArrayList<>();
-        List<QualityPropertyStatus> qualityPropertyStatusesToRemove = new ArrayList<>();
-        List<models.project.QualityProperty> qualityPropertyList = qualityPropertyDAO.readAllById(qualityPropertyIdList);
-        models.project.Project persistedProject = projectDAO.readById(project.getId());
-        //find qualityproperties and qualitypropertystatuses to remove
-        for (models.project.QualityProperty persistedQualityProperty : persistedProject.getQualityProperties()) {
-            if (persistedQualityProperty != null && !qualityPropertyList.contains(persistedQualityProperty)) {
-                qualityPropertiesToRemove.add(persistedQualityProperty);
-                qualityPropertyStatusesToRemove.addAll(findQualityPropertyStatusesToRemove(persistedProject, persistedQualityProperty));
-            }
-        }
-        persistedProject = projectDAO.readById(project.getId());
-        //add qp to Project
-        for (models.project.QualityProperty qualityProperty : qualityPropertyList) {
-            if (!persistedProject.getQualityProperties().contains(qualityProperty)) {
-                persistedProject.addQualityProperty(qualityProperty);
-                projectDAO.update(persistedProject);
-                addQualityPropertyToInstances(persistedProject, qualityProperty);
-            }
-        }
-
-        //remove marked qualityproperties from project
-        persistedProject = projectDAO.readById(project.getId());
-        for (models.project.QualityProperty qualityProperty : qualityPropertiesToRemove) {
-            removeQualityPropertyFromProject(persistedProject, qualityProperty);
-        }
-        //remove marked qualityPropertyStatuses from instances
-        QualityPropertyStatus persistedQualityPropertyStatus;
-        for (QualityPropertyStatus qualityPropertyStatus : qualityPropertyStatusesToRemove) {
-            persistedQualityPropertyStatus = qualityPropertyStatus.prepareToRemove();
-            qualityPropertyStatusDAO.persist(persistedQualityPropertyStatus);
-            qualityPropertyStatusDAO.remove(persistedQualityPropertyStatus);
-        }
-        return projectDAO.readById(project.getId());
-    }
-
-    private static void addQualityPropertyToInstances(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
-        Instance persistedInstance;
-        for (Instance instance : project.getQualityAttributes()) {
-            persistedInstance = qaInstanceDAO.readById(instance.getId());
-            persistedInstance.addQualityProperty(qualityProperty);
-            qaInstanceDAO.persist(persistedInstance);
-        }
-    }
-
-    private static void removeQualityPropertyFromProject(models.project.Project persistedProject, QualityProperty qualityProperty) throws EntityNotFoundException {
-        QualityProperty persistedQualityProperty = qualityPropertyDAO.readById(qualityProperty.getId());
-        persistedQualityProperty.getUsedByProject().remove(persistedProject);
-        persistedProject.getQualityProperties().remove(persistedQualityProperty);
-        projectDAO.persist(persistedProject);
-    }
-
-    private static List<QualityPropertyStatus> findQualityPropertyStatusesToRemove(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
-        List<QualityPropertyStatus> qualityPropertyStatusToRemove = new ArrayList<>();
-        models.project.Project persistedProject = projectDAO.readById(project.getId());
-        for (Instance instance : persistedProject.getQualityAttributes()) {
-            for (QualityPropertyStatus qualityPropertyStatus : instance.getQualityPropertyStatus()) {
-                if (qualityPropertyStatus.getQp() != null && qualityProperty != null && qualityPropertyStatus.getQp().getId() == (qualityProperty.getId())) {
-                    QualityPropertyStatus persistedQualityPropertyStatus = qualityPropertyStatusDAO.readById(qualityPropertyStatus.getId());
-                    qualityPropertyStatusToRemove.add(persistedQualityPropertyStatus);
-                }
-            }
-        }
-        return qualityPropertyStatusToRemove;
     }
 
     public static models.project.Project createInstance(Instance updatedInstance) throws EntityNotFoundException {
@@ -151,12 +81,11 @@ public class Project {
     }
 
     public static models.project.Project updateProject(models.project.Project project, List<Long> qualityPropertyList) throws EntityNotFoundException {
-        models.project.Project persistedProject = projectDAO.readById(project.getId());
-        setProjectParameters(persistedProject);
-
+//        models.project.Project persistedProject = projectDAO.readById(project.getId());
+        projectDAO.update(setProjectParameters(project));
         setInstanceQualityAttributeStatus(project, qualityPropertyList);
-        setProjectQualityProperties(persistedProject, qualityPropertyList);
-        return projectDAO.readById(persistedProject.getId());
+        setProjectQualityProperties(project, qualityPropertyList);
+        return projectDAO.readById(project.getId());
     }
 
     public static Instance updateInstance(Instance updatedInstance) throws EntityNotFoundException, MissingParameterException {
@@ -204,6 +133,92 @@ public class Project {
         persistedProject.setName(updatedProject.getName());
         persistedProject.setJiraKey(updatedProject.getJiraKey());
         persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
+        if (updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
+            persistedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
+        } else {
+            persistedProject.setJiraConnection(null);
+        }
         return projectDAO.persist(persistedProject);
+    }
+
+    private static models.project.Project setProjectQualityProperties(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
+        List<models.project.QualityProperty> qualityPropertiesToRemove = new ArrayList<>();
+        List<QualityPropertyStatus> qualityPropertyStatusesToRemove = new ArrayList<>();
+        List<models.project.QualityProperty> qualityPropertyList = qualityPropertyDAO.readAllById(qualityPropertyIdList);
+        models.project.Project persistedProject = projectDAO.readById(project.getId());
+        //find qualityproperties and qualitypropertystatuses to remove
+        for (models.project.QualityProperty persistedQualityProperty : persistedProject.getQualityProperties()) {
+            if (persistedQualityProperty != null && !qualityPropertyList.contains(persistedQualityProperty)) {
+                qualityPropertiesToRemove.add(persistedQualityProperty);
+                qualityPropertyStatusesToRemove.addAll(findQualityPropertyStatusesToRemove(persistedProject, persistedQualityProperty));
+            }
+        }
+        //add qp to Project
+        for (models.project.QualityProperty qualityProperty : qualityPropertyList) {
+            if (!persistedProject.getQualityProperties().contains(qualityProperty)) {
+                persistedProject.addQualityProperty(qualityProperty);
+                projectDAO.update(persistedProject);
+                addQualityPropertyToInstances(persistedProject, qualityProperty);
+            }
+        }
+        //remove marked qualityproperties from project
+        persistedProject = projectDAO.readById(project.getId());
+        for (models.project.QualityProperty qualityProperty : qualityPropertiesToRemove) {
+            removeQualityPropertyFromProject(persistedProject, qualityProperty);
+        }
+        //remove marked qualityPropertyStatuses from instances
+        QualityPropertyStatus persistedQualityPropertyStatus;
+        for (QualityPropertyStatus qualityPropertyStatus : qualityPropertyStatusesToRemove) {
+            persistedQualityPropertyStatus = qualityPropertyStatus.prepareToRemove();
+            qualityPropertyStatusDAO.persist(persistedQualityPropertyStatus);
+            qualityPropertyStatusDAO.remove(persistedQualityPropertyStatus);
+        }
+        return projectDAO.readById(project.getId());
+    }
+
+    private static void addQualityPropertyToInstances(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
+        Instance persistedInstance;
+        for (Instance instance : project.getQualityAttributes()) {
+            persistedInstance = qaInstanceDAO.readById(instance.getId());
+            persistedInstance.addQualityProperty(qualityProperty);
+            qaInstanceDAO.persist(persistedInstance);
+        }
+    }
+
+    private static void removeQualityPropertyFromProject(models.project.Project persistedProject, QualityProperty qualityProperty) throws EntityNotFoundException {
+        QualityProperty persistedQualityProperty = qualityPropertyDAO.readById(qualityProperty.getId());
+        persistedQualityProperty.getUsedByProject().remove(persistedProject);
+        persistedProject.getQualityProperties().remove(persistedQualityProperty);
+        projectDAO.persist(persistedProject);
+    }
+
+    private static List<QualityPropertyStatus> findQualityPropertyStatusesToRemove(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
+        List<QualityPropertyStatus> qualityPropertyStatusToRemove = new ArrayList<>();
+        models.project.Project persistedProject = projectDAO.readById(project.getId());
+        for (Instance instance : persistedProject.getQualityAttributes()) {
+            for (QualityPropertyStatus qualityPropertyStatus : instance.getQualityPropertyStatus()) {
+                if (qualityPropertyStatus.getQp() != null && qualityProperty != null && qualityPropertyStatus.getQp().getId() == (qualityProperty.getId())) {
+                    QualityPropertyStatus persistedQualityPropertyStatus = qualityPropertyStatusDAO.readById(qualityPropertyStatus.getId());
+                    qualityPropertyStatusToRemove.add(persistedQualityPropertyStatus);
+                }
+            }
+        }
+        return qualityPropertyStatusToRemove;
+    }
+
+
+    private static models.project.Project setInstanceQualityAttributeStatus(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
+        QualityPropertyStatus persistedQualityPropertyStatus;
+        List<models.project.QualityProperty> qualityProperties = qualityPropertyDAO.readAllById(qualityPropertyIdList);
+        for (Instance instance : project.getQualityAttributes()) {
+            for (QualityPropertyStatus qualityPropertyStatus : instance.getQualityPropertyStatus()) {
+                if (qualityProperties.contains(qualityPropertyDAO.readById(qualityPropertyStatus.getQp().getId()))) {
+                    persistedQualityPropertyStatus = qualityPropertyStatusDAO.readById(qualityPropertyStatus.getId());
+                    persistedQualityPropertyStatus.setStatus(qualityPropertyStatus.isStatus());
+                    qualityPropertyStatusDAO.update(persistedQualityPropertyStatus);
+                }
+            }
+        }
+        return projectDAO.readById(project.getId());
     }
 }

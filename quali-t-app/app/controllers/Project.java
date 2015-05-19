@@ -112,4 +112,16 @@ public class Project extends Controller {
             return status(400, e.getMessage());
         }
     }
+
+    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Transactional
+    public static Result cloneInstance(Long id) {
+        try {
+            return ok(Json.toJson(logics.project.Project.cloneInstance(id)));
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return status(400, e.getMessage());
+        }
+    }
 }

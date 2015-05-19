@@ -54,4 +54,11 @@ public class Val extends AbstractEntity {
     public void setInstance(Instance instance) {
         this.instance = instance;
     }
+
+    public Val copyVal() {
+        Val value = new Val();
+        value.setValue(this.value);
+        value.setVarIndex(this.varIndex);
+        return value;
+    }
 }
