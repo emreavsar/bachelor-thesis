@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, apiService, alerts, taOptions, $sce, qaTextService, $stateParams) {
+  .controller('QACtrl', function ($scope, apiService, alerts, taOptions, $sce, qaTextService, $stateParams, $state) {
     $scope.qaText = "";
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
@@ -285,18 +285,19 @@ angular.module('qualitApp')
 
       var promiseCreateOrUpdate;
       if ($stateParams.catalogQa != undefined) {
-        promiseCreateOrUpdate = apiService.updateCatalogQa(data);
+        promiseCreateOrUpdate = apiService.updateQa(data);
       } else {
         promiseCreateOrUpdate = apiService.createQa(data);
       }
       promiseCreateOrUpdate.then(
         function (payload) {
-          $scope.init();
           if ($stateParams.catalogQa != undefined) {
             var alert = alerts.createSuccess('Quality Attribute Template updated successfully');
           } else {
             var alert = alerts.createSuccess('Quality Attribute Template created successfully');
           }
+          // go back to list of qas
+          $state.go("showQA");
         });
     }
   });

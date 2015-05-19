@@ -44,7 +44,7 @@ DELETE        /api/customer/:id                  controllers.Customer.deleteCust
 
 # Quality Attribute
 POST          /api/qa                            controllers.QualityAttribute.createQA()
-POST          /api/qa/:id                    controllers.QualityAttribute.cloneQA(id: Long)
+POST          /api/qa/clone/:id                    controllers.QualityAttribute.cloneQA(id: Long)
 GET           /api/qa                            controllers.QualityAttribute.getAllQAs()
 GET           /api/qa/catalog/:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
 GET           /api/qa/standardcatalog            controllers.QualityAttribute.getAllStandardCatalogQAs()

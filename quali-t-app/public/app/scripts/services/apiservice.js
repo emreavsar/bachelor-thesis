@@ -139,6 +139,16 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.cloneCatalogQa = function (catalogQaId) {
+      return $http.post(this.apiPath + "qa/clone/" + catalogQaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.getCatalogQa = function (catalogQaId) {
       return $http.get(this.apiPath + "catalog/qa/" + catalogQaId)
         .success(function (data) {
@@ -149,8 +159,8 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.updateCatalogQa = function (data) {
-      return $http.put(this.apiPath + "catalog/qa", data)
+    apiService.updateQa = function (data) {
+      return $http.put(this.apiPath + "qa", data)
         .success(function (data) {
           return data;
         })

@@ -22,6 +22,18 @@ angular.module('qualitApp')
         });
     }
 
+    $scope.cloneQA = function (qaId) {
+      var duplicatePromise = apiService.cloneCatalogQa(qaId);
+
+      duplicatePromise.then(
+        function (payload) {
+          return apiService.getStandardCatalogQas();
+        }).then(function (payload) {
+          $scope.qaList = payload.data;
+        });
+    }
+
+
     $scope.init = function () {
       var promiseInit = apiService.getStandardCatalogQas();
 
