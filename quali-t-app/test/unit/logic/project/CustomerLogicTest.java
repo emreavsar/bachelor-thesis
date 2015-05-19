@@ -7,6 +7,7 @@ import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import logics.project.Customer;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -15,6 +16,8 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
 
     private models.project.Customer customer;
 
+    @Override
+    @Before
     public void setUp() throws Exception {
         super.setUp();
         customer = new models.project.Customer("Name", "Address");
@@ -31,66 +34,41 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
         assertThat(newCustomer.getAddress()).isEqualTo("Address");
     }
 
-    @Test
-    public void testCreateCustomerEmptyName() throws EntityAlreadyExistsException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCustomerEmptyName() throws EntityAlreadyExistsException, MissingParameterException {
         // ARRANGE
         models.project.Customer newCustomer = new models.project.Customer("", "Address");
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.createCustomer(newCustomer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.createCustomer(newCustomer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testCreateCustomerNullName() throws EntityAlreadyExistsException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCustomerNullName() throws EntityAlreadyExistsException, MissingParameterException {
         // ARRANGE
         models.project.Customer newCustomer = new models.project.Customer(null, "Address");
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.createCustomer(newCustomer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.createCustomer(newCustomer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testCreateNullCustomer() throws EntityAlreadyExistsException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateNullCustomer() throws EntityAlreadyExistsException, MissingParameterException {
         // ARRANGE
         models.project.Customer newCustomer = null;
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.createCustomer(newCustomer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.createCustomer(newCustomer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testCreateCustomerAlreadyExists() throws MissingParameterException, EntityAlreadyExistsException {
+    @Test(expected = EntityAlreadyExistsException.class)
+    public void testCreateCustomerAlreadyExists() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         Customer.createCustomer(customer);
         // ACT
-        try {
-            Customer.createCustomer(customer);
-        } catch (EntityAlreadyExistsException e) {
-            thrown = true;
-        }
+        Customer.createCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
-
 
     //updateCustomer Tests
 
@@ -100,106 +78,69 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
         models.project.Customer originalCustomer = AbstractTestDataCreator.createCustomer("Name original", "Adress original");
         customer.setId(originalCustomer.getId());
         models.project.Customer updatedCustomer = Customer.updateCustomer(customer);
-
         // ASSERT
         assertThat(updatedCustomer.getId()).isEqualTo(originalCustomer.getId());
         assertThat(updatedCustomer.getName()).isEqualTo("Name");
         assertThat(updatedCustomer.getAddress()).isEqualTo("Address");
     }
 
-    @Test
-    public void testUpdateCustomerEmptyName() throws EntityAlreadyExistsException, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateCustomerEmptyName() throws EntityAlreadyExistsException, EntityNotFoundException, MissingParameterException {
         // ARRANGE
         models.project.Customer originalCustomer = AbstractTestDataCreator.createCustomer("Name original", "Adress original");
         customer.setId(originalCustomer.getId());
         customer.setName("");
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.updateCustomer(customer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.updateCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testUpdateCustomerNullName() throws EntityAlreadyExistsException, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateCustomerNullName() throws EntityAlreadyExistsException, EntityNotFoundException, MissingParameterException {
         // ARRANGE
         models.project.Customer originalCustomer = AbstractTestDataCreator.createCustomer("Name original", "Adress original");
         customer.setId(originalCustomer.getId());
         customer.setName(null);
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.updateCustomer(customer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.updateCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testUpdateNullCustomer() throws EntityAlreadyExistsException, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateNullCustomer() throws EntityAlreadyExistsException, EntityNotFoundException, MissingParameterException {
         // ARRANGE
         models.project.Customer customer = null;
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.updateCustomer(customer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.updateCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testUpdateCustomerAlreadyExists() throws MissingParameterException, EntityNotFoundException {
+    @Test(expected = EntityAlreadyExistsException.class)
+    public void testUpdateCustomerAlreadyExists() throws MissingParameterException, EntityNotFoundException, EntityAlreadyExistsException {
         // ARRANGE
         AbstractTestDataCreator.createCustomer("Name original", "Adress original");
         models.project.Customer customer = AbstractTestDataCreator.createCustomer("Name", "Adress");
         customer.setName("Name original");
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.updateCustomer(customer);
-        } catch (EntityAlreadyExistsException e) {
-            thrown = true;
-        }
+        Customer.updateCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testUpdateCustomerWithNullId() throws EntityAlreadyExistsException, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateCustomerWithNullId() throws EntityAlreadyExistsException, EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.updateCustomer(customer);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.updateCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testUpdateNonExistingCustomer() throws EntityAlreadyExistsException, MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testUpdateNonExistingCustomer() throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         customer.setId(Long.parseLong("999999"));
         // ACT
-        try {
-            Customer.updateCustomer(customer);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        Customer.updateCustomer(customer);
         // ASSERT
-        assertThat(thrown);
     }
 
     @Test
@@ -209,32 +150,20 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
         assertThat(Customer.getAllCustomers().contains(customerToDelet)).isFalse();
     }
 
-    @Test
-    public void testDeletedNullCustomer() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testDeletedNullCustomer() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.deleteCustomer(null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        Customer.deleteCustomer(null);
         // ASSERT
-        assertThat(thrown);
     }
 
-    @Test
-    public void testDeletedNonExistingCustomer() throws MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeletedNonExistingCustomer() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            Customer.deleteCustomer(Long.parseLong("999999"));
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        Customer.deleteCustomer(Long.parseLong("999999"));
         // ASSERT
-        assertThat(thrown);
     }
 
 }

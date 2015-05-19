@@ -37,19 +37,23 @@ public class Project {
      * @return Project
      */
 
-    public static models.project.Project createProject(models.project.Project project, List<Long> qualityAttrributeIdList, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
-        project.setId(null);
-        //create qa instances
-        CatalogQA catalogQA;
-        for (Long id : qualityAttrributeIdList) {
-            catalogQA = catalogQADAO.readById(id);
-            project.addQualityAttribute(new Instance(catalogQA.getQa().getDescription(), catalogQA));
+    public static models.project.Project createProject(models.project.Project project, List<Long> qualityAttributeIdList, List<Long> qualityPropertyIdList) throws EntityNotFoundException, MissingParameterException {
+        if (project != null && qualityAttributeIdList != null && qualityPropertyIdList != null && validate(project.getName())) {
+            project.setId(null);
+            //create qa instances
+            CatalogQA catalogQA;
+            for (Long id : qualityAttributeIdList) {
+                catalogQA = catalogQADAO.readById(id);
+                project.addQualityAttribute(new Instance(catalogQA.getQa().getDescription(), catalogQA));
+            }
+            // set project parameters
+            setProjectParameters(project);
+            setProjectQualityProperties(project, qualityPropertyIdList);
+            projectDAO.persist(project);
+            return project;
         }
-        // set project parameters
-        setProjectParameters(project);
-        setProjectQualityProperties(project, qualityPropertyIdList);
-        projectDAO.persist(project);
-        return project;
+
+        throw new MissingParameterException("Please provide all required Parameters!");
     }
 
     public static Instance cloneInstance(Long id) throws MissingParameterException, EntityNotFoundException {
@@ -57,9 +61,8 @@ public class Project {
             Instance originalInstance = qaInstanceDAO.readById(id);
             Instance newInstance = originalInstance.copyInstance();
             return qaInstanceDAO.persist(newInstance);
-        } else {
-            throw new MissingParameterException("Please provide a valid ID!");
         }
+        throw new MissingParameterException("Please provide a valid ID!");
     }
 
     public static models.project.Project createInstance(Instance updatedInstance) throws EntityNotFoundException {
@@ -133,7 +136,7 @@ public class Project {
         persistedProject.setName(updatedProject.getName());
         persistedProject.setJiraKey(updatedProject.getJiraKey());
         persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
-        if (updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
+        if (updatedProject.getJiraConnection() != null && updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
             persistedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
         } else {
             persistedProject.setJiraConnection(null);

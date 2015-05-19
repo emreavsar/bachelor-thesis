@@ -31,6 +31,8 @@ public class Project extends Controller {
             return ok(Json.toJson(logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList)));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
+        } catch (MissingParameterException e) {
+            return status(400, e.getMessage());
         }
     }
 

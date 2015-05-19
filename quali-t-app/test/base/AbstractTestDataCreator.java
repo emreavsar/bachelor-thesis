@@ -6,7 +6,10 @@ import exceptions.MissingParameterException;
 import logics.authentication.Authenticator;
 import models.authentication.User;
 import models.project.Customer;
+import models.project.Project;
 import models.project.QualityProperty;
+import models.project.nfritem.Instance;
+import models.project.nfritem.Val;
 import models.template.*;
 import play.db.jpa.JPA;
 
@@ -96,4 +99,23 @@ public abstract class AbstractTestDataCreator {
         return catalogQA;
     }
 
+    public static Instance createInstance(String description, Project project, CatalogQA catalogQA) {
+        Instance instance = new Instance(description);
+        persistAndFlush(instance);
+        instance.setProject(project);
+        instance.setTemplate(catalogQA);
+        persistAndFlush(instance);
+        return instance;
+    }
+
+    public static Instance addValueToInstance(Instance instance, Val value) {
+        instance.addValue(value);
+        persistAndFlush(instance);
+        return instance;
+    }
+
+    public static Project createProject(Project project) {
+        persistAndFlush(project);
+        return project;
+    }
 }

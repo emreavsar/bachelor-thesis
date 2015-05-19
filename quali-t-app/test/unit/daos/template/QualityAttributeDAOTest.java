@@ -34,20 +34,20 @@ public class QualityAttributeDAOTest extends AbstractDatabaseTest {
 
     @Test
     public void findAllByIdSuccessful() throws EntityNotFoundException {
+        // ARRANGE
+        // ACT
         List<QA> qas = new QualityAttributeDAO().findAllById(qaIds);
+        // ASSERT
         assertThat(qas).containsExactly(qa1, qa2);
     }
 
-    @Test
-    public void findByCatalogTestInvalidCatalog() {
-        boolean thrown = false;
+    @Test(expected = EntityNotFoundException.class)
+    public void findByCatalogTestInvalidCatalog() throws EntityNotFoundException {
+        // ARRANGE
         qaIds.add((long) 10000);
-        try {
-            List<QA> qas = new QualityAttributeDAO().findAllById(qaIds);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
-        assertThat(thrown);
+        // ACT
+        List<QA> qas = new QualityAttributeDAO().findAllById(qaIds);
+        // ASSERT
     }
 
 }

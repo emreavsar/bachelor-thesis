@@ -9,6 +9,7 @@ import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     private CatalogQADAO catalogQADAO;
     private List<QACategory> qaCategories;
 
+    @Override
+    @Before
     public void setUp() throws Exception {
         super.setUp();
         categoryIds = new ArrayList<>();
@@ -69,63 +72,39 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         assertThat(newQA.getId()).isNotNull();
     }
 
-    @Test
-    public void testCreateEmptyQA() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateEmptyQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         models.template.QA qa = new QA("");
-        boolean thrown = false;
         // ACT
-        try {
             logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateNullQA() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.createQA(null, categoryIds, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.createQA(null, categoryIds, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateQANullCategoryIdsList() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateQANullCategoryIdsList() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         models.template.QA qa = new QA("Test QA");
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.createQA(qa, null, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.createQA(qa, null, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateQANullqaVarsList() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateQANullqaVarsList() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         models.template.QA qa = new QA("Test QA");
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.createQA(qa, categoryIds, null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.createQA(qa, categoryIds, null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -162,49 +141,31 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         }
     }
 
-    @Test
-    public void testCloneCatalogQANotFromStandardCatalog() throws EntityNotFoundException, MissingParameterException {
+    @Test(expected = EntityNotCreatedException.class)
+    public void testCloneCatalogQANotFromStandardCatalog() throws EntityNotFoundException, MissingParameterException, EntityNotCreatedException {
         // ARRANGE
         List<QA> qaList = new ArrayList<>();
         Catalog catalog = AbstractTestDataCreator.createCatalog("catalog", "description", "icon", qaList);
         CatalogQA catalogQA = AbstractTestDataCreator.createCatalogQA(qa, catalog);
-        boolean thrown = false;
         // ACT
-        try {
             logics.template.QualityAttribute.cloneQA(catalogQA.getId());
-        } catch (EntityNotCreatedException e) {
-            thrown = true;
-        }
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCloneNonExistingCatalogQACatalogQA() throws EntityNotCreatedException, MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testCloneNonExistingCatalogQACatalogQA() throws EntityNotCreatedException, MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.cloneQA(new Long(9999));
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.cloneQA(new Long(9999));
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCloneNullCatalogQA() throws EntityNotCreatedException, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCloneNullCatalogQA() throws EntityNotCreatedException, EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.cloneQA(null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.cloneQA(null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -219,32 +180,20 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         }
     }
 
-    @Test
-    public void testDeleteNonExistingQA() throws MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteNonExistingQA() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.deleteQA(new Long(9999));
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.deleteQA(new Long(9999));
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testDeleteNullQA() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testDeleteNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.deleteQA(null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.deleteQA(null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -261,36 +210,24 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         assertThat(updatedQA.isDeleted()).isEqualTo(qaToUpdate.isDeleted());
     }
 
-    @Test
-    public void testUpdateQANullCategories() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateQANullCategories() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(qaToUpdate, null, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(qaToUpdate, null, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
+    @Test(expected = EntityNotFoundException.class)
     public void testUpdateQANonExistingCategories() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
         categoryIds.clear();
         categoryIds.add(new Long(99999));
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -322,36 +259,24 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         }
     }
 
-    @Test
+    @Test(expected = EntityNotFoundException.class)
     public void testUpdateInvalidQAVars() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
         List<QAVar> updatedQaVars = qaVars;
         updatedQaVars.add(new QAVar(99));
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, updatedQaVars);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, updatedQaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateNullQAVars() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateNullQAVars() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -379,52 +304,34 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         assertThat(originalUsedInCatalogSize).isEqualTo(0);
     }
 
-    @Test
+    @Test(expected = MissingParameterException.class)
     public void testUpdateEmptyQADescription() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         QA qaToUpdate = new QA("");
         qaToUpdate.setId(qa.getId());
         qaToUpdate.setVersionNumber(qa.getVersionNumber());
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
+    @Test(expected = MissingParameterException.class)
     public void testUpdateNullQADescription() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         QA qaToUpdate = new QA();
         qaToUpdate.setId(qa.getId());
         qaToUpdate.setVersionNumber(qa.getVersionNumber());
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
+    @Test(expected = MissingParameterException.class)
     public void testUpdateNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.QualityAttribute.updateQA(null, categoryIds, qaVars);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.QualityAttribute.updateQA(null, categoryIds, qaVars);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
 }

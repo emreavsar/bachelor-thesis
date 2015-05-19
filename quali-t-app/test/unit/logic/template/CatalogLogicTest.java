@@ -11,6 +11,7 @@ import exceptions.MissingParameterException;
 import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     private Catalog persistedCatalog;
     private CatalogQADAO catalogQADAO;
 
+    @Override
+    @Before
     public void setUp() throws Exception {
         super.setUp();
         catalogQADAO = new CatalogQADAO();
@@ -60,33 +63,22 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         }
     }
 
-    @Test
-    public void testCreateCatalogWihoutName() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogWihoutName() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         catalog = new Catalog("", "description", "image");
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.createCatalog(catalog, catalogQAList);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.createCatalog(catalog, catalogQAList);
         // ASSERT
-        assertThat(thrown).isTrue();
+
     }
 
-    @Test
-    public void testCreateNullCatalog() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateNullCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.createCatalog(null, catalogQAList);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.createCatalog(null, catalogQAList);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -115,52 +107,34 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(newCatalog.getTemplates().size()).isEqualTo(0);
     }
 
-    @Test
-    public void testCreateCatalogWithInvalidCatalogQA() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogWithInvalidCatalogQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         catalogQAList.clear();
         catalogQAList.add(new CatalogQA());
         // ACT
-        try {
-            logics.template.Catalog.createCatalog(catalog, catalogQAList);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.createCatalog(catalog, catalogQAList);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateCatalogWithInvalidQAId() throws MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testCreateCatalogWithInvalidQAId() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         persistedQa.setId(new Long(9999));
         catalogQAList.get(0).setQa(persistedQa);
         // ACT
-        try {
-            logics.template.Catalog.createCatalog(catalog, catalogQAList);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.createCatalog(catalog, catalogQAList);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateCatalogWithNullQA() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogWithNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         persistedQa.setId(new Long(9999));
         catalogQAList.get(0).setQa(null);
         // ACT
-        try {
-            logics.template.Catalog.createCatalog(catalog, catalogQAList);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.createCatalog(catalog, catalogQAList);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -177,94 +151,59 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(newCatalogQA.getId()).isNotNull();
     }
 
-    @Test
-    public void testCreateCatalogQAWithNullCatalog() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogQAWithNullCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateCatalogQAWithInvalidCatalogId() throws MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testCreateCatalogQAWithInvalidCatalogId() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         catalog.setId(new Long(9999));
         catalogQA.setCatalog(catalog);
         // ACT
-        try {
-            CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
         // ASSERT
-        assertThat(thrown).isTrue();
+
     }
 
-    @Test
-    public void testCreateCatalogQAWithoutCatalogId() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogQAWithoutCatalogId() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         catalogQA.setCatalog(catalog);
         // ACT
-        try {
-            CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateCatalogQAWithNullQA() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogQAWithNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         catalogQA.setQa(null);
         // ACT
-        try {
-            CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateCatalogQAWithInvalidQAId() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogQAWithInvalidQAId() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         catalogQA.getQa().setId(new Long(9999));
         // ACT
-        try {
-            CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testCreateCatalogQAWithoutQAId() throws EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testCreateCatalogQAWithoutQAId() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         catalogQA.getQa().setId(null);
         // ACT
-        try {
-            CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -281,77 +220,47 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(updatedCatalog.getId()).isEqualTo(catalogToUpdate.getId());
     }
 
-    @Test
-    public void testUpdateStandardCatalog() throws EntityNotFoundException, MissingParameterException {
+    @Test(expected = EntityCanNotBeUpdated.class)
+    public void testUpdateStandardCatalog() throws EntityNotFoundException, MissingParameterException, EntityCanNotBeUpdated {
         // ARRANGE
-        boolean thrown = false;
         updatedCatalog.setId(new Long(-6000));
         // ACT
-        try {
-            logics.template.Catalog.updateCatalog(updatedCatalog);
-        } catch (EntityCanNotBeUpdated e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalog(updatedCatalog);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateNullCatalog() throws EntityNotFoundException, EntityCanNotBeUpdated {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateNullCatalog() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.updateCatalog(null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalog(null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateEmptyCatalogName() throws EntityNotFoundException, EntityCanNotBeUpdated {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateEmptyCatalogName() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
         updatedCatalog.setName("");
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.updateCatalog(updatedCatalog);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalog(updatedCatalog);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateNullCatalogId() throws EntityNotFoundException, EntityCanNotBeUpdated {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateNullCatalogId() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.updateCatalog(updatedCatalog);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalog(updatedCatalog);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateInvalidCatalogId() throws MissingParameterException, EntityCanNotBeUpdated {
+    @Test(expected = EntityNotFoundException.class)
+    public void testUpdateInvalidCatalogId() throws MissingParameterException, EntityCanNotBeUpdated, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         updatedCatalog.setId(new Long(9999));
         // ACT
-        try {
-            logics.template.Catalog.updateCatalog(updatedCatalog);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalog(updatedCatalog);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -379,68 +288,44 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(catalogQAToUpdate.isDeleted()).isTrue();
     }
 
-    @Test
-    public void testUpdateCatalogQAInvalidCatalogId() throws MissingParameterException, EntityCanNotBeUpdated {
+    @Test(expected = EntityNotFoundException.class)
+    public void testUpdateCatalogQAInvalidCatalogId() throws MissingParameterException, EntityCanNotBeUpdated, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getCatalog().setId(new Long(9999));
         // ACT
-        try {
-            logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateCatalogQANullCatalogId() throws EntityNotFoundException, EntityCanNotBeUpdated {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateCatalogQANullCatalogId() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getCatalog().setId(null);
         // ACT
-        try {
-            logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateCatalogQAInvalidQaId() throws MissingParameterException, EntityCanNotBeUpdated {
+    @Test(expected = EntityNotFoundException.class)
+    public void testUpdateCatalogQAInvalidQaId() throws MissingParameterException, EntityCanNotBeUpdated, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getQa().setId(new Long(9999));
         // ACT
-        try {
-            logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testUpdateCatalogQANullQaId() throws EntityNotFoundException, EntityCanNotBeUpdated {
+    @Test(expected = MissingParameterException.class)
+    public void testUpdateCatalogQANullQaId() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getQa().setId(null);
         // ACT
-        try {
-            logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -461,35 +346,22 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(thrown).isTrue();
         assertThat(deletedCatalogQA.isDeleted()).isTrue();
         assertThat(deletedCatalogQA.getCatalog()).isNull();
-        ;
     }
 
-    @Test
-    public void testDeleteNullCatalogId() throws EntityCanNotBeDeleted, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testDeleteNullCatalogId() throws EntityCanNotBeDeleted, EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.deleteCatalog(null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.deleteCatalog(null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testDeleteInvalidCatalogId() throws EntityCanNotBeDeleted, MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteInvalidCatalogId() throws EntityCanNotBeDeleted, MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.deleteCatalog(new Long(9999));
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.deleteCatalog(new Long(9999));
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
     @Test
@@ -504,31 +376,19 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(deletedCatalogQA.getCatalog()).isNull();
     }
 
-    @Test
-    public void testDeleteInvalidCatalogQAId() throws EntityCanNotBeDeleted, MissingParameterException {
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteInvalidCatalogQAId() throws EntityCanNotBeDeleted, MissingParameterException, EntityNotFoundException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.deleteCatalogQA(new Long(9999));
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.deleteCatalogQA(new Long(9999));
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 
-    @Test
-    public void testDeleteNullCatalogQAId() throws EntityCanNotBeDeleted, EntityNotFoundException {
+    @Test(expected = MissingParameterException.class)
+    public void testDeleteNullCatalogQAId() throws EntityCanNotBeDeleted, EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        boolean thrown = false;
         // ACT
-        try {
-            logics.template.Catalog.deleteCatalogQA(null);
-        } catch (MissingParameterException e) {
-            thrown = true;
-        }
+        logics.template.Catalog.deleteCatalogQA(null);
         // ASSERT
-        assertThat(thrown).isTrue();
     }
 }
