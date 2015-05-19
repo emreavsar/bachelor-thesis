@@ -18,7 +18,6 @@ angular.module('qualitApp')
     $scope.qualityPropertiesList = new Array();
     $scope.qualityAttributesToUpdate = new Array();
     $scope.jiraConnections = new Array();
-    $scope.selectedJiraConnection = {};
     $scope.isProjectFavorite = false;
     $scope.exportRaw = false;
     $scope.tooltipsSave = "Saves the project and shows warnings (statistics & fuzzyness) if there are any.";
@@ -98,6 +97,7 @@ angular.module('qualitApp')
         id: $scope.project.id,
         name: $scope.project.name,
         jiraKey: $scope.project.jiraKey,
+        jiraConnection: $scope.project.jiraConnection,
         customer: $scope.selectedCustomer.id,
         qualityProperties: $scope.selectedQualityProperties,
         qualityAttributes: $scope.getQAToUpdate()

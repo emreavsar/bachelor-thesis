@@ -170,7 +170,6 @@ angular.module('qualitApp')
     }
 
     apiService.getJiraInstances = function () {
-
       return $http.get(this.apiPath + "jiraconnection")
         .success(function (data) {
           return data;
@@ -178,7 +177,33 @@ angular.module('qualitApp')
         .error(function (data, status) {
           alerts.createError(status, data);
         });
+    }
 
+    apiService.getCatalogs = function () {
+      return $http.get(this.apiPath + "catalog")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+    apiService.getQAsOfCatalog = function (catalogId) {
+      return $http.get(this.apiPath + "qa/catalog/" + catalogId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+    apiService.createProject = function (project) {
+      return $http.post(this.apiPath + "project", project)
+        .success(function (data) {
+          return data;
+        }).error(function (data, status) {
+          alerts.createError(status, "Error at creating project.");
+        });
     }
 
     return apiService;

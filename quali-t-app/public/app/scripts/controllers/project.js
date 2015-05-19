@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('ProjectCtrl', function ($scope, $http, alerts, $state) {
+  .controller('ProjectCtrl', function ($scope, alerts, $state, apiService) {
     $scope.currentStep = 0;
     $scope.model = "Project";
     $scope.filteredCatalogQas = new Array();
@@ -17,7 +17,7 @@ angular.module('qualitApp')
     $scope.selectionAdditional = new Array();
     $scope.newQaInEdit = false;
     $scope.name = "";
-    $scope.jiraKey="";
+    $scope.jiraKey = "";
     $scope.customer = "";
     $scope.qpList = new Array();
     $scope.catalog = "";
@@ -25,6 +25,7 @@ angular.module('qualitApp')
     $scope.selectedCatalog = "";
     $scope.currentCategoriesFilter = new Array();
     $scope.selectedQualityProperties = new Array();
+    $scope.selectedJiraConnection = {};
     $scope.selectedCustomer = {};
 
     // qa's which are created on the fly
@@ -109,76 +110,33 @@ angular.module('qualitApp')
         selectedAdditionalQas.push(qa);
       }
 
-
-      $http.post('/api/project', {
+      var promise = apiService.createProject({
         name: $scope.name,
         jiraKey: $scope.jiraKey,
+        jiraConnection: $scope.selectedJiraConnection,
         customer: $scope.selectedCustomer.id,
         qualityProperties: $scope.selectedQualityProperties,
         qualityAttributes: selectedCatalogQAs,
         additionalQualityAttributes: selectedAdditionalQas
-      }).
-        success(function (data, status, headers, config) {
-          alerts.createSuccess("Your Project was created successfully.");
-          $state.go('editProject', {
-            projectId: data.id
-          });
-        }).
-        error(function (data, status, headers, config) {
-          alerts.createError(status, data);
+      });
+      promise.then(function (payload) {
+        alerts.createSuccess("Your Project was created successfully.");
+        $state.go('editProject', {
+          projectId: payload.data.id
         });
+      });
     }
 
     $scope.loadQAs = function (catalog, selectedCatalog) {
       if (selectedCatalog != catalog) {
         $scope.catalog = catalog;
         $scope.selectedCatalog = catalog;
-        $http.get('/api/qa/catalog/' + catalog.id)
-          .success(function (data) {
-            $scope.catalogQas = data;
-
-            //_.forEach(data, function (value, key) {
-            //  $scope.catalogQas.push(value);
-            //$scope.variables[value.qa.id] = value.vars;
-            //});
-          })
-          .error(function (data, status) {
-            alerts.createError(status, data);
-          });
+        var promise = apiService.getQAsOfCatalog(catalog.id);
+        promise.then(function (payload) {
+          $scope.catalogQas = payload.data;
+        });
       }
     }
-
-    $http.get('/api/qp')
-      .success(function (data) {
-        $scope.qpList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
-
-    $http.get('/api/customer')
-      .success(function (data) {
-        $scope.customerList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
-
-    $http.get('/api/catalog')
-      .success(function (data) {
-        $scope.catalogList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
-
-    $http.get('/api/cat')
-      .success(function (data) {
-        $scope.catList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
 
     $scope.filter = function (clickedElement, isRoot) {
 
@@ -262,5 +220,30 @@ angular.module('qualitApp')
       } else {
         fromSelectionArray.push(selectedObject);
       }
+    }
+
+    $scope.init = function () {
+      var promiseInit = apiService.getQualityProperties();
+
+      promiseInit.then(
+        function (payload) {
+          $scope.qpList = payload.data;
+          return apiService.getCustomers();
+        }).then(
+        function (payload) {
+          $scope.customerList = payload.data;
+          return apiService.getCatalogs();
+        }).then(
+        function (payload) {
+          $scope.catalogList = payload.data;
+          return apiService.getCategories();
+        }).then(
+        function (payload) {
+          $scope.catList = payload.data;
+          return apiService.getJiraInstances();
+        }).then(
+        function (payload) {
+          $scope.jiraInstances = payload.data;
+        });
     }
   });
