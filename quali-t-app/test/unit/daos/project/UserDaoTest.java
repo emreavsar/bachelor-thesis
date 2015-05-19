@@ -11,10 +11,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class UserDaoTest extends AbstractDatabaseTest {
 
-	@Test
-	public void createUserTest() throws EntityAlreadyExistsException {
-		AbstractTestDataCreator.createUser("Hans", "1234");
-		User user = new UserDao().findByUsername("Hans");
-		assertThat(user.getName()).isEqualTo("Hans");
-	}
+    @Test
+    public void createUserTest() throws EntityAlreadyExistsException {
+        AbstractTestDataCreator.createUser("Hans", "1234");
+        User user = new UserDao().findByUsername("Hans");
+        assertThat(user.getName()).isEqualTo("Hans");
+    }
 }

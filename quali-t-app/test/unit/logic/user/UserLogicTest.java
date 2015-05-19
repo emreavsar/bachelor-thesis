@@ -1,6 +1,5 @@
 package unit.logic.user;
 
-
 import base.AbstractDatabaseTest;
 import base.AbstractTestDataCreator;
 import com.fasterxml.jackson.databind.JsonNode;

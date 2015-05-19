@@ -1,6 +1,7 @@
 package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import com.google.inject.Inject;
 import dao.models.UserDao;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
@@ -21,8 +22,11 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Authentication extends Controller {
+    @Inject
+    private Authenticator authenticator;
+
     @Transactional
-    public static Result login() {
+    public Result login() {
         Logger.info("login called");
         DynamicForm requestData = Form.form().bindFromRequest();
         String username = requestData.get("username");
@@ -31,7 +35,7 @@ public class Authentication extends Controller {
 
         Token t = null;
         try {
-            t = Authenticator.authenticate(username, password, token);
+            t = authenticator.authenticate(username, password, token);
             session("username", t.getUser().getName());
             session("userid", String.valueOf(t.getUser().getId()));
             return ok(Json.toJson(t));
@@ -46,7 +50,7 @@ public class Authentication extends Controller {
     }
 
     @Transactional
-    public static Result register() {
+    public Result register() {
         DynamicForm requestData = Form.form().bindFromRequest();
         String username = requestData.get("username");
         String password = requestData.get("password");
@@ -54,7 +58,7 @@ public class Authentication extends Controller {
         ArrayList<Role> roles = new ArrayList<>();
         String message = null;
         try {
-            User registeredUser = Authenticator.registerUser(username, password);
+            User registeredUser = authenticator.registerUser(username, password);
             return ok(Json.toJson(registeredUser));
         } catch (EntityAlreadyExistsException e) {
             return notFound(e.getMessage());
@@ -63,7 +67,7 @@ public class Authentication extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result logout() {
+    public Result logout() {
         Logger.info("logout called");
 
         DynamicForm requestData = Form.form().bindFromRequest();
@@ -71,7 +75,7 @@ public class Authentication extends Controller {
         String token = requestData.get("token");
 
         try {
-            Authenticator.invalidateUserSession(username, token);
+            authenticator.invalidateUserSession(username, token);
             session().remove("user");
             return ok();
         } catch (EntityNotFoundException e) {
@@ -81,7 +85,7 @@ public class Authentication extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result changePassword() {
+    public Result changePassword() {
         Logger.info("changePassword called");
 
         DynamicForm requestData = Form.form().bindFromRequest();
@@ -91,14 +95,15 @@ public class Authentication extends Controller {
         String newPasswordRepeated = requestData.get("newPasswordRepeated");
 
 
+        // TODO refactor to Authenticator.java or get user better out of the session!
         UserDao userDao = new UserDao();
         User user = userDao.findByUsername(username);
 
         try {
-            if (!Authenticator.checkPassword(user, currentPassword)) {
+            if (!authenticator.checkPassword(user, currentPassword)) {
                 return status(400, "User and password do not match");
             }
-            Authenticator.changePassword(username, newPassword, newPasswordRepeated);
+            authenticator.changePassword(username, newPassword, newPasswordRepeated);
             return ok();
         } catch (PasswordsNotMatchException e) {
             // TODO emre: multiple catch with same body can be unified maybe?

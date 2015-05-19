@@ -77,7 +77,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         models.template.QA qa = new QA("");
         // ACT
-            logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars);
+        logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars);
         // ASSERT
     }
 
@@ -148,7 +148,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         Catalog catalog = AbstractTestDataCreator.createCatalog("catalog", "description", "icon", qaList);
         CatalogQA catalogQA = AbstractTestDataCreator.createCatalogQA(qa, catalog);
         // ACT
-            logics.template.QualityAttribute.cloneQA(catalogQA.getId());
+        logics.template.QualityAttribute.cloneQA(catalogQA.getId());
         // ASSERT
     }
 

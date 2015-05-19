@@ -18,10 +18,8 @@ libraryDependencies ++= Seq(
   "org.jadira.usertype"       %   "usertype.core"           % "3.2.0.GA",
   "commons-lang"              %   "commons-lang"            % "2.6",
   "be.objectify"              %   "deadbolt-java_2.11"      % "2.3.3",
-  "com.google.inject" % "guice" % "4.0-beta",
-  "org.jsoup" % "jsoup" % "1.8.2"
-//  "org.springframework"       %   "spring-context"          % "4.1.6.RELEASE",
-//  "org.springframework"       %   "spring-tx"               % "4.1.6.RELEASE"
+  "com.google.inject"         %   "guice"                   % "4.0-beta",
+  "org.jsoup"                 %   "jsoup"                   % "1.8.2"
 )
 
 // HEROKU sbt plugin

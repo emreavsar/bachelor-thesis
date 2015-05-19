@@ -15,18 +15,18 @@ GET           /app/*file                         controllers.ConfigurableAssets.
 GET           /api/get/nfr/first                 controllers.Application.getFirstQA()
 
 # AUTHENTICATION
-POST          /api/auth/login                    controllers.Authentication.login()
-POST          /api/auth/logout                   controllers.Authentication.logout()
-POST          /api/auth/register                 controllers.Authentication.register()
-POST          /api/auth/changePw                 controllers.Authentication.changePassword()
+POST          /api/auth/login                    @controllers.Authentication.login()
+POST          /api/auth/logout                   @controllers.Authentication.logout()
+POST          /api/auth/register                 @controllers.Authentication.register()
+POST          /api/auth/changePw                 @controllers.Authentication.changePassword()
 
 # USER
-GET           /api/mytasks/                      controllers.Misc.getTasksOfCurrentUser()
-POST          /api/mytasks/toggle/               controllers.Misc.toggleStateOfTask()
+GET           /api/mytasks/                      @controllers.Misc.getTasksOfCurrentUser()
+POST          /api/mytasks/toggle/               @controllers.Misc.toggleStateOfTask()
 
 # Favorites
-GET           /api/myfavorites/                  controllers.Misc.getFavoritesOfCurrentUser()
-POST          /api/myfavorites                   controllers.Misc.updateFavorite()
+GET           /api/myfavorites/                  @controllers.Misc.getFavoritesOfCurrentUser()
+POST          /api/myfavorites                   @controllers.Misc.updateFavorite()
 
 
 # Search
@@ -37,10 +37,10 @@ GET           /api/search/:searchArgument        controllers.Search.search(searc
 GET           /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
 
 # Customer
-POST          /api/customer                      controllers.Customer.createCustomer()
-GET           /api/customer                      controllers.Customer.getAll()
-PUT           /api/customer                      controllers.Customer.updateCustomer()
-DELETE        /api/customer/:id                  controllers.Customer.deleteCustomer(id: Long)
+POST          /api/customer                      @controllers.Customer.createCustomer()
+GET           /api/customer                      @controllers.Customer.getAll()
+PUT           /api/customer                      @controllers.Customer.updateCustomer()
+DELETE        /api/customer/:id                  @controllers.Customer.deleteCustomer(id: Long)
 
 # Quality Attribute
 POST          /api/qa                            controllers.QualityAttribute.createQA()

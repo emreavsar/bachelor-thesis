@@ -1,6 +1,7 @@
 package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import com.google.inject.Inject;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import logics.user.Task;
@@ -19,10 +20,12 @@ import java.util.Set;
 
 
 public class Misc extends Controller {
+    @Inject
+    private Authenticator authenticator;
 
     @SubjectPresent
     @Transactional
-    public static Result getTasksOfCurrentUser() {
+    public Result getTasksOfCurrentUser() {
         Logger.info("getTasksOfCurrentUser called");
         try {
             long userid = Long.parseLong(session().get("userid"));
@@ -35,11 +38,11 @@ public class Misc extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result getFavoritesOfCurrentUser() {
+    public Result getFavoritesOfCurrentUser() {
         Logger.info("getFavoritesOfCurrentUser called");
         try {
             long userid = Long.parseLong(session().get("userid"));
-            Set<Project> favorites = Authenticator.getUser(userid).getFavorites();
+            Set<Project> favorites = authenticator.getUser(userid).getFavorites();
             return ok(Json.toJson(favorites));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
@@ -48,7 +51,7 @@ public class Misc extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result toggleStateOfTask() {
+    public Result toggleStateOfTask() {
         Logger.info("toggleStateOfTask called");
 
         DynamicForm requestData = Form.form().bindFromRequest();
@@ -64,7 +67,7 @@ public class Misc extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result updateFavorite() {
+    public Result updateFavorite() {
         Logger.info("updateFavorite called");
         try {
             DynamicForm requestData = Form.form().bindFromRequest();
@@ -77,12 +80,11 @@ public class Misc extends Controller {
             User u;
             // add favorite
             if (isFavorite) {
-                u = Authenticator.getUser(userid).addToFavorites(projectToFavorite);
+                u = authenticator.getUser(userid).addToFavorites(projectToFavorite);
+            } else { // remove favorite
+                u = authenticator.getUser(userid).removeFromFavorites(projectToFavorite);
             }
-            else { // remove favorite
-                u = Authenticator.getUser(userid).removeFromFavorites(projectToFavorite);
-            }
-            Authenticator.update(u);
+            authenticator.update(u);
 
             return ok(Json.toJson(u));
         } catch (EntityNotFoundException e) {

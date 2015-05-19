@@ -20,7 +20,6 @@ import java.util.List;
  * Credits: EEPPI Project
  */
 public abstract class AbstractTestDataCreator {
-
     private static void persistAndFlushInTransaction(Object entity) {
         JPA.withTransaction(() -> persistAndFlush(entity));
     }
@@ -38,7 +37,7 @@ public abstract class AbstractTestDataCreator {
     }
 
     public static User createUser(String name, String password) throws EntityAlreadyExistsException {
-        return Authenticator.registerUser(name, password);
+        return TestDependencyUtil.createInjector().getInstance(Authenticator.class).registerUser(name, password);
     }
 
     public static Customer createCustomer(String name, String address) {

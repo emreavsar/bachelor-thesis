@@ -1,5 +1,6 @@
 package logics.project;
 
+import com.google.inject.Inject;
 import controllers.Helper;
 import dao.models.CustomerDAO;
 import exceptions.EntityAlreadyExistsException;
@@ -14,9 +15,10 @@ import static logics.project.Project.deleteProject;
  * Created by corina on 06.05.2015.
  */
 public class Customer {
-    static CustomerDAO customerDAO = new CustomerDAO();
+    @Inject
+    private CustomerDAO customerDAO;
 
-    public static models.project.Customer createCustomer(models.project.Customer customer) throws EntityAlreadyExistsException, MissingParameterException {
+    public models.project.Customer createCustomer(models.project.Customer customer) throws EntityAlreadyExistsException, MissingParameterException {
         if (customer != null && Helper.validate(customer.getName())) {
             models.project.Customer c = customerDAO.findByName(customer.getName());
             if (c == null) {
@@ -25,12 +27,12 @@ public class Customer {
             } else {
                 throw new EntityAlreadyExistsException("Customer name already exists");
             }
-            } else {
+        } else {
             throw new MissingParameterException("Missing required paramter");
-            }
+        }
     }
 
-    public static models.project.Customer updateCustomer(models.project.Customer updatedCustomer) throws MissingParameterException, EntityNotFoundException, EntityAlreadyExistsException {
+    public models.project.Customer updateCustomer(models.project.Customer updatedCustomer) throws MissingParameterException, EntityNotFoundException, EntityAlreadyExistsException {
         if (updatedCustomer != null && updatedCustomer.getId() != null && Helper.validate(updatedCustomer.getName())) {
             models.project.Customer c = customerDAO.findByName(updatedCustomer.getName());
             if (c == null) {
@@ -46,11 +48,11 @@ public class Customer {
         }
     }
 
-    public static List<models.project.Customer> getAllCustomers() {
+    public List<models.project.Customer> getAllCustomers() {
         return customerDAO.readAll();
     }
 
-    public static void deleteCustomer(Long id) throws EntityNotFoundException, MissingParameterException {
+    public void deleteCustomer(Long id) throws EntityNotFoundException, MissingParameterException {
         if (id != null) {
             models.project.Customer customer = customerDAO.readById(id);
             for (models.project.Project project : customer.getProjects()) {

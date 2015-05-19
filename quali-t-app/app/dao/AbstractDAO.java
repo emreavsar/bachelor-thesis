@@ -23,8 +23,6 @@ public abstract class AbstractDAO<T> {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     protected AbstractDAO() {
-        Logger.info("A new dao was created! This should be done with dependency injection!");
-
         Class<? extends AbstractDAO> clazz = getClass();
         while (!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
             //noinspection RedundantCast
@@ -38,7 +36,7 @@ public abstract class AbstractDAO<T> {
 
     public T readById(Long id) throws EntityNotFoundException {
         T t = JPA.em().find(entity, id);
-        if(t==null) {
+        if (t == null) {
             throw new EntityNotFoundException("No object found with id: " + id);
         }
         return t;
@@ -61,7 +59,7 @@ public abstract class AbstractDAO<T> {
         JPA.em().flush();
     }
 
-    public T update (T entity) {
+    public T update(T entity) {
         JPA.em().merge(entity);
         return entity;
     }

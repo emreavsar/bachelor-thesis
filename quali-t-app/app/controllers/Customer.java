@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
@@ -19,13 +20,15 @@ import java.util.List;
  * Created by corina on 01.04.2015.
  */
 public class Customer extends Controller {
+    @Inject
+    private logics.project.Customer customerLogic;
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public static Result createCustomer() {
+    public Result createCustomer() {
         try {
             JsonNode json = request().body().asJson();
-            models.project.Customer customer = logics.project.Customer.createCustomer(Converter.getCustomerFromJson(json));
+            models.project.Customer customer = customerLogic.createCustomer(Converter.getCustomerFromJson(json));
             return ok(Json.toJson(customer));
         } catch (MissingParameterException e) {
             return status(400, e.getMessage());
@@ -36,18 +39,18 @@ public class Customer extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result getAll(){
+    public Result getAll() {
         Logger.info("getAllCustomers Customres called");
-        List<models.project.Customer> customers = logics.project.Customer.getAllCustomers();
+        List<models.project.Customer> customers = customerLogic.getAllCustomers();
         return ok(Json.toJson(customers));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public static Result updateCustomer() {
+    public Result updateCustomer() {
         try {
             JsonNode json = request().body().asJson();
-            models.project.Customer customer = logics.project.Customer.updateCustomer(Converter.getCustomerFromJson(json));
+            models.project.Customer customer = customerLogic.updateCustomer(Converter.getCustomerFromJson(json));
             return ok(Json.toJson(customer));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
@@ -60,9 +63,9 @@ public class Customer extends Controller {
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public static Result deleteCustomer(Long id) {
+    public Result deleteCustomer(Long id) {
         try {
-            logics.project.Customer.deleteCustomer(id);
+            customerLogic.deleteCustomer(id);
             return status(202);
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());

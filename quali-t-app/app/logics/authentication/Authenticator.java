@@ -1,5 +1,7 @@
 package logics.authentication;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import dao.authentication.RoleDao;
 import dao.authentication.TokenDao;
 import dao.models.UserDao;
@@ -14,7 +16,6 @@ import org.joda.time.DateTime;
 import play.Logger;
 
 import javax.annotation.Nullable;
-import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
 import java.security.InvalidParameterException;
 import java.security.MessageDigest;
@@ -26,16 +27,18 @@ import java.util.List;
  */
 @Singleton
 public class Authenticator {
-    UserDao userDao = new UserDao();
-    TokenDao tokenDao;
-    RoleDao roleDao;
+    @Inject
+    private UserDao userDao;
+    @Inject
+    private TokenDao tokenDao;
+    @Inject
+    private RoleDao roleDao;
 
     public Authenticator() {
         Logger.info("constructor Authenticator() is called");
     }
 
-    public static User update(User u) {
-        UserDao userDao = new UserDao();
+    public User update(User u) {
         userDao.update(u);
         return u;
     }
@@ -48,7 +51,7 @@ public class Authenticator {
      * @param token
      * @return user
      */
-    public static Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException, PasswordsNotMatchException {
+    public Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException, PasswordsNotMatchException {
         if (username == null) {
             throw new InvalidParameterException("Username must not be specified!");
         }
@@ -61,7 +64,6 @@ public class Authenticator {
             // check for token (could be invalid or non-existing)
             Token tokenOfUser = null;
             if (token != null) {
-                TokenDao tokenDao = new TokenDao();
                 tokenOfUser = tokenDao.findByToken(token);
             }
 
@@ -71,8 +73,8 @@ public class Authenticator {
                 }
             } else {
                 // no token
-                if (Authenticator.checkPassword(u, password)) {
-                    Token newToken = Authenticator.generateToken(u);
+                if (checkPassword(u, password)) {
+                    Token newToken = generateToken(u);
                     u.getToken().add(newToken);
                     userDao.persist(u);
                     return newToken;
@@ -89,7 +91,7 @@ public class Authenticator {
      * @param tokenOfUser
      * @return
      */
-    public static boolean isTokenValid(Token tokenOfUser) {
+    public boolean isTokenValid(Token tokenOfUser) {
         Logger.info("in tokenIsValid, argument=" + tokenOfUser);
         DateTime validUntil = tokenOfUser.getValidUntil();
         Logger.info("isvaliduntilbefore? = validUntil.isBefore(new DateTime())");
@@ -107,7 +109,7 @@ public class Authenticator {
      * @param u
      * @return
      */
-    public static boolean isTokenOfUser(Token token, User u) {
+    public boolean isTokenOfUser(Token token, User u) {
         return token != null && token.getUser().getId().equals(u.getId());
     }
 
@@ -118,7 +120,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public static boolean checkPassword(@Nullable User user, @NotNull String password) throws PasswordsNotMatchException, EntityNotFoundException {
+    public boolean checkPassword(@Nullable User user, @NotNull String password) throws PasswordsNotMatchException, EntityNotFoundException {
         if (user != null) {
             if (user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))) {
                 return true;
@@ -137,7 +139,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    private static String calculatePasswordHash(@NotNull String salt, @NotNull String password) {
+    private String calculatePasswordHash(@NotNull String salt, @NotNull String password) {
         String hashedPassword = "";
 
         try {
@@ -167,8 +169,7 @@ public class Authenticator {
      * @param user
      * @return
      */
-    public static Token generateToken(User user) {
-        TokenDao tokenDao = new TokenDao();
+    public Token generateToken(User user) {
         String generatedToken = generateTokenString();
 
         DateTime date = new DateTime();
@@ -190,11 +191,9 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public static User registerUser(String username, String password) throws EntityAlreadyExistsException {
+    public User registerUser(String username, String password) throws EntityAlreadyExistsException {
         // Default roles for registered user
-        RoleDao roleDao = new RoleDao();
         List<Role> defaultRoles = roleDao.findDefaultRoles();
-        UserDao userDao = new UserDao();
 
         // check if user already exists
         User user = userDao.findByUsername(username);
@@ -218,11 +217,8 @@ public class Authenticator {
      * @param token
      * @return
      */
-    public static void invalidateUserSession(String username, String token) throws EntityNotFoundException {
-        UserDao userDao = new UserDao();
+    public void invalidateUserSession(String username, String token) throws EntityNotFoundException {
         User user = userDao.findByUsername(username);
-
-        TokenDao tokenDao = new TokenDao();
         Token userToken = tokenDao.findByToken(token);
 
         if (userToken != null) {
@@ -239,8 +235,7 @@ public class Authenticator {
         }
     }
 
-    public static void changePassword(String username, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException {
-        UserDao userDao = new UserDao();
+    public void changePassword(String username, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException {
         User user = userDao.findByUsername(username);
 
         if (newPassword.equals(newPasswordRepeated)) {
@@ -250,8 +245,7 @@ public class Authenticator {
         }
     }
 
-    public static User getUser(long userid) throws EntityNotFoundException {
-        UserDao userDao = new UserDao();
+    public User getUser(long userid) throws EntityNotFoundException {
         User u = userDao.readById(userid);
         if (u == null) {
             throw new EntityNotFoundException("No user found");
