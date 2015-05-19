@@ -664,6 +664,13 @@ div[text-angular-toolbar] {
 .ui-select-match-close {
   color: #000;
 }
+.ui-select-match {
+  a {
+    box-shadow: none;
+    color: #52525F;
+    margin-top: -1px;
+  }
+}
 
 #alerts-container {
   z-index: 999;

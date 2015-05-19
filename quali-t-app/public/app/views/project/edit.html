@@ -56,7 +56,7 @@
         <label for="jiraInstance">JIRA Instance</label>
         <ui-select id="jiraInstance" required="required" ng-model="$parent.project.jiraConnection" theme="bootstrap"
                    ng-disabled="disabled">
-          <ui-select-match placeholder="Select JIRA instance...">{{$select.selected.hostAddress}}</ui-select-match>
+          <ui-select-match allow-clear placeholder="Select JIRA instance...">{{$select.selected.hostAddress}}</ui-select-match>
 
           <ui-select-choices repeat="instance in jiraConnections | filter:$select.search">
             <div ng-bind-html="instance.hostAddress| highlight: $select.search"></div>
