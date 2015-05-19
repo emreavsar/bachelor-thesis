@@ -54,7 +54,7 @@
 
       <div class="form-group col-sm-12">
         <label for="jiraInstance">JIRA Instance</label>
-        <ui-select id="jiraInstance" required="required" ng-model="$parent.selectedJiraConnection" theme="bootstrap"
+        <ui-select id="jiraInstance" required="required" ng-model="$parent.project.jiraConnection" theme="bootstrap"
                    ng-disabled="disabled">
           <ui-select-match placeholder="Select JIRA instance...">{{$select.selected.hostAddress}}</ui-select-match>
 
