@@ -24,6 +24,8 @@ libraryDependencies ++= Seq(
 //  "org.springframework"       %   "spring-tx"               % "4.1.6.RELEASE"
 )
 
+excludeFilter in Assets := "node_modules"
+
 // HEROKU sbt plugin
 herokuJdkVersion in Compile := "1.8"
 
