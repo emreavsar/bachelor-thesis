@@ -105,6 +105,7 @@ angular.module('qualitApp')
       promiseSave.then(
         function (payload) {
           alerts.createSuccess("Project was successfully updated.");
+          $scope.qualityAttributesToUpdate = new Array();
           $scope.project = payload.data;
         });
     }
