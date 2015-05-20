@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import java.security.InvalidParameterException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -93,9 +94,9 @@ public class Authenticator {
      */
     public boolean isTokenValid(Token tokenOfUser) {
         Logger.info("in tokenIsValid, argument=" + tokenOfUser);
-        DateTime validUntil = tokenOfUser.getValidUntil();
-        Logger.info("isvaliduntilbefore? = validUntil.isBefore(new DateTime())");
-        if (validUntil.isAfter(new DateTime())) {
+        LocalDateTime validUntil = tokenOfUser.getValidUntil();
+        Logger.info("isvaliduntilbefore? = LocalDateTime.now().isBefore(validUntil)");
+        if (LocalDateTime.now().isBefore(validUntil)) {
             return true;
         }
 
@@ -172,7 +173,7 @@ public class Authenticator {
     public Token generateToken(User user) {
         String generatedToken = generateTokenString();
 
-        DateTime date = new DateTime();
+        LocalDateTime date = LocalDateTime.now();
         date = date.plusMonths(6);
         Token t = new Token(generatedToken, date, user);
 

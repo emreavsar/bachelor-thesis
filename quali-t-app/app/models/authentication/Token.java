@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Created by emre on 31/03/15.
@@ -17,9 +18,7 @@ import javax.persistence.*;
 @Nullable
 public class Token extends AbstractEntity {
     private String token;
-
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime validUntil;
+    private LocalDateTime validUntil;
 
     @ManyToOne
     @JsonManagedReference
@@ -28,7 +27,7 @@ public class Token extends AbstractEntity {
     public Token() {
     }
 
-    public Token(String token, DateTime validUntil, User user) {
+    public Token(String token, LocalDateTime validUntil, User user) {
         this.token = token;
         this.validUntil = validUntil;
         this.user = user;
@@ -42,11 +41,11 @@ public class Token extends AbstractEntity {
         this.token = token;
     }
 
-    public DateTime getValidUntil() {
+    public LocalDateTime getValidUntil() {
         return validUntil;
     }
 
-    public void setValidUntil(DateTime validUntil) {
+    public void setValidUntil(LocalDateTime validUntil) {
         this.validUntil = validUntil;
     }
 

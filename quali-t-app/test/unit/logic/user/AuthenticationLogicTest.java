@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+
 import static org.fest.assertions.Assertions.assertThat;
 
 /**
@@ -24,14 +26,14 @@ public class AuthenticationLogicTest extends AbstractTest {
 
     @Test
     public void isTokenValidWithValidTokenTest() {
-        DateTime validUntil = DateTime.now().plusDays(30);
+        LocalDateTime validUntil = LocalDateTime.now().plusDays(30);
         Token t = new Token("xxx", validUntil, null);
         assertThat(authenticator.isTokenValid(t)).isTrue();
     }
 
     @Test
     public void isTokenValidWithInvalidTokenTest() {
-        DateTime validUntil = DateTime.now().minusDays(1);
+        LocalDateTime validUntil = LocalDateTime.now().minusDays(1);
         Token t = new Token("xxx", validUntil, null);
         assertThat(authenticator.isTokenValid(t)).isFalse();
     }
