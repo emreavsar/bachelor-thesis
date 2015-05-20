@@ -117,7 +117,18 @@ angular.module('qualitApp')
     }
 
     $scope.exportToIssueTracker = function () {
-      console.log("TODO: Export JIRA Key=" + $scope.project.jiraKey + " in raw-mode=" + $scope.exportRaw);
+      var selectedQaIds = new Array();
+      $(".export-checkbox:checked").each(function () {
+        selectedQaIds.push($(this).data('qainstanceid'));
+      });
+      selectedQaIds;
+
+      var promiseExport = apiService.exportToIssueTracker($scope.project.id, selectedQaIds);
+
+      promiseExport.then(
+        function (payload) {
+          $scope.favoriteProjects = payload.data;
+        });
     }
 
     $scope.init = function () {
@@ -157,4 +168,6 @@ angular.module('qualitApp')
         }
       );
     }
-  });
+  }
+)
+;

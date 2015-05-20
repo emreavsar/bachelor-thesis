@@ -267,7 +267,8 @@ angular.module('qualitApp')
           var checkbox = $("<input/>", {
             type: "checkbox",
             title: "Toggle export to issue tracking system",
-            class: "col-sm-1 export-checkbox"
+            class: "col-sm-1 export-checkbox",
+            "data-qainstanceid": qa.id
           }).prependTo(qaDescSpan);
 
           var qaCheckboxDiv = $("<div/>", {

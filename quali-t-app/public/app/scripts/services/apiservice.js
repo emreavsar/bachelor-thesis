@@ -216,5 +216,17 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.exportToIssueTracker = function (projectId, selectedQas) {
+      return $http.post(this.apiPath + "jira/export", {
+        projectId: projectId,
+        selectedQas: selectedQas
+      })
+        .success(function (data) {
+          return data;
+        }).error(function (data, status) {
+          alerts.createError(status, "Error at exporting Quality Attributes to Issue Tracking System.");
+        });
+    }
+
     return apiService;
   });

@@ -54,4 +54,8 @@ public class JIRAConnection extends Controller {
 
         }
     }
+
+    public static Result export() {
+        return play.mvc.Results.TODO;
+    }
 }

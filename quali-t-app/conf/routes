@@ -91,3 +91,5 @@ GET           /api/jiraconnection              controllers.JIRAConnection.getAll
 POST          /api/jiraconnection              controllers.JIRAConnection.createJIRAConnection()
 PUT           /api/jiraconnection              controllers.JIRAConnection.updateJIRAConnection()
 DELETE        /api/jiraconnection/:id          controllers.JIRAConnection.deleteJIRAConnection(id: Long)
+
+POST          /api/jira/export                 controllers.JIRAConnection.export()
