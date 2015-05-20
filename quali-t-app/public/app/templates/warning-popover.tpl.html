@@ -1,0 +1,10 @@
+<div class="popover validation-popover">
+  <div class="arrow"></div>
+  <h5 class="popover-title">{{title + " (" + warnings.length + ")"}}</h5>
+
+  <div class="popover-content ">
+    <ul>
+      <li ng-repeat="warning in warnings">{{warning}}</li>
+    </ul>
+  </div>
+</div>

@@ -95,5 +95,5 @@ DELETE        /api/jiraconnection/:id            @controllers.JIRAConnectionCont
 POST          /api/jira/export                   @controllers.JIRAConnectionController.export()
 
 # TODO only for testing detector api
-GET           /api/validate                      @controllers.Misc.validate()
+GET           /api/validate/:projectId           @controllers.ValidateInstanceController.validate(projectId: Long)
 

@@ -280,6 +280,15 @@ angular.module('qualitApp')
             class: "col-sm-1 actions"
           }).appendTo(element);
 
+          var validationWarnings = $("<div/>", {
+            class: "col-sm-1 pull-right validation-warnings hidden",
+            title: "This quality attribute has validation warnings, click here to get more information."
+          }).appendTo(element);
+
+          var validationWarningsInfoIcon = $("<i/>", {
+            class: "fa fa-exclamation-triangle"
+          }).appendTo(validationWarnings);
+
           var editBtn = $("<i/>", {
             title: "Edit quality attribute",
             class: "fa fa-cog pointer"

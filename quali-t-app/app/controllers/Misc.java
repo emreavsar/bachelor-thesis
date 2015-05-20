@@ -1,9 +1,7 @@
 package controllers;
 
-import api.DetectorService;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
-import dao.models.QAInstanceDAO;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import logics.authentication.UserTaskLogic;
@@ -11,7 +9,6 @@ import logics.project.ProjectLogic;
 import logics.user.TaskLogic;
 import models.authentication.User;
 import models.project.Project;
-import models.project.nfritem.Instance;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -20,15 +17,12 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 
 // TODO emre: rename this class!
 public class Misc extends Controller {
-    @Inject
-    DetectorService detectorService;
     @Inject
     ProjectLogic projectLogic;
     @Inject
@@ -105,14 +99,5 @@ public class Misc extends Controller {
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }
-    }
-
-    @Transactional
-    public Result validate() {
-        // TODO emre: move to a proper place
-        Logger.info("Inside validate() for detectors");
-        QAInstanceDAO qaInstanceDAO = new QAInstanceDAO();
-        String result = detectorService.validateAll((ArrayList<Instance>) qaInstanceDAO.readAll());
-        return ok(Json.toJson(result));
     }
 }

@@ -138,6 +138,10 @@ INSERT INTO task (id, description, done, assignee_id) VALUES (-6011, 'Create Cat
 -- Data for Name: instance; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO instance (id, description)VALUES (-5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>');
+INSERT INTO instance (id, description, project_id, template_id) VALUES (-5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p> bad good', -11000, null);
+
+--
+-- Data for Name: val; Type: TABLE DATA; Schema: public; Owner: qualit
+--
 INSERT INTO val (id, "value", varindex, instance_id) VALUES (-99, 'test 1', 0, -5);
 INSERT INTO val (id, "value", varindex, instance_id) VALUES (-98, 'test 2', 1, -5);

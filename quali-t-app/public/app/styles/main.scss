@@ -468,9 +468,11 @@ body {
 .margin-top-15 {
   margin-top: 15px;
 }
+
 .margin-top-30 {
   margin-top: 30px;
 }
+
 .margin-top-50 {
   margin-top: 50px;
 }
@@ -664,6 +666,7 @@ div[text-angular-toolbar] {
 .ui-select-match-close {
   color: #000;
 }
+
 .ui-select-match {
   a {
     box-shadow: none;
@@ -754,3 +757,18 @@ div[text-angular-toolbar] {
     }
   }
 }
+
+.validation-warnings {
+  margin-top: 10px;
+  color: #ff5f2a;
+  .fa-exclamation-triangle {
+    padding-left: 5px;
+  }
+}
+.validation-popover {
+  max-width: 500px !important;
+  width: 500px !important;
+  font-size: 0.9em;
+  margin-bottom: 30px !important;
+}
+

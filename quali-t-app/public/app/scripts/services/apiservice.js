@@ -228,5 +228,16 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.validateProjectQas = function (projectId) {
+      return $http.get(this.apiPath + "validate/" + projectId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+
     return apiService;
   });

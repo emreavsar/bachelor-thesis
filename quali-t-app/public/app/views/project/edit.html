@@ -56,7 +56,8 @@
         <label for="jiraInstance">JIRA Instance</label>
         <ui-select id="jiraInstance" required="required" ng-model="$parent.project.jiraConnection" theme="bootstrap"
                    ng-disabled="disabled">
-          <ui-select-match allow-clear placeholder="Select JIRA instance...">{{$select.selected.hostAddress}}</ui-select-match>
+          <ui-select-match allow-clear placeholder="Select JIRA instance...">{{$select.selected.hostAddress}}
+          </ui-select-match>
 
           <ui-select-choices repeat="instance in jiraConnections | filter:$select.search">
             <div ng-bind-html="instance.hostAddress| highlight: $select.search"></div>
@@ -120,6 +121,7 @@
       </div>
       <div class="qa qa-nopointer well row" ng-repeat="qa in project.qualityAttributes">
         <qa update-qa-function="init"
+            id="{{'qa-' + qa.id}}"
             toggle-qp-status-function="toggleQpStatus"
             categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.vars"
             qualityproperties="qa.qualityPropertyStatus" values="qa.values"/>

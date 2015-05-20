@@ -2,11 +2,9 @@ package api;
 
 import ch.qualit.fuzziness.detector.spi.FuzzynessDetector;
 import models.project.nfritem.Instance;
+import play.Logger;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
+import java.util.*;
 
 public class DetectorService {
     private ServiceLoader<FuzzynessDetector> loader;
@@ -15,31 +13,36 @@ public class DetectorService {
         loader = ServiceLoader.load(FuzzynessDetector.class);
     }
 
-    public String validateAll(ArrayList<Instance> qualityAttributes) {
-        String toReturn = "";
+    public HashMap<Long, List<String>> validateAll(ArrayList<Instance> qualityAttributes) {
+        Logger.info("validateAll called");
+        HashMap<Long, List<String>> detections = new HashMap<>();
+
         try {
             for (Instance instance : qualityAttributes) {
-                String desc = instance.getDescription();
-                toReturn += "Going to validate this: " + desc;
+                // get detectors and iterate through them
+                Iterator<FuzzynessDetector> detectors = loader.iterator();
+                Logger.debug("detectors found = " + detectors.hasNext());
+                while (detectors.hasNext()) {
+                    FuzzynessDetector detector = detectors.next();
+                    Logger.debug("Detector: " + detector.getClass().getName());
 
-                Iterator<FuzzynessDetector> dictionaries = loader.iterator();
-                while (dictionaries.hasNext()) {
-                    FuzzynessDetector detector = dictionaries.next();
-                    toReturn += "Detector: " + detector.getClass().getName();
                     ArrayList<String> suggestions = (ArrayList<String>) detector
-                            .validate(desc);
+                            .validate(instance.getDescription());
+
                     if (!suggestions.isEmpty()) {
-                        toReturn += "Suggestions for the word: " + desc
-                                + " are: " + suggestions.toString();
+                        Logger.debug("Suggestions for the word found: " + instance.getDescription()
+                                + " are: " + suggestions.toString());
+
+                        detections.put(instance.getId(), suggestions);
+
                     } else {
-                        toReturn += "No suggestion found!";
+                        Logger.debug("No suggestion found!");
                     }
-                    toReturn += "\n";
                 }
             }
         } catch (ServiceConfigurationError serviceError) {
             serviceError.printStackTrace();
         }
-        return toReturn;
+        return detections;
     }
 }

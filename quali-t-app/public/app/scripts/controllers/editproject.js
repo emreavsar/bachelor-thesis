@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditProjectCtrl', function ($scope, $stateParams, apiService, favoritesService, alerts) {
+  .controller('EditProjectCtrl', function ($scope, $stateParams, apiService, favoritesService, alerts, $popover) {
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
@@ -113,6 +113,35 @@ angular.module('qualitApp')
     }
 
     $scope.validate = function () {
+      $(".qa .validation-warnings").addClass("hidden");
+      var promiseValidate = apiService.validateProjectQas($scope.project.id);
+      promiseValidate.then(
+        function (payload) {
+          var validationWarnings = payload.data;
+          _.forEach(validationWarnings, function (n, key) {
+
+            //var validationWarning = $("<ul/>");
+            //_.forEach(n, function (validationWarningItem) {
+            //  $("<li/>", {
+            //    text: validationWarningItem
+            //  }).appendTo(validationWarning);
+            //});
+
+            var warningScope = $scope.$new(true);
+            warningScope.title = "Validation Errors:";
+            warningScope.warnings = n;
+
+            $popover($("#qa-" + key + " .validation-warnings"), {
+              scope: warningScope,
+              trigger: 'click',
+              placement: 'bottom',
+              template: "templates/warning-popover.tpl.html",
+              autoClose: true
+            });
+
+            $("#qa-" + key + " .validation-warnings").removeClass("hidden");
+          });
+        });
 
     }
 
