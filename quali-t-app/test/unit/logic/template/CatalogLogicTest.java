@@ -8,6 +8,7 @@ import exceptions.EntityCanNotBeDeleted;
 import exceptions.EntityCanNotBeUpdated;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import logics.template.CatalogLogic;
 import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
@@ -31,12 +32,12 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     private Catalog updatedCatalog;
     private Catalog persistedCatalog;
     private CatalogQADAO catalogQADAO;
+    private CatalogLogic catalogLogic;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        catalogQADAO = new CatalogQADAO();
         persistedQa = AbstractTestDataCreator.createQA("Test QA");
         persistedCatalog = AbstractTestDataCreator.createCatalog("name", "image", "description", new ArrayList<>());
         catalogQA = new CatalogQA();
@@ -45,13 +46,15 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         catalogQAList.add(catalogQA);
         catalog = new Catalog("name", "description", "image");
         updatedCatalog = new Catalog("new name", "new description", "new image");
+        catalogQADAO = getInjector().getInstance(CatalogQADAO.class);
+        catalogLogic = getInjector().getInstance(CatalogLogic.class);
     }
 
     @Test
     public void testCreateValidCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        Catalog newCatalog = logics.template.Catalog.createCatalog(catalog, catalogQAList);
+        Catalog newCatalog = catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
         assertThat(newCatalog.getId()).isNotNull();
         assertThat(newCatalog.getName()).isEqualTo("name");
@@ -68,7 +71,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         catalog = new Catalog("", "description", "image");
         // ACT
-        logics.template.Catalog.createCatalog(catalog, catalogQAList);
+        catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
 
     }
@@ -77,7 +80,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testCreateNullCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.createCatalog(null, catalogQAList);
+        catalogLogic.createCatalog(null, catalogQAList);
         // ASSERT
     }
 
@@ -85,7 +88,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testCreateCatalogWithEmptyCatalogQAList() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        Catalog newCatalog = logics.template.Catalog.createCatalog(catalog, new ArrayList<>());
+        Catalog newCatalog = catalogLogic.createCatalog(catalog, new ArrayList<>());
         // ASSERT
         assertThat(newCatalog.getId()).isNotNull();
         assertThat(newCatalog.getName()).isEqualTo("name");
@@ -98,7 +101,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testCreateCatalogWithNullCatalogQAList() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
         // ACT
-        Catalog newCatalog = logics.template.Catalog.createCatalog(catalog, null);
+        Catalog newCatalog = catalogLogic.createCatalog(catalog, null);
         // ASSERT
         assertThat(newCatalog.getId()).isNotNull();
         assertThat(newCatalog.getName()).isEqualTo("name");
@@ -113,7 +116,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         catalogQAList.clear();
         catalogQAList.add(new CatalogQA());
         // ACT
-        logics.template.Catalog.createCatalog(catalog, catalogQAList);
+        catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
     }
 
@@ -123,7 +126,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         persistedQa.setId(new Long(9999));
         catalogQAList.get(0).setQa(persistedQa);
         // ACT
-        logics.template.Catalog.createCatalog(catalog, catalogQAList);
+        catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
     }
 
@@ -133,7 +136,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         persistedQa.setId(new Long(9999));
         catalogQAList.get(0).setQa(null);
         // ACT
-        logics.template.Catalog.createCatalog(catalog, catalogQAList);
+        catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
     }
 
@@ -143,7 +146,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         Catalog catalog = AbstractTestDataCreator.createCatalog("name", "image", "description", new ArrayList<>());
         catalogQA.setCatalog(catalog);
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
         assertThat(newCatalogQA.getCatalog().getName()).isEqualTo(catalog.getName());
         assertThat(newCatalogQA.getCatalog().getId()).isEqualTo(catalog.getId());
@@ -155,7 +158,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testCreateCatalogQAWithNullCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
     }
 
@@ -165,7 +168,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         catalog.setId(new Long(9999));
         catalogQA.setCatalog(catalog);
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
 
     }
@@ -175,7 +178,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         catalogQA.setCatalog(catalog);
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
     }
 
@@ -184,7 +187,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         catalogQA.setQa(null);
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
     }
 
@@ -193,7 +196,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         catalogQA.getQa().setId(new Long(9999));
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
     }
 
@@ -202,7 +205,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         catalogQA.getQa().setId(null);
         // ACT
-        CatalogQA newCatalogQA = logics.template.Catalog.createCatalogQA(catalogQA);
+        CatalogQA newCatalogQA = catalogLogic.createCatalogQA(catalogQA);
         // ASSERT
     }
 
@@ -212,7 +215,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         Catalog catalogToUpdate = AbstractTestDataCreator.createCatalog("name", "image", "description", new ArrayList<>());
         updatedCatalog.setId(catalogToUpdate.getId());
         // ACT
-        updatedCatalog = logics.template.Catalog.updateCatalog(updatedCatalog);
+        updatedCatalog = catalogLogic.updateCatalog(updatedCatalog);
         // ASSERT
         assertThat(updatedCatalog.getName()).isEqualTo("new name");
         assertThat(updatedCatalog.getDescription()).isEqualTo("new description");
@@ -225,7 +228,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         updatedCatalog.setId(new Long(-6000));
         // ACT
-        logics.template.Catalog.updateCatalog(updatedCatalog);
+        catalogLogic.updateCatalog(updatedCatalog);
         // ASSERT
     }
 
@@ -233,7 +236,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testUpdateNullCatalog() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.updateCatalog(null);
+        catalogLogic.updateCatalog(null);
         // ASSERT
     }
 
@@ -242,7 +245,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         updatedCatalog.setName("");
         // ACT
-        logics.template.Catalog.updateCatalog(updatedCatalog);
+        catalogLogic.updateCatalog(updatedCatalog);
         // ASSERT
     }
 
@@ -250,7 +253,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testUpdateNullCatalogId() throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.updateCatalog(updatedCatalog);
+        catalogLogic.updateCatalog(updatedCatalog);
         // ASSERT
     }
 
@@ -259,7 +262,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         updatedCatalog.setId(new Long(9999));
         // ACT
-        logics.template.Catalog.updateCatalog(updatedCatalog);
+        catalogLogic.updateCatalog(updatedCatalog);
         // ASSERT
     }
 
@@ -276,7 +279,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         updatedCatalogQA.setQa(tempQa);
         updatedCatalogQA.setId(catalogQAToUpdate.getId());
         // ACT
-        updatedCatalogQA = logics.template.Catalog.updateCatalogQA(updatedCatalogQA);
+        updatedCatalogQA = catalogLogic.updateCatalogQA(updatedCatalogQA);
         catalogQAToUpdate = catalogQADAO.readById(catalogQAToUpdate.getId());
         // ASSERT
         assertThat(updatedCatalogQA.getCatalog().getName()).isEqualTo(persistedCatalog.getName());
@@ -294,7 +297,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getCatalog().setId(new Long(9999));
         // ACT
-        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
+        catalogLogic.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
     }
 
@@ -304,7 +307,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getCatalog().setId(null);
         // ACT
-        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
+        catalogLogic.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
     }
 
@@ -314,7 +317,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getQa().setId(new Long(9999));
         // ACT
-        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
+        catalogLogic.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
     }
 
@@ -324,7 +327,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         CatalogQA catalogQAToUpdate = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         catalogQAToUpdate.getQa().setId(null);
         // ACT
-        logics.template.Catalog.updateCatalogQA(catalogQAToUpdate);
+        catalogLogic.updateCatalogQA(catalogQAToUpdate);
         // ASSERT
     }
 
@@ -335,7 +338,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         CatalogDAO catalogDAO = new CatalogDAO();
         CatalogQA catalogQA = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         // ACT
-        logics.template.Catalog.deleteCatalog(persistedCatalog.getId());
+        catalogLogic.deleteCatalog(persistedCatalog.getId());
         CatalogQA deletedCatalogQA = catalogQADAO.readById(catalogQA.getId());
         try {
             catalogDAO.readById(persistedCatalog.getId());
@@ -352,7 +355,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testDeleteNullCatalogId() throws EntityCanNotBeDeleted, EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.deleteCatalog(null);
+        catalogLogic.deleteCatalog(null);
         // ASSERT
     }
 
@@ -360,7 +363,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testDeleteInvalidCatalogId() throws EntityCanNotBeDeleted, MissingParameterException, EntityNotFoundException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.deleteCatalog(new Long(9999));
+        catalogLogic.deleteCatalog(new Long(9999));
         // ASSERT
     }
 
@@ -369,7 +372,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         CatalogQA catalogQA = AbstractTestDataCreator.createCatalogQA(persistedQa, persistedCatalog);
         // ACT
-        logics.template.Catalog.deleteCatalogQA(catalogQA.getId());
+        catalogLogic.deleteCatalogQA(catalogQA.getId());
         CatalogQA deletedCatalogQA = catalogQADAO.readById(catalogQA.getId());
         // ASSERT
         assertThat(deletedCatalogQA.isDeleted()).isTrue();
@@ -380,7 +383,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testDeleteInvalidCatalogQAId() throws EntityCanNotBeDeleted, MissingParameterException, EntityNotFoundException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.deleteCatalogQA(new Long(9999));
+        catalogLogic.deleteCatalogQA(new Long(9999));
         // ASSERT
     }
 
@@ -388,7 +391,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testDeleteNullCatalogQAId() throws EntityCanNotBeDeleted, EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.Catalog.deleteCatalogQA(null);
+        catalogLogic.deleteCatalogQA(null);
         // ASSERT
     }
 }

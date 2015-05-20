@@ -4,6 +4,7 @@ import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import logics.authentication.Authenticator;
+import models.Interface.JIRAConnection;
 import models.authentication.User;
 import models.project.Customer;
 import models.project.Project;
@@ -116,5 +117,11 @@ public abstract class AbstractTestDataCreator {
     public static Project createProject(Project project) {
         persistAndFlush(project);
         return project;
+    }
+
+    public static JIRAConnection createJiraConnection(String hostname, String user, String password) {
+        JIRAConnection jiraConnection = new JIRAConnection(hostname, user, password);
+        persistAndFlush(jiraConnection);
+        return jiraConnection;
     }
 }

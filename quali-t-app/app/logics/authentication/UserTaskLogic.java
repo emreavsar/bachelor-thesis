@@ -1,5 +1,6 @@
 package logics.authentication;
 
+import com.google.inject.Inject;
 import dao.models.UserDao;
 import exceptions.EntityNotFoundException;
 import models.authentication.User;
@@ -9,10 +10,11 @@ import java.util.List;
 /**
  * Created by emre on 25/04/15.
  */
-public class Task {
+public class UserTaskLogic {
+    @Inject
+    UserDao userDao;
 
-    public static List<models.user.Task> getTasksOfUser(long userid) throws EntityNotFoundException {
-        UserDao userDao = new UserDao();
+    public List<models.user.Task> getTasksOfUser(long userid) throws EntityNotFoundException {
         User u = userDao.readById(userid);
 
         if (u == null) {

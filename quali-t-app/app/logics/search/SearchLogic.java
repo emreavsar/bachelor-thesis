@@ -1,7 +1,6 @@
 package logics.search;
 
 import com.google.inject.Inject;
-import controllers.Customer;
 import dao.models.CatalogDAO;
 import dao.models.CustomerDAO;
 import dao.models.ProjectDAO;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 /**
  * Created by emre on 25/04/15.
  */
-public class Search {
+public class SearchLogic {
     @Inject
     private CatalogDAO catalogDAO;
     @Inject

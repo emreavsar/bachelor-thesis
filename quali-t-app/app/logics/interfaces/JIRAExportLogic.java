@@ -8,6 +8,7 @@ package logics.interfaces;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.inject.Inject;
 import dao.interfaces.JIRAConnectionDAO;
 import dao.models.ProjectDAO;
 import dao.models.QAInstanceDAO;
@@ -30,12 +31,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class JIRAExport {
-    static JIRAConnectionDAO jiraConnectionDAO = new JIRAConnectionDAO();
-    static ProjectDAO projectDAO = new ProjectDAO();
-    static QAInstanceDAO qaInstanceDAO = new QAInstanceDAO();
+public class JIRAExportLogic {
+    @Inject
+    private JIRAConnectionDAO jiraConnectionDAO;
+    @Inject
+    private ProjectDAO projectDAO;
+    @Inject
+    private QAInstanceDAO qaInstanceDAO;
 
-    public static JsonNode exportToJira() throws EntityNotFoundException {
+    public JsonNode exportToJira() throws EntityNotFoundException {
         JIRAConnection connectionParameter = getConnectionParameter(Long.parseLong("1500"));
         Project project = projectDAO.readById(Long.parseLong("11000"));
         List<Long> qaIds = new ArrayList<>();
@@ -75,11 +79,11 @@ public class JIRAExport {
 
     }
 
-    public static JIRAConnection getConnectionParameter(Long id) throws EntityNotFoundException {
+    public JIRAConnection getConnectionParameter(Long id) throws EntityNotFoundException {
         return jiraConnectionDAO.readById(id);
     }
 
-    public static String getDescriptionWithVars(Instance qualityAttributeInstance) throws EntityNotFoundException {
+    public String getDescriptionWithVars(Instance qualityAttributeInstance) throws EntityNotFoundException {
         Set<Val> values = qualityAttributeInstance.getValues();
 
 //            String number = qa.getDescription().matches("%(.*?)%");
@@ -90,12 +94,12 @@ public class JIRAExport {
         return removeHtmlTags(replacePlaceholder(qualityAttributeInstance.getDescription(), values));
     }
 
-    private static String removeHtmlTags(String text) {
+    private String removeHtmlTags(String text) {
 
         return Jsoup.parse(text).text();
     }
 
-    private static Val getVarValue(int i, Set<Val> values) throws EntityNotFoundException {
+    private Val getVarValue(int i, Set<Val> values) throws EntityNotFoundException {
         for (Val value : values) {
             if (value.getVarIndex() == i) {
                 return value;
@@ -104,7 +108,7 @@ public class JIRAExport {
         throw new EntityNotFoundException("Value with this varindex not found!");
     }
 
-    private static String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
+    private String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
         Pattern p = Pattern.compile("%VARIABLE_.*?([0-9]*)%");
         Matcher m = p.matcher(text);
 

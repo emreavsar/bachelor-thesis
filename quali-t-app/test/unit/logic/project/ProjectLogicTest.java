@@ -4,16 +4,20 @@ import base.AbstractDatabaseTest;
 import base.AbstractTestDataCreator;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import logics.project.ProjectLogic;
+import models.Interface.JIRAConnection;
 import models.project.Customer;
 import models.project.Project;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
+import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
 import org.junit.Before;
 import org.junit.Test;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,8 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     private Customer customer;
     private CatalogQA qa;
     private QualityProperty qualityProperty;
+    private Project persistedProject;
+    private ProjectLogic projectLogic;
 
     @Override
     @Before
@@ -46,6 +52,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         project.setProjectCustomer(customer);
         project.setName("project name");
         project.setJiraKey("jira key");
+        projectLogic = getInjector().getInstance(ProjectLogic.class);
     }
 
     //createProjectTest
@@ -54,7 +61,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ARRANGE
 
         // ACT
-        Project newProject = logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
         // ASSERT
         assertThat(newProject.getId()).isNotNull();
         assertThat(newProject.getJiraKey()).isEqualTo("jira key");
@@ -72,7 +79,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         Instance qa = new Instance("new project qa");
         project.addQualityAttribute(qa);
         // ACT
-        Project newProject = logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
         // ASSERT
         assertThat(newProject.getQualityAttributes().contains(qa));
     }
@@ -81,7 +88,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     public void createNullProjectWithQAValues() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        Project newProject = logics.project.Project.createProject(null, qualityAttributeIdList, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(null, qualityAttributeIdList, qualityPropertyIdList);
         // ASSERT
     }
 
@@ -90,7 +97,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         project.setName("");
         // ACT
-        Project newProject = logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
         // ASSERT
     }
 
@@ -99,7 +106,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         qualityAttributeIdList = new ArrayList<>();
         // ACT
-        Project newProject = logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
         // ASSERT
         assertThat(newProject.getId()).isNotNull();
         assertThat(newProject.getJiraKey()).isEqualTo("jira key");
@@ -114,7 +121,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     public void createProjectWithNullQualityAttributeList() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        Project newProject = logics.project.Project.createProject(project, null, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(project, null, qualityPropertyIdList);
         // ASSERT
     }
 
@@ -123,7 +130,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         qualityPropertyIdList = new ArrayList<>();
         // ACT
-        Project newProject = logics.project.Project.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
+        Project newProject = projectLogic.createProject(project, qualityAttributeIdList, qualityPropertyIdList);
         // ASSERT
         assertThat(newProject.getId()).isNotNull();
         assertThat(newProject.getJiraKey()).isEqualTo("jira key");
@@ -138,17 +145,17 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     public void createProjectWithNullQualityPropertyList() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        Project newProject = logics.project.Project.createProject(project, qualityAttributeIdList, null);
+        Project newProject = projectLogic.createProject(project, qualityAttributeIdList, null);
         // ASSERT
     }
 
     @Test
     public void cloneValidSimpleInstance() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        Project persistedProject = AbstractTestDataCreator.createProject(project);
+        persistedProject = AbstractTestDataCreator.createProject(project);
         Instance instance = AbstractTestDataCreator.createInstance("instance to copy", persistedProject, qa);
         // ACT
-        Instance newInstance = logics.project.Project.cloneInstance(instance.getId());
+        Instance newInstance = projectLogic.cloneInstance(instance.getId());
         // ASSERT
         assertThat(newInstance.getId()).isNotEqualTo(instance.getId());
         assertThat(newInstance.getId()).isNotNull();
@@ -160,12 +167,12 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     @Test
     public void cloneValidInstanceWithValues() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
-        Project persistedProject = AbstractTestDataCreator.createProject(project);
+        persistedProject = AbstractTestDataCreator.createProject(project);
         Instance instance = AbstractTestDataCreator.createInstance("instance to copy", persistedProject, qa);
         Val value = new Val(1, "value");
         instance = AbstractTestDataCreator.addValueToInstance(instance, value);
         // ACT
-        Instance newInstance = logics.project.Project.cloneInstance(instance.getId());
+        Instance newInstance = projectLogic.cloneInstance(instance.getId());
         // ASSERT
         assertThat(newInstance.getId()).isNotEqualTo(instance.getId());
         assertThat(newInstance.getId()).isNotNull();
@@ -188,7 +195,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     public void cloneInstanceNullId() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.project.Project.cloneInstance(null);
+        projectLogic.cloneInstance(null);
         // ASSERT
     }
 
@@ -196,8 +203,81 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     public void cloneInstanceInvalidId() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.project.Project.cloneInstance(new Long(999999));
+        projectLogic.cloneInstance(new Long(999999));
         // ASSERT
+    }
+
+    @Test
+    public void updateValidProjectGeneralParameters() throws EntityNotFoundException, MissingParameterException {
+        // ARRANGE
+        persistedProject = AbstractTestDataCreator.createProject(project);
+        Project projectToUpdate = new Project();
+        JIRAConnection jiraConnection = AbstractTestDataCreator.createJiraConnection("new host", "new user", "new password");
+        Customer newCustomer = AbstractTestDataCreator.createCustomer("new name", "new address");
+        projectToUpdate.setJiraConnection(jiraConnection);
+        projectToUpdate.setProjectCustomer(newCustomer);
+        projectToUpdate.setName("new name");
+        projectToUpdate.setJiraKey("new jira key");
+        projectToUpdate.setId(persistedProject.getId());
+        // ACT
+        Project updatedProject = projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
+        // ASSERT
+        assertThat(updatedProject.getId()).isEqualTo(persistedProject.getId());
+        assertThat(updatedProject.getJiraKey()).isEqualTo("new jira key");
+        assertThat(updatedProject.getName()).isEqualTo("new name");
+        assertThat(updatedProject.getProjectCustomer()).isEqualTo(newCustomer);
+        assertThat(updatedProject.getQualityProperties().size()).isEqualTo(persistedProject.getQualityProperties().size());
+        assertThat(updatedProject.getQualityProperties().contains(qualityProperty));
+        assertThat(updatedProject.getQualityAttributes().size()).isEqualTo(persistedProject.getQualityAttributes().size());
+        assertThat(updatedProject.getQualityAttributes().contains(qa));
+        assertThat(updatedProject.getJiraConnection()).isEqualTo(jiraConnection);
+    }
+
+    @Test
+    public void updateValidProjectAddQualityProperties() throws EntityNotFoundException, MissingParameterException {
+        // ARRANGE
+        project.addQualityAttribute(new Instance("instance"));
+        persistedProject = AbstractTestDataCreator.createProject(project);
+        Project projectToUpdate = new Project();
+        projectToUpdate.setProjectCustomer(customer);
+        QualityProperty newQualityProperty = AbstractTestDataCreator.createQualityProperty("S", "Specific");
+        qualityPropertyIdList.add(newQualityProperty.getId());
+        projectToUpdate.setId(persistedProject.getId());
+        // ACT
+        Project updatedProject = projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
+        // ASSERT
+        assertThat(updatedProject.getId()).isEqualTo(persistedProject.getId());
+        assertThat(updatedProject.getQualityProperties().size()).isEqualTo(2);
+        assertThat(updatedProject.getQualityProperties().contains(qualityProperty));
+        assertThat(updatedProject.getQualityProperties().contains(newQualityProperty));
+        int qualityPropertySize = updatedProject.getQualityProperties().size();
+        for (Instance instance : updatedProject.getQualityAttributes()) {
+            for (QualityPropertyStatus qualityPropertyStatus : instance.getQualityPropertyStatus()) {
+                Logger.info("called");
+                if (qualityAttributeIdList.contains(qualityPropertyStatus.getQp().getId())) {
+                    qualityPropertySize--;
+                }
+            }
+            assertThat(qualityPropertySize).isEqualTo(0);
+        }
+    }
+
+    @Test
+    public void updateValidProjectRemoveQualityProperties() throws EntityNotFoundException, MissingParameterException {
+        // ARRANGE
+        persistedProject = AbstractTestDataCreator.createProject(project);
+        Project projectToUpdate = new Project();
+        projectToUpdate.setProjectCustomer(customer);
+        qualityPropertyIdList = new ArrayList<>();
+        projectToUpdate.setId(persistedProject.getId());
+        // ACT
+        Project updatedProject = projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
+        // ASSERT
+        assertThat(updatedProject.getId()).isEqualTo(persistedProject.getId());
+        assertThat(updatedProject.getQualityProperties().size()).isEqualTo(0);
+        for (Instance instance : updatedProject.getQualityAttributes()) {
+            assertThat(instance.getQualityPropertyStatus().size()).isEqualTo(0);
+        }
     }
 
 }

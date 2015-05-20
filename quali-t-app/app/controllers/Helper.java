@@ -6,11 +6,11 @@ import com.google.common.base.Function;
  * Created by corina on 23.04.2015.
  */
 public class Helper {
-    public static Function<String, Long> parseLongFunction() {
+    public Function<String, Long> parseLongFunction() {
         return ParseLongFunction.INSTANCE;
     }
 
-    public static boolean validate(String name) {
+    public boolean validate(String name) {
         return name != null && !name.isEmpty();
     }
 

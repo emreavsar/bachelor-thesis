@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import exceptions.EntityNotFoundException;
 import models.Interface.JIRAConnection;
 import models.project.Customer;
@@ -20,27 +21,29 @@ import java.util.List;
 /**
  * Created by corina on 14.05.2015.
  */
-public class Converter {
+public class JsonConverter {
+    @Inject
+    private Helper helper;
 
-    public static QA getQaFromJson(JsonNode json) {
+    public QA getQaFromJson(JsonNode json) {
         QA qa = new QA(json.findValue("description").asText());
         qa.setId(json.findPath("id").asLong());
         return qa;
     }
 
-    public static List<Long> getQaCategoriesFromJson(JsonNode json) throws EntityNotFoundException {
+    public List<Long> getQaCategoriesFromJson(JsonNode json) throws EntityNotFoundException {
         JsonNode categoriesNode = json.findValue("categories");
         List<String> list = categoriesNode.findValuesAsText("id");
-        return Lists.transform(list, Helper.parseLongFunction());
+        return Lists.transform(list, helper.parseLongFunction());
     }
 
-    public static models.project.Customer getCustomerFromJson(JsonNode json) {
+    public models.project.Customer getCustomerFromJson(JsonNode json) {
         models.project.Customer customer = new models.project.Customer(json.findPath("name").asText(), json.findPath("address").asText());
         customer.setId(json.findPath("id").asLong());
         return customer;
     }
 
-    public static models.template.Catalog getCatalogFromJson(JsonNode json) throws EntityNotFoundException {
+    public models.template.Catalog getCatalogFromJson(JsonNode json) throws EntityNotFoundException {
         models.template.Catalog catalog = new Catalog();
         catalog.setId(json.findPath("id").asLong());
         catalog.setDescription(json.findPath("description").asText());
@@ -49,7 +52,7 @@ public class Converter {
         return catalog;
     }
 
-    public static List<CatalogQA> getCatalogQasFromJson(JsonNode json) {
+    public List<CatalogQA> getCatalogQasFromJson(JsonNode json) {
         JsonNode qas = json.findValue("selectedQualityAttributes");
         List<CatalogQA> newCatalogQAs = new ArrayList<>();
         for (JsonNode qaNode : qas) {
@@ -63,7 +66,7 @@ public class Converter {
         return newCatalogQAs;
     }
 
-    public static CatalogQA getCatalogQaFromJson(JsonNode json) {
+    public CatalogQA getCatalogQaFromJson(JsonNode json) {
         QA qa = new QA();
         qa.setId(json.findPath("qa").findPath("id").asLong());
         CatalogQA catalogQA = new CatalogQA(qa, getCatalogIdFromJson(json));
@@ -72,7 +75,7 @@ public class Converter {
         return catalogQA;
     }
 
-    public static models.project.Project getProjectFromJson(JsonNode json) {
+    public models.project.Project getProjectFromJson(JsonNode json) {
         //set general project information parameters
         models.project.Project project = new models.project.Project();
         project.setName(json.findValue("name").asText());
@@ -89,17 +92,17 @@ public class Converter {
         return project;
     }
 
-    public static List<Long> getQualityPropertiesFromJson(JsonNode json) {
+    public List<Long> getQualityPropertiesFromJson(JsonNode json) {
         JsonNode qualityPropertyNode = json.findPath("qualityProperties");
-        return Lists.transform(qualityPropertyNode.findValuesAsText("id"), Helper.parseLongFunction());
+        return Lists.transform(qualityPropertyNode.findValuesAsText("id"), helper.parseLongFunction());
     }
 
-    public static List<Long> getQualityAttributeIdsFromJson(JsonNode json) {
+    public List<Long> getQualityAttributeIdsFromJson(JsonNode json) {
         JsonNode qualityAttributeNode = json.findPath("qualityAttributes");
-        return Lists.transform(qualityAttributeNode.findValuesAsText("id"), Helper.parseLongFunction());
+        return Lists.transform(qualityAttributeNode.findValuesAsText("id"), helper.parseLongFunction());
     }
 
-    private static List<Instance> getAdditionalQualityAttributesFromJson(JsonNode json) {
+    private List<Instance> getAdditionalQualityAttributesFromJson(JsonNode json) {
         JsonNode qualityAttributeNode = json.findPath("additionalQualityAttributes");
         List<Instance> qaList = new ArrayList<>();
         for (JsonNode qaNode : qualityAttributeNode) {
@@ -108,13 +111,13 @@ public class Converter {
         return qaList;
     }
 
-    private static Catalog getCatalogIdFromJson(JsonNode json) {
+    private Catalog getCatalogIdFromJson(JsonNode json) {
         Catalog catalog = new Catalog();
         catalog.setId(json.findPath("catalog").asLong());
         return catalog;
     }
 
-    public static Instance getInstanceFromJson(JsonNode json) {
+    public Instance getInstanceFromJson(JsonNode json) {
         Instance instance = new Instance(json.findPath("description").asText());
         instance.setId(json.findPath("id").asLong());
         Val val;
@@ -136,7 +139,7 @@ public class Converter {
         return instance;
     }
 
-    public static Project getCompleteProjectFromJson(JsonNode json) {
+    public Project getCompleteProjectFromJson(JsonNode json) {
         Project project = getProjectFromJson(json);
         for (JsonNode instanceNode : json.findPath("qualityAttributes")) {
             project.addQualityAttribute(getInstanceFromJson(instanceNode));
@@ -144,23 +147,24 @@ public class Converter {
         return project;
     }
 
-    public static QualityProperty getQualityPropertyFromJson(JsonNode json){
+    public QualityProperty getQualityPropertyFromJson(JsonNode json) {
         QualityProperty qualityProperty = new QualityProperty(json.findPath("name").asText(), json.findPath("description").asText());
         qualityProperty.setId(json.findPath("id").asLong());
         return qualityProperty;
     }
 
-    public static QACategory getCategoryFromJson(JsonNode json) {
+    public QACategory getCategoryFromJson(JsonNode json) {
         QACategory qaCategory = new QACategory(json.findPath("name").asText(), json.findPath("icon").asText());
         qaCategory.setId(json.findPath("id").asLong());
         if (json.findPath("parent").asLong() != 0) {
             QACategory parent = new QACategory();
             parent.setId(json.findPath("parent").asLong());
+            qaCategory.setParent(parent);
         }
         return qaCategory;
     }
 
-    public static JIRAConnection getJiraConnectionFromJson(JsonNode json) {
+    public JIRAConnection getJiraConnectionFromJson(JsonNode json) {
         JIRAConnection jiraConnection = new JIRAConnection(json.findPath("hostAddress").asText(), json.findPath("username").asText(), json.findPath("password").asText());
         jiraConnection.setId(json.findPath("id").asLong());
         return jiraConnection;

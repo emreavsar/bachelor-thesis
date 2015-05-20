@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import com.fasterxml.jackson.databind.JsonNode;
 import dao.models.QualityAttributeDAO;
 import exceptions.EntityNotFoundException;
 import models.template.QA;
@@ -37,7 +36,7 @@ public class Application extends Controller {
     @Transactional
     public static Result setCustomerProject(String customername) throws EntityNotFoundException {
         Map<String, String> parameters = new HashMap<>();
-        JsonNode blubb = logics.interfaces.JIRAExport.exportToJira();
+//        JsonNode blubb = logics.interfaces.JIRAExport.exportToJira();
 //        parameters.put("1", "Text1");
 //        parameters.put("2", "Text2");
 ////        QAVar qaVar = createVariable(1, "enumText", parameters);
@@ -102,7 +101,7 @@ public class Application extends Controller {
 //        CustomerDAO customerDAO = new CustomerDAO();
 //        Customer customer2 = customerDAO.persist(customer);
 //        return ok(Json.toJson(customerDAO.readById(customer2.getId())));
-        return ok(Json.toJson(blubb));
+        return ok(Json.toJson("d"));
 //        return ok();
     }
 }

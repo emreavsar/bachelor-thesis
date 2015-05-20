@@ -6,6 +6,7 @@ import base.AbstractTestDataCreator;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import logics.project.CustomerLogic;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,14 +15,14 @@ import static org.fest.assertions.Assertions.assertThat;
 public class CustomerLogicTest extends AbstractDatabaseTest {
 
     private models.project.Customer customer;
-    private logics.project.Customer customerLogic;
+    private CustomerLogic customerLogic;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         customer = new models.project.Customer("Name", "Address");
-        customerLogic = getInjector().getInstance(logics.project.Customer.class);
+        customerLogic = getInjector().getInstance(CustomerLogic.class);
     }
 
     //createCustomer Tests

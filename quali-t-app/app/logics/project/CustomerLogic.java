@@ -9,17 +9,19 @@ import exceptions.MissingParameterException;
 
 import java.util.List;
 
-import static logics.project.Project.deleteProject;
-
 /**
  * Created by corina on 06.05.2015.
  */
-public class Customer {
+public class CustomerLogic {
     @Inject
     private CustomerDAO customerDAO;
+    @Inject
+    private ProjectLogic projectLogic;
+    @Inject
+    private Helper helper;
 
     public models.project.Customer createCustomer(models.project.Customer customer) throws EntityAlreadyExistsException, MissingParameterException {
-        if (customer != null && Helper.validate(customer.getName())) {
+        if (customer != null && helper.validate(customer.getName())) {
             models.project.Customer c = customerDAO.findByName(customer.getName());
             if (c == null) {
                 customer.setId(null);
@@ -33,7 +35,7 @@ public class Customer {
     }
 
     public models.project.Customer updateCustomer(models.project.Customer updatedCustomer) throws MissingParameterException, EntityNotFoundException, EntityAlreadyExistsException {
-        if (updatedCustomer != null && updatedCustomer.getId() != null && Helper.validate(updatedCustomer.getName())) {
+        if (updatedCustomer != null && updatedCustomer.getId() != null && helper.validate(updatedCustomer.getName())) {
             models.project.Customer c = customerDAO.findByName(updatedCustomer.getName());
             if (c == null) {
                 models.project.Customer customer = customerDAO.readById(updatedCustomer.getId());
@@ -56,7 +58,7 @@ public class Customer {
         if (id != null) {
             models.project.Customer customer = customerDAO.readById(id);
             for (models.project.Project project : customer.getProjects()) {
-                deleteProject(project.getId());
+                projectLogic.deleteProject(project.getId());
             }
             customerDAO.remove(customer);
         } else {

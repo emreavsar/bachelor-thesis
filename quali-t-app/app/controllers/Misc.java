@@ -6,7 +6,9 @@ import com.google.inject.Inject;
 import dao.models.QAInstanceDAO;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
-import logics.user.Task;
+import logics.authentication.UserTaskLogic;
+import logics.project.ProjectLogic;
+import logics.user.TaskLogic;
 import models.authentication.User;
 import models.project.Project;
 import models.project.nfritem.Instance;
@@ -26,9 +28,15 @@ import java.util.Set;
 // TODO emre: rename this class!
 public class Misc extends Controller {
     @Inject
+    DetectorService detectorService;
+    @Inject
+    ProjectLogic projectLogic;
+    @Inject
     private Authenticator authenticator;
     @Inject
-    DetectorService detectorService;
+    private UserTaskLogic userTaskLogic;
+    @Inject
+    private TaskLogic taskLogic;
 
     @SubjectPresent
     @Transactional
@@ -36,7 +44,7 @@ public class Misc extends Controller {
         Logger.info("getTasksOfCurrentUser called");
         try {
             long userid = Long.parseLong(session().get("userid"));
-            List<models.user.Task> tasks = logics.authentication.Task.getTasksOfUser(userid);
+            List<models.user.Task> tasks = userTaskLogic.getTasksOfUser(userid);
             return ok(Json.toJson(tasks));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
@@ -65,7 +73,7 @@ public class Misc extends Controller {
         Long taskId = Long.valueOf(requestData.get("taskId"));
 
         try {
-            models.user.Task t = Task.changeState(taskId);
+            models.user.Task t = taskLogic.changeState(taskId);
             return ok(Json.toJson(t));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
@@ -82,7 +90,7 @@ public class Misc extends Controller {
 
             long userid = Long.parseLong(session().get("userid"));
             boolean isFavorite = Boolean.parseBoolean(requestData.get("isFavorite"));
-            Project projectToFavorite = logics.project.Project.getProject(projectId);
+            Project projectToFavorite = projectLogic.getProject(projectId);
 
             User u;
             // add favorite

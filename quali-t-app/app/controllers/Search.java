@@ -2,6 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
+import logics.search.SearchLogic;
 import models.AbstractEntity;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 
 public class Search extends Controller {
     @Inject
-    private logics.search.Search searchLogic;
+    private SearchLogic searchLogic;
 
     @SubjectPresent
     @Transactional

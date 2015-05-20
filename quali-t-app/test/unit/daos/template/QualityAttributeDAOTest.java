@@ -20,7 +20,6 @@ public class QualityAttributeDAOTest extends AbstractDatabaseTest {
     private QA qa1;
     private QA qa2;
     private List<Long> qaIds;
-
     private QualityAttributeDAO qualityAttributeDAO;
 
     @Override
@@ -28,7 +27,6 @@ public class QualityAttributeDAOTest extends AbstractDatabaseTest {
     public void setUp() throws Exception {
         super.setUp();
         qualityAttributeDAO = getInjector().getInstance(QualityAttributeDAO.class);
-
         qa1 = AbstractTestDataCreator.createQA("Test QA1");
         qa2 = AbstractTestDataCreator.createQA("Test QA2");
         qaIds = new ArrayList<>();

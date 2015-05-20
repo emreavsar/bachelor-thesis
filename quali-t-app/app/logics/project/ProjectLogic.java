@@ -1,5 +1,7 @@
 package logics.project;
 
+import com.google.inject.Inject;
+import controllers.Helper;
 import dao.interfaces.JIRAConnectionDAO;
 import dao.models.*;
 import exceptions.EntityNotFoundException;
@@ -13,22 +15,28 @@ import models.template.CatalogQA;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controllers.Helper.validate;
-import static logics.project.QAInstance.qualityPropertyStatusDAO;
-import static logics.project.QAInstance.valDAO;
-
 /**
  * Created by corina on 08.04.2015.
  */
-public class Project {
-    static ProjectDAO projectDAO = new ProjectDAO();
-    static CustomerDAO customerDAO = new CustomerDAO();
-    static CatalogDAO catalogDAO = new CatalogDAO();
-    static QualityPropertyDAO qualityPropertyDAO = new QualityPropertyDAO();
-    static CatalogQADAO catalogQADAO = new CatalogQADAO();
-    static QADAO qaDAO = new QADAO();
-    static QAInstanceDAO qaInstanceDAO = new QAInstanceDAO();
-    static JIRAConnectionDAO jiraConnectionDAO = new JIRAConnectionDAO();
+public class ProjectLogic {
+    @Inject
+    private ProjectDAO projectDAO;
+    @Inject
+    private CustomerDAO customerDAO;
+    @Inject
+    private QualityPropertyDAO qualityPropertyDAO;
+    @Inject
+    private CatalogQADAO catalogQADAO;
+    @Inject
+    private QAInstanceDAO qaInstanceDAO;
+    @Inject
+    private JIRAConnectionDAO jiraConnectionDAO;
+    @Inject
+    private ValDAO valDAO;
+    @Inject
+    private QualityPropertyStatusDAO qualityPropertyStatusDAO;
+    @Inject
+    private Helper helper;
 
     /**
      * Creates and persists customer.
@@ -37,8 +45,8 @@ public class Project {
      * @return Project
      */
 
-    public static models.project.Project createProject(models.project.Project project, List<Long> qualityAttributeIdList, List<Long> qualityPropertyIdList) throws EntityNotFoundException, MissingParameterException {
-        if (project != null && qualityAttributeIdList != null && qualityPropertyIdList != null && validate(project.getName())) {
+    public models.project.Project createProject(models.project.Project project, List<Long> qualityAttributeIdList, List<Long> qualityPropertyIdList) throws EntityNotFoundException, MissingParameterException {
+        if (project != null && qualityAttributeIdList != null && qualityPropertyIdList != null && helper.validate(project.getName())) {
             project.setId(null);
             //create qa instances
             CatalogQA catalogQA;
@@ -56,7 +64,7 @@ public class Project {
         throw new MissingParameterException("Please provide all required Parameters!");
     }
 
-    public static Instance cloneInstance(Long id) throws MissingParameterException, EntityNotFoundException {
+    public Instance cloneInstance(Long id) throws MissingParameterException, EntityNotFoundException {
         if (id != null) {
             Instance originalInstance = qaInstanceDAO.readById(id);
             Instance newInstance = originalInstance.copyInstance();
@@ -65,7 +73,7 @@ public class Project {
         throw new MissingParameterException("Please provide a valid ID!");
     }
 
-    public static models.project.Project createInstance(Instance updatedInstance) throws EntityNotFoundException {
+    public models.project.Project createInstance(Instance updatedInstance) throws EntityNotFoundException {
 //        models.project.Project project = getProject(json.findPath("id").asLong());
 //        for (JsonNode qa : json.findPath("qualityAttributes")) {
 //            Instance instance = createQAInstance(qa);
@@ -75,24 +83,23 @@ public class Project {
         return null;
     }
 
-    public static List<models.project.Project> getAllProjects() {
+    public List<models.project.Project> getAllProjects() {
         return projectDAO.readAll();
     }
 
-    public static models.project.Project getProject(Long id) throws EntityNotFoundException {
+    public models.project.Project getProject(Long id) throws EntityNotFoundException {
         return projectDAO.readById(id);
     }
 
-    public static models.project.Project updateProject(models.project.Project project, List<Long> qualityPropertyList) throws EntityNotFoundException {
-//        models.project.Project persistedProject = projectDAO.readById(project.getId());
+    public models.project.Project updateProject(models.project.Project project, List<Long> qualityPropertyList) throws EntityNotFoundException, MissingParameterException {
         projectDAO.update(setProjectParameters(project));
         setInstanceQualityAttributeStatus(project, qualityPropertyList);
         setProjectQualityProperties(project, qualityPropertyList);
         return projectDAO.readById(project.getId());
     }
 
-    public static Instance updateInstance(Instance updatedInstance) throws EntityNotFoundException, MissingParameterException {
-        if (updatedInstance != null && updatedInstance.getId() != null && validate(updatedInstance.getDescription())) {
+    public Instance updateInstance(Instance updatedInstance) throws EntityNotFoundException, MissingParameterException {
+        if (updatedInstance != null && updatedInstance.getId() != null && helper.validate(updatedInstance.getDescription())) {
             Instance persistedInstance = qaInstanceDAO.readById(updatedInstance.getId());
             persistedInstance.setDescription(updatedInstance.getDescription());
             List<Val> valueList = new ArrayList<>();
@@ -116,35 +123,38 @@ public class Project {
         }
     }
 
-    public static void deleteProject(Long id) throws EntityNotFoundException {
+    public void deleteProject(Long id) throws EntityNotFoundException {
         models.project.Project project = projectDAO.readById(id);
         project.removeQualityProperties();
         projectDAO.remove(projectDAO.update(project));
     }
 
-    public static void deleteInstance(Long id) throws EntityNotFoundException {
+    public void deleteInstance(Long id) throws EntityNotFoundException {
         qaInstanceDAO.remove(qaInstanceDAO.readById(id));
     }
 
-    private static models.project.Project setProjectParameters(models.project.Project updatedProject) throws EntityNotFoundException {
-        models.project.Project persistedProject;
-        if (updatedProject.getId() != null) {
-            persistedProject = projectDAO.readById(updatedProject.getId());
-        } else {
-            persistedProject = updatedProject;
+    private models.project.Project setProjectParameters(models.project.Project updatedProject) throws EntityNotFoundException, MissingParameterException {
+        if (updatedProject != null && updatedProject.getProjectCustomer() != null) {
+            models.project.Project persistedProject;
+            if (updatedProject.getId() != null) {
+                persistedProject = projectDAO.readById(updatedProject.getId());
+            } else {
+                persistedProject = updatedProject;
+            }
+            persistedProject.setName(updatedProject.getName());
+            persistedProject.setJiraKey(updatedProject.getJiraKey());
+            persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
+            if (updatedProject.getJiraConnection() != null && updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
+                persistedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
+            } else {
+                persistedProject.setJiraConnection(null);
+            }
+            return projectDAO.persist(persistedProject);
         }
-        persistedProject.setName(updatedProject.getName());
-        persistedProject.setJiraKey(updatedProject.getJiraKey());
-        persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
-        if (updatedProject.getJiraConnection() != null && updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
-            persistedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
-        } else {
-            persistedProject.setJiraConnection(null);
-        }
-        return projectDAO.persist(persistedProject);
+        throw new MissingParameterException("Please provide all Parameters!");
     }
 
-    private static models.project.Project setProjectQualityProperties(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
+    private models.project.Project setProjectQualityProperties(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
         List<models.project.QualityProperty> qualityPropertiesToRemove = new ArrayList<>();
         List<QualityPropertyStatus> qualityPropertyStatusesToRemove = new ArrayList<>();
         List<models.project.QualityProperty> qualityPropertyList = qualityPropertyDAO.readAllById(qualityPropertyIdList);
@@ -179,7 +189,7 @@ public class Project {
         return projectDAO.readById(project.getId());
     }
 
-    private static void addQualityPropertyToInstances(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
+    private void addQualityPropertyToInstances(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
         Instance persistedInstance;
         for (Instance instance : project.getQualityAttributes()) {
             persistedInstance = qaInstanceDAO.readById(instance.getId());
@@ -188,14 +198,14 @@ public class Project {
         }
     }
 
-    private static void removeQualityPropertyFromProject(models.project.Project persistedProject, QualityProperty qualityProperty) throws EntityNotFoundException {
+    private void removeQualityPropertyFromProject(models.project.Project persistedProject, QualityProperty qualityProperty) throws EntityNotFoundException {
         QualityProperty persistedQualityProperty = qualityPropertyDAO.readById(qualityProperty.getId());
         persistedQualityProperty.getUsedByProject().remove(persistedProject);
         persistedProject.getQualityProperties().remove(persistedQualityProperty);
         projectDAO.persist(persistedProject);
     }
 
-    private static List<QualityPropertyStatus> findQualityPropertyStatusesToRemove(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
+    private List<QualityPropertyStatus> findQualityPropertyStatusesToRemove(models.project.Project project, QualityProperty qualityProperty) throws EntityNotFoundException {
         List<QualityPropertyStatus> qualityPropertyStatusToRemove = new ArrayList<>();
         models.project.Project persistedProject = projectDAO.readById(project.getId());
         for (Instance instance : persistedProject.getQualityAttributes()) {
@@ -210,7 +220,7 @@ public class Project {
     }
 
 
-    private static models.project.Project setInstanceQualityAttributeStatus(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
+    private models.project.Project setInstanceQualityAttributeStatus(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {
         QualityPropertyStatus persistedQualityPropertyStatus;
         List<models.project.QualityProperty> qualityProperties = qualityPropertyDAO.readAllById(qualityPropertyIdList);
         for (Instance instance : project.getQualityAttributes()) {

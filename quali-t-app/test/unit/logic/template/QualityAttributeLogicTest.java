@@ -8,6 +8,7 @@ import dao.models.QADAO;
 import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import logics.template.QualityAttributeLogic;
 import models.template.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,23 +26,25 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     private List<Long> categoryIds;
     private List<QAVar> qaVarsEmpty;
     private List<QAVar> qaVars;
+    private List<QACategory> qaCategories;
     private CatalogQA standardCatalogQA;
     private QA qa;
     private CatalogDAO catalogDAO;
     private QADAO qaDAO;
     private CatalogQADAO catalogQADAO;
-    private List<QACategory> qaCategories;
+    private QualityAttributeLogic qualityAttributeLogic;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        qualityAttributeLogic = getInjector().getInstance(QualityAttributeLogic.class);
+        qaDAO = getInjector().getInstance(QADAO.class);
+        catalogDAO = getInjector().getInstance(CatalogDAO.class);
+        catalogQADAO = getInjector().getInstance(CatalogQADAO.class);
+        
         categoryIds = new ArrayList<>();
         qaVarsEmpty = new ArrayList<>();
-        catalogDAO = new CatalogDAO();
-        qaDAO = new QADAO();
-        catalogQADAO = new CatalogQADAO();
-
 
         //create QA with categories
         qaCategories = new ArrayList<>();
@@ -66,7 +69,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         models.template.QA qa = new QA("Test QA");
         // ACT
-        QA newQA = logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars);
+        QA newQA = qualityAttributeLogic.createQA(qa, categoryIds, qaVars);
         // ASSERT
         assertThat(newQA.getDescription()).isEqualTo("Test QA");
         assertThat(newQA.getId()).isNotNull();
@@ -77,7 +80,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         models.template.QA qa = new QA("");
         // ACT
-        logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars);
+        qualityAttributeLogic.createQA(qa, categoryIds, qaVars);
         // ASSERT
     }
 
@@ -85,7 +88,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     public void testCreateNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.QualityAttribute.createQA(null, categoryIds, qaVars);
+        qualityAttributeLogic.createQA(null, categoryIds, qaVars);
         // ASSERT
     }
 
@@ -94,7 +97,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         models.template.QA qa = new QA("Test QA");
         // ACT
-        logics.template.QualityAttribute.createQA(qa, null, qaVars);
+        qualityAttributeLogic.createQA(qa, null, qaVars);
         // ASSERT
     }
 
@@ -103,14 +106,14 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         models.template.QA qa = new QA("Test QA");
         // ACT
-        logics.template.QualityAttribute.createQA(qa, categoryIds, null);
+        qualityAttributeLogic.createQA(qa, categoryIds, null);
         // ASSERT
     }
 
     @Test
     public void testCloneValidCatalogQA() throws EntityNotFoundException, MissingParameterException, EntityNotCreatedException {
         // ACT
-        QA clonedQA = logics.template.QualityAttribute.cloneQA(standardCatalogQA.getId());
+        QA clonedQA = qualityAttributeLogic.cloneQA(standardCatalogQA.getId());
         // ASSERT
         assertThat(clonedQA.getDescription()).isEqualTo(standardCatalogQA.getQa().getDescription());
         assertThat(clonedQA.getCategories().size()).isEqualTo(standardCatalogQA.getQa().getCategories().size());
@@ -148,7 +151,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         Catalog catalog = AbstractTestDataCreator.createCatalog("catalog", "description", "icon", qaList);
         CatalogQA catalogQA = AbstractTestDataCreator.createCatalogQA(qa, catalog);
         // ACT
-        logics.template.QualityAttribute.cloneQA(catalogQA.getId());
+        qualityAttributeLogic.cloneQA(catalogQA.getId());
         // ASSERT
     }
 
@@ -156,7 +159,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     public void testCloneNonExistingCatalogQACatalogQA() throws EntityNotCreatedException, MissingParameterException, EntityNotFoundException {
         // ARRANGE
         // ACT
-        logics.template.QualityAttribute.cloneQA(new Long(9999));
+        qualityAttributeLogic.cloneQA(new Long(9999));
         // ASSERT
     }
 
@@ -164,14 +167,14 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     public void testCloneNullCatalogQA() throws EntityNotCreatedException, EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.QualityAttribute.cloneQA(null);
+        qualityAttributeLogic.cloneQA(null);
         // ASSERT
     }
 
     @Test
     public void testDeleteValidQA() throws EntityNotCreatedException, EntityNotFoundException, MissingParameterException {
         // ACT
-        logics.template.QualityAttribute.deleteQA(qa.getId());
+        qualityAttributeLogic.deleteQA(qa.getId());
         QA deletedQA = qaDAO.readById(qa.getId());
         // ASSERT
         assertThat(deletedQA.isDeleted());
@@ -184,7 +187,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     public void testDeleteNonExistingQA() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
         // ACT
-        logics.template.QualityAttribute.deleteQA(new Long(9999));
+        qualityAttributeLogic.deleteQA(new Long(9999));
         // ASSERT
     }
 
@@ -192,7 +195,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     public void testDeleteNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.QualityAttribute.deleteQA(null);
+        qualityAttributeLogic.deleteQA(null);
         // ASSERT
     }
 
@@ -201,7 +204,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
         // ACT
-        QA updatedQA = logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
+        QA updatedQA = qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
         assertThat(updatedQA.getCategories().size()).isEqualTo(0);
         assertThat(updatedQA.getDescription()).isEqualTo(qaToUpdate.getDescription());
@@ -215,7 +218,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
         // ACT
-        logics.template.QualityAttribute.updateQA(qaToUpdate, null, qaVars);
+        qualityAttributeLogic.updateQA(qaToUpdate, null, qaVars);
         // ASSERT
     }
 
@@ -226,7 +229,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         categoryIds.clear();
         categoryIds.add(new Long(99999));
         // ACT
-        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
+        qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
     }
 
@@ -242,7 +245,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             }
         }
         // ACT
-        QA updatedQA = logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, updatedQaVars);
+        QA updatedQA = qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, updatedQaVars);
         CatalogQA updatedCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(new Long(-6000)), updatedQA);
         // ASSERT
         assertThat(updatedQA.getDescription()).isEqualTo(qaToUpdate.getDescription());
@@ -266,7 +269,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         List<QAVar> updatedQaVars = qaVars;
         updatedQaVars.add(new QAVar(99));
         // ACT
-        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, updatedQaVars);
+        qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, updatedQaVars);
         // ASSERT
     }
 
@@ -275,7 +278,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         QA qaToUpdate = qaDAO.readById(qa.getId());
         // ACT
-        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, null);
+        qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, null);
         // ASSERT
     }
 
@@ -286,7 +289,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         qaToUpdate.setId(qa.getId());
         qaToUpdate.setVersionNumber(qa.getVersionNumber());
         // ACT
-        QA newQA = logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
+        QA newQA = qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
         assertThat(qa.isDeleted()).isTrue();
         assertThat(newQA.getDescription()).isEqualTo(qaToUpdate.getDescription());
@@ -311,7 +314,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         qaToUpdate.setId(qa.getId());
         qaToUpdate.setVersionNumber(qa.getVersionNumber());
         // ACT
-        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
+        qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
     }
 
@@ -322,7 +325,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         qaToUpdate.setId(qa.getId());
         qaToUpdate.setVersionNumber(qa.getVersionNumber());
         // ACT
-        logics.template.QualityAttribute.updateQA(qaToUpdate, categoryIds, qaVars);
+        qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, qaVars);
         // ASSERT
     }
 
@@ -330,7 +333,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
     public void testUpdateNullQA() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         // ACT
-        logics.template.QualityAttribute.updateQA(null, categoryIds, qaVars);
+        qualityAttributeLogic.updateQA(null, categoryIds, qaVars);
         // ASSERT
     }
 

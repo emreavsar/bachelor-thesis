@@ -13,11 +13,6 @@ import static play.mvc.Results.status;
  */
 public interface ExceptionHandlingInterface {
 
-    @FunctionalInterface
-    public interface FunctionThatThrows<T, R> {
-        R apply(T t) throws AbstractException;
-    }
-
     default Result catchAbstractException(Http.Request request, FunctionThatThrows<JsonNode, Result> f) {
         try {
             JsonNode json = request.body().asJson();
@@ -27,13 +22,31 @@ public interface ExceptionHandlingInterface {
         }
     }
 
-
     default Result catchAbstractException(Long id, FunctionThatThrows<Long, Result> f) {
         try {
             return f.apply(id);
         } catch (AbstractException e) {
             return status(e.getStatusCode(), e.getMessage());
         }
+    }
+
+    default Result catchAbstractException(FunctionThatThrowsWithoutParameter<Result> f) {
+        try {
+            return f.apply();
+        } catch (AbstractException e) {
+            return status(e.getStatusCode(), e.getMessage());
+        }
+    }
+
+
+    @FunctionalInterface
+    public interface FunctionThatThrows<T, R> {
+        R apply(T t) throws AbstractException;
+    }
+
+    @FunctionalInterface
+    public interface FunctionThatThrowsWithoutParameter<R> {
+        R apply() throws AbstractException;
     }
 
 }
