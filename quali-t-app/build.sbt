@@ -20,6 +20,9 @@ libraryDependencies ++= Seq(
   "org.jsoup"                 %   "jsoup"                   % "1.8.2"
 )
 
+// exclude unneeded files from build
+excludeFilter in Assets := "node_modules"
+
 // HEROKU sbt plugin
 herokuJdkVersion in Compile := "1.8"
 

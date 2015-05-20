@@ -30,8 +30,8 @@ POST          /api/myfavorites                   @controllers.Misc.updateFavorit
 
 
 # Search
-GET           /api/search/                       controllers.Search.search(searchArgument: String ?= "")
-GET           /api/search/:searchArgument        controllers.Search.search(searchArgument: String)
+GET           /api/search/                       @controllers.Search.search(searchArgument: String ?= "")
+GET           /api/search/:searchArgument        @controllers.Search.search(searchArgument: String)
 
 # Testing
 GET           /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)

@@ -1,5 +1,6 @@
 package logics.search;
 
+import com.google.inject.Inject;
 import controllers.Customer;
 import dao.models.CatalogDAO;
 import dao.models.CustomerDAO;
@@ -17,7 +18,16 @@ import java.util.HashMap;
  * Created by emre on 25/04/15.
  */
 public class Search {
-    public static HashMap<String, ArrayList<? extends AbstractEntity>> search(String searchArgument) {
+    @Inject
+    private CatalogDAO catalogDAO;
+    @Inject
+    private CustomerDAO customerDAO;
+    @Inject
+    private ProjectDAO projectDAO;
+    @Inject
+    private QualityAttributeDAO qualityAttributeDAO;
+
+    public HashMap<String, ArrayList<? extends AbstractEntity>> search(String searchArgument) {
         HashMap<String, ArrayList<? extends AbstractEntity>> results = new HashMap<>();
 
         results.put("customer", searchCustomer(searchArgument));
@@ -28,40 +38,36 @@ public class Search {
         return results;
     }
 
-    private static ArrayList<Catalog> searchCatalogs(String searchArgument) {
+    private ArrayList<Catalog> searchCatalogs(String searchArgument) {
         ArrayList<Catalog> catalogs;
 
-        CatalogDAO catalogDAO = new CatalogDAO();
         catalogs = (ArrayList<Catalog>) catalogDAO.search(searchArgument);
 
         return catalogs;
     }
 
-    private static ArrayList<models.project.Customer> searchCustomer(String searchArgument) {
+    private ArrayList<models.project.Customer> searchCustomer(String searchArgument) {
         ArrayList<models.project.Customer> customers;
 
-        CustomerDAO customerDAO = new CustomerDAO();
         customers = customerDAO.search(searchArgument);
 
         return customers;
     }
 
 
-    private static ArrayList<Project> searchProjects(String searchArgument) {
+    private ArrayList<Project> searchProjects(String searchArgument) {
         ArrayList<Project> projects;
 
-        ProjectDAO projectDAO = new ProjectDAO();
         projects = projectDAO.search(searchArgument);
 
         return projects;
     }
 
 
-    private static ArrayList<QA> searchQAs(String searchArgument) {
+    private ArrayList<QA> searchQAs(String searchArgument) {
         // TODO emre: implement real search
         ArrayList<QA> qas;
 
-        QualityAttributeDAO qualityAttributeDAO = new QualityAttributeDAO();
         qas = (ArrayList<QA>) qualityAttributeDAO.search(searchArgument);
 
         return qas;

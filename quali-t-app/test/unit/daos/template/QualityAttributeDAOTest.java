@@ -17,26 +17,31 @@ import static org.fest.assertions.Assertions.assertThat;
  * Created by corina on 03.05.2015.
  */
 public class QualityAttributeDAOTest extends AbstractDatabaseTest {
-    static QA qa1;
-    static QA qa2;
-    static List<Long> qaIds;
+    private QA qa1;
+    private QA qa2;
+    private List<Long> qaIds;
+
+    private QualityAttributeDAO qualityAttributeDAO;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        qualityAttributeDAO = getInjector().getInstance(QualityAttributeDAO.class);
+
         qa1 = AbstractTestDataCreator.createQA("Test QA1");
         qa2 = AbstractTestDataCreator.createQA("Test QA2");
         qaIds = new ArrayList<>();
         qaIds.add(qa1.getId());
         qaIds.add(qa2.getId());
+
     }
 
     @Test
     public void findAllByIdSuccessful() throws EntityNotFoundException {
         // ARRANGE
         // ACT
-        List<QA> qas = new QualityAttributeDAO().findAllById(qaIds);
+        List<QA> qas = qualityAttributeDAO.findAllById(qaIds);
         // ASSERT
         assertThat(qas).containsExactly(qa1, qa2);
     }
@@ -46,7 +51,7 @@ public class QualityAttributeDAOTest extends AbstractDatabaseTest {
         // ARRANGE
         qaIds.add((long) 10000);
         // ACT
-        List<QA> qas = new QualityAttributeDAO().findAllById(qaIds);
+        List<QA> qas = qualityAttributeDAO.findAllById(qaIds);
         // ASSERT
     }
 

@@ -1,6 +1,7 @@
 package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import com.google.inject.Inject;
 import models.AbstractEntity;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -13,13 +14,15 @@ import java.util.HashMap;
 
 
 public class Search extends Controller {
+    @Inject
+    private logics.search.Search searchLogic;
 
     @SubjectPresent
     @Transactional
-    public static Result search(String searchArgument) {
+    public Result search(String searchArgument) {
         Logger.info("search called");
 
-        HashMap<String, ArrayList<? extends AbstractEntity>> results = logics.search.Search.search(searchArgument.toLowerCase());
+        HashMap<String, ArrayList<? extends AbstractEntity>> results = searchLogic.search(searchArgument.toLowerCase());
 
         return ok(Json.toJson(results));
     }

@@ -2,9 +2,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import dao.authentication.RoleDao;
+import dao.models.CatalogDAO;
 import dao.models.CustomerDAO;
+import dao.models.ProjectDAO;
+import dao.models.QualityAttributeDAO;
 import dao.user.TaskDao;
 import logics.authentication.Authenticator;
+import logics.search.Search;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -29,7 +33,11 @@ public class Global extends GlobalSettings {
                 bind(TaskDao.class);
                 bind(RoleDao.class);
                 bind(Authenticator.class);
+                bind(Search.class);
                 bind(CustomerDAO.class);
+                bind(CatalogDAO.class);
+                bind(ProjectDAO.class);
+                bind(QualityAttributeDAO.class);
             }
         });
     }
