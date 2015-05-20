@@ -67,21 +67,13 @@ angular.module('qualitApp')
         }
       })
       .state('customer', {
-        templateUrl: 'views/customer/edit.html',
-        url: '/authenticated/customer/edit',
+        templateUrl: 'views/customer/admin.html',
+        url: '/authenticated/customer/admin',
         controller: 'CustomerCtrl',
         data: {
           roles: ['curator', 'admin']
         }
 
-      })
-      .state('customerCreate', {
-        templateUrl: 'views/customer/new.html',
-        url: '/authenticated/customer/create',
-        controller: 'CustomerCtrl',
-        data: {
-          roles: ['analyst', 'admin']
-        }
       })
       .state('newQA', {
         templateUrl: 'views/qa/createEdit.html',

@@ -21,10 +21,6 @@ angular.module('qualitApp')
         toState: 'customer'
       },
       {
-        linkName: 'Create Customer',
-        toState: 'customerCreate'
-      },
-      {
         linkName: 'Show QAs',
         toState: 'showQA'
       }
