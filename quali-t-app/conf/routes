@@ -44,7 +44,7 @@ DELETE        /api/customer/:id                  @controllers.Customer.deleteCus
 
 # Quality Attribute
 POST          /api/qa                            @controllers.QualityAttribute.createQA()
-POST          /api/qa/clone/:id                controllers.QualityAttribute.cloneQA(id: Long)
+POST          /api/qa/clone/:id                  controllers.QualityAttribute.cloneQA(id: Long)
 GET           /api/qa                            controllers.QualityAttribute.getAllQAs()
 GET           /api/qa/catalog/:id                @controllers.QualityAttribute.getQAsByCatalog(id: Long)
 GET           /api/qa/standardcatalog            controllers.QualityAttribute.getAllStandardCatalogQAs()
@@ -58,7 +58,7 @@ GET           /api/project/:id                   controllers.Project.getProject(
 PUT           /api/project                       controllers.Project.updateProject()
 DELETE        /api/project/:id                   controllers.Project.deleteProject(id: Long)
 POST          /api/project/qa                    controllers.Project.createInstance()
-POST          /api/project/qa/clone/:id        controllers.Project.cloneInstance(id: Long)
+POST          /api/project/qa/clone/:id          controllers.Project.cloneInstance(id: Long)
 PUT           /api/project/qa                    controllers.Project.updateInstance()
 DELETE        /api/project/qa/:id                controllers.Project.deleteInstance(id: Long)
 
@@ -67,7 +67,7 @@ GET           /api/catalog                       controllers.Catalog.getAllCatal
 POST          /api/catalog                       controllers.Catalog.createCatalog()
 PUT           /api/catalog                       controllers.Catalog.updateCatalog()
 DELETE        /api/catalog/:id                   controllers.Catalog.deleteCatalog(id: Long)
-GET           /api/catalog/qa/:id              controllers.Catalog.getCatalogQA(id: Long)
+GET           /api/catalog/qa/:id                controllers.Catalog.getCatalogQA(id: Long)
 POST          /api/catalog/qa                    controllers.Catalog.createCatalogQA()
 PUT           /api/catalog/qa                    controllers.Catalog.updateCatalogQA()
 DELETE        /api/catalog/qa/:id                controllers.Catalog.deleteCatalogQA(id: Long)
@@ -87,9 +87,12 @@ PUT           /api/qp                            controllers.QualityProperty.upd
 DELETE        /api/qp/:id                        controllers.QualityProperty.deleteQualityProperty(id: Long)
 
 # JIRAConnections
-GET           /api/jiraconnection              controllers.JIRAConnection.getAllJIRAConnections()
-POST          /api/jiraconnection              controllers.JIRAConnection.createJIRAConnection()
-PUT           /api/jiraconnection              controllers.JIRAConnection.updateJIRAConnection()
-DELETE        /api/jiraconnection/:id          controllers.JIRAConnection.deleteJIRAConnection(id: Long)
+GET           /api/jiraconnection                controllers.JIRAConnection.getAllJIRAConnections()
+POST          /api/jiraconnection                controllers.JIRAConnection.createJIRAConnection()
+PUT           /api/jiraconnection                controllers.JIRAConnection.updateJIRAConnection()
+DELETE        /api/jiraconnection/:id            controllers.JIRAConnection.deleteJIRAConnection(id: Long)
 
-POST          /api/jira/export                 controllers.JIRAConnection.export()
+POST          /api/jira/export                   controllers.JIRAConnection.export()
+
+# TODO only for testing detector api
+GET           /api/validate                      @controllers.Misc.validate()
