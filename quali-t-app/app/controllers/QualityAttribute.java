@@ -21,24 +21,18 @@ import java.util.List;
 /**
  * Created by corina on 09.04.2015.
  */
-public class QualityAttribute extends Controller {
+public class QualityAttribute extends Controller implements ExceptionHandlingInterface {
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
-    public static Result createQA() {
-        try {
-            //convert JSON to Objects
-            JsonNode json = request().body().asJson();
+    public Result createQA() {
+        return catchAbstractException(request(), json -> {
             QA qa = Converter.getQaFromJson(json);
             List<Long> categoryIds = Converter.getQaCategoriesFromJson(json);
             List<QAVar> qaVars = VariableConverter.getVarsFromJson(json);
-            //create QA with all relations
+            // create QA with all relations
             return ok(Json.toJson(logics.template.QualityAttribute.createQA(qa, categoryIds, qaVars)));
-        } catch (MissingParameterException e) {
-            return status(400, e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
+        });
     }
 
     @SubjectPresent
@@ -50,14 +44,10 @@ public class QualityAttribute extends Controller {
 
     @SubjectPresent
     @Transactional
-    public static Result getQAsByCatalog(long id) throws IOException {
-        try {
-            return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(id)));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        } catch (MissingParameterException e) {
-            return status(400, e.getMessage());
-        }
+    public Result getQAsByCatalog(Long id) throws IOException {
+        return catchAbstractException(id, theId -> {
+            return ok(Json.toJson(logics.template.QualityAttribute.getQAsByCatalog(theId)));
+        });
     }
 
     @Restrict({@Group("curator"), @Group("admin")})

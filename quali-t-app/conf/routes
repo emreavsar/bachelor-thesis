@@ -43,10 +43,10 @@ PUT           /api/customer                      @controllers.Customer.updateCus
 DELETE        /api/customer/:id                  @controllers.Customer.deleteCustomer(id: Long)
 
 # Quality Attribute
-POST          /api/qa                            controllers.QualityAttribute.createQA()
+POST          /api/qa                            @controllers.QualityAttribute.createQA()
 POST          /api/qa/clone/:id                controllers.QualityAttribute.cloneQA(id: Long)
 GET           /api/qa                            controllers.QualityAttribute.getAllQAs()
-GET           /api/qa/catalog/:id                controllers.QualityAttribute.getQAsByCatalog(id: Long)
+GET           /api/qa/catalog/:id                @controllers.QualityAttribute.getQAsByCatalog(id: Long)
 GET           /api/qa/standardcatalog            controllers.QualityAttribute.getAllStandardCatalogQAs()
 PUT           /api/qa                            controllers.QualityAttribute.updateQA()
 DELETE        /api/qa/:id                        controllers.QualityAttribute.deleteQA(id: Long)

@@ -41,7 +41,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, "Project was not found.");
+        alerts.createError(status, "Quality Attribute Template could not be created.");
       });
     }
 
