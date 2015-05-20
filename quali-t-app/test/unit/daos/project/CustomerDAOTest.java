@@ -4,6 +4,7 @@ import base.AbstractDatabaseTest;
 import base.AbstractTestDataCreator;
 import dao.models.CustomerDAO;
 import models.project.Customer;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -14,24 +15,24 @@ import static org.fest.assertions.Assertions.assertThat;
  */
 public class CustomerDAOTest extends AbstractDatabaseTest {
 
+    private CustomerDAO customerDAO;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        customerDAO = getInjector().getInstance(CustomerDAO.class);
+    }
+
     @Test
     public void findByNameTest() throws Throwable {
-        AbstractTestDataCreator.createCustomer("IFS", "Rapperswil");
-
-        Customer customer = new CustomerDAO().findByName("IFS");
-
+        // ARRANGE
+        Customer persistedCustomer = AbstractTestDataCreator.createCustomer("IFS", "Rapperswil");
+        // ACT
+        Customer customer = customerDAO.findByName("IFS");
+        // ASSERT
+        assertThat(customer.getId()).isEqualTo(persistedCustomer.getId());
         assertThat(customer.getName()).isEqualTo("IFS");
         assertThat(customer.getAddress()).isEqualTo("Rapperswil");
-
-        // TODO: corina -> complete lines below
-//        ArrayList<Project> custProjects = (ArrayList<Project>) customer.getProjects();
-//        boolean hasCloudProject = false;
-//        for(Project p : custProjects) {
-//            if(p.getName().equals("Cloud")) {
-//                hasCloudProject = true;
-//            }
-//        }
-//
-//        assertThat(hasCloudProject).isEqualTo(true);
     }
 }

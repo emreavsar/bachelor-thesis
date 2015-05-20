@@ -17,9 +17,10 @@ import static org.fest.assertions.Assertions.assertThat;
  * Created by corina on 03.05.2015.
  */
 public class QualityPropertyDAOTest extends AbstractDatabaseTest {
-    static QualityProperty qp1;
-    static QualityProperty qp2;
-    static List<Long> qpIds;
+    private QualityProperty qp1;
+    private QualityProperty qp2;
+    private List<Long> qpIds;
+    private QualityPropertyDAO qualityPropertyDAO;
 
 
     @Override
@@ -31,23 +32,45 @@ public class QualityPropertyDAOTest extends AbstractDatabaseTest {
         qpIds = new ArrayList<>();
         qpIds.add(qp1.getId());
         qpIds.add(qp2.getId());
+        qualityPropertyDAO = getInjector().getInstance(QualityPropertyDAO.class);
     }
 
     @Test
     public void readAllByIdTestSuccessful() throws EntityNotFoundException {
-        List<QualityProperty> qps = new QualityPropertyDAO().readAllById(qpIds);
+        // ARRANGE
+        // ACT
+        List<QualityProperty> qps = qualityPropertyDAO.readAllById(qpIds);
+        // ASSERT
         assertThat(qps).containsExactly(qp1, qp2);
     }
 
-    @Test
-    public void readAllByIdTestInvalidId() {
-        boolean thrown = false;
+    @Test(expected = EntityNotFoundException.class)
+    public void readAllByIdTestInvalidId() throws EntityNotFoundException {
+        // ARRANGE
         qpIds.add((long) 12345);
-        try {
-            List<QualityProperty> qps = new QualityPropertyDAO().readAllById(qpIds);
-        } catch (EntityNotFoundException e) {
-            thrown = true;
-        }
-        assertThat(thrown);
+        // ACT
+        qualityPropertyDAO.readAllById(qpIds);
+        // ASSERT
     }
+
+    @Test
+    public void testReadByName() {
+        // ARRANGE
+        // ACT
+        QualityProperty persistedQualityProperty = qualityPropertyDAO.findByName("QP1");
+        // ASSERT
+        assertThat(persistedQualityProperty.getName()).isEqualTo("QP1");
+        assertThat(persistedQualityProperty.getId()).isEqualTo(qp1.getId());
+    }
+
+    @Test
+    public void testReadByInvalidName() {
+        // ARRANGE
+        // ACT
+        QualityProperty persistedQualityProperty = qualityPropertyDAO.findByName("invalid name");
+        // ASSERT
+        assertThat(persistedQualityProperty).isNull();
+    }
+
+
 }

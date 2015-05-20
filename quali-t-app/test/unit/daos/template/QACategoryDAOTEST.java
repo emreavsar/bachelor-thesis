@@ -20,9 +20,10 @@ import static org.fest.assertions.Assertions.assertThat;
 
 
 public class QACategoryDAOTEST extends AbstractDatabaseTest {
-    static QACategory superCategory1;
-    static QACategory superCategory2;
-    static QACategory subCategory1;
+    private QACategory superCategory1;
+    private QACategory superCategory2;
+    private QACategory subCategory1;
+    private QACategoryDAO qaCategoryDAO;
 
     @Override
     @Before
@@ -31,21 +32,28 @@ public class QACategoryDAOTEST extends AbstractDatabaseTest {
         superCategory1 = AbstractTestDataCreator.createCategory("Super1", null, "icon");
         superCategory2 = AbstractTestDataCreator.createCategory("Super2", null, "icon");
         subCategory1 = AbstractTestDataCreator.createCategory("Sub1", superCategory1, "icon");
+        qaCategoryDAO = getInjector().getInstance(QACategoryDAO.class);
     }
 
     @Test
     public void readAllSuperclassesTest() {
-        List<QACategory> superCategories = new QACategoryDAO().readAllSuperclasses();
+        // ARRANGE
+        // ACT
+        List<QACategory> superCategories = qaCategoryDAO.readAllSuperclasses();
+        // ASSERT
         assertThat(superCategories).contains(superCategory1, superCategory2)
                 .excludes(subCategory1);
     }
 
     @Test
     public void readAllByIdTest() throws EntityNotFoundException {
+        // ARRANGE
         List<Long> qaIds = new ArrayList<>();
         qaIds.add(subCategory1.getId());
         qaIds.add(superCategory2.getId());
-        List<QACategory> categories = new QACategoryDAO().readAllById(qaIds);
+        // ACT
+        List<QACategory> categories = qaCategoryDAO.readAllById(qaIds);
+        // ASSERT
         assertThat(categories).containsExactly(subCategory1, superCategory2);
     }
 
