@@ -25,16 +25,12 @@ public abstract class AbstractTestDataCreator {
         JPA.withTransaction(() -> persistAndFlush(entity));
     }
 
-    private static void persistAndFlush(Object... entities) {
+    public static void persistAndFlush(Object... entities) {
         EntityManager em = JPA.em();
         for (Object entity : entities) {
             em.persist(entity);
         }
         em.flush();
-    }
-
-    public static User createUserWithTransaction(final String name, final String password) throws Throwable {
-        return JPA.withTransaction(() -> createUser(name, password));
     }
 
     public static User createUser(String name, String password) throws EntityAlreadyExistsException {
@@ -123,5 +119,11 @@ public abstract class AbstractTestDataCreator {
         JIRAConnection jiraConnection = new JIRAConnection(hostname, user, password);
         persistAndFlush(jiraConnection);
         return jiraConnection;
+    }
+
+    public static Instance addQualityPropertyStatusToInstance(Instance instance, QualityProperty qualityProperty, Boolean status) {
+        instance.addQualityProperty(qualityProperty, status);
+        persistAndFlush(instance);
+        return instance;
     }
 }

@@ -32,8 +32,12 @@ public class QACategoryLogic {
         if (qaCategory != null && helper.validate(qaCategory.getName())) {
             qaCategory.setId(null);
             if (qaCategory.getParent() != null) {
-                QACategory parent = qaCategoryDAO.readById(qaCategory.getParent().getId());
-                qaCategory.setParent(parent);
+                if (qaCategory.getParent().getId() != null) {
+                    QACategory parent = qaCategoryDAO.readById(qaCategory.getParent().getId());
+                    qaCategory.setParent(parent);
+                } else {
+                    throw new MissingParameterException("Please provide a valid Parent ID!");
+                }
             }
             return qaCategoryDAO.persist(qaCategory);
         }
@@ -44,11 +48,12 @@ public class QACategoryLogic {
         if (id != null) {
             QACategory category = getCategoryTree(id);
             qaCategoryDAO.remove(category);
+        } else {
+            throw new MissingParameterException("Please provide all Parameters!");
         }
-        throw new MissingParameterException("Please provide all Parameters!");
     }
 
-    public QACategory updateCat(QACategory qaCategory) throws EntityNotFoundException, MissingParameterException {
+    public QACategory updateCategory(QACategory qaCategory) throws EntityNotFoundException, MissingParameterException {
         if (qaCategory != null && qaCategory.getId() != null && helper.validate(qaCategory.getName())) {
             QACategory persistedQaCategory = qaCategoryDAO.readById(qaCategory.getId());
             persistedQaCategory.setName(qaCategory.getName());

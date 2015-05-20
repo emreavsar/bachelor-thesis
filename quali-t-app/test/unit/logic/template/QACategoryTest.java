@@ -33,6 +33,7 @@ public class QACategoryTest extends AbstractDatabaseTest {
         qaCategoryLogic = getInjector().getInstance(QACategoryLogic.class);
         qaCategoryDAO = getInjector().getInstance(QACategoryDAO.class);
     }
+
     @Test
     public void testCreateValidRootCategory() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE
@@ -84,6 +85,7 @@ public class QACategoryTest extends AbstractDatabaseTest {
         qaCategoryLogic.createCategory(qaCategory);
         // ASSERT
     }
+
     @Test(expected = EntityNotFoundException.class)
     public void testCreateSubCategoryInvalidParentId() throws MissingParameterException, EntityNotFoundException {
         // ARRANGE

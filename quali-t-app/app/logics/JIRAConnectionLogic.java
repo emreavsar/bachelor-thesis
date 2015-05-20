@@ -22,8 +22,12 @@ public class JIRAConnectionLogic {
         return jiraConnectionDAO.readAll();
     }
 
-    public void deleteJIRAConnection(Long id) throws EntityNotFoundException {
-        jiraConnectionDAO.remove(jiraConnectionDAO.readById(id));
+    public void deleteJIRAConnection(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            jiraConnectionDAO.remove(jiraConnectionDAO.readById(id));
+        } else {
+            throw new MissingParameterException("Please provide all Parameters!");
+        }
     }
 
     public JIRAConnection createJIRAConnection(JIRAConnection jiraConnection) throws MissingParameterException {

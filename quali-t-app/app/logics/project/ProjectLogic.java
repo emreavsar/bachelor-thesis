@@ -46,7 +46,7 @@ public class ProjectLogic {
      */
 
     public models.project.Project createProject(models.project.Project project, List<Long> qualityAttributeIdList, List<Long> qualityPropertyIdList) throws EntityNotFoundException, MissingParameterException {
-        if (project != null && qualityAttributeIdList != null && qualityPropertyIdList != null && helper.validate(project.getName())) {
+        if (project != null && qualityAttributeIdList != null && qualityPropertyIdList != null) {
             project.setId(null);
             //create qa instances
             CatalogQA catalogQA;
@@ -92,10 +92,13 @@ public class ProjectLogic {
     }
 
     public models.project.Project updateProject(models.project.Project project, List<Long> qualityPropertyList) throws EntityNotFoundException, MissingParameterException {
-        projectDAO.update(setProjectParameters(project));
-        setInstanceQualityAttributeStatus(project, qualityPropertyList);
-        setProjectQualityProperties(project, qualityPropertyList);
-        return projectDAO.readById(project.getId());
+        if (project != null && project.getId() != null && qualityPropertyList != null) {
+            projectDAO.update(setProjectParameters(project));
+            setInstanceQualityAttributeStatus(project, qualityPropertyList);
+            setProjectQualityProperties(project, qualityPropertyList);
+            return projectDAO.readById(project.getId());
+        }
+        throw new MissingParameterException("Please provide all required Parameters!");
     }
 
     public Instance updateInstance(Instance updatedInstance) throws EntityNotFoundException, MissingParameterException {
@@ -118,23 +121,31 @@ public class ProjectLogic {
             persistedInstance.getValues().clear();
             persistedInstance.addValues(valueList);
             return qaInstanceDAO.persist(persistedInstance);
+        }
+        throw new MissingParameterException("Please provide all required Parameters!");
+
+    }
+
+    public void deleteProject(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            models.project.Project project = projectDAO.readById(id);
+            project.removeQualityProperties();
+            projectDAO.remove(projectDAO.update(project));
         } else {
             throw new MissingParameterException("Please provide all required Parameters!");
         }
     }
 
-    public void deleteProject(Long id) throws EntityNotFoundException {
-        models.project.Project project = projectDAO.readById(id);
-        project.removeQualityProperties();
-        projectDAO.remove(projectDAO.update(project));
-    }
-
-    public void deleteInstance(Long id) throws EntityNotFoundException {
-        qaInstanceDAO.remove(qaInstanceDAO.readById(id));
+    public void deleteInstance(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            qaInstanceDAO.remove(qaInstanceDAO.readById(id));
+        } else {
+            throw new MissingParameterException("Please provide all required Parameters!");
+        }
     }
 
     private models.project.Project setProjectParameters(models.project.Project updatedProject) throws EntityNotFoundException, MissingParameterException {
-        if (updatedProject != null && updatedProject.getProjectCustomer() != null) {
+        if (helper.validate(updatedProject.getName()) && updatedProject.getProjectCustomer() != null) {
             models.project.Project persistedProject;
             if (updatedProject.getId() != null) {
                 persistedProject = projectDAO.readById(updatedProject.getId());
@@ -151,7 +162,7 @@ public class ProjectLogic {
             }
             return projectDAO.persist(persistedProject);
         }
-        throw new MissingParameterException("Please provide all Parameters!");
+        throw new MissingParameterException("Please provide all required Parameters!");
     }
 
     private models.project.Project setProjectQualityProperties(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {

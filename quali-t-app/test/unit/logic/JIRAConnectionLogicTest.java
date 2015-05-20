@@ -34,7 +34,7 @@ public class JIRAConnectionLogicTest extends AbstractDatabaseTest {
     }
 
     @Test
-         public void testCreateValidJiraConnection() throws MissingParameterException {
+    public void testCreateValidJiraConnection() throws MissingParameterException {
         // ARRANGE
         // ACT
         JIRAConnection newJiraConnection = jiraConnectionLogic.createJIRAConnection(jiraConnection);
@@ -79,6 +79,7 @@ public class JIRAConnectionLogicTest extends AbstractDatabaseTest {
         jiraConnectionLogic.createJIRAConnection(null);
         // ASSERT
     }
+
     /////////////
     @Test
     public void testUpdateValidJiraConnection() throws MissingParameterException, EntityNotFoundException {

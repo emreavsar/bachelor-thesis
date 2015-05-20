@@ -18,4 +18,8 @@ public class QualityPropertyDAO extends AbstractDAO<QualityProperty> {
         }
         return qps;
     }
+
+    public QualityProperty findByName(String name) {
+        return find("select q from QualityProperty q where q.name=?", name);
+    }
 }

@@ -49,6 +49,6 @@ public class QACategoryController extends Controller implements ExceptionHandlin
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public Result updateCat() {
-        return catchAbstractException(request(), json -> ok(Json.toJson(qaCategoryLogic.updateCat(jsonConverter.getCategoryFromJson(json)))));
+        return catchAbstractException(request(), json -> ok(Json.toJson(qaCategoryLogic.updateCategory(jsonConverter.getCategoryFromJson(json)))));
     }
 }
