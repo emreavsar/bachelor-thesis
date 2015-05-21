@@ -62,6 +62,12 @@ angular.module('qualitApp')
       return selectedCategories;
     }
 
+    $scope.selectCategories = function (categories) {
+      _.forEach(categories, function (n) {
+        var checkbox = $("filter input[type='checkbox'][data-id='" + n.id + "']").prop("checked", "checked");
+      });
+    }
+
     $scope.removeVariable = function (variable, key) {
       delete $scope.taOptions.variables[key];
       $scope.qaText = $scope.getUpdatedQaText($scope.qaText, variable);
@@ -256,6 +262,8 @@ angular.module('qualitApp')
             $scope.catalogQa = payload.data;
             $scope.qaText = $scope.catalogQa.qa.description;
             $scope.taOptions.variables = $scope.catalogQa.vars;
+
+            $scope.selectCategories($scope.catalogQa.qa.categories);
           }
         });
     }
@@ -264,22 +272,23 @@ angular.module('qualitApp')
       var data = {
         qa: {
           description: qaText,
-          categories: $scope.getSelectedCategories(),
         }
       };
 
       if ($stateParams.catalogQa != undefined) {
         data.catalogQa = $scope.catalogQa;
-        data.qa.id = $scope.catalogQa.qa.id;
+        var qaId = $scope.catalogQa.qa.id;
         // TODO refactor standard catalog id into a configuration class
         data.catalog = -6000;
-
         delete data.catalogQa["qa"];
+        data.qa.id = qaId;
+        data.qa.categories = $scope.getSelectedCategories();
         delete data.catalogQa["qaInstances"];
         delete data.catalogQa["vars"];
         // update variables
         data.catalogQa.variables = $scope.getVariables(qaText, false);
       } else {
+        data.qa.categories = $scope.getSelectedCategories();
         data.catalogQa = {
           variables: $scope.getVariables(qaText, false)
         }
