@@ -284,7 +284,7 @@ angular.module('qualitApp')
         data.qa.id = qaId;
         data.qa.categories = $scope.getSelectedCategories();
         delete data.catalogQa["qaInstances"];
-        delete data.catalogQa["vars"];
+        delete data.catalogQa["variables"];
         // update variables
         data.catalogQa.variables = $scope.getVariables(qaText, false);
       } else {
