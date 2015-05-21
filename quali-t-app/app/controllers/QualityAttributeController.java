@@ -24,6 +24,8 @@ public class QualityAttributeController extends Controller implements ExceptionH
     private QualityAttributeLogic qualityAttributeLogic;
     @Inject
     private JsonConverter jsonConverter;
+    @Inject
+    private VariableConverter variableConverter;
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
@@ -31,7 +33,7 @@ public class QualityAttributeController extends Controller implements ExceptionH
         return catchAbstractException(request(), json -> {
             QA qa = jsonConverter.getQaFromJson(json);
             List<Long> categoryIds = jsonConverter.getQaCategoriesFromJson(json);
-            List<QAVar> qaVars = VariableConverter.getVarsFromJson(json);
+            List<QAVar> qaVars = variableConverter.getVarsFromJson(json);
             // create QA with all relations
             return ok(Json.toJson(qualityAttributeLogic.createQA(qa, categoryIds, qaVars)));
         });
@@ -56,7 +58,7 @@ public class QualityAttributeController extends Controller implements ExceptionH
         return catchAbstractException(request(), json -> {
             QA qa = jsonConverter.getQaFromJson(json);
             List<Long> categoryIds = jsonConverter.getQaCategoriesFromJson(json);
-            List<QAVar> qaVars = VariableConverter.getVarsFromJson(json);
+            List<QAVar> qaVars = variableConverter.getVarsFromJson(json);
             return ok(Json.toJson(qualityAttributeLogic.updateQA(qa, categoryIds, qaVars)));
         });
     }

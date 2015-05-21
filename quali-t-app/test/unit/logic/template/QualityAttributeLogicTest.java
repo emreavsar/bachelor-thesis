@@ -121,10 +121,10 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
             assertThat(clonedQA.getCategories()).contains(category);
         }
         for (CatalogQA clonedCatalogQA : clonedQA.getUsedInCatalog()) {
-            assertThat(clonedCatalogQA.getVars().size()).isEqualTo(standardCatalogQA.getVars().size());
-            int clonedCatalogQaVarsSize = clonedCatalogQA.getVars().size();
-            for (models.template.QAVar var : standardCatalogQA.getVars()) {
-                for (models.template.QAVar clonedVar : clonedCatalogQA.getVars()) {
+            assertThat(clonedCatalogQA.getVariables().size()).isEqualTo(standardCatalogQA.getVariables().size());
+            int clonedCatalogQaVarsSize = clonedCatalogQA.getVariables().size();
+            for (models.template.QAVar var : standardCatalogQA.getVariables()) {
+                for (models.template.QAVar clonedVar : clonedCatalogQA.getVariables()) {
                     if (clonedVar.getVarIndex() == var.getVarIndex() && clonedVar.isExtendable() == var.isExtendable() && clonedVar.getType() == var.getType()) {
                         assertThat(clonedVar.getValues().size()).isEqualTo(var.getValues().size());
                         int clonedVarValuesSize = clonedVar.getValues().size();
@@ -252,9 +252,9 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         assertThat(updatedQA.getVersionNumber()).isEqualTo(qaToUpdate.getVersionNumber());
         assertThat(updatedQA.getUsedInCatalog()).isEqualTo(qaToUpdate.getUsedInCatalog());
         assertThat(updatedQA.isDeleted()).isEqualTo(qaToUpdate.isDeleted());
-        assertThat(updatedCatalogQA.getVars().size()).isEqualTo(originalCatalogQA.getVars().size());
-        for (QAVar var : updatedCatalogQA.getVars()) {
-            assertThat(originalCatalogQA.getVars().contains(var));
+        assertThat(updatedCatalogQA.getVariables().size()).isEqualTo(originalCatalogQA.getVariables().size());
+        for (QAVar var : updatedCatalogQA.getVariables()) {
+            assertThat(originalCatalogQA.getVariables().contains(var));
             for (QAVarVal value : var.getValues()) {
                 assertThat(value.getValue()).isEqualTo("99");
 

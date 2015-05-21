@@ -2,7 +2,6 @@ package models.template;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.nfritem.Instance;
@@ -32,7 +31,7 @@ public class CatalogQA extends AbstractEntity {
     private QA qa;
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "variables")
-    private Set<QAVar> vars = new HashSet<>();
+    private Set<QAVar> variables = new HashSet<>();
     private boolean deleted;
 
     public CatalogQA() {
@@ -48,20 +47,20 @@ public class CatalogQA extends AbstractEntity {
     public CatalogQA copyCatalogQA() {
         CatalogQA catalogQA = new CatalogQA();
         catalogQA.setCatalog(this.catalog);
-        if (!this.getVars().isEmpty()) {
-            for (QAVar qaVar : this.getVars()) {
+        if (!this.getVariables().isEmpty()) {
+            for (QAVar qaVar : this.getVariables()) {
                 catalogQA.addVar(qaVar.copyQAVar());
             }
         }
         return catalogQA;
     }
 
-    public Set<QAVar> getVars() {
-        return vars;
+    public Set<QAVar> getVariables() {
+        return variables;
     }
 
-    public void setVars(Set<QAVar> vars) {
-        this.vars = vars;
+    public void setVariables(Set<QAVar> vars) {
+        this.variables = vars;
     }
 
     public Catalog getCatalog() {
@@ -88,7 +87,7 @@ public class CatalogQA extends AbstractEntity {
 
     public CatalogQA addVar(QAVar var) {
         var.setTemplate(this);
-        this.vars.add(var);
+        this.variables.add(var);
         return this;
     }
 

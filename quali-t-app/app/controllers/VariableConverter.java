@@ -10,7 +10,7 @@ import java.util.*;
  * Created by corina on 14.05.2015.
  */
 public class VariableConverter {
-    public static List<QAVar> getVarsFromJson(JsonNode json) {
+    public List<QAVar> getVarsFromJson(JsonNode json) {
         //get all nodes within variables node.
         JsonNode vars = json.findValue("variables");
         List<QAVar> qaVars = new ArrayList<>();
@@ -63,7 +63,7 @@ public class VariableConverter {
         return qaVars;
     }
 
-    private static QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
+    private QAVar createVariable(Map<String, String> parameters, List<String> variableValues) {
         QAVar var = new QAVar(Integer.parseInt(parameters.get("varIndex")));
         switch (parameters.get("type")) {
             case "FREENUMBER":
@@ -92,7 +92,7 @@ public class VariableConverter {
 
     }
 
-    private static QAVar createVariableValues(Map<String, String> values, ValueType type, QAVar var, List<String> variableValues) {
+    private QAVar createVariableValues(Map<String, String> values, ValueType type, QAVar var, List<String> variableValues) {
         List<QAVarVal> varVals = new ArrayList<>();
         String defaultValue = "";
         for (String val : variableValues) {
@@ -111,7 +111,7 @@ public class VariableConverter {
     }
 
 
-    private static QAVar createValRange(Map<String, String> values, QAVar var) {
+    private QAVar createValRange(Map<String, String> values, QAVar var) {
         Logger.info(Boolean.toString(values.containsKey("min")) + values.containsKey("max"));
         if (values.containsKey("min") && values.containsKey("max")) {
             var.setValRange(new ValRange(Float.parseFloat(values.get("min")), Float.parseFloat(values.get("max"))));
@@ -121,7 +121,7 @@ public class VariableConverter {
         return var;
     }
 
-    private static QAVar setExtendable(Map<String, String> values, QAVar var) {
+    private QAVar setExtendable(Map<String, String> values, QAVar var) {
         if (values.get("extendable") == "true") {
             var.setExtendable(true);
         }

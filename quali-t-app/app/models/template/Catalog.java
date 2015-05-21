@@ -19,7 +19,7 @@ import java.util.Set;
 public class Catalog extends AbstractEntity {
     private String name;
     private String description;
-    private String pictureURL;
+    private String image;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "catalog", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference(value = "catalogQAs")
     private Set<CatalogQA> templates = new HashSet<>();
@@ -30,7 +30,7 @@ public class Catalog extends AbstractEntity {
     public Catalog(String name, String description, String image) {
         this.name = name;
         this.description = description;
-        this.pictureURL = image;
+        this.image = image;
     }
 
     public String getName() {
@@ -49,12 +49,12 @@ public class Catalog extends AbstractEntity {
         this.description = description;
     }
 
-    public String getPictureURL() {
-        return pictureURL;
+    public String getImage() {
+        return image;
     }
 
-    public void setPictureURL(String pictureURL) {
-        this.pictureURL = pictureURL;
+    public void setImage(String pictureURL) {
+        this.image = pictureURL;
     }
 
     public Set<CatalogQA> getTemplates() {
@@ -79,6 +79,7 @@ public class Catalog extends AbstractEntity {
 
     public Catalog addCatalogQA(CatalogQA catalogQA) {
         this.templates.add(catalogQA);
+        catalogQA.setCatalog(this);
         return this;
     }
 

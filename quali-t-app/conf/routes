@@ -72,6 +72,9 @@ POST          /api/catalog/qa                    @controllers.CatalogController.
 PUT           /api/catalog/qa                    @controllers.CatalogController.updateCatalogQA()
 DELETE        /api/catalog/qa/:id                @controllers.CatalogController.deleteCatalogQA(id: Long)
 
+POST        /api/catalog/import            @controllers.CatalogController.importCatalog()
+GET         /api/catalog/export/:id        @controllers.CatalogController.exportCatalog(id: Long)
+
 # QACategories
 #GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)
 POST          /api/cat                           @controllers.QACategoryController.createCat()

@@ -24,6 +24,8 @@ import java.util.List;
 public class JsonConverter {
     @Inject
     private Helper helper;
+    @Inject
+    private VariableConverter variableConverter;
 
     public QA getQaFromJson(JsonNode json) {
         QA qa = new QA(json.findValue("description").asText());
@@ -43,12 +45,12 @@ public class JsonConverter {
         return customer;
     }
 
-    public models.template.Catalog getCatalogFromJson(JsonNode json) throws EntityNotFoundException {
-        models.template.Catalog catalog = new Catalog();
+    public Catalog getCatalogFromJson(JsonNode json) {
+        Catalog catalog = new Catalog();
         catalog.setId(json.findPath("id").asLong());
         catalog.setDescription(json.findPath("description").asText());
         catalog.setName(json.findPath("name").asText());
-        catalog.setPictureURL(json.findPath("image").asText());
+        catalog.setImage(json.findPath("image").asText());
         return catalog;
     }
 
@@ -60,7 +62,7 @@ public class JsonConverter {
             qa.setId(qaNode.findValue("id").asLong());
             CatalogQA catalogQA = new CatalogQA();
             catalogQA.setQa(qa);
-            catalogQA.addVars(VariableConverter.getVarsFromJson(qaNode));
+            catalogQA.addVars(variableConverter.getVarsFromJson(qaNode));
             newCatalogQAs.add(catalogQA);
         }
         return newCatalogQAs;
@@ -71,7 +73,7 @@ public class JsonConverter {
         qa.setId(json.findPath("qa").findPath("id").asLong());
         CatalogQA catalogQA = new CatalogQA(qa, getCatalogIdFromJson(json));
         catalogQA.setId(json.findPath("catalogQa").findPath("id").asLong());
-        catalogQA.addVars(VariableConverter.getVarsFromJson(json));
+        catalogQA.addVars(variableConverter.getVarsFromJson(json));
         return catalogQA;
     }
 
@@ -187,4 +189,34 @@ public class JsonConverter {
     public Boolean getExportAsRawBoolean(JsonNode json) {
         return (new Boolean(json.findPath("exportAsRaw").asBoolean()));
     }
+
+    public Catalog getImportCatalogFromJson(JsonNode json) {
+        // get catalog from json
+        Catalog catalog = getCatalogFromJson(json.findPath("catalog"));
+        catalog.setId(null);
+        // get qa's from json
+        for (JsonNode qaNode : json.findPath("qualityAttributes")) {
+            QA qa = getQaFromJson(qaNode.findPath("qa"));
+            qa.setId(null);
+            CatalogQA catalogQA = new CatalogQA();
+            catalogQA.setQa(qa);
+            catalogQA.addVars(variableConverter.getVarsFromJson(qaNode));
+            catalog.addCatalogQA(catalogQA);
+        }
+        return catalog;
+    }
+
+//    public List<CatalogQA> getImportCatalogQAList(JsonNode json){
+//        // get qa's from json
+//        List<CatalogQA> qaList = new ArrayList<>();
+//        for (JsonNode qaNode : json.findPath("qualityAttributes")) {
+//            QA qa =  getQaFromJson(qaNode.findPath("qa"));
+//            qa.setId(null);
+//            CatalogQA catalogQA = new CatalogQA();
+//            catalogQA.setQa(qa);
+//            catalogQA.addVars(variableConverter.getVarsFromJson(qaNode));
+//            qaList.add(catalogQA);
+//        }
+//        return qaList;
+//    }
 }
