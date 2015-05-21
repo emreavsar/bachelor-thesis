@@ -124,15 +124,15 @@ angular.module('qualitApp')
         }
       })
       .state('editCategories', {
-        templateUrl: 'views/category/edit.html',
-        url: '/authenticated/category/edit',
+        templateUrl: 'views/category/admin.html',
+        url: '/authenticated/category/admin',
         controller: 'CategoryCtrl',
         data: {
           roles: ['curator', 'admin']
         }
       })
       .state('editQualityProperties', {
-        templateUrl: 'views/qp/edit.html',
+        templateUrl: 'views/qp/admin.html',
         url: '/authenticated/qp/admin',
         controller: 'QualitypropertyCtrl',
         data: {
@@ -140,8 +140,8 @@ angular.module('qualitApp')
         }
       })
       .state('editJIRAConnections', {
-        templateUrl: 'views/jiraconnection/edit.html',
-        url: '/authenticated/jiraconnection/edit',
+        templateUrl: 'views/jiraconnection/admin.html',
+        url: '/authenticated/jiraconnection/admin',
         controller: 'JiraconnectionCtrl',
         data: {
           roles: ['curator', 'synthesizer', 'projectmanager', 'analyst', 'admin']

@@ -140,10 +140,10 @@ angular.module('qualitApp')
       $scope.$apply();
     }
 
-    $scope.filterByCategories = function (qa) {
+    $scope.filterByCategories = function (catalogQa) {
       // if there is a filter set
       if ($scope.currentCategoriesFilter.length > 0) {
-        var categoryIds = $scope.categoryIdsOfQa(qa);
+        var categoryIds = $scope.categoryIdsOfQa(catalogQa.qa);
         var fullfiesFilter = false;
         for (var i = 0; i < $scope.currentCategoriesFilter.length; i++) {
           var categoryFilter = $scope.currentCategoriesFilter[i];

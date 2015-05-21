@@ -23,7 +23,7 @@ angular.module('qualitApp')
 
       link: function postLink(scope, element, attrs) {
         scope.createPanelHeading = function (category) {
-          var panel = $('#category-' + category.name);
+          var panel = $('#category-' + category.id);
           var panelHeading = $('<div/>', {
             class: 'panel-heading'
           }).appendTo(panel);
@@ -35,7 +35,7 @@ angular.module('qualitApp')
           var h4Link = $('<a/>', {
             'data-toggle': "collapse",
             'data-parent': "#accordion",
-            href: $location.absUrl() + "#collapse-" + category.name,
+            href: $location.absUrl() + "#collapse-" + category.id,
             onClick: 'return false;'
           }).appendTo(h4);
 
@@ -68,10 +68,10 @@ angular.module('qualitApp')
         }
 
         scope.createPanelBody = function (category, isFirstCategory) {
-          var panel = $('#category-' + category.name);
+          var panel = $('#category-' + category.id);
 
           var collapsePanel = $('<div/>', {
-            id: "collapse-" + category.name,
+            id: "collapse-" + category.id,
             class: "panel-collapse collapse"
           }).appendTo(panel);
 
@@ -212,7 +212,7 @@ angular.module('qualitApp')
               var category = categories[i];
 
               var panel = $('<div/>', {
-                id: 'category-' + category.name,
+                id: 'category-' + category.id,
                 title: category.name,
                 class: 'category panel panel-default'
               }).appendTo('#filter');
