@@ -8,56 +8,38 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('JiraconnectionCtrl', function ($scope, $http, $modal) {
+  .controller('JiraconnectionCtrl', function ($scope, apiService, $modal) {
     $scope.name = "";
     $scope.description = "";
     $scope.errors = new Array();
     $scope.success = new Array();
 
     $scope.loadJIRAConnections = function () {
-      $http.get('/api/jiraconnection')
-        .success(function (data) {
-          $scope.jiraConnectionList = data;
-        })
-        .error(function (data, status) {
-          console.log(status)
-        });
+      var promise = apiService.loadJIRAConnections();
+      promise.then(function (payload) {
+        $scope.jiraConnectionList = payload.data;
+      });
     }
-
-    $scope.loadJIRAConnections();
-
 
     $scope.delete = function (jiraconnection) {
       var conf = confirm('This will delete all projects etc. of the qp, u sure?');
       if (conf) {
-        alert("deleted" + jiraconnection.id);
-      }
-      $http.delete('/api/jiraconnection/' + jiraconnection.id)
-        .success(function (data) {
-          $scope.jiraConnectionList = data;
+        var deletePromise = apiService.deleteJiraConnection(jiraconnection.id);
+        deletePromise.then(function (payload) {
+          $scope.jiraConnectionList = payload.data;
+          // todo: is this needed?
           $scope.loadJIRAConnections();
-        })
-        .error(function (data, status) {
-          console.log(status)
         });
+      }
     }
 
     $scope.editJIRAConnection = function (jiraconnection) {
-      $http.put('/api/jiraconnection', {
-        id: jiraconnection.id,
-        hostAddress: jiraconnection.hostAddress,
-        username: jiraconnection.username,
-        password: jiraconnection.password
-      }).
-        success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
-          $scope.loadJIRAConnections();
-          $scope.success.push(data);
-        }).
-        error(function (data, status, headers, config) {
-          console.log(status);
-          $scope.errors.push(data);
-        });
+      var editPromise = apiService.editJIRAConnection(jiraconnection.id, jiraconnection.hostAddress, jiraconnection.username, jiraconnection.password);
+
+      editPromise.then(function (payload) {
+        $scope.loadJIRAConnections();
+        $scope.success.push(payload.data);
+      });
     }
 
     $scope.edit = function (jiraconnection) {
@@ -71,28 +53,15 @@ angular.module('qualitApp')
         scope: modalScope,
         template: "templates/jiraconnection-modal.tpl.html"
       });
-
-
-      // in modal <button ng-click=callBackFunction(customer) />
-
     }
 
 
     $scope.addJIRAConnection = function (jiraconnection) {
-      $http.post('/api/jiraconnection', {
-        hostAddress: jiraconnection.hostAddress,
-        username: jiraconnection.username,
-        password: jiraconnection.password
-      }).
-        success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
-          $scope.loadJIRAConnections();
-          $scope.success.push(data);
-        }).
-        error(function (data, status, headers, config) {
-          console.log(status);
-          $scope.errors.push(data);
-        });
+      var addPromise = apiService.addJIRAConnection(jiraconnection.hostAddress, jiraconnection.username, jiraconnection.password);
+      addPromise.then(function (payload) {
+        $scope.loadJIRAConnections();
+        $scope.success.push(payload.data);
+      });
     }
 
     $scope.add = function (jiraconnection) {
@@ -106,10 +75,6 @@ angular.module('qualitApp')
         scope: modalScope,
         template: "templates/jiraconnection-modal.tpl.html"
       });
-
-
-      // in modal <button ng-click=callBackFunction(customer) />
-
     }
 
   });

@@ -1,44 +1,23 @@
-<h3>Categories</h3>
+<div ng-init="init()">
 
-<div class="information-box">
+  <h3>Categories</h3>
+
+  <div class="information-box">
       <span class="text-info">
         <i class="fa fa-info-circle"></i>
         Browse through categories by clicking on the categories name. You can add new sub-categories, edit or delete them.
         If you want to create a new category without nesting it as a sub-category, use the button <b>Add
         Supercategory</b>.
       </span>
-</div>
-
-<div class="form crud-form">
-  <div class="row text-center" style="margin-bottom:20px;">
-    <button type="submit" class="btn btn-success" ng-click="createSuperCat(name, icon)">
-      <i class="fa fa-plus"></i> Add Supercategory
-    </button>
   </div>
+
+  <div class="form crud-form">
+    <div class="row text-center" style="margin-bottom:20px;">
+      <button type="submit" class="btn btn-success" ng-click="createSuperCat(name, icon)">
+        <i class="fa fa-plus"></i> Add Supercategory
+      </button>
+    </div>
+  </div>
+
+  <filter hide-checkbox="true" add-callback="add" edit-callback="edit" delete-callback="delete" categories="catList"/>
 </div>
-
-<filter hide-checkbox="true" add-callback="add" edit-callback="edit" delete-callback="delete" categories="catList"/>
-
-
-<!--<div class="form crud-form">-->
-<!--<h3 class="steps">New Supercategory</h3>-->
-
-<!--<form>-->
-<!--<div class="form-group">-->
-<!--<label for="name">Category name:</label>-->
-<!--<input type="text" class="form-control" id="name" ng-model="name"/>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; TODO emre: improve this with a picker, where the user can click on a font-awesome or glyphicon icon and the class gets automatically saved &ndash;&gt;-->
-<!--<div class="form-group">-->
-<!--<label for="icon">Category Icon:</label>-->
-<!--<input type="text" class="form-control" id="icon" ng-model="icon"/>-->
-<!--</div>-->
-
-<!--<div class="row end-row">-->
-<!--<button type="submit" class="btn btn-success" ng-click="createSuperCat(name, icon)"><i class="fa fa-plus"></i> Add-->
-<!--Supercategory-->
-<!--</button>-->
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->

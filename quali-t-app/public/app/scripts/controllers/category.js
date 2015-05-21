@@ -8,20 +8,10 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CategoryCtrl', function ($scope, $http, $modal) {
+  .controller('CategoryCtrl', function ($scope, apiService, $modal) {
     $scope.errors = new Array();
     $scope.success = new Array();
 
-    $scope.loadCategories = function () {
-      $http.get('/api/cat')
-        .success(function (data) {
-          $scope.catList = data;
-        })
-        .error(function (data, status) {
-          console.log(status)
-        });
-    }
-    $scope.loadCategories();
 
     $scope.openModalView = function (type, clickedCat) {
       var parentId = ($(clickedCat).data('id') == "" ? null : $(clickedCat).data('id'));
@@ -49,22 +39,12 @@ angular.module('qualitApp')
     }
 
     $scope.delete = function (clickedCat) {
-      $http.delete('/api/cat/' + $(clickedCat).attr("data-id")
-      ).
-        success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
-          $scope.success.push(data);
-          alert("category deleted");
-
-          // reload when categories has changed
-          $scope.loadCategories();
-        }).
-        error(function (data, status, headers, config) {
-          console.log(status);
-          $scope.errors.push(data);
-        });
-
-
+      var deletePromise = apiService.deleteCategory($(clickedCat).attr("data-id"));
+      deletePromise.then(function (payload) {
+        // todo alert needed here
+        // reload when categories has changed
+        $scope.loadCategories();
+      });
     }
 
     $scope.edit = function (clickedCat) {
@@ -72,41 +52,20 @@ angular.module('qualitApp')
     }
 
     $scope.updateSubCategory = function (name, icon, id) {
-      $http.put('/api/cat', {
-        name: name,
-        icon: icon,
-        id: id
-      }).
-        success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
-          $scope.success.push(data);
+      var updatePromise = apiService.updateSubCategory(name, icon, id);
+      updatePromise.then(function (payload) {
+        // todo alert needed here
+        $scope.loadCategories();
+      });
 
-          // reload when categories has changed
-          $scope.loadCategories();
-        }).
-        error(function (data, status, headers, config) {
-          console.log(status);
-          $scope.errors.push(data);
-        });
     }
 
     $scope.createSubCategory = function (name, icon, parent) {
-      $http.post('/api/cat', {
-        name: name,
-        icon: icon,
-        parent: parent
-      }).
-        success(function (data, status, headers, config) {
-          console.log(status + " data: " + data);
-          $scope.success.push(data);
-
-          // reload when categories has changed
-          $scope.loadCategories();
-        }).
-        error(function (data, status, headers, config) {
-          console.log(status);
-          $scope.errors.push(data);
-        });
+      var createPromise = apiService.createSubCategory(name, icon, parent);
+      createPromise.then(function (payload) {
+        // todo alert needed here
+        $scope.loadCategories();
+      });
     }
 
     $scope.createSuperCat = function (name, icon) {
@@ -120,4 +79,16 @@ angular.module('qualitApp')
 
       $scope.add(clickedElement);
     }
-  });
+
+    $scope.loadCategories = function () {
+      var categoriesPromise = apiService.getCategories();
+      categoriesPromise.then(function (payload) {
+        $scope.catList = payload.data;
+      })
+    }
+
+    $scope.init = function () {
+      $scope.loadCategories();
+    }
+  })
+;

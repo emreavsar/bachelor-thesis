@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('SettingsCtrl', function ($scope, $http, alerts, authValidationFactory) {
+  .controller('SettingsCtrl', function ($scope, apiService, alerts, authValidationFactory) {
     $scope.currentPassword = "";
     $scope.newPassword = "";
     $scope.newPasswordRepeated = "";
@@ -17,20 +17,14 @@ angular.module('qualitApp')
       var errors = authValidationFactory.validatePasswords(newPassword, newPasswordRepeated);
 
       if (errors.length == 0) {
-        $http.post('/api/auth/changePw', {
-          currentPassword: currentPassword,
-          newPassword: newPassword,
-          newPasswordRepeated: newPasswordRepeated
-        })
-          .success(function (data, status, headers, config) {
-            $scope.currentPassword = "";
-            $scope.newPassword = "";
-            $scope.newPasswordRepeated = "";
-            var alert = alerts.createSuccess(data);
-          })
-          .error(function (data, status, headers, config) {
-            var alert = alerts.createError(status, data);
-          });
+        var changePwPromise = apiService.changePassword(currentPassword, newPassword, newPasswordRepeated);
+        changePwPromise.then(function (payload) {
+          $scope.currentPassword = "";
+          $scope.newPassword = "";
+          $scope.newPasswordRepeated = "";
+          var alert = alerts.createSuccess(data);
+        });
+
       } else {
         var alert = alerts.createError("Client error", errors.join(" "))
       }

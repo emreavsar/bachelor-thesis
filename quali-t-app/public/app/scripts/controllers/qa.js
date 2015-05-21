@@ -252,9 +252,11 @@ angular.module('qualitApp')
           }
         })
         .then(function (payload) {
-          $scope.catalogQa = payload.data;
-          $scope.qaText = $scope.catalogQa.qa.description;
-          $scope.taOptions.variables = $scope.catalogQa.vars;
+          if ($stateParams.catalogQa != undefined) {
+            $scope.catalogQa = payload.data;
+            $scope.qaText = $scope.catalogQa.qa.description;
+            $scope.taOptions.variables = $scope.catalogQa.vars;
+          }
         });
     }
 

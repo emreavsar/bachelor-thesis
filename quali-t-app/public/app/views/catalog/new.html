@@ -1,106 +1,112 @@
-<h3>Create new Catalog</h3>
+<div ng-init="init()">
 
+  <h3>Create new Catalog</h3>
 
-<div class="form crud-form">
-  <form class="form-horizontal" ng-submit="nextStep()">
-    <!-- STEP 0 -->
-    <div ng-show="currentStep==0">
-      <h3 class="steps">Step 1: Provide information</h3>
+  <div class="form crud-form">
+    <form class="form-horizontal" ng-submit="nextStep()">
+      <!-- STEP 0 -->
+      <div ng-show="currentStep==0">
+        <h3 class="steps">Step 1: Provide information</h3>
 
-      <div class="form-group">
-        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">Name</label>
 
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" placeholder="Your Catalog's Name" ng-model="name">
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" placeholder="Your Catalog's Name" ng-model="name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description" class="col-sm-2 control-label">Description</label>
+
+          <div class="col-sm-10">
+            <textarea class="form-control" id="description" placeholder="Describe the catalog"
+                      ng-model="description"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="image" class="col-sm-2 control-label">Image</label>
+
+          <div class="col-sm-10 image-upload-container">
+            <input type="file" ng-model="image" name="image"/>
+          </div>
+        </div>
+
+        <div class="row end-row col-sm-12">
+          <input type="submit" class="btn btn-success btn-lg" value="Choose Quality Attribute Templates"/>
         </div>
       </div>
+      <!-- END STEP 0 -->
 
-      <div class="form-group">
-        <label for="description" class="col-sm-2 control-label">Description</label>
+      <!-- STEP 1 -->
+      <div ng-show="currentStep==1">
+        <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i
+          class="fa fa-arrow-left"></i>
+          Back
+        </button>
 
-        <div class="col-sm-10">
-          <textarea class="form-control" id="description" placeholder="Describe the catalog" ng-model="description"></textarea>
+        <h3 class="steps">Step 2: Choose Quality Attribute Templates
+          <small>for {{name}}</small>
+        </h3>
+
+        <div class="filter col-sm-4">
+          <h5>Filter</h5>
+          <filter id="categories" hide-checkbox="false" callback="filter" categories="catList"></filter>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="image" class="col-sm-2 control-label">Image</label>
+        <div class="all-qas col-sm-8">
+          <h5>All Quality Attributes</h5>
 
-        <div class="col-sm-10 image-upload-container">
-          <input type="file" ng-model="image" name="image"/>
+          <div class="qa well row" ng-repeat="qa in qas | filter:filterByCategories" ng-click="toggleSelection(qa)"
+               ng-class="{ selected: selection.indexOf(qa) > -1}">
+            <qa categories="categories" qa="qa.qa" context="catalog" variables="qa.vars"/>
+          </div>
         </div>
-      </div>
 
-      <div class="row end-row col-sm-12">
-        <input type="submit" class="btn btn-success btn-lg" value="Choose Quality Attribute Templates"/>
-      </div>
-    </div>
-    <!-- END STEP 0 -->
-
-    <!-- STEP 1 -->
-    <div ng-show="currentStep==1">
-      <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i class="fa fa-arrow-left"></i>
-        Back
-      </button>
-
-      <h3 class="steps">Step 2: Choose Quality Attribute Templates
-        <small>for {{name}}</small>
-      </h3>
-
-      <div class="filter col-sm-4">
-        <h5>Filter</h5>
-        <filter id="categories" hide-checkbox="false" callback="filter" categories="catList"></filter>
-      </div>
-
-      <div class="all-qas col-sm-8">
-        <h5>All Quality Attributes</h5>
-
-        <div class="qa well row" ng-repeat="qa in qas | filter:filterByCategories" ng-click="toggleSelection(qa)"
-             ng-class="{ selected: selection.indexOf(qa) > -1}">
-          <qa categories="categories" qa="qa.qa" context="catalog" variables="qa.vars"/>
+        <div class="row end-row col-sm-12">
+          <input type="submit" class="btn btn-success btn-lg" value="Customize Quality Attributes"/>
         </div>
+        <!-- END STEP 1 -->
       </div>
 
-      <div class="row end-row col-sm-12">
-        <input type="submit" class="btn btn-success btn-lg" value="Customize Quality Attributes"/>
-      </div>
-      <!-- END STEP 1 -->
-    </div>
 
+      <!-- STEP 2 -->
+      <div ng-show="currentStep==2">
+        <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i
+          class="fa fa-arrow-left"></i>
+          Back
+        </button>
 
-    <!-- STEP 2 -->
-    <div ng-show="currentStep==2">
-      <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i class="fa fa-arrow-left"></i>
-        Back
-      </button>
+        <h3 class="steps">Step 3: Customize chosen Quality Attribute Templates
+          <small>for {{name}}</small>
+        </h3>
 
-      <h3 class="steps">Step 3: Customize chosen Quality Attribute Templates
-        <small>for {{name}}</small>
-      </h3>
+        <!-- TODO emre: make it look nicer -->
+        <p>
+          In this step, you can edit ranges in free number fields, customize values in dropdown selections and add new
+          quality attributes for this catalog (new qas will not appear in the standard catalog).
+        </p>
 
-      <!-- TODO emre: make it look nicer -->
-      <p>
-        In this step, you can edit ranges in free number fields, customize values in dropdown selections and add new
-        quality attributes for this catalog (new qas will not appear in the standard catalog).
-      </p>
+        <div class="all-qas">
+          <h5>Your selected Quality Attribute Templates</h5>
 
-      <div class="all-qas">
-        <h5>Your selected Quality Attribute Templates</h5>
-
-        <div class="qa well row"
-             ng-repeat="selectedElement in selection">
-             <!--ng-click="switchCurrentEditedElement(qa)"-->
-             <!--ng-class="{ editing: currentEditedElement == qa}"-->
-          <qa categories="selectedElement.qa.categories" qa="selectedElement.qa" context="catalog" variables="selectedElement.vars" editable="true"/>
+          <div class="qa well row"
+               ng-repeat="selectedElement in selection">
+            <!--ng-click="switchCurrentEditedElement(qa)"-->
+            <!--ng-class="{ editing: currentEditedElement == qa}"-->
+            <qa categories="selectedElement.qa.categories" qa="selectedElement.qa" context="catalog"
+                variables="selectedElement.vars" editable="true"/>
+          </div>
         </div>
+
+        <div class="row end-row col-sm-12">
+          <input type="submit" class="btn btn-success btn-lg" value="Create Catalog"/>
+        </div>
+        <!-- END STEP 2 -->
       </div>
 
-      <div class="row end-row col-sm-12">
-        <input type="submit" class="btn btn-success btn-lg" value="Create Catalog"/>
-      </div>
-      <!-- END STEP 2 -->
-    </div>
 
-
-  </form>
+    </form>
+  </div>
 </div>

@@ -133,7 +133,7 @@ angular.module('qualitApp')
       })
       .state('editQualityProperties', {
         templateUrl: 'views/qp/edit.html',
-        url: '/authenticated/qp/edit',
+        url: '/authenticated/qp/admin',
         controller: 'QualitypropertyCtrl',
         data: {
           roles: ['curator', 'admin']

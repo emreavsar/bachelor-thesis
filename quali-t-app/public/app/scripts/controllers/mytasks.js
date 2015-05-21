@@ -8,23 +8,17 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('MytasksCtrl', function ($scope, $http, $rootScope, alerts) {
+  .controller('MytasksCtrl', function ($scope, apiService, $rootScope, alerts) {
     $scope.tasks = new Array();
 
     $scope.toggleDoneState = function (taskId) {
-      $http.post('/api/mytasks/toggle/', {
-        taskId: taskId
-      }).
-        error(function (data, status, headers, config) {
-          var alert = alerts.createError(status, data);
-        });
+      var togglePromise = apiService.toggleTask(taskId);
     }
 
-    $http.get('/api/mytasks/')
-      .success(function (data) {
-        $scope.tasks = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
+    $scope.init = function() {
+      var initPromise = apiService.getMyTasks();
+      initPromise.then(function(payload) {
+        $scope.tasks = payload.data;
       });
+    }
   });

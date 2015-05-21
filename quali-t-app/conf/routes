@@ -21,8 +21,8 @@ POST          /api/auth/register                 @controllers.Authentication.reg
 POST          /api/auth/changePw                 @controllers.Authentication.changePassword()
 
 # USER
-GET           /api/mytasks/                      @controllers.Misc.getTasksOfCurrentUser()
-POST          /api/mytasks/toggle/               @controllers.Misc.toggleStateOfTask()
+GET           /api/mytasks                       @controllers.Misc.getTasksOfCurrentUser()
+POST          /api/mytasks/toggle                @controllers.Misc.toggleStateOfTask()
 
 # Favorites
 GET           /api/myfavorites/                  @controllers.Misc.getFavoritesOfCurrentUser()
@@ -30,7 +30,7 @@ POST          /api/myfavorites                   @controllers.Misc.updateFavorit
 
 
 # Search
-GET           /api/search/                       @controllers.Search.search(searchArgument: String ?= "")
+GET           /api/search                        @controllers.Search.search(searchArgument: String ?= "")
 GET           /api/search/:searchArgument        @controllers.Search.search(searchArgument: String)
 
 # Testing

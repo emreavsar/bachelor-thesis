@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CatalogCtrl', function ($scope, $http, alerts) {
+  .controller('CatalogCtrl', function ($scope, apiService, alerts) {
     $scope.name = "";
     $scope.image = "";
     $scope.currentStep = 0;
@@ -18,13 +18,6 @@ angular.module('qualitApp')
     $scope.currentEditedElement = null;
     $scope.currentCategoriesFilter = new Array();
 
-    $http.get("/api/cat")
-      .success(function (data) {
-        $scope.catList = data;
-      })
-      .error(function (data, status) {
-        console.log(status)
-      });
 
     $scope.nextStep = function () {
       var isLastStep = false;
@@ -73,16 +66,12 @@ angular.module('qualitApp')
       // TODO emre: save the image somewhere localy / temporarly
 
       // load all qas from standard catalog
-      $http.get('/api/qa/standardcatalog')
-        .success(function (data) {
-          _.forEach(data, function (value, key) {
-            $scope.qas.push(value);
-            //$scope.variables[value.qa.id] = value.vars;
-          });
-        })
-        .error(function (data, status) {
-          console.log(status)
+      var promise = apiService.getStandardCatalogQas();
+      promise.then(function (payload) {
+        _.forEach(payload.data, function (value, key) {
+          $scope.qas.push(value);
         });
+      });
     }
 
     $scope.customize = function () {
@@ -106,17 +95,11 @@ angular.module('qualitApp')
       for (var i in $scope.selection) {
         delete $scope.selection[i].categories;
       }
-      $http.post('/api/catalog', {
-        selectedQualityAttributes: $scope.getSelectedQas(),
-        name: $scope.name,
-        image: $scope.image
-      }).
-        success(function (data, status, headers, config) {
-          alerts.createSuccess("Catalog " + data.name + " created successfully.");
-        }).
-        error(function (data, status, headers, config) {
-          alerts.createError(status, data);
-        });
+
+      var createPromise = apiService.createCatalog($scope.getSelectedQas(), $scope.name, $scope.image);
+      createPromise.then(function (payload) {
+        alerts.createSuccess("Catalog " + payload.data.name + " created successfully.");
+      });
     }
 
     $scope.filter = function (clickedElement, isRoot) {
@@ -184,4 +167,13 @@ angular.module('qualitApp')
       }
       return ids;
     }
+
+    $scope.init = function () {
+      var initPromise = apiService.getCategories();
+      initPromise.then(function (payload) {
+        $scope.catList = payload.data;
+      });
+    }
+
+
   });

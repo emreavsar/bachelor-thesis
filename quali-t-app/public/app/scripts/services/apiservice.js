@@ -13,6 +13,33 @@ angular.module('qualitApp')
     var apiService = {};
     apiService.apiPath = "/api/";
 
+    // TODO emre: this could be refactored maybe?
+
+    apiService.register = function (username, password, passwordRepeated) {
+      return $http.post('/api/auth/register', {
+        username: username,
+        password: password,
+        passwordRepeated: passwordRepeated
+      })
+        .success(function (data) {
+          $scope.registrationDone = true;
+        }).error(function (data) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.changePassword = function (currentPassword, newPassword, newPasswordRepeated) {
+      return $http.post(this.apiPath + "auth/changePw", {
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        newPasswordRepeated: newPasswordRepeated
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        alerts.createError(status, data);
+      });
+    }
+
     apiService.getFavorites = function () {
       return $http.get(this.apiPath + "myfavorites/")
         .success(function (data) {
@@ -31,6 +58,40 @@ angular.module('qualitApp')
         .error(function (data, status) {
           alerts.createError(status, data);
         });
+    }
+
+    apiService.deleteCategory = function (categoryId) {
+      return $http.delete(this.apiPath + "cat/" + categoryId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.updateSubCategory = function (name, icon, id) {
+      return $http.put(this.apiPath + "cat", {
+        name: name,
+        icon: icon,
+        id: id
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        alerts.createError(status, data);
+      });
+    }
+
+    apiService.createSubCategory = function (name, icon, parent) {
+      return $http.post(this.apiPath + "cat", {
+        name: name,
+        icon: icon,
+        parent: parent
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        alerts.createError(status, data);
+      });
     }
 
     apiService.createQa = function (data) {
@@ -65,6 +126,43 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.createCustomer = function (name, address) {
+      return $http.post(this.apiPath + "customer", {
+        name: name,
+        address: address
+      })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, "Error at creating customer.");
+        });
+    }
+
+    apiService.updateCustomer = function (id, name, address) {
+      return $http.put(this.apiPath + "customer", {
+        id: id,
+        name: name,
+        address: address
+      })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.deleteCustomer = function (id) {
+      return $http.delete(this.apiPath + "customer/" + id)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.getQualityProperties = function () {
       return $http.get(this.apiPath + "qp")
         .success(function (data) {
@@ -73,6 +171,39 @@ angular.module('qualitApp')
         .error(function (data, status) {
           alerts.createError(status, "Quality Properties were not found.");
         });
+    }
+
+    apiService.deleteQualityPropery = function (qpId) {
+      return $http.delete(this.apiPath + "qp/" + qpId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, "Quality Properties were not found.");
+        });
+    }
+
+    apiService.createQualityPropery = function (name, description) {
+      return $http.post(this.apiPath + "qp", {
+        name: name,
+        description: description
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        alerts.createError(status, "Quality Properties were not found.");
+      });
+    }
+
+    apiService.updateQualityPropery = function (id, name, description) {
+      return $http.put(this.apiPath + "qp", {
+        id: id,
+        name: name,
+        description: description
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        alerts.createError(status, "Quality Properties were not found.");
+      });
     }
 
     apiService.changeState = function (projectId, isFavorite) {
@@ -135,6 +266,21 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.createCatalog = function (selectedQualityAttributes, name, image) {
+
+      return $http.post(this.apiPath + "catalog", {
+        selectedQualityAttributes: selectedQualityAttributes,
+        name: name,
+        image: image
+      }).
+        success(function (data, status, headers, config) {
+          return data;
+        }).
+        error(function (data, status, headers, config) {
           alerts.createError(status, data);
         });
     }
@@ -238,6 +384,81 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.getMyTasks = function () {
+      return $http.get(this.apiPath + "mytasks")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
 
+    apiService.toggleTask = function (taskId) {
+      return $http.post(this.apiPath + "mytasks/toggle", {
+        taskId: taskId
+      }).
+        error(function (data, status, headers, config) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.search = function (searchArgument) {
+      return $http.get(this.apiPath + "search/" + searchArgument)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.loadJIRAConnections = function () {
+      return $http.get(this.apiPath + "jiraconnection")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.deleteJiraConnection = function (jiraconnectionId) {
+      return $http.delete(this.apiPath + "jiraconnection/" + jiraconnectionId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.addJIRAConnection = function (hostAddress, username, password) {
+
+      return $http.post(this.apiPath + "jiraconnection", {
+        hostAddress: hostAddress,
+        username: username,
+        password: password
+      }).success(function (data) {
+        return data;
+      })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.editJIRAConnection = function (id, hostAddress, username, password) {
+      return $http.put(this.apiPath + "jiraconnection", {
+        id: id,
+        hostAddress: hostAddress,
+        username: username,
+        password: password
+      }).success(function (data) {
+        return data;
+      }).error(function (data, status) {
+        var alert = alerts.createError(status, data);
+      });
+    }
     return apiService;
-  });
+  })
+;
