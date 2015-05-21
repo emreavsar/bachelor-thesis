@@ -36,6 +36,8 @@ public class Instance extends AbstractEntity {
     @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference("qaStatus")
     private Set<QualityPropertyStatus> qualityPropertyStatus = new HashSet<>();
+    private String jiraKey;
+    private String jiraDirectURL;
 
     public Instance() {
     }
@@ -143,5 +145,21 @@ public class Instance extends AbstractEntity {
             instance.addQualityPropertyStatus(qualityPropertyStatus.copyQualityPropertyStatus());
         }
         return instance;
+    }
+
+    public String getJiraKey() {
+        return jiraKey;
+    }
+
+    public void setJiraKey(String jiraKey) {
+        this.jiraKey = jiraKey;
+    }
+
+    public String getJiraDirectURL() {
+        return jiraDirectURL;
+    }
+
+    public void setJiraDirectURL(String jiraDirectURL) {
+        this.jiraDirectURL = jiraDirectURL;
     }
 }

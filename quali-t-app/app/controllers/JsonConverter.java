@@ -169,4 +169,22 @@ public class JsonConverter {
         jiraConnection.setId(json.findPath("id").asLong());
         return jiraConnection;
     }
+
+    public Project getJiraProject(JsonNode json) {
+        Project project = new Project();
+        project.setId(json.findPath("projectId").asLong());
+        return project;
+    }
+
+    public List<Long> getQualityAttributeIdsToExportFromJson(JsonNode json) {
+        List<Long> qualityAttributeIds = new ArrayList<>();
+        for (JsonNode qualityAtributeId : json.findPath("selectedQas")) {
+            qualityAttributeIds.add(qualityAtributeId.longValue());
+        }
+        return qualityAttributeIds;
+    }
+
+    public Boolean getExportAsRawBoolean(JsonNode json) {
+        return (new Boolean(json.findPath("exportAsRaw").asBoolean()));
+    }
 }

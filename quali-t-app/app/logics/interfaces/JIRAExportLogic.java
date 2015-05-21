@@ -24,7 +24,6 @@ import play.libs.ws.WS;
 import play.libs.ws.WSAuthScheme;
 import play.libs.ws.WSRequestHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -39,17 +38,23 @@ public class JIRAExportLogic {
     @Inject
     private QAInstanceDAO qaInstanceDAO;
 
-    public JsonNode exportToJira() throws EntityNotFoundException {
-        JIRAConnection connectionParameter = getConnectionParameter(Long.parseLong("1500"));
-        Project project = projectDAO.readById(Long.parseLong("11000"));
-        List<Long> qaIds = new ArrayList<>();
+    public JsonNode exportToJira(Project project, List<Long> qualityAttributesToExport, Boolean exportAsRaw) throws EntityNotFoundException {
+//        JIRAConnection connectionParameter = getConnectionParameter(Long.parseLong("1500"));
+//        Project project = projectDAO.readById(Long.parseLong("11000"));
+//        List<Long> qaIds = new ArrayList<>();
+//        ObjectNode responses = new ObjectNode(JsonNodeFactory.instance);
+////        getDescriptionWithVars(qaInstanceDAO.readById(Long.parseLong("5")));
+//        qaIds.add(Long.parseLong("5"));
+        project = projectDAO.readById(project.getId());
+        JIRAConnection connectionParameter = project.getJiraConnection();
         ObjectNode responses = new ObjectNode(JsonNodeFactory.instance);
-//        getDescriptionWithVars(qaInstanceDAO.readById(Long.parseLong("5")));
-        qaIds.add(Long.parseLong("5"));
 
-        for (Long id : qaIds) {
+        for (Long id : qualityAttributesToExport) {
             Instance qa = qaInstanceDAO.readById(id);
             String text = getDescriptionWithVars(qa);
+            if (!exportAsRaw) {
+                text = removeHtmlTags(text);
+            }
 
             JsonNode jsonString = Json.parse("{\n" +
                     "    \"fields\": {\n" +
@@ -71,9 +76,12 @@ public class JIRAExportLogic {
             F.Promise<JsonNode> jsonResponse = complexRequest.post(jsonString).map(response -> {
                 return response.asJson();
             });
-            JsonNode newNode = jsonResponse.get(10000);
+            JsonNode createIssueResponse = jsonResponse.get(10000);
+            qa.setJiraKey(createIssueResponse.findPath("key").asText());
+            qa.setJiraDirectURL(createIssueResponse.findPath("self").asText());
+            qaInstanceDAO.update(qa);
 
-            ((ObjectNode) responses).put(qa.getId().toString(), newNode);
+            ((ObjectNode) responses).put(qa.getId().toString(), createIssueResponse);
         }
         return responses;
 
@@ -91,7 +99,7 @@ public class JIRAExportLogic {
 
 //        String description = .replaceFirst("%VARIABLE_.*?([0-9]*)%", "");
 //        Logger.info(description);
-        return removeHtmlTags(replacePlaceholder(qualityAttributeInstance.getDescription(), values));
+        return replacePlaceholder(qualityAttributeInstance.getDescription(), values);
     }
 
     private String removeHtmlTags(String text) {
