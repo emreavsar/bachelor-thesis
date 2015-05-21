@@ -72,9 +72,9 @@ public class QualityAttributeLogic {
             //if description is the same and only categories or var values are changed, the standard catalogqa is edited
 
             if (currentQA.getDescription().equals(qa.getDescription())) {
-                if (defaultCatalogQA.getVars().size() == qaVars.size()) {
-                    int checkNumber = defaultCatalogQA.getVars().size();
-                    for (QAVar var : defaultCatalogQA.getVars()) {
+                if (defaultCatalogQA.getVariables().size() == qaVars.size()) {
+                    int checkNumber = defaultCatalogQA.getVariables().size();
+                    for (QAVar var : defaultCatalogQA.getVariables()) {
                         for (QAVar varNew : qaVars) {
                             if (var.getVarIndex() == varNew.getVarIndex() && var.getType() == var.getType())
                                 checkNumber--;
@@ -82,7 +82,7 @@ public class QualityAttributeLogic {
                     }
                     if (checkNumber == 0) {
                         setCategoriesInQa(currentQA, categoryIds);
-                        defaultCatalogQA.getVars().clear();
+                        defaultCatalogQA.getVariables().clear();
                         addVarsToQA(defaultCatalogQA, qaVars);
                         return currentQA;
                     }

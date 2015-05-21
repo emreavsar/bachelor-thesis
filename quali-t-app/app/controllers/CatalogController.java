@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
 import logics.template.CatalogLogic;
+import models.template.Catalog;
 import models.template.CatalogQA;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -25,16 +26,41 @@ public class CatalogController extends Controller implements ExceptionHandlingIn
 
     @SubjectPresent
     @Transactional
+    public Result importCatalog() {
+        return catchAbstractException(request(), json -> {
+            Catalog catalog = jsonConverter.getImportCatalogFromJson(json);
+            return ok(Json.toJson(catalogLogic.importCatalog(catalog)));
+        });
+    }
+
+    @SubjectPresent
+    @Transactional
+    public Result exportCatalog(Long id) {
+        return catchAbstractException(id, catalogId -> {
+            return ok(catalogLogic.getCatalogToExport(catalogId));
+        });
+    }
+
+    @SubjectPresent
+    @Transactional
     public Result getAllCatalogs() {
         Logger.info("getAllCatalogs Ctrl called");
         return ok(Json.toJson(catalogLogic.getAllCatalogs()));
+    }
+
+    @SubjectPresent
+    @Transactional
+    public Result getCatalog(Long id) {
+        return catchAbstractException(id, catalogId -> {
+            return ok(Json.toJson(catalogLogic.getCatalog(catalogId)));
+        });
     }
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public Result createCatalog() {
         return catchAbstractException(request(), json -> {
-            models.template.Catalog catalog = jsonConverter.getCatalogFromJson(json);
+            Catalog catalog = jsonConverter.getCatalogFromJson(json);
             List<CatalogQA> newCatalogQAs = jsonConverter.getCatalogQasFromJson(json);
             return ok(Json.toJson(catalogLogic.createCatalog(catalog, newCatalogQAs)));
         });

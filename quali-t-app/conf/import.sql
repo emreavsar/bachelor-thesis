@@ -77,8 +77,8 @@ INSERT INTO qacategory VALUES (-4006, 'fa fa-cog', 'SubcategoryOfAvailability', 
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO catalog VALUES (-6000, 'Dies ist der Standardkatalog', 'Standard Katalog', NULL);
-INSERT INTO catalog VALUES (-6001, 'Katalog für Cloud Templates', 'Cloud Katalog', NULL);
+INSERT INTO catalog (id, description, name, image) VALUES  (-6000, 'Dies ist der Standardkatalog', 'Standard Katalog', NULL);
+INSERT INTO catalog (id, description, name, image) VALUES  (-6001, 'Katalog für Cloud Templates', 'Cloud Katalog', NULL);
 
 --
 -- Data for Name: qualityproperty; Type: TABLE DATA; Schema: public; Owner: qualit

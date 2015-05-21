@@ -1,5 +1,8 @@
 package logics.template;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import controllers.Helper;
 import dao.models.CatalogDAO;
@@ -9,8 +12,10 @@ import exceptions.EntityCanNotBeDeleted;
 import exceptions.EntityCanNotBeUpdated;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
+import play.libs.Json;
 
 import java.util.List;
 
@@ -29,6 +34,8 @@ public class CatalogLogic {
     private CatalogQADAO catalogQADAO;
     @Inject
     private Helper helper;
+    @Inject
+    private QualityAttributeLogic qualityAttributeLogic;
 
     public List<models.template.Catalog> getAllCatalogs() {
         return catalogDAO.readAll();
@@ -78,7 +85,7 @@ public class CatalogLogic {
                 models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId());
                 updatedCatalog.setDescription(catalog.getDescription());
                 updatedCatalog.setName(catalog.getName());
-                updatedCatalog.setPictureURL(catalog.getPictureURL());
+                updatedCatalog.setImage(catalog.getImage());
                 return catalogDAO.update(updatedCatalog);
             } else {
                 throw new EntityCanNotBeUpdated("It is not allowed to edit the Standard Catalog!");
@@ -138,5 +145,34 @@ public class CatalogLogic {
             return catalogQADAO.persist(catalogQA);
         }
         throw new MissingParameterException("Please provide a valid CatalogQA");
+    }
+
+    public JsonNode getCatalogToExport(Long id) throws MissingParameterException, EntityNotFoundException {
+        JsonNode catalogNode = Json.toJson(getCatalog(id));
+        JsonNode qualityAttributeNode = Json.toJson(qualityAttributeLogic.getQAsByCatalog(id));
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        node.put("catalog", catalogNode);
+        node.put("qualityAttributes", qualityAttributeNode);
+        node.remove("id");
+        return node;
+    }
+
+    public Catalog getCatalog(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            return catalogDAO.readById(id);
+        }
+        throw new MissingParameterException("Please provide a valid ID!");
+    }
+
+    public Catalog importCatalog(Catalog catalog) throws EntityNotFoundException, MissingParameterException {
+        Catalog newCatalog = catalogDAO.persist(catalog);
+        Catalog standardCatalog = catalogDAO.readById(new Long(-6000));
+        for (CatalogQA catalogQA : newCatalog.getTemplates()) {
+            CatalogQA standardCatalogQA = catalogQA.copyCatalogQA();
+            standardCatalogQA.setCatalog(standardCatalog);
+            standardCatalogQA.setQa(catalogQA.getQa());
+            catalogQADAO.persist(standardCatalogQA);
+        }
+        return newCatalog;
     }
 }

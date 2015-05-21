@@ -59,7 +59,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(newCatalog.getId()).isNotNull();
         assertThat(newCatalog.getName()).isEqualTo("name");
         assertThat(newCatalog.getDescription()).isEqualTo("description");
-        assertThat(newCatalog.getPictureURL()).isEqualTo("image");
+        assertThat(newCatalog.getImage()).isEqualTo("image");
         assertThat(newCatalog.getTemplates().size()).isEqualTo(1);
         for (CatalogQA catalogQA : newCatalog.getTemplates()) {
             assertThat(catalogQA.getQa()).isEqualTo(persistedQa);
@@ -93,7 +93,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(newCatalog.getId()).isNotNull();
         assertThat(newCatalog.getName()).isEqualTo("name");
         assertThat(newCatalog.getDescription()).isEqualTo("description");
-        assertThat(newCatalog.getPictureURL()).isEqualTo("image");
+        assertThat(newCatalog.getImage()).isEqualTo("image");
         assertThat(newCatalog.getTemplates().size()).isEqualTo(0);
     }
 
@@ -106,7 +106,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         assertThat(newCatalog.getId()).isNotNull();
         assertThat(newCatalog.getName()).isEqualTo("name");
         assertThat(newCatalog.getDescription()).isEqualTo("description");
-        assertThat(newCatalog.getPictureURL()).isEqualTo("image");
+        assertThat(newCatalog.getImage()).isEqualTo("image");
         assertThat(newCatalog.getTemplates().size()).isEqualTo(0);
     }
 
@@ -219,7 +219,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ASSERT
         assertThat(updatedCatalog.getName()).isEqualTo("new name");
         assertThat(updatedCatalog.getDescription()).isEqualTo("new description");
-        assertThat(updatedCatalog.getPictureURL()).isEqualTo("new image");
+        assertThat(updatedCatalog.getImage()).isEqualTo("new image");
         assertThat(updatedCatalog.getId()).isEqualTo(catalogToUpdate.getId());
     }
 
