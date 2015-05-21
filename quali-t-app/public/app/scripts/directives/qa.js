@@ -69,8 +69,8 @@ angular.module('qualitApp')
               'data-qp-id': qualityPropertyStatus.id
             }).appendTo(qpsTd);
 
-            $(qpCheckbox).click(function() {
-              if(scope.toggleQpStatusFunction() != undefined) {
+            $(qpCheckbox).click(function () {
+              if (scope.toggleQpStatusFunction() != undefined) {
                 scope.toggleQpStatusFunction()($(this).data('qa-id'), $(this).data('qp-id'), $(this).is(':checked'));
               }
             });
@@ -288,6 +288,25 @@ angular.module('qualitApp')
           var validationWarningsInfoIcon = $("<i/>", {
             class: "fa fa-exclamation-triangle"
           }).appendTo(validationWarnings);
+
+          var issueTrackerInfo = $("<div/>", {
+            class: "issue-tracker-info col-sm-12",
+            html: " <i class='fa fa-link'></i> JIRA Issue: "
+          }).appendTo(element);
+
+          // add link to jira issue
+          if (qa.jiraKey != undefined && qa.jiraKey != null && qa.jiraKey != "") {
+            var linkToIssue = $("<a/>", {
+              href: qa.jiraDirectURL,
+              target: "_blank",
+              text: qa.jiraKey
+            }).appendTo(issueTrackerInfo);
+          } else {
+            var noJiraText = $("<span/>", {
+              text: "Not exported to JIRA",
+              class: "no-issue-text"
+            }).appendTo(issueTrackerInfo);
+          }
 
           var editBtn = $("<i/>", {
             title: "Edit quality attribute",
