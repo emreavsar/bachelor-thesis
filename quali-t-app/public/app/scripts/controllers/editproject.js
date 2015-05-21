@@ -31,6 +31,8 @@ angular.module('qualitApp')
     " The project key is the first part of the string of the JIRA issue IDs. " +
     "For example: Project Key for the JIRA: QUALI-123 would be QUALI.";
 
+    $scope.hasValidationWarnings = null;
+
     $scope.checkIsFavorite = function (projectId, favoriteProjects) {
       return favoritesService.isProjectFavorite(projectId, favoriteProjects);
     }
@@ -118,15 +120,9 @@ angular.module('qualitApp')
       promiseValidate.then(
         function (payload) {
           var validationWarnings = payload.data;
+          $scope.hasValidationWarnings = !_.isEmpty(validationWarnings);
+
           _.forEach(validationWarnings, function (n, key) {
-
-            //var validationWarning = $("<ul/>");
-            //_.forEach(n, function (validationWarningItem) {
-            //  $("<li/>", {
-            //    text: validationWarningItem
-            //  }).appendTo(validationWarning);
-            //});
-
             var warningScope = $scope.$new(true);
             warningScope.title = "Validation Errors:";
             warningScope.warnings = n;

@@ -139,7 +139,10 @@
     <button type="button" ng-click="validate()" class="btn btn-success btn-md"
             data-trigger="hover"
             data-type="success" data-title="{{tooltipsValidate}}"
-            bs-tooltip>Validate Project
+            bs-tooltip>
+      Validate Project
+      <i class="fa fa-check" ng-show="hasValidationWarnings != null && !hasValidationWarnings"></i>
+      <i class="fa fa-exclamation-triangle" ng-show="hasValidationWarnings"></i>
     </button>
 
     <button type="button" ng-click="exportToIssueTracker()" class="btn btn-success btn-md"
