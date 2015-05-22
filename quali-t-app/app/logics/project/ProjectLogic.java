@@ -6,11 +6,13 @@ import dao.interfaces.JIRAConnectionDAO;
 import dao.models.*;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import models.project.Project;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
 import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +148,7 @@ public class ProjectLogic {
 
     private models.project.Project setProjectParameters(models.project.Project updatedProject) throws EntityNotFoundException, MissingParameterException {
         if (helper.validate(updatedProject.getName()) && updatedProject.getProjectCustomer() != null) {
+            boolean jiraConnectionChanged = false;
             models.project.Project persistedProject;
             if (updatedProject.getId() != null) {
                 persistedProject = projectDAO.readById(updatedProject.getId());
@@ -153,16 +156,43 @@ public class ProjectLogic {
                 persistedProject = updatedProject;
             }
             persistedProject.setName(updatedProject.getName());
+            if (!persistedProject.getJiraKey().equals(updatedProject.getJiraKey())) {
+                jiraConnectionChanged = true;
+                Logger.info("called super");
+            }
             persistedProject.setJiraKey(updatedProject.getJiraKey());
             persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
             if (updatedProject.getJiraConnection() != null && updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
-                persistedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
+                updatedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
+                if (updatedProject.getJiraConnection() != persistedProject.getJiraConnection()) {
+                    //
+                    jiraConnectionChanged = true;
+                    Logger.info("called");
+                }
+                persistedProject.setJiraConnection(updatedProject.getJiraConnection());
             } else {
+                if (persistedProject.getJiraConnection() != null) {
+                    //
+                    Logger.info("called");
+                    jiraConnectionChanged = true;
+                }
                 persistedProject.setJiraConnection(null);
             }
+
+            if (jiraConnectionChanged) {
+                resetQaInstanceJiraParameter(persistedProject);
+            }
+
             return projectDAO.persist(persistedProject);
         }
         throw new MissingParameterException("Please provide all required Parameters!");
+    }
+
+    private void resetQaInstanceJiraParameter(Project persistedProject) {
+        for (Instance instance : persistedProject.getQualityAttributes()) {
+            instance.setJiraKey(null);
+            instance.setJiraDirectURL(null);
+        }
     }
 
     private models.project.Project setProjectQualityProperties(models.project.Project project, List<Long> qualityPropertyIdList) throws EntityNotFoundException {

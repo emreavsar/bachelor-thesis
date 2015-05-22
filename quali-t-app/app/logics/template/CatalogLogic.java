@@ -54,11 +54,14 @@ public class CatalogLogic {
             models.template.Catalog newCatalog = catalogDAO.persist(catalog);
             if (newCatalogQAs != null) {
                 //create CatalogQAs
+                CatalogQA standardCatalogQA;
                 for (CatalogQA catalogQA : newCatalogQAs) {
                     if (catalogQA.getQa() != null && catalogQA.getQa().getId() != null) {
                         QA qa = qualityAttributeDAO.readById(catalogQA.getQa().getId());
-                        catalogQA.setQa(qa);
+                        standardCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(new Long(-6000)), qa);
+                        catalogQA = standardCatalogQA.copyCatalogQA();
                         catalogQA.setCatalog(newCatalog);
+                        catalogQA.setQa(qa);
                         catalog.addCatalogQA(catalogQA);
                         catalog.addCatalogQA(catalogQADAO.persist(catalogQA));
                     } else {

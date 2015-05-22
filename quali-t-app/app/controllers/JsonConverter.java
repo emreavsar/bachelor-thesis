@@ -80,13 +80,13 @@ public class JsonConverter {
     public models.project.Project getProjectFromJson(JsonNode json) {
         //set general project information parameters
         models.project.Project project = new models.project.Project();
-        project.setName(json.findValue("name").asText());
-        project.setJiraKey(json.findValue("jiraKey").asText());
+        project.setName(json.findPath("name").asText());
+        project.setJiraKey(json.findPath("jiraKey").asText());
         JIRAConnection jiraConnection = new JIRAConnection();
         jiraConnection.setId(json.findPath("jiraConnection").findPath("id").asLong());
         project.setJiraConnection(jiraConnection);
         Customer projectCustomer = new Customer();
-        projectCustomer.setId(json.findValue("customer").asLong());
+        projectCustomer.setId(json.findPath("customer").asLong());
         project.setProjectCustomer(projectCustomer);
         project.setId(json.findPath("id").asLong());
         //set additional qualityInstances

@@ -80,8 +80,10 @@ public class CatalogQA extends AbstractEntity {
     }
 
     public void addVars(List<QAVar> qaVars) {
-        for (QAVar var : qaVars) {
-            this.addVar(var);
+        if (qaVars != null) {
+            for (QAVar var : qaVars) {
+                this.addVar(var);
+            }
         }
     }
 
