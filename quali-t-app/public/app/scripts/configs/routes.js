@@ -99,10 +99,26 @@ angular.module('qualitApp')
           roles: ['curator', 'admin']
         }
       })
+      .state('showCatalogs', {
+        templateUrl: 'views/catalog/list.html',
+        url: '/authenticated/catalog/list',
+        controller: 'CatalogListCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
+      })
+      .state('editCatalog', {
+        templateUrl: 'views/catalog/edit.html',
+        url: '/authenticated/catalog/edit/:catalogId',
+        controller: 'EditCatalogCtrl',
+        data: {
+          roles: ['analyst', 'admin']
+        }
+      })
       .state('newCatalog', {
         templateUrl: 'views/catalog/new.html',
         url: '/authenticated/catalog/create',
-        controller: 'CatalogCtrl',
+        controller: 'CreateCatalogCtrl',
         data: {
           roles: ['curator', 'admin']
         }

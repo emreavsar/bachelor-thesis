@@ -271,7 +271,6 @@ angular.module('qualitApp')
     }
 
     apiService.createCatalog = function (selectedQualityAttributes, name, image) {
-
       return $http.post(this.apiPath + "catalog", {
         selectedQualityAttributes: selectedQualityAttributes,
         name: name,
@@ -282,6 +281,16 @@ angular.module('qualitApp')
         }).
         error(function (data, status, headers, config) {
           alerts.createError(status, data);
+        });
+    }
+
+    apiService.deleteCatalog = function (catalogId) {
+      return $http.delete(this.apiPath + "catalog/" + catalogId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, "Catalog was not found.");
         });
     }
 

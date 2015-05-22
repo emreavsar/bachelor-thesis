@@ -1,0 +1,29 @@
+<div ng-init="init()">
+  <h3>Show all Catalogs</h3>
+
+  <h3 class="steps"></h3>
+  <table class="table table-hover">
+    <tr>
+      <th>Id</th>
+      <th> Name</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+    <tr ng-repeat="catalog in catalogs">
+      <td>{{catalog.id}}</td>
+      <td>
+        <div ng-bind-html="catalog.name"></div>
+      </td>
+      <td>
+        <div ng-bind-html="catalog.description"></div>
+      </td>
+      <td>
+        <a ui-sref="editCatalog({ catalogId: catalog.id })" title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
+          <i class="fa fa-pencil"></i>
+        </a>
+        <i class="fa fa-trash-o pointer text-default" title="Delete Quality Attribute Template with ID: {{catalogQa.id}}"
+           ng-click="deleteCatalog(catalog.id)"></i>
+      </td>
+    </tr>
+  </table>
+</div>

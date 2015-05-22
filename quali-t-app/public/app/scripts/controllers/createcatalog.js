@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name qualitApp.controller:CatalogCtrl
+ * @name qualitApp.controller:CreateCatalogCtrl
  * @description
- * # CatalogCtrl
+ * # CreateCatalogCtrl
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CatalogCtrl', function ($scope, apiService, alerts) {
+  .controller('CreateCatalogCtrl', function ($scope, apiService, alerts) {
     $scope.name = "";
     $scope.image = "";
     $scope.currentStep = 0;

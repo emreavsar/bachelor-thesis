@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: CatalogCtrl', function () {
+describe('Controller: CreateCatalogCtrl', function () {
 
   // load the controller's module
   beforeEach(module('qualitApp'));
 
-  var CatalogCtrl,
+  var CreateCatalogCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    CatalogCtrl = $controller('CatalogCtrl', {
+    CreateCatalogCtrl = $controller('CreateCatalogCtrl', {
       $scope: scope
     });
   }));
