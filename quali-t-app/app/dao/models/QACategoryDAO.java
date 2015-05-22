@@ -22,4 +22,8 @@ public class QACategoryDAO extends AbstractDAO<QACategory> {
         }
         return categories;
     }
+
+    public QACategory findByName(String name) {
+        return find("select q from QACategory q where q.name=?", name);
+    }
 }

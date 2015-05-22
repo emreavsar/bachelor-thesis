@@ -11,8 +11,9 @@ import models.project.QualityProperty;
 import models.project.nfritem.Instance;
 import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
-import models.template.*;
 import models.template.Catalog;
+import models.template.CatalogQA;
+import models.template.QA;
 import models.template.QACategory;
 
 import java.util.ArrayList;
@@ -194,10 +195,16 @@ public class JsonConverter {
         // get catalog from json
         Catalog catalog = getCatalogFromJson(json.findPath("catalog"));
         catalog.setId(null);
+        List<QACategory> qaCategories = new ArrayList<>();
         // get qa's from json
         for (JsonNode qaNode : json.findPath("qualityAttributes")) {
             QA qa = getQaFromJson(qaNode.findPath("qa"));
             qa.setId(null);
+            qaCategories.clear();
+            for (JsonNode categoryNode : qaNode.findPath("categories")) {
+                qaCategories.add(new QACategory(categoryNode.get("name").asText(), categoryNode.get("icon").asText()));
+            }
+            qa.addCategories(qaCategories);
             CatalogQA catalogQA = new CatalogQA();
             catalogQA.setQa(qa);
             catalogQA.addVars(variableConverter.getVarsFromJson(qaNode));

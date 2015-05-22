@@ -83,6 +83,4 @@ public class Catalog extends AbstractEntity {
         return this;
     }
 
-
-
 }

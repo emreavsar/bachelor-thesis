@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import controllers.Helper;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
+import dao.models.QACategoryDAO;
 import dao.models.QualityAttributeDAO;
 import exceptions.EntityCanNotBeDeleted;
 import exceptions.EntityCanNotBeUpdated;
@@ -15,8 +16,10 @@ import exceptions.MissingParameterException;
 import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
+import models.template.QACategory;
 import play.libs.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +35,8 @@ public class CatalogLogic {
     private QualityAttributeDAO qualityAttributeDAO;
     @Inject
     private CatalogQADAO catalogQADAO;
+    @Inject
+    private QACategoryDAO qaCategoryDAO;
     @Inject
     private Helper helper;
     @Inject
@@ -156,8 +161,10 @@ public class CatalogLogic {
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         node.put("catalog", catalogNode);
         node.put("qualityAttributes", qualityAttributeNode);
-        node.remove("id");
-        return node;
+        List<String> fieldsToRemove = new ArrayList<>();
+        fieldsToRemove.add("id");
+        fieldsToRemove.add("qaInstances");
+        return node.without(fieldsToRemove);
     }
 
     public Catalog getCatalog(Long id) throws EntityNotFoundException, MissingParameterException {
@@ -168,6 +175,7 @@ public class CatalogLogic {
     }
 
     public Catalog importCatalog(Catalog catalog) throws EntityNotFoundException, MissingParameterException {
+        setQaCategories(catalog);
         Catalog newCatalog = catalogDAO.persist(catalog);
         Catalog standardCatalog = catalogDAO.readById(new Long(-6000));
         for (CatalogQA catalogQA : newCatalog.getTemplates()) {
@@ -177,5 +185,17 @@ public class CatalogLogic {
             catalogQADAO.persist(standardCatalogQA);
         }
         return newCatalog;
+    }
+
+    private void setQaCategories(Catalog catalog) {
+        List<QACategory> qaCategoriesList = new ArrayList<>();
+        for (CatalogQA catalogQA : catalog.getTemplates()) {
+            qaCategoriesList.clear();
+            for (QACategory qaCategory : catalogQA.getQa().getCategories()) {
+                qaCategoriesList.add(qaCategoryDAO.findByName(qaCategory.getName()));
+            }
+            catalogQA.getQa().getCategories().clear();
+            catalogQA.getQa().addCategories(qaCategoriesList);
+        }
     }
 }
