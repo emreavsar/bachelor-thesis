@@ -122,6 +122,7 @@
       <div class="qa qa-nopointer well row" ng-repeat="qa in project.qualityAttributes">
         <qa update-qa-function="init"
             id="{{'qa-' + qa.id}}"
+            jira-url="project.jiraConnection.hostAddress"
             toggle-qp-status-function="toggleQpStatus"
             categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.variables"
             qualityproperties="qa.qualityPropertyStatus" values="qa.values"/>

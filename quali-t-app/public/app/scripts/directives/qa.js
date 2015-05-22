@@ -17,6 +17,7 @@ angular.module('qualitApp')
         variables: '=',
         qualityproperties: '=',
         values: '=',
+        jiraUrl: '=',
         context: '@',
         editable: '=',
         updateQaFunction: '&',
@@ -295,9 +296,10 @@ angular.module('qualitApp')
           }).appendTo(element);
 
           // add link to jira issue
+          var jiraUrl = (scope.jiraUrl != undefined ? scope.jiraUrl : "");
           if (qa.jiraKey != undefined && qa.jiraKey != null && qa.jiraKey != "") {
             var linkToIssue = $("<a/>", {
-              href: qa.jiraDirectURL,
+              href: jiraUrl + "/browse/" + qa.jiraKey,
               target: "_blank",
               text: qa.jiraKey
             }).appendTo(issueTrackerInfo);
