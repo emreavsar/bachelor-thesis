@@ -1,1 +1,60 @@
-to be implemented
+<div ng-init="init()">
+  <h3>{{catalog.name}}
+    <small> edit</small>
+  </h3>
+  <div class="col-sm-12">
+    <div class="col-sm-12">
+
+      <h4 class="steps">Catalog properties:</h4>
+
+      <div class="form-group col-sm-6">
+        <label for="catalogName">Name</label>
+        <input id="catalogName" ng-model="catalog.name" type="text" required="required"
+               placeholder="Name the catalog" class="form-control"/>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="catalogDescription">Description</label>
+        <input id="catalogDescription" ng-model="catalog.description" type="text" required="required"
+               placeholder="Describe the catalog" class="form-control"/>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label for="catalogImage">Image</label>
+
+        <div class="image-upload-container">
+          <input type="file" id="catalogImage" ng-model="catalog.image" name="image"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <h4 class="steps">Quality Attribute Templates:</h4>
+
+      <!-- STEP 2 -->
+      <div>
+        <p>
+          Edit ranges in free number fields, customize values in dropdown selections, add or remove
+          quality attribute templates.
+        </p>
+
+        <div class="all-qas">
+          <h5>Quality Attribute Templates in this catalog</h5>
+
+          <div class="qa well row"
+               ng-repeat="catalogQa in catalogQas">
+            <!--ng-click="switchCurrentEditedElement(qa)"-->
+            <!--ng-class="{ editing: currentEditedElement == qa}"-->
+            <qa categories="catalogQa.qa.categories" catalog-qa="catalogQa" qa="catalogQa.qa" context="editcatalog"
+                variables="catalogQa.variables" editable="true" update-qa-function="loadCatalogQas"/>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row end-row col-sm-12 text-center">
+      <button type="button" ng-click="save()" class="btn btn-success btn-md">Save Catalog
+      </button>
+    </div>
+  </div>

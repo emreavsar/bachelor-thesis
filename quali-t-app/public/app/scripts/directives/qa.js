@@ -14,6 +14,7 @@ angular.module('qualitApp')
       restrict: 'E',
       scope: {
         qa: '=',
+        catalogQa: '=',
         variables: '=',
         qualityproperties: '=',
         values: '=',
@@ -49,6 +50,7 @@ angular.module('qualitApp')
             }
           }
         }
+
 
         scope.getQpHtml = function (qualityPropertyStatuses, qaId) {
           var qpsTable = $("<table/>", {
@@ -245,6 +247,8 @@ angular.module('qualitApp')
         var qaDivCSSClass = "col-sm-12";
         if (context == "editproject") {
           qaDivCSSClass = "col-sm-8";
+        } else if (context == "editcatalog") {
+          qaDivCSSClass = "col-sm-11";
         } else if (context == "createproject" || context == "catalog") {
           qaDivCSSClass = "col-sm-10";
         }
@@ -264,51 +268,14 @@ angular.module('qualitApp')
           html: qaHtml
         }).appendTo(qaDiv);
 
-        if (context == "editproject") {
-          var checkbox = $("<input/>", {
-            type: "checkbox",
-            title: "Toggle export to issue tracking system",
-            class: "col-sm-1 export-checkbox",
-            "data-qainstanceid": qa.id
-          }).prependTo(qaDescSpan);
 
-          var qaCheckboxDiv = $("<div/>", {
-            class: "col-sm-3",
-            html: scope.getQpHtml(qualityproperties, qa.id)
-          }).appendTo(element);
+        if (context == "editproject" || context == "editcatalog") {
+          // in editcatalog there is a catalogQa provided
+          var catalogQa = (scope.catalogQa != undefined ? scope.catalogQa : {});
 
           var actions = $("<div/>", {
             class: "col-sm-1 actions"
-          }).appendTo(element);
-
-          var validationWarnings = $("<div/>", {
-            class: "col-sm-1 pull-right validation-warnings hidden",
-            title: "This quality attribute has validation warnings, click here to get more information."
-          }).appendTo(element);
-
-          var validationWarningsInfoIcon = $("<i/>", {
-            class: "fa fa-exclamation-triangle"
-          }).appendTo(validationWarnings);
-
-          var issueTrackerInfo = $("<div/>", {
-            class: "issue-tracker-info col-sm-12",
-            html: " <i class='fa fa-link'></i> JIRA Issue: "
-          }).appendTo(element);
-
-          // add link to jira issue
-          var jiraUrl = (scope.jiraUrl != undefined ? scope.jiraUrl : "");
-          if (qa.jiraKey != undefined && qa.jiraKey != null && qa.jiraKey != "") {
-            var linkToIssue = $("<a/>", {
-              href: jiraUrl + "/browse/" + qa.jiraKey,
-              target: "_blank",
-              text: qa.jiraKey
-            }).appendTo(issueTrackerInfo);
-          } else {
-            var noJiraText = $("<span/>", {
-              text: "Not exported to JIRA",
-              class: "no-issue-text"
-            }).appendTo(issueTrackerInfo);
-          }
+          });
 
           var editBtn = $("<i/>", {
             title: "Edit quality attribute",
@@ -332,7 +299,12 @@ angular.module('qualitApp')
           }).appendTo(actions);
 
           cloneBtn.click(function () {
-            var promiseRemove = apiService.cloneQaInstance(qa.id);
+            var promiseRemove;
+            if (context == "editproject") {
+              promiseRemove = apiService.cloneQaInstance(qa.id);
+            } else if (context == "editcatalog") {
+              promiseRemove = apiService.cloneCatalogQa(catalogQa.id);
+            }
             promiseRemove.then(
               function (payload) {
                 alerts.createSuccess("Quality Attribute was successfully cloned.");
@@ -349,16 +321,79 @@ angular.module('qualitApp')
           }).appendTo(actions);
 
           deleteBtn.click(function () {
-            var promiseRemove = apiService.removeQaInstance(qa.id);
+            var promiseRemove;
+            if (context == "editproject") {
+              promiseRemove = apiService.removeQaInstance(qa.id);
+            } else if (context == "editcatalog") {
+              promiseRemove = apiService.removeQa(qa.id);
+            }
             promiseRemove.then(
               function (payload) {
-                alerts.createSuccess("Quality Attribute was successfully removed from this project.");
+                alerts.createSuccess("Quality Attribute was successfully removed.");
                 if (scope.updateQaFunction() != undefined) {
                   // reload information
                   scope.updateQaFunction()();
                 }
               });
           });
+
+          if (context == "editproject") {
+            var checkbox = $("<input/>", {
+              type: "checkbox",
+              title: "Toggle export to issue tracking system",
+              class: "col-sm-1 export-checkbox",
+              "data-qainstanceid": qa.id
+            }).prependTo(qaDescSpan);
+
+            var qaCheckboxDiv = $("<div/>", {
+              class: "col-sm-3",
+              html: scope.getQpHtml(qualityproperties, qa.id)
+            });
+
+            var validationWarnings = $("<div/>", {
+              class: "col-sm-1 pull-right validation-warnings hidden",
+              title: "This quality attribute has validation warnings, click here to get more information."
+            });
+
+            var validationWarningsInfoIcon = $("<i/>", {
+              class: "fa fa-exclamation-triangle"
+            }).appendTo(validationWarnings);
+
+            var issueTrackerInfo = $("<div/>", {
+              class: "issue-tracker-info col-sm-12",
+              html: " <i class='fa fa-link'></i> JIRA Issue: "
+            });
+
+            // add link to jira issue
+            var jiraUrl = (scope.jiraUrl != undefined ? scope.jiraUrl : "");
+            if (qa.jiraKey != undefined && qa.jiraKey != null && qa.jiraKey != "") {
+              var linkToIssue = $("<a/>", {
+                href: jiraUrl + "/browse/" + qa.jiraKey,
+                target: "_blank",
+                text: qa.jiraKey
+              }).appendTo(issueTrackerInfo);
+            } else {
+              var noJiraText = $("<span/>", {
+                text: "Not exported to JIRA",
+                class: "no-issue-text"
+              }).appendTo(issueTrackerInfo);
+            }
+          }
+
+          // the order here is important!
+          if (context == "editproject") {
+            $(qaCheckboxDiv).appendTo(element);
+          }
+
+          $(actions).appendTo(element);
+
+          if (context == "editproject") {
+            $(validationWarnings).appendTo(element);
+            $(issueTrackerInfo).appendTo(element);
+            $(validationWarnings).appendTo(element);
+          }
+
+
         } else if (context == "createproject" || context == "catalog") {
 
           var qaCheckboxDiv = $("<div/>", {
@@ -372,6 +407,4 @@ angular.module('qualitApp')
         }
       }
     }
-      ;
-  })
-;
+  });

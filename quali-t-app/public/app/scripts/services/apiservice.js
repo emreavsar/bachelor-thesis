@@ -260,6 +260,25 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.cloneCatalogQa = function (catalogQaId) {
+      return $http.post(this.apiPath + "/qa/clone/" + catalogQaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+    apiService.removeQa = function (catalogQaId) {
+      return $http.delete(this.apiPath + "qa/" + catalogQaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.getStandardCatalogQas = function () {
       return $http.get(this.apiPath + "qa/standardcatalog")
         .success(function (data) {
@@ -291,6 +310,17 @@ angular.module('qualitApp')
         })
         .error(function (data, status) {
           alerts.createError(status, "Catalog was not found.");
+        });
+    }
+
+
+    apiService.updateCatalog = function (catalog) {
+      return $http.put(this.apiPath + "catalog", catalog)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
         });
     }
 
@@ -336,6 +366,16 @@ angular.module('qualitApp')
 
     apiService.getJiraInstances = function () {
       return $http.get(this.apiPath + "jiraconnection")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.getCatalog = function (catalogId) {
+      return $http.get(this.apiPath + "catalog/" + catalogId)
         .success(function (data) {
           return data;
         })

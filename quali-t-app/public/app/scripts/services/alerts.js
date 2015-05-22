@@ -12,19 +12,20 @@ angular.module('qualitApp')
     return {
       createSuccess: function (content) {
         var alert = $alert({
-          title: 'Oh yeah!',
+          title: '<i class="fa fa-check"></i> Success',
           content: content,
           type: 'success',
           show: true,
           container: "#alerts-container",
-          duration: 5
+          duration: 3,
+          html: true
         });
         return alert;
       },
 
       createError: function (status, content) {
         var alert = $alert({
-          title: status + ': Oh no!',
+          title: '<i class="fa fa-exclamation-triangle"></i> Error',
           content: content,
           type: 'error',
           show: true,
@@ -52,7 +53,7 @@ angular.module('qualitApp')
           message = content;
         }
         var alert = $alert({
-          title: 'Ups, an error ocurred!',
+          title: '<i class="fa fa-exclamation-triangle"></i> Error',
           content: message,
           type: 'error',
           show: true,
