@@ -30,7 +30,8 @@ angular.module('qualitApp')
           type: 'error',
           show: true,
           container: "#alerts-container",
-          duration: 5
+          duration: 5,
+          html: true
         });
         return alert;
       },
@@ -58,7 +59,8 @@ angular.module('qualitApp')
           type: 'error',
           show: true,
           container: "#alerts-container",
-          duration: 5
+          duration: 5,
+          html: true
         });
         return alert;
       }
