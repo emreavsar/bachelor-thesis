@@ -42,12 +42,13 @@
           <h5>Quality Attribute Templates in this catalog</h5>
 
           <div class="qa well row"
-               ng-repeat="catalogQa in catalogQas">
+               ng-repeat="catalogQa in catalogQas" ng-show="!catalogQas.length==0">
             <!--ng-click="switchCurrentEditedElement(qa)"-->
             <!--ng-class="{ editing: currentEditedElement == qa}"-->
             <qa categories="catalogQa.qa.categories" catalog-qa="catalogQa" qa="catalogQa.qa" context="editcatalog"
                 variables="catalogQa.variables" editable="true" update-qa-function="loadCatalogQas"/>
           </div>
+          <span class="text-danger" ng-show="catalogQas.length==0">No quality attribute templates in this catalog found. Try add one.</span>
         </div>
 
       </div>
