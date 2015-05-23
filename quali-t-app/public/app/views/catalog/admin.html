@@ -18,12 +18,23 @@
         <div ng-bind-html="catalog.description"></div>
       </td>
       <td>
-        <a ui-sref="editCatalog({ catalogId: catalog.id })" title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
+        <a ui-sref="editCatalog({ catalogId: catalog.id })"
+           title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
           <i class="fa fa-pencil"></i>
         </a>
-        <i class="fa fa-trash-o pointer text-default" title="Delete Quality Attribute Template with ID: {{catalogQa.id}}"
+        <i class="fa fa-trash-o pointer text-default"
+           title="Delete Quality Attribute Template with ID: {{catalogQa.id}}"
            ng-click="deleteCatalog(catalog.id)"></i>
       </td>
     </tr>
   </table>
+
+  <div class="form crud-form">
+    <div class="row text-center" style="margin-bottom:20px;">
+      <a class="btn btn-success" ui-sref="newCatalog">
+        <i class="fa fa-plus"></i> Add Catalog
+      </a>
+    </div>
+  </div>
+
 </div>

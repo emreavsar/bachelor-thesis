@@ -92,16 +92,16 @@ angular.module('qualitApp')
         }
       })
       .state('showQA', {
-        templateUrl: 'views/qa/list.html',
-        url: '/authenticated/qa/list',
+        templateUrl: 'views/qa/admin.html',
+        url: '/authenticated/qa/admin',
         controller: 'QaListCtrl',
         data: {
           roles: ['curator', 'admin']
         }
       })
       .state('showCatalogs', {
-        templateUrl: 'views/catalog/list.html',
-        url: '/authenticated/catalog/list',
+        templateUrl: 'views/catalog/admin.html',
+        url: '/authenticated/catalog/admin',
         controller: 'CatalogListCtrl',
         data: {
           roles: ['curator', 'admin']
