@@ -411,10 +411,11 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.exportToIssueTracker = function (projectId, selectedQas) {
+    apiService.exportToIssueTracker = function (projectId, selectedQas, exportAsRaw) {
       return $http.post(this.apiPath + "jira/export", {
         projectId: projectId,
-        selectedQas: selectedQas
+        selectedQas: selectedQas,
+        exportAsRaw: exportAsRaw
       })
         .success(function (data) {
           return data;

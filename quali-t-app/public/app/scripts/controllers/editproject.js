@@ -19,7 +19,9 @@ angular.module('qualitApp')
     $scope.qualityAttributesToUpdate = new Array();
     $scope.jiraConnections = new Array();
     $scope.isProjectFavorite = false;
-    $scope.exportRaw = false;
+    $scope.exportAsRawModel = {
+      value: false
+    };
     $scope.tooltipsSave = "Saves the project and shows warnings (statistics & fuzzyness) if there are any.";
     $scope.tooltipsValidate = "Validate the project's quality attributes for statistics and " +
     "fuzzyness will show you open issues and suggesstions.";
@@ -148,12 +150,33 @@ angular.module('qualitApp')
       });
       selectedQaIds;
 
-      var promiseExport = apiService.exportToIssueTracker($scope.project.id, selectedQaIds);
+      var promiseExport = apiService.exportToIssueTracker($scope.project.id, selectedQaIds, $scope.exportAsRawModel.value);
 
       promiseExport.then(
         function (payload) {
-          $scope.favoriteProjects = payload.data;
+          var reloadPromise =  apiService.getProject($scope.projectId);
+          reloadPromise.then(function(payload){
+            $scope.setProject(payload);
+          })
+
         });
+    }
+
+    $scope.setProject = function (payload) {
+      $scope.project = payload.data;
+      $scope.selectedCustomer = $scope.project.projectCustomer;
+      $scope.selectedQualityProperties = $scope.project.qualityProperties;
+      $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
+
+      // sort by qp id
+      for (var i = 0; i < $scope.project.qualityAttributes.length; i++) {
+        var qa = $scope.project.qualityAttributes[i];
+
+        qa = _.sortBy(qa.qualityPropertyStatus, function (n) {
+          return n.id;
+        });
+
+      }
     }
 
     $scope.init = function () {
@@ -164,20 +187,8 @@ angular.module('qualitApp')
           return apiService.getProject($scope.projectId);
         }).then(
         function (payload) {
-          $scope.project = payload.data;
-          $scope.selectedCustomer = $scope.project.projectCustomer;
-          $scope.selectedQualityProperties = $scope.project.qualityProperties;
-          $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
+          $scope.setProject(payload);
 
-          // sort by qp id
-          for (var i = 0; i < $scope.project.qualityAttributes.length; i++) {
-            var qa = $scope.project.qualityAttributes[i];
-
-            qa = _.sortBy(qa.qualityPropertyStatus, function (n) {
-              return n.id;
-            });
-
-          }
           return apiService.getCustomers();
         }).then(
         function (payload) {
