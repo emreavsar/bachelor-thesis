@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditCatalogCtrl', function ($scope, $stateParams, apiService) {
+  .controller('EditCatalogCtrl', function ($scope, $stateParams, apiService, alerts) {
     $scope.catalogId = $stateParams.catalogId;
     $scope.catalog = {};
     $scope.catalogQas = {};
@@ -25,7 +25,7 @@ angular.module('qualitApp')
       var promiseSave = apiService.updateCatalog(catalog);
       promiseSave.then(
         function (payload) {
-          alerts.createSuccess("Project was successfully updated.");
+          alerts.createSuccess("Catalog was successfully updated.");
           $scope.qualityAttributesToUpdate = new Array();
           $scope.project = payload.data;
         });
