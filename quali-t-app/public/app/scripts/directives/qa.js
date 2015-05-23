@@ -285,6 +285,7 @@ angular.module('qualitApp')
           editBtn.click(function () {
             var modalScope = scope.$new(true);
             modalScope.qa = qa;
+            modalScope.context = context;
 
             var modal = $modal({
               title: "Edit qa",
