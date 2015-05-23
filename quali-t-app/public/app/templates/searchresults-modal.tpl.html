@@ -62,7 +62,7 @@
             <div ng-show="searchResults.catalogs">
               <ul>
                 <li ng-repeat="catalog in searchResults.catalogs">
-                  {{ catalog.name }}
+                  <a ui-sref="editCatalog({ catalogId: catalog.id })" ng-click="$hide()"> {{ catalog.name }}</a>
                 </li>
               </ul>
             </div>
