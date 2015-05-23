@@ -65,48 +65,10 @@
         </div>
 
         <div class="row end-row col-sm-12">
-          <input type="submit" class="btn btn-success btn-lg" value="Customize Quality Attributes"/>
+          <input type="submit" class="btn btn-success btn-lg" value="Create Catalog"/>
         </div>
         <!-- END STEP 1 -->
       </div>
-
-
-      <!-- STEP 2 -->
-      <div ng-show="currentStep==2">
-        <button type="button" class="btn btn-sm btn-default" ng-click="back(currentStep)"><i
-          class="fa fa-arrow-left"></i>
-          Back
-        </button>
-
-        <h3 class="steps">Step 3: Customize chosen Quality Attribute Templates
-          <small>for {{name}}</small>
-        </h3>
-
-        <!-- TODO emre: make it look nicer -->
-        <p>
-          In this step, you can edit ranges in free number fields, customize values in dropdown selections and add new
-          quality attributes for this catalog (new qas will not appear in the standard catalog).
-        </p>
-
-        <div class="all-qas">
-          <h5>Your selected Quality Attribute Templates</h5>
-
-          <div class="qa well row"
-               ng-repeat="selectedElement in selection">
-            <!--ng-click="switchCurrentEditedElement(qa)"-->
-            <!--ng-class="{ editing: currentEditedElement == qa}"-->
-            <qa categories="selectedElement.qa.categories" qa="selectedElement.qa" context="catalog"
-                variables="selectedElement.variables" editable="true"/>
-          </div>
-        </div>
-
-        <div class="row end-row col-sm-12">
-          <input type="submit" class="btn btn-success btn-lg" value="Create Catalog"/>
-        </div>
-        <!-- END STEP 2 -->
-      </div>
-
-
     </form>
   </div>
 </div>

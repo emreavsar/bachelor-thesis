@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CreateCatalogCtrl', function ($scope, apiService, alerts) {
+  .controller('CreateCatalogCtrl', function ($scope, apiService, alerts, $state) {
     $scope.name = "";
     $scope.image = "";
     $scope.currentStep = 0;
@@ -24,8 +24,6 @@ angular.module('qualitApp')
       if ($scope.currentStep == 0) {
         $scope.choose($scope.name, $scope.image);
       } else if ($scope.currentStep == 1) {
-        $scope.customize();
-      } else if ($scope.currentStep == 2) {
         $scope.createCatalog();
         isLastStep = true;
       } else {
@@ -37,7 +35,7 @@ angular.module('qualitApp')
     }
 
     $scope.back = function (currentStep) {
-      if (currentStep == 2) {
+      if (currentStep == 1) {
         $scope.selection = new Array();
       }
       $scope.currentStep = currentStep - 1;
@@ -74,10 +72,6 @@ angular.module('qualitApp')
       });
     }
 
-    $scope.customize = function () {
-      console.log("create is clicked");
-    }
-
     $scope.getSelectedQas = function () {
       var selectedQualityAttributes = new Array();
       _.forEach($scope.selection, function (value, key) {
@@ -99,6 +93,9 @@ angular.module('qualitApp')
       var createPromise = apiService.createCatalog($scope.getSelectedQas(), $scope.name, $scope.image);
       createPromise.then(function (payload) {
         alerts.createSuccess("Catalog " + payload.data.name + " created successfully.");
+        $state.go('editCatalog', {
+          catalogId: payload.data.id
+        });
       });
     }
 
