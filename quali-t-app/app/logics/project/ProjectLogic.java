@@ -12,6 +12,7 @@ import models.project.nfritem.Instance;
 import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.util.ArrayList;
@@ -156,7 +157,7 @@ public class ProjectLogic {
                 persistedProject = updatedProject;
             }
             persistedProject.setName(updatedProject.getName());
-            if (!persistedProject.getJiraKey().equals(updatedProject.getJiraKey())) {
+            if (persistedProject.getJiraKey() != null && persistedProject.getJiraKey().equals(updatedProject.getJiraKey())) {
                 jiraConnectionChanged = true;
                 Logger.info("called super");
             }
