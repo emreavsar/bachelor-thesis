@@ -10,6 +10,7 @@
 angular.module('qualitApp')
   .controller('CreateCatalogCtrl', function ($scope, apiService, alerts, $state) {
     $scope.name = "";
+    $scope.description = "";
     $scope.image = "";
     $scope.currentStep = 0;
     $scope.qas = new Array();
@@ -90,7 +91,7 @@ angular.module('qualitApp')
         delete $scope.selection[i].categories;
       }
 
-      var createPromise = apiService.createCatalog($scope.getSelectedQas(), $scope.name, $scope.image);
+      var createPromise = apiService.createCatalog($scope.getSelectedQas(), $scope.name, $scope.description, $scope.image);
       createPromise.then(function (payload) {
         alerts.createSuccess("Catalog " + payload.data.name + " created successfully.");
         $state.go('editCatalog', {

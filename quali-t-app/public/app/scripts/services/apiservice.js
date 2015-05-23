@@ -289,10 +289,11 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.createCatalog = function (selectedQualityAttributes, name, image) {
+    apiService.createCatalog = function (selectedQualityAttributes, name, description, image) {
       return $http.post(this.apiPath + "catalog", {
         selectedQualityAttributes: selectedQualityAttributes,
         name: name,
+        description: description,
         image: image
       }).
         success(function (data, status, headers, config) {
