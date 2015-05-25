@@ -5,6 +5,6 @@ package exceptions;
  */
 public class EntityAlreadyExistsException extends AbstractException {
     public EntityAlreadyExistsException(String message) {
-        super(message, 400);
+        super(message, 422);
     }
 }

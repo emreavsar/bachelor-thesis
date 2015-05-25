@@ -5,7 +5,7 @@ package exceptions;
  */
 public class PasswordsNotMatchException extends AbstractException {
     public PasswordsNotMatchException(String message) {
-        super(message, 400);
+        super(message, 422);
     }
 }
 

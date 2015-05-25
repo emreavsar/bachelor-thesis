@@ -5,6 +5,6 @@ package exceptions;
  */
 public class EntityCanNotBeDeleted extends AbstractException {
     public EntityCanNotBeDeleted(String message) {
-        super(message, 400);
+        super(message, 403);
     }
 }
