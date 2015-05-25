@@ -25,6 +25,9 @@ public class QA extends AbstractEntity {
     @ManyToMany(mappedBy = "usedInQA", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "qaCategories")
     private Set<QACategory> categories = new HashSet<>();
+    @OneToOne
+    private QA previousVersion;
+
     private boolean deleted;
     private int versionNumber;
 
@@ -110,4 +113,14 @@ public class QA extends AbstractEntity {
         catalogQA.setQa(this);
         return this;
     }
+
+    public QA getPreviousVersion() {
+        return previousVersion;
+    }
+
+    public void setPreviousVersion(QA previousVersion) {
+        this.previousVersion = previousVersion;
+    }
+
+
 }

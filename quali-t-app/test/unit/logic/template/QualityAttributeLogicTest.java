@@ -294,6 +294,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         assertThat(qa.isDeleted()).isTrue();
         assertThat(newQA.getDescription()).isEqualTo(qaToUpdate.getDescription());
         assertThat(newQA.getVersionNumber()).isEqualTo(qa.getVersionNumber() + 1);
+        assertThat(newQA.getPreviousVersion()).isEqualTo(qa);
         assertThat(qaToUpdate.getUsedInCatalog().size()).isEqualTo(newQA.getUsedInCatalog().size());
         int originalUsedInCatalogSize = qaToUpdate.getUsedInCatalog().size();
         for (CatalogQA originalCatalogQA : qa.getUsedInCatalog()) {
