@@ -12,7 +12,6 @@ import models.authentication.Role;
 import models.authentication.Token;
 import models.authentication.User;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.joda.time.DateTime;
 import play.Logger;
 
 import javax.annotation.Nullable;
@@ -37,6 +36,10 @@ public class Authenticator {
 
     public Authenticator() {
         Logger.info("constructor Authenticator() is called");
+    }
+
+    public static String generateTokenString() {
+        return RandomStringUtils.randomAlphanumeric(20).toString();
     }
 
     public User update(User u) {
@@ -178,10 +181,6 @@ public class Authenticator {
         Token t = new Token(generatedToken, date, user);
 
         return t;
-    }
-
-    public static String generateTokenString() {
-        return RandomStringUtils.randomAlphanumeric(20).toString();
     }
 
     /**

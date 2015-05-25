@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import exceptions.EntityNotFoundException;
 import models.Interface.JIRAConnection;
+import models.authentication.Token;
+import models.authentication.User;
 import models.project.Customer;
 import models.project.Project;
 import models.project.QualityProperty;
@@ -211,6 +213,14 @@ public class JsonConverter {
             catalog.addCatalogQA(catalogQA);
         }
         return catalog;
+    }
+
+    public User getUserFromJson(JsonNode json) {
+        User user = new User();
+        user.setName(json.findPath("username").asText());
+        user.setHashedPassword(json.findPath("password").asText());
+        user.addToken(new Token(json.findPath("token").asText()));
+        return user;
     }
 
 //    public List<CatalogQA> getImportCatalogQAList(JsonNode json){
