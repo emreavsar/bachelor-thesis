@@ -14,11 +14,10 @@ import dao.models.QAInstanceDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.InvalidConnectionParameter;
 import exceptions.MissingParameterException;
+import logics.Helper;
 import models.Interface.JIRAConnection;
 import models.project.Project;
 import models.project.nfritem.Instance;
-import models.project.nfritem.Val;
-import org.jsoup.Jsoup;
 import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -26,9 +25,6 @@ import play.libs.ws.WSAuthScheme;
 import play.libs.ws.WSRequestHolder;
 
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class JIRAExportLogic {
@@ -36,6 +32,8 @@ public class JIRAExportLogic {
     private ProjectDAO projectDAO;
     @Inject
     private QAInstanceDAO qaInstanceDAO;
+    @Inject
+    private Helper helper;
     private String jiraAPIAddress;
 
     public JsonNode exportToJira(Project project, List<Long> qualityAttributesToExport, Boolean exportAsRaw) throws EntityNotFoundException, InvalidConnectionParameter, MissingParameterException {
@@ -86,10 +84,10 @@ public class JIRAExportLogic {
 
     private JsonNode parseJson(Project project, Instance qa, Boolean exportAsRaw) throws EntityNotFoundException {
         //replace vars with values
-        String text = getDescriptionWithVars(qa);
+        String text = helper.getDescriptionWithVars(qa);
         //check if export should be raw or html
         if (!exportAsRaw) {
-            text = removeHtmlTags(text);
+            text = helper.removeHtmlTags(text);
         }
         // generate JSON
         if (qa.getJiraKey() == null || qa.getJiraKey().isEmpty()) {
@@ -123,37 +121,37 @@ public class JIRAExportLogic {
                 "   }\n" +
                 "}");
     }
-
-    private String getDescriptionWithVars(Instance qualityAttributeInstance) throws EntityNotFoundException {
-        Set<Val> values = qualityAttributeInstance.getValues();
-        return replacePlaceholder(qualityAttributeInstance.getDescription(), values);
-    }
-
-    private String removeHtmlTags(String text) {
-
-        return Jsoup.parse(text).text();
-    }
-
-    private Val getVarValue(int i, Set<Val> values) throws EntityNotFoundException {
-        for (Val value : values) {
-            if (value.getVarIndex() == i) {
-                return value;
-            }
-        }
-        throw new EntityNotFoundException("Value with this varindex not found!");
-    }
-
-    private String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
-        Pattern p = Pattern.compile("%VARIABLE_.*?([0-9]*)%");
-        Matcher m = p.matcher(text);
-
-        if (m.find()) {
-            Val value = getVarValue(Integer.parseInt(m.group(1)), values);
-            text = m.replaceFirst(value.getValue());
-            return replacePlaceholder(text, values);
-        }
-        return text;
-    }
+//
+//    private String getDescriptionWithVars(Instance qualityAttributeInstance) throws EntityNotFoundException {
+//        Set<Val> values = qualityAttributeInstance.getValues();
+//        return replacePlaceholder(qualityAttributeInstance.getDescription(), values);
+//    }
+//
+//    private String removeHtmlTags(String text) {
+//
+//        return Jsoup.parse(text).text();
+//    }
+//
+//    private Val getVarValue(int i, Set<Val> values) throws EntityNotFoundException {
+//        for (Val value : values) {
+//            if (value.getVarIndex() == i) {
+//                return value;
+//            }
+//        }
+//        throw new EntityNotFoundException("Value with this varindex not found!");
+//    }
+//
+//    private String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
+//        Pattern p = Pattern.compile("%VARIABLE_.*?([0-9]*)%");
+//        Matcher m = p.matcher(text);
+//
+//        if (m.find()) {
+//            Val value = getVarValue(Integer.parseInt(m.group(1)), values);
+//            text = m.replaceFirst(value.getValue());
+//            return replacePlaceholder(text, values);
+//        }
+//        return text;
+//    }
 
 
 }

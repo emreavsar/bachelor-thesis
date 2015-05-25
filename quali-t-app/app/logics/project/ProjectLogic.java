@@ -1,11 +1,15 @@
 package logics.project;
 
 import com.google.inject.Inject;
-import controllers.Helper;
 import dao.interfaces.JIRAConnectionDAO;
 import dao.models.*;
+import exceptions.CouldNotConvertException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import logics.Helper;
+import logics.interfaces.projectExport.models.ModelConverter;
+import logics.interfaces.projectExport.repositories.PdfRepo;
+import logics.interfaces.projectExport.repositories.XmlRepo;
 import models.project.Project;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -14,6 +18,9 @@ import models.project.nfritem.Val;
 import models.template.CatalogQA;
 import play.Logger;
 
+import javax.xml.bind.JAXBException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +46,12 @@ public class ProjectLogic {
     private QualityPropertyStatusDAO qualityPropertyStatusDAO;
     @Inject
     private Helper helper;
+    @Inject
+    private PdfRepo pdfRepo;
+    @Inject
+    private XmlRepo xmlRepo;
+    @Inject
+    private ModelConverter modelConverter;
 
     /**
      * Creates and persists customer.
@@ -274,5 +287,31 @@ public class ProjectLogic {
             }
         }
         return projectDAO.readById(project.getId());
+    }
+
+    public ByteArrayOutputStream exportToPdf(Long id) throws EntityNotFoundException, MissingParameterException, CouldNotConvertException {
+        if (id != null) {
+            Project project = projectDAO.readById(id);
+            try {
+                ByteArrayOutputStream xml = xmlRepo.jaxbObjectToXML(modelConverter.convertProject(project));
+                return pdfRepo.CreatePdf(new ByteArrayInputStream(xml.toByteArray()), getClass().getResourceAsStream("project.xsl"));
+            } catch (JAXBException e) {
+                throw new CouldNotConvertException("Could not Convert due to internal server error");
+            }
+        }
+        throw new MissingParameterException("Please provide a valid ID!");
+    }
+
+
+    public ByteArrayOutputStream exportToXML(Long id) throws EntityNotFoundException, CouldNotConvertException, MissingParameterException {
+        if (id != null) {
+            Project project = projectDAO.readById(id);
+            try {
+                return xmlRepo.jaxbObjectToXML(modelConverter.convertProject(project));
+            } catch (JAXBException e) {
+                throw new CouldNotConvertException("Could not Convert due to internal server error");
+            }
+        }
+        throw new MissingParameterException("Please provide a valid ID!");
     }
 }

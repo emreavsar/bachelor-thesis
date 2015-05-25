@@ -61,6 +61,8 @@ POST          /api/project/qa                    @controllers.ProjectController.
 POST          /api/project/qa/clone/:id          @controllers.ProjectController.cloneInstance(id: Long)
 PUT           /api/project/qa                    @controllers.ProjectController.updateInstance()
 DELETE        /api/project/qa/:id                @controllers.ProjectController.deleteInstance(id: Long)
+GET         /api/project/export/pdf/:id        @controllers.ProjectController.exportToPdf(id: Long)
+GET         /api/project/export/xml/:id        @controllers.ProjectController.exportToXml(id: Long)
 
 # Catalog
 GET           /api/catalog                       @controllers.CatalogController.getAllCatalogs()
@@ -73,8 +75,8 @@ POST          /api/catalog/qa                    @controllers.CatalogController.
 PUT           /api/catalog/qa                    @controllers.CatalogController.updateCatalogQA()
 DELETE        /api/catalog/qa/:id                @controllers.CatalogController.deleteCatalogQA(id: Long)
 
-POST        /api/catalog/import            @controllers.CatalogController.importCatalog()
-GET         /api/catalog/export/:id        @controllers.CatalogController.exportCatalog(id: Long)
+POST        /api/catalog/import                @controllers.CatalogController.importCatalog()
+GET         /api/catalog/export/:id            @controllers.CatalogController.exportCatalog(id: Long)
 
 # QACategories
 #GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)

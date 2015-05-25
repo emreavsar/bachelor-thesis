@@ -25,6 +25,26 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
+    public Result exportToXml(long id) {
+        return catchAbstractException(id, projectId -> {
+            response().setContentType("application/x-download");
+            response().setHeader("Content-disposition", "attachment; filename=project" + id + ".xml");
+            return ok(projectLogic.exportToXML(projectId).toByteArray());
+        });
+    }
+
+    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Transactional
+    public Result exportToPdf(long id) {
+        return catchAbstractException(id, projectId -> {
+            response().setContentType("application/x-download");
+            response().setHeader("Content-disposition", "attachment; filename=project" + id + ".pdf");
+            return ok(projectLogic.exportToPdf(projectId).toByteArray());
+        });
+    }
+
+    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Transactional
     public Result createProject() {
         return catchAbstractException(request(), json -> {
             models.project.Project project = jsonConverter.getProjectFromJson(json);
