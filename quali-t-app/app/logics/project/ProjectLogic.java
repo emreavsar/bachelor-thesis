@@ -16,9 +16,11 @@ import models.project.nfritem.Instance;
 import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
+import org.apache.fop.apps.FOPException;
 import play.Logger;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -293,9 +295,9 @@ public class ProjectLogic {
         if (id != null) {
             Project project = projectDAO.readById(id);
             try {
-                ByteArrayOutputStream xml = xmlRepo.jaxbObjectToXML(modelConverter.convertProject(project));
-                return pdfRepo.CreatePdf(new ByteArrayInputStream(xml.toByteArray()), getClass().getResourceAsStream("project.xsl"));
-            } catch (JAXBException e) {
+                ByteArrayOutputStream xml = xmlRepo.projectToXML(modelConverter.convertProject(project));
+                return pdfRepo.createPdf(new ByteArrayInputStream(xml.toByteArray()), getClass().getResourceAsStream("project.xsl"));
+            } catch (JAXBException | FOPException | TransformerException e) {
                 throw new CouldNotConvertException("Could not Convert due to internal server error");
             }
         }
@@ -307,7 +309,7 @@ public class ProjectLogic {
         if (id != null) {
             Project project = projectDAO.readById(id);
             try {
-                return xmlRepo.jaxbObjectToXML(modelConverter.convertProject(project));
+                return xmlRepo.projectToXML(modelConverter.convertProject(project));
             } catch (JAXBException e) {
                 throw new CouldNotConvertException("Could not Convert due to internal server error");
             }

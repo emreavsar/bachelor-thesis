@@ -1,6 +1,7 @@
 package logics.interfaces.projectExport.repositories;
 
 import logics.interfaces.projectExport.models.Customer;
+import logics.interfaces.projectExport.models.Instance;
 import logics.interfaces.projectExport.models.Project;
 
 import javax.xml.bind.JAXBContext;
@@ -13,9 +14,9 @@ import java.io.ByteArrayOutputStream;
  */
 public class XmlRepo {
 
-    public ByteArrayOutputStream jaxbObjectToXML(Project project) throws JAXBException {
+    public ByteArrayOutputStream projectToXML(Project project) throws JAXBException {
 
-        JAXBContext context = JAXBContext.newInstance(new Class[]{Project.class, Customer.class});
+        JAXBContext context = JAXBContext.newInstance(new Class[]{Project.class, Customer.class, Instance.class});
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         Marshaller marshaller = context.createMarshaller();
 

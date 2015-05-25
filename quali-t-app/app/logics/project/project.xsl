@@ -9,20 +9,24 @@
     <xsl:template match="/">
         <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
             <fo:layout-master-set>
-                <fo:simple-page-master master-name="all">
+                <fo:simple-page-master master-name="all"
+                                       margin-top="2.5cm"
+                                       margin-bottom="0.5cm"
+                                       margin-left="2.5cm"
+                                       margin-right="2.5cm">
                     <fo:region-body/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
 
             <fo:page-sequence master-reference="all">
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:block margin-left="20mm" margin-top="20mm" margin-bottom="5mm" font-size="16pt"
+                    <fo:block margin-bottom="5mm" font-size="16pt"
                               font-weight="bold">
-                        Projectname
+                        Project
                         <xsl:value-of select="project/@name"/>
                     </fo:block>
-                    <fo:block margin-left="20mm" margin-right="20mm">
-                        <fo:table>
+                    <fo:block text-align="left">
+                        <fo:table padding="0">
                             <fo:table-body>
                                 <fo:table-row>
                                     <fo:table-cell font-weight="bold">
@@ -47,8 +51,13 @@
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
+                    <fo:block margin-top="5mm" font-size="12pt"
+                              font-weight="bold">
+                        Quality Attributes
+                    </fo:block>
                     <xsl:for-each select="project/qualityAttributes/qualityAttribute">
-                        <fo:block margin-left="20mm" margin-right="20mm">
+                        <fo:block margin-top="2mm">
+                            &#9733;
                             <xsl:value-of select="@description"/>
                         </fo:block>
                     </xsl:for-each>
@@ -56,12 +65,4 @@
             </fo:page-sequence>
         </fo:root>
     </xsl:template>
-
-    <xsl:attribute-set name="table.cell.padding">
-        <xsl:attribute name="padding-left">0pt</xsl:attribute>
-        <xsl:attribute name="padding-right">0pt</xsl:attribute>
-        <xsl:attribute name="padding-top">0pt</xsl:attribute>
-        <xsl:attribute name="padding-bottom">0pt</xsl:attribute>
-    </xsl:attribute-set>
-
 </xsl:stylesheet>
