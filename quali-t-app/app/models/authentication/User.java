@@ -102,6 +102,10 @@ public class User extends AbstractEntity implements Subject {
         return roles;
     }
 
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public List<? extends Permission> getPermissions() {
         return null;
@@ -110,10 +114,6 @@ public class User extends AbstractEntity implements Subject {
     @Override
     public String getIdentifier() {
         return getId().toString();
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
     public List<Task> getTasks() {
@@ -151,4 +151,8 @@ public class User extends AbstractEntity implements Subject {
                 .toString();
     }
 
+    public void addToken(Token token) {
+        this.token.add(token);
+        token.setUser(this);
+    }
 }

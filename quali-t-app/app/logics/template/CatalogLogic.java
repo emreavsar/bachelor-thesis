@@ -17,6 +17,7 @@ import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
+import play.Logger;
 import play.libs.Json;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class CatalogLogic {
                 for (CatalogQA catalogQA : newCatalogQAs) {
                     if (catalogQA.getQa() != null && catalogQA.getQa().getId() != null) {
                         QA qa = qualityAttributeDAO.readById(catalogQA.getQa().getId());
+                        Logger.info("descirption    " + qa.getDescription());
                         standardCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(new Long(-6000)), qa);
                         catalogQA = standardCatalogQA.copyCatalogQA();
                         catalogQA.setCatalog(newCatalog);

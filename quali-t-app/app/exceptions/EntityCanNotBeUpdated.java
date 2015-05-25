@@ -5,6 +5,6 @@ package exceptions;
  */
 public class EntityCanNotBeUpdated extends AbstractException {
     public EntityCanNotBeUpdated(String message) {
-        super(message, 400);
+        super(message, 403);
     }
 }

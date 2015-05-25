@@ -5,8 +5,7 @@ package exceptions;
  */
 
 public class MissingParameterException extends AbstractException {
-    // TODO change 400
     public MissingParameterException(String message) {
-        super(message, 400);
+        super(message, 422);
     }
 }

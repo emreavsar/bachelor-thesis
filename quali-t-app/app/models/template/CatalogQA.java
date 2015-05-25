@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.nfritem.Instance;
+import play.Logger;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -47,6 +48,7 @@ public class CatalogQA extends AbstractEntity {
     public CatalogQA copyCatalogQA() {
         CatalogQA catalogQA = new CatalogQA();
         catalogQA.setCatalog(this.catalog);
+        Logger.info(" blubb   ");
         if (!this.getVariables().isEmpty()) {
             for (QAVar qaVar : this.getVariables()) {
                 catalogQA.addVar(qaVar.copyQAVar());

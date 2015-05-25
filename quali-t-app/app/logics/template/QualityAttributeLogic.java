@@ -92,6 +92,7 @@ public class QualityAttributeLogic {
             } else {
                 //if there is any change in the description, a new version of the QA is created
                 qa.setVersionNumber(currentQA.getVersionNumber() + 1);
+                qa.setPreviousVersion(currentQA);
                 QA newQA = qualityAttributeDAO.persist(createQA(qa, categoryIds));
                 for (CatalogQA catalogQA : catalogQADAO.findAllByQA(currentQA)) {
                     models.template.Catalog catalog = catalogQA.getCatalog();

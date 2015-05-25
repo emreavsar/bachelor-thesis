@@ -32,6 +32,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     private Catalog updatedCatalog;
     private Catalog persistedCatalog;
     private CatalogQADAO catalogQADAO;
+    private CatalogDAO catalogDAO;
     private CatalogLogic catalogLogic;
 
     @Override
@@ -48,11 +49,14 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         updatedCatalog = new Catalog("new name", "new description", "new image");
         catalogQADAO = getInjector().getInstance(CatalogQADAO.class);
         catalogLogic = getInjector().getInstance(CatalogLogic.class);
+        catalogDAO = getInjector().getInstance(CatalogDAO.class);
     }
 
     @Test
     public void testCreateValidCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
+        catalogQAList.clear();
+        catalogQAList.add(AbstractTestDataCreator.createCatalogQA(persistedQa, catalogDAO.readById(new Long(-6000))));
         // ACT
         Catalog newCatalog = catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
