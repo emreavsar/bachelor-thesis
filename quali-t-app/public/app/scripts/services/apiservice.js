@@ -355,6 +355,26 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.getProjects = function () {
+      return $http.get(this.apiPath + "project")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.deleteProject = function (projectId) {
+      return $http.delete(this.apiPath + "project/"+projectId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.addCatalogQa = function (catalogId, qaId, catalogQaId, variables) {
       return $http.post(this.apiPath + "catalog/qa", {
         qa: {

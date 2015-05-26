@@ -27,6 +27,10 @@ angular.module('qualitApp')
       {
         linkName: 'Show Catalogs',
         toState: 'showCatalogs'
+      },
+      {
+        linkName: 'Show Projects',
+        toState: 'showProjects'
       }
 
     ]

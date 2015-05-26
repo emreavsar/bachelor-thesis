@@ -139,6 +139,14 @@ angular.module('qualitApp')
           roles: ['analyst', 'admin']
         }
       })
+      .state('showProjects', {
+        templateUrl: 'views/project/admin.html',
+        url: '/authenticated/project/admin',
+        controller: 'ProjectListCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
+      })
       .state('editCategories', {
         templateUrl: 'views/category/admin.html',
         url: '/authenticated/category/admin',

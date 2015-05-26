@@ -1,0 +1,40 @@
+<div ng-init="init()">
+  <h3>Show all Projects</h3>
+
+  <h3 class="steps"></h3>
+  <table class="table table-hover">
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Customer</th>
+      <th>Actions</th>
+    </tr>
+    <tr ng-repeat="project in projects">
+      <td>{{project.id}}</td>
+      <td>
+        <div ng-bind-html="project.name"></div>
+      </td>
+      <td>
+        <div ng-bind-html="project.projectCustomer.name"></div>
+      </td>
+      <td>
+        <a ui-sref="editProject({ projectId: project.id })"
+           title="Edit Project with ID: {{project.id}}" class="pointer text-black">
+          <i class="fa fa-pencil"></i>
+        </a>
+        <i class="fa fa-trash-o pointer text-default"
+           title="Delete Project with ID: {{project.id}}"
+           ng-click="deleteProject(project.id)"></i>
+      </td>
+    </tr>
+  </table>
+
+  <div class="form crud-form">
+    <div class="row text-center" style="margin-bottom:20px;">
+      <a class="btn btn-success" ui-sref="newProject">
+        <i class="fa fa-plus"></i> Add Project
+      </a>
+    </div>
+  </div>
+
+</div>
