@@ -54,17 +54,10 @@ angular.module('qualitApp')
       ]
     };
 
-    $scope.export = function (type) {
-      var exportPromise = apiService.exportProject($stateParams.projectId, type);
+    $scope.export = function (fileType) {
+      var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
       exportPromise.then(function (payload) {
-        // create a download link and click on it to download the file
-        var downloadLink = document.createElement('a');
-        downloadLink.href = window.URL.createObjectURL(new Blob([payload.data]));
-        var now = new Date();
-        var todayUTCISO = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString();
-        var todayStr = todayUTCISO.slice(0, 10).replace(/-/g, '');
-        downloadLink.download = "QUALI-T_EXPORT_" + todayStr + "_project_" + $scope.project.name + "." + type;
-        downloadLink.click();
+        console.log("remove this");
       });
     }
 

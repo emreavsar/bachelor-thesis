@@ -530,15 +530,25 @@ angular.module('qualitApp')
       });
     }
 
-    apiService.exportProject = function (projectId, type) {
-      return $http.get(this.apiPath + "project/export/" + type + "/" + projectId, {responseType: 'arraybuffer'})
+    apiService.exportRessource = function (ressource, ressourceId, ressourceName, fileType) {
+      return $http.get(this.apiPath + ressource + "/export/" + fileType + "/" + ressourceId, {responseType: 'arraybuffer'})
         .success(function (data) {
+          // create a download link and click on it to download the file
+          var downloadLink = document.createElement('a');
+          downloadLink.href = window.URL.createObjectURL(new Blob([data]));
+          var now = new Date();
+          var todayUTCISO = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString();
+          var todayStr = todayUTCISO.slice(0, 10).replace(/-/g, '');
+          downloadLink.download = todayStr + "_QUALI-T_EXPORT_" + ressource.toUpperCase() + "_" + ressourceName + "." + fileType;
+          downloadLink.click();
+
           return data;
         })
         .error(function (data, status) {
           var alert = alerts.createError(status, data);
         });
     }
+
     return apiService;
   })
 ;

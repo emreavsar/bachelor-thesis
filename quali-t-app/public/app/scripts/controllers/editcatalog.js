@@ -13,6 +13,26 @@ angular.module('qualitApp')
     $scope.catalog = {};
     $scope.catalogQas = {};
 
+    $scope.popover = {
+      title: "Export this catalog as",
+      buttons: [
+        {
+          title: "JSON",
+          clickFunction: function () {
+            $scope.export("json");
+          },
+          icon: "fa fa-file-o"
+        }
+      ]
+    };
+
+    $scope.export = function (fileType) {
+      var exportPromise = apiService.exportRessource("catalog", $stateParams.catalogId, $scope.catalog.name, fileType);
+        exportPromise.then(function (payload) {
+        console.log("remove this");
+      });
+    }
+
     $scope.save = function () {
       // get only needed information
       var catalog = {
