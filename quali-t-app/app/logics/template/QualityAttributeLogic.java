@@ -1,7 +1,7 @@
 package logics.template;
 
 import com.google.inject.Inject;
-import controllers.Helper;
+import logics.Helper;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QACategoryDAO;

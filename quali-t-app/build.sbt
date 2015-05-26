@@ -17,7 +17,10 @@ libraryDependencies ++= Seq(
   "commons-lang"              %   "commons-lang"            % "2.6",
   "be.objectify"              %   "deadbolt-java_2.11"      % "2.3.3",
   "com.google.inject"         %   "guice"                   % "4.0-beta",
-  "org.jsoup"                 %   "jsoup"                   % "1.8.2"
+  "org.jsoup" % "jsoup" % "1.8.2",
+  "org.apache.avalon.framework" % "avalon-framework-api" % "4.2.0" from "http://repo1.maven.org/maven2/avalon-framework/avalon-framework-api/4.2.0/avalon-framework-api-4.2.0.jar",
+  "org.apache.avalon.framework" % "avalon-framework-impl" % "4.2.0" from "http://repo1.maven.org/maven2/avalon-framework/avalon-framework-impl/4.2.0/avalon-framework-impl-4.2.0.jar",
+  "org.apache.xmlgraphics" % "fop" % "1.1"
 )
 
 // exclude unneeded files from build

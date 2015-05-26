@@ -1,7 +1,6 @@
 package logics;
 
 import com.google.inject.Inject;
-import controllers.Helper;
 import dao.interfaces.JIRAConnectionDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
