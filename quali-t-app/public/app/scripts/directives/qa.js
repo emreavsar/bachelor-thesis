@@ -407,7 +407,6 @@ angular.module('qualitApp')
           if (context == "editproject") {
             $(validationWarnings).appendTo(element);
             $(issueTrackerInfo).appendTo(element);
-            $(validationWarnings).appendTo(element);
           } else if (context == "editcatalog") {
             $("<div/>", {
               class: "textangular-box hidden"
