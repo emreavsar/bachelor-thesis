@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('ProjectListCtrl', function ($scope, apiService, alerts) {
+  .controller('ProjectListCtrl', function ($scope, apiService, alerts, ngParamService) {
     $scope.projects = new Array();
 
 
@@ -24,7 +24,9 @@ angular.module('qualitApp')
     $scope.init = function () {
       var initPromise = apiService.getProjects();
       initPromise.then(function (payload) {
-        $scope.projects = payload.data;
+        var data = payload.data;
+        $scope.projects = data;
+        $scope.tableParams = ngParamService.getDefaultNgParams(data);
       })
     }
   });

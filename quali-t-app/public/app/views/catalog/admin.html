@@ -2,22 +2,19 @@
   <h3>Show all Catalogs</h3>
 
   <h3 class="steps"></h3>
-  <table class="table table-hover">
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Actions</th>
-    </tr>
-    <tr ng-repeat="catalog in catalogs">
-      <td>{{catalog.id}}</td>
-      <td>
-        <div ng-bind-html="catalog.name"></div>
+
+  <table class="table table-hover" ng-table="tableParams">
+    <tr ng-repeat="catalog in $data">
+      <td data-title="'Id'" sortable="'id'">
+        {{catalog.id}}
       </td>
-      <td>
-        <div ng-bind-html="catalog.description"></div>
+      <td data-title="'Name'" sortable="'name'">
+        {{catalog.name}}
       </td>
-      <td>
+      <td data-title="'Description'" sortable="'description'">
+        {{catalog.description}}
+      </td>
+      <td data-title="'Actions'">
         <a ui-sref="editCatalog({ catalogId: catalog.id })"
            title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
           <i class="fa fa-pencil"></i>
@@ -29,7 +26,7 @@
     </tr>
   </table>
 
-  <div class="form crud-form">
+  <div class="form crud-form col-sm-12 margin-top-15">
     <div class="row text-center" style="margin-bottom:20px;">
       <a class="btn btn-success" ui-sref="newCatalog">
         <i class="fa fa-plus"></i> Add Catalog

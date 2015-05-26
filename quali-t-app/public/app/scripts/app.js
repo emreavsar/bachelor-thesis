@@ -22,7 +22,8 @@ angular.module('qualitApp', [
   'ui.gravatar',
   'textAngular',
   'ui.select',
-  'frapontillo.bootstrap-switch'
+  'frapontillo.bootstrap-switch',
+  'ngTable'
 ])
   .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
     function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {

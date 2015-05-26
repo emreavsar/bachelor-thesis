@@ -3,24 +3,24 @@
   <h3>Show all Customers</h3>
 
   <h3 class="steps"></h3>
-  <table class="table table-hover">
-    <tr>
-      <th>Id</th>
-      <th>Customer</th>
-      <th>Address</th>
-      <th>Actions</th>
-    </tr>
-    <tr ng-repeat="cust in customerList | orderBy:'name'">
-      <td>{{cust.id}}</td>
-      <td>{{cust.name}}</td>
-      <td>{{cust.address}}</td>
-      <td>
+  <table class="table table-hover" ng-table="tableParams">
+    <tr ng-repeat="cust in $data">
+      <td data-title="'Id'"  sortable="'id'">
+        {{cust.id}}
+      </td>
+      <td data-title="'Name'"  sortable="'name'">
+        {{cust.name}}
+      </td>
+      <td data-title="'Address'" sortable="'address'">
+        {{cust.address}}
+      </td>
+      <td data-title="'Actions'">
         <i class="fa fa-pencil pointer" ng-click="edit(cust)"></i>
         <i class="fa fa-trash-o pointer" ng-click="delete(cust)"></i>
       </td>
     </tr>
   </table>
-  <div class="form crud-form">
+  <div class="form crud-form col-sm-12 margin-top-15">
     <div class="row text-center" style="margin-bottom:20px;">
       <button type="submit" class="btn btn-success" ng-click="add(cust)">
         <i class="fa fa-plus"></i> Add Customer

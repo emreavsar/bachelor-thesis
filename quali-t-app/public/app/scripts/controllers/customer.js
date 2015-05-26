@@ -8,18 +8,17 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CustomerCtrl', function ($scope, apiService, $modal) {
+  .controller('CustomerCtrl', function ($scope, apiService, $modal, ngParamService) {
     $scope.name = "";
     $scope.address = "";
     $scope.errors = new Array();
-    $scope.success = new Array();
+    $scope.success = new Array()
+    $scope.customerList = new Array();
 
     $scope.createCustomer = function (name, address) {
       $scope.errors = new Array();
       $scope.success = new Array();
-
       $scope.model = "Customer";
-
 
       var createPromise = apiService.createCustomer(name, address);
       createPromise.then(function (payload) {
@@ -31,7 +30,9 @@ angular.module('qualitApp')
     $scope.loadCustomer = function () {
       var loadPromise = apiService.getCustomers();
       loadPromise.then(function (payload) {
-        $scope.customerList = payload.data;
+        var data = payload.data;
+        $scope.customerList = data;
+        $scope.tableParams = ngParamService.getDefaultNgParams(data);
       });
     }
 

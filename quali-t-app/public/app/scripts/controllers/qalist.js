@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QaListCtrl', function ($scope, apiService) {
+  .controller('QaListCtrl', function ($scope, apiService, ngParamService) {
     $scope.qaList = new Array();
 
     $scope.deleteQA = function (qaId) {
@@ -39,7 +39,9 @@ angular.module('qualitApp')
 
       promiseInit.then(
         function (payload) {
-          $scope.qaList = payload.data;
+          var data = payload.data;
+          $scope.qaList = data;
+          $scope.tableParams = ngParamService.getDefaultNgParams(data);
         });
     }
   });

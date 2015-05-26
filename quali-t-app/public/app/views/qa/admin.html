@@ -2,18 +2,15 @@
   <h3>Show all Quality Attribute Template</h3>
 
   <h3 class="steps"></h3>
-  <table class="table table-hover">
-    <tr>
-      <th>Id</th>
-      <th>QA Descritpion</th>
-      <th>Actions</th>
-    </tr>
-    <tr ng-repeat="catalogQa in qaList">
-      <td>{{catalogQa.id}}</td>
-      <td>
+  <table class="table table-hover" ng-table="tableParams">
+    <tr ng-repeat="catalogQa in $data">
+      <td data-title="'Id'" sortable="'id'">
+        {{catalogQa.id}}
+      </td>
+      <td data-title="'Description'" sortable="'qa.description'">
         <div ng-bind-html="catalogQa.qa.description"></div>
       </td>
-      <td>
+      <td data-title="'Actions'">
         <a ui-sref="editQA({ catalogQa: catalogQa.id })"
            title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
           <i class="fa fa-pencil"></i>
@@ -27,7 +24,7 @@
     </tr>
   </table>
 
-  <div class="form crud-form">
+  <div class="form crud-form col-sm-12 margin-top-15">
     <div class="row text-center" style="margin-bottom:20px;">
       <a class="btn btn-success" ui-sref="newQA">
         <i class="fa fa-plus"></i> Add Quality Attribute Template

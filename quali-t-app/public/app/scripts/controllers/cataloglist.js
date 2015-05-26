@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CatalogListCtrl', function ($scope, apiService, alerts) {
+  .controller('CatalogListCtrl', function ($scope, apiService, alerts, ngParamService) {
     $scope.catalogs = new Array();
 
 
@@ -24,7 +24,9 @@ angular.module('qualitApp')
     $scope.init = function () {
       var initPromise = apiService.getCatalogs();
       initPromise.then(function (payload) {
-        $scope.catalogs = payload.data;
+        var data = payload.data;
+        $scope.catalogs = data;
+        $scope.tableParams = ngParamService.getDefaultNgParams(data);
       })
     }
   });

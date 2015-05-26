@@ -811,3 +811,11 @@ div[text-angular-toolbar] {
     border-left: 5px solid rgb(0, 236, 140);
   }
 }
+
+.ng-table th {
+  text-align: left !important;
+}
+
+.ng-table-counts.btn-group.pull-right.ng-scope {
+  margin-top: 25px;
+}
