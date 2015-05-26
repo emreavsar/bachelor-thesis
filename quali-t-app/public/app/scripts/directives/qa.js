@@ -8,7 +8,7 @@
  * Directive to replace content with custom text.
  */
 angular.module('qualitApp')
-  .directive('qa', function (qaTextService, $modal, apiService, alerts) {
+  .directive('qa', function (qaTextService, $modal, apiService, alerts, $state) {
     return {
       template: '',
       restrict: 'E',
@@ -260,6 +260,8 @@ angular.module('qualitApp')
         var qaHtml = "";
         if (context == "editproject") {
           qaHtml = qaTextService.getPopulatedQa(qa, values);
+        } else if (context == "editcatalog") {
+          qaHtml = qa.description;
         } else {
           qaHtml = scope.getQaHtml(qa, variables, values);
         }
@@ -283,15 +285,29 @@ angular.module('qualitApp')
           }).appendTo(actions);
 
           editBtn.click(function () {
-            var modalScope = scope.$new(true);
-            modalScope.qa = qa;
-            modalScope.context = context;
+            if (context == "editproject") {
+              var modalScope = scope.$new(true);
+              modalScope.qa = qa;
+              modalScope.context = context;
 
-            var modal = $modal({
-              title: "Edit qa",
-              scope: modalScope,
-              template: "templates/edit-qa-modal.tpl.html"
-            });
+              var modal = $modal({
+                title: "Edit qa",
+                scope: modalScope,
+                template: "templates/edit-qa-modal.tpl.html"
+              });
+            } else if (context == "editcatalog") {
+              // go to edit mode of qa
+              $state.go('editQA', {
+                catalogQa: catalogQa.id
+              });
+
+              // move textangular box to current edited qa
+              //$(".currentEditedQa").detach().appendTo("#qa-" + catalogQa.id + " .textangular-box");
+              //$(".currentEditedQa, .textangular-box ").removeClass("hidden");
+
+              // set the textangular's properties to currentEditedQas description
+              //$(".currentEditedQa div[id^='taTextElement']").html(catalogQa.qa.description);
+            }
           });
 
           var cloneBtn = $("<i/>", {
@@ -392,9 +408,11 @@ angular.module('qualitApp')
             $(validationWarnings).appendTo(element);
             $(issueTrackerInfo).appendTo(element);
             $(validationWarnings).appendTo(element);
+          } else if (context == "editcatalog") {
+            $("<div/>", {
+              class: "textangular-box hidden"
+            }).appendTo(element);
           }
-
-
         } else if (context == "createproject" || context == "catalog") {
 
           var qaCheckboxDiv = $("<div/>", {

@@ -39,13 +39,16 @@
         </p>
 
         <div class="all-qas">
-          <h5>Quality Attribute Templates in this catalog</h5>
+          <h5>Quality Attribute Templates in this catalog
+            <button class="btn btn-xs btn-default" ng-click="addQaToCatalog()">
+              <i class="fa fa-plus"></i> Add
+            </button>
+          </h5>
 
           <div class="qa well row"
                ng-repeat="catalogQa in catalogQas" ng-show="!catalogQas.length==0">
-            <!--ng-click="switchCurrentEditedElement(qa)"-->
-            <!--ng-class="{ editing: currentEditedElement == qa}"-->
-            <qa categories="catalogQa.qa.categories" catalog-qa="catalogQa" qa="catalogQa.qa" context="editcatalog"
+            <qa id="qa-{{catalogQa.id}}" categories="catalogQa.qa.categories" catalog-qa="catalogQa" qa="catalogQa.qa"
+                context="editcatalog"
                 variables="catalogQa.variables" editable="true" update-qa-function="loadCatalogQas"/>
           </div>
           <span class="text-danger" ng-show="catalogQas.length==0">No quality attribute templates in this catalog found. Try add one.</span>
@@ -55,7 +58,7 @@
     </div>
 
     <div class="row end-row col-sm-12 text-center">
-      <button type="button" ng-click="save()" class="btn btn-success btn-md">Save Catalog
-      </button>
+      <button type="button" ng-click="save()" class="btn btn-success btn-md">Save Catalog</button>
     </div>
   </div>
+</div>

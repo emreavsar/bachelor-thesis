@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditCatalogCtrl', function ($scope, $stateParams, apiService, alerts) {
+  .controller('EditCatalogCtrl', function ($scope, $stateParams, apiService, alerts, $modal) {
     $scope.catalogId = $stateParams.catalogId;
     $scope.catalog = {};
     $scope.catalogQas = {};
@@ -38,12 +38,21 @@ angular.module('qualitApp')
       });
 
       $scope.loadCatalogQas();
+      $scope.addQaToCatalog();
     }
 
     $scope.loadCatalogQas = function () {
       var loadPromise = apiService.getQAsOfCatalog($scope.catalogId);
       loadPromise.then(function (payload) {
         $scope.catalogQas = payload.data;
+      });
+    }
+
+    $scope.addQaToCatalog = function() {
+      var modalScope = $scope.$new(true);
+      var modal = $modal({
+        scope: modalScope,
+        template: "templates/add-qa-modal.tpl.html"
       });
     }
   });

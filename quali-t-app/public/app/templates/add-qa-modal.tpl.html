@@ -1,0 +1,64 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="AddQaModalCtrl"
+     ng-init="init($hide)">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
+          aria-hidden="true">&times;</span></button>
+
+        <div class="modal-body">
+          <!-- TODO add category selection (is it needed?) -->
+
+          <div class="text-center">
+            <label for="switchQaCreateMode" style="margin-right: 30px;"
+                   data-trigger="hover" data-type="success"
+                   data-title="{{tooltipsAddMode}}"
+                   bs-tooltip>Add mode:</label>
+            <input
+              id="switchQaCreateMode"
+              bs-switch
+              ng-model="isChooseMode"
+              type="checkbox"
+              switch-size="small"
+              switch-on-text="Choose"
+              switch-off-text="Create"
+              switch-on-color="default"
+              switch-off-color="default"
+              />
+          </div>
+          <div ng-show="isChooseMode">
+            <h4>Choose Quality Attributes from standard Catalog</h4>
+
+            <div class="col-sm-12">
+
+              <div class="filter col-sm-4">
+                <h5>Filter</h5>
+                <filter id="categories" hide-checkbox="false" callback="filter" categories="catList"></filter>
+              </div>
+
+              <div class="all-qas col-sm-8">
+                <h5>All Quality Attributes</h5>
+
+                <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories" ng-click="toggleSelection(catalogQa)"
+                     ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
+                  <qa categories="categories" qa="catalogQa.qa" context="catalog" variables="catalogQa.variables" editable="false"/>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div ng-show="!isChooseMode">
+            <h4>Create new Quality Attribute Template</h4>
+          </div>
+
+          <div class="margin-top-50 text-center">
+            <button type="button" class="btn btn-default btn-md" ng-click="add()">
+              Add Quality Attribute Template(s)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

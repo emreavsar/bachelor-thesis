@@ -93,9 +93,9 @@ angular.module('qualitApp', [
       // todo CHANGE TO EVENTS
       $rootScope.loginFailed = false;
 
-      // init restangular
-      // TODO maybe move it to somewhere else?
-      Restangular.setDefaultRequestParams({apikey: "secret key"});
-
+      $rootScope.currentEditedQa = {
+        id: "",
+        description: ""
+      };
     }
   ]);

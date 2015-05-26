@@ -43,13 +43,10 @@ angular.module('qualitApp')
     }
 
     $scope.toggleSelection = function (qa) {
-      console.log("toggleling the selection for qa with id: " + qa.id);
       var indexInArr = $scope.selection.indexOf(qa);
       if (indexInArr > -1) {
-        console.log("qa with id=" + qa.id + " is selected, will be deselected now");
         $scope.selection.splice(indexInArr, 1);
       } else {
-        console.log("qa with id=" + qa.id + " was not selected, will be added to selection now");
         $scope.selection.push(qa);
       }
     }
