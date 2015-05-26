@@ -58,7 +58,6 @@ angular.module('qualitApp')
       });
 
       $scope.loadCatalogQas();
-      $scope.addQaToCatalog();
     }
 
     $scope.loadCatalogQas = function () {
