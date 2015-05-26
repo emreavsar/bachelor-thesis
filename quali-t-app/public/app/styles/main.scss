@@ -10,6 +10,10 @@ html {
   background-color: transparent !important;
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 input[disabled], select [disabled] {
   cursor: not-allowed !important;
   background-color: #EEE;
@@ -226,9 +230,10 @@ input[disabled], select [disabled] {
     color: #BABAC4;
     float: right;
     font-size: 20px;
-    margin-top: 12px;
-    margin-right: 10px;
+    position: absolute;
     cursor: pointer;
+    right: 20px;
+    top: 25px;
     &:hover {
       color: #3F3F44;
     }
@@ -734,7 +739,7 @@ div[text-angular-toolbar] {
   margin-top: 30px;
 }
 
-.favorite-icons {
+.options-icons {
   color: #BABAC4;
 }
 

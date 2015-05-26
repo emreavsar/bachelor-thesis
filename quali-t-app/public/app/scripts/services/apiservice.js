@@ -355,6 +355,25 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.addCatalogQa = function (catalogId, qaId, catalogQaId, variables) {
+      return $http.post(this.apiPath + "catalog/qa", {
+        qa: {
+          id: qaId
+        },
+        catalogQa: {
+          //id: catalogQaId,
+          catalog: catalogId,
+          variables: variables
+        }
+      })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.updateQa = function (data) {
       return $http.put(this.apiPath + "qa", data)
         .success(function (data) {
@@ -509,6 +528,16 @@ angular.module('qualitApp')
       }).error(function (data, status) {
         var alert = alerts.createError(status, data);
       });
+    }
+
+    apiService.exportProject = function (projectId, type) {
+      return $http.get(this.apiPath + "project/export/" + type + "/" + projectId, {responseType: 'arraybuffer'})
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
     }
     return apiService;
   })

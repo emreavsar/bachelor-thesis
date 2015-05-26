@@ -162,5 +162,5 @@ angular.module('qualitApp')
         data: {
           roles: ['curator', 'synthesizer', 'projectmanager', 'analyst', 'admin']
         }
-      })
+      });
   });

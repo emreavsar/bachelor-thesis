@@ -8,16 +8,16 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
-  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css"/>
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"/>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 </head>
-<body ng-app="qualitApp">
+<body ng-app="qualitApp" ng-cloak>
 
 <div ng-if="inAuthArea" id="alerts-container">
 </div>
@@ -80,7 +80,8 @@
       <!-- TODO emre: move this into a custom directive? -->
       <ul class="nav">
         <li ng-repeat="navItem in navigationItems"
-            ng-class="{ active: isActive(navItem.toState)}">
+            ng-class="{ active: isActive(navItem.toState)}"
+          >
           <a ui-sref="{{navItem.toState}}">{{navItem.linkName}}</a>
         </li>
       </ul>
@@ -119,10 +120,10 @@
                  name="search" placeholder="Search for projects"
                  ng-model="searchArgument"
                  required="">
-          <i class="fa fa-plus new-icon" data-placement="bottom" data-animation="am-flip-x" bs-popover="popover"
-             html="true" template="templates/popover.tpl.html" auto-close="true"></i>
         </div>
       </form>
+      <i class="fa fa-plus new-icon" data-placement="bottom" data-animation="am-flip-x" bs-popover="popover"
+         html="true" template="templates/popover.tpl.html" auto-close="true"></i>
     </div>
     <div ui-view class='main-view main-view-opened'>
     </div>
@@ -217,6 +218,7 @@
   <script src="scripts/controllers/cataloglist.js"></script>
   <script src="scripts/controllers/editcatalog.js"></script>
   <script src="scripts/controllers/addqamodal.js"></script>
+  <script src="scripts/controllers/Export.js"></script>
   <!-- endbuild -->
 </body>
 </html>

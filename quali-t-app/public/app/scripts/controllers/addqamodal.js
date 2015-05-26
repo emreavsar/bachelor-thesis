@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('AddQaModalCtrl', function ($scope, apiService) {
+  .controller('AddQaModalCtrl', function ($scope, apiService, $stateParams, alerts) {
     $scope.isChooseMode = true;
     $scope.catalogQas = new Array();
     $scope.catList = new Array();
@@ -20,7 +20,12 @@ angular.module('qualitApp')
 
     $scope.add = function () {
       if ($scope.isChooseMode) {
-
+        _.forEach($scope.selection, function (n) {
+          var promise = apiService.addCatalogQa($stateParams.catalogId, n.qa.id, n.id, n.variables);
+          promise.then(function(payload) {
+            alerts.createSuccess("CatalogQa added to Catalog");
+          });
+        });
       } else {
 
       }

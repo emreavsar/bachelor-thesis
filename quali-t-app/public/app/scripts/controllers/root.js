@@ -8,28 +8,36 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('RootCtrl', function ($scope) {
+  .controller('RootCtrl', function ($scope, $state) {
     $scope.popover = {
       title: "Create new",
       buttons: [
         {
           title: "Project",
-          state: "newProject",
+          clickFunction: function () {
+            $state.go("newProject");
+          },
           icon: "glyphicon glyphicon-folder-open"
         },
         {
           title: "Customer",
-          state: "customerCreate",
+          clickFunction: function () {
+            $state.go("customerCreate");
+          },
           icon: "glyphicon glyphicon-user"
         },
         {
           title: "Catalog",
-          state: "newCatalog",
+          clickFunction: function () {
+            $state.go("newCatalog");
+          },
           icon: "glyphicon glyphicon-list-alt"
         },
         {
           title: "Quality Attribute",
-          state: "newQA",
+          clickFunction: function () {
+            $state.go("newQA");
+          },
           icon: "glyphicon glyphicon-grain"
         }
       ]

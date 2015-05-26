@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditProjectCtrl', function ($scope, $stateParams, apiService, favoritesService, alerts, $popover) {
+  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alerts, $popover) {
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
@@ -32,8 +32,42 @@ angular.module('qualitApp')
     $scope.tooltipsExportJiraKey = "Put the project key of the project you want to export in the quality attributes." +
     " The project key is the first part of the string of the JIRA issue IDs. " +
     "For example: Project Key for the JIRA: QUALI-123 would be QUALI.";
-
     $scope.hasValidationWarnings = null;
+
+    $scope.popover = {
+      title: "Export this project as",
+      buttons: [
+        {
+          title: "PDF",
+          clickFunction: function () {
+            $scope.export("pdf");
+          },
+          icon: "fa fa-file-pdf-o"
+        },
+        {
+          title: "XML",
+          clickFunction: function () {
+            $scope.export("xml");
+          },
+          icon: "fa fa-file-code-o"
+        }
+      ]
+    };
+
+    $scope.export = function (type) {
+      var exportPromise = apiService.exportProject($stateParams.projectId, type);
+      exportPromise.then(function (payload) {
+        // create a download link and click on it to download the file
+        var downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(new Blob([payload.data]));
+        var now = new Date();
+        var todayUTCISO = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString();
+        var todayStr = todayUTCISO.slice(0, 10).replace(/-/g, '');
+        downloadLink.download = "QUALI-T_EXPORT_" + todayStr + "_project_" + $scope.project.name + "." + type;
+        downloadLink.click();
+      });
+    }
+
 
     $scope.checkIsFavorite = function (projectId, favoriteProjects) {
       return favoritesService.isProjectFavorite(projectId, favoriteProjects);
@@ -154,8 +188,8 @@ angular.module('qualitApp')
 
       promiseExport.then(
         function (payload) {
-          var reloadPromise =  apiService.getProject($scope.projectId);
-          reloadPromise.then(function(payload){
+          var reloadPromise = apiService.getProject($scope.projectId);
+          reloadPromise.then(function (payload) {
             $scope.setProject(payload);
           })
 

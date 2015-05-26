@@ -41,17 +41,23 @@ angular.module('qualitApp')
       buttons: [
         {
           title: "Settings",
-          state: "settings",
+          clickFunction: function () {
+            $state.go("settings");
+          },
           icon: "fa fa-cog"
         },
         {
           title: "Your Tasks",
-          state: "mytasks",
+          clickFunction: function () {
+            $state.go("mytasks");
+          },
           icon: "fa fa-tasks"
         },
         {
           title: "Logout",
-          state: "logout",
+          clickFunction: function () {
+            $state.go("logout");
+          },
           icon: "fa fa-sign-out"
         }
       ]

@@ -1,11 +1,11 @@
 <div class="popover" style="width: 200px;">
   <div class="arrow"></div>
-  <h3 class="popover-title" ng-bind="popover.title"></h3>
+  <h4 class="popover-title" ng-bind="popover.title"></h4>
 
   <div class="popover-content">
     <div ng-repeat="button in popover.buttons">
       <i class="{{button.icon}}"></i>
-      <button ui-sref="{{button.state}}" class="btn-link" ng-click="$hide()">
+      <button ng-click="button.clickFunction();$hide()" class="btn-link">
         {{ button.title }}
       </button>
     </div>
