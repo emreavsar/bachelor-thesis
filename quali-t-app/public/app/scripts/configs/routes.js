@@ -173,7 +173,6 @@ angular.module('qualitApp')
       })
       .state('help', {
         templateUrl: 'views/help/help.html',
-        url: '/authenticated/help',
-        controller: 'HelpCtrl'
+        url: '/authenticated/help'
       });
   });
