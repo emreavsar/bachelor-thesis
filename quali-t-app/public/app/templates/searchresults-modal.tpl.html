@@ -79,7 +79,9 @@
             <div ng-show="searchResults.qualityAttributes.length > 0">
               <ul>
                 <li ng-repeat="qualityAttribute in searchResults.qualityAttributes">
-                  <span ng-bind-html="qualityAttribute.description"/>
+                  <!-- TODO emre: this will not work, because editQA needs catalogQA.id and not qualityAttribute.id -->
+                  <a ui-sref="editQA({ qaId: qualityAttribute.id })" ng-click="$hide()">
+                    {{qualityAttribute.description}}</a>
                 </li>
               </ul>
             </div>

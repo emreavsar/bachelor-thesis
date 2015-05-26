@@ -368,7 +368,7 @@ angular.module('qualitApp')
             });
 
             var validationWarnings = $("<div/>", {
-              class: "col-sm-1 pull-right validation-warnings hidden",
+              class: "col-sm-1 pull-right validation-warnings hidden pointer",
               title: "This quality attribute has validation warnings, click here to get more information."
             });
 

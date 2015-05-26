@@ -14,12 +14,14 @@
         <div ng-bind-html="catalogQa.qa.description"></div>
       </td>
       <td>
-        <a ui-sref="editQA({ catalogQa: catalogQa.id })" title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
+        <a ui-sref="editQA({ catalogQa: catalogQa.id })"
+           title="Edit Quality Attribute Template with ID: {{catalogQa.id}}" class="pointer text-black">
           <i class="fa fa-pencil"></i>
         </a>
         <i class="fa fa-files-o pointer text-default" title="Clone Quality Attribute Template: {{catalogQa.id}}"
            ng-click="cloneQA(catalogQa.id)"></i>
-        <i class="fa fa-trash-o pointer text-default" title="Delete Quality Attribute Template with ID: {{catalogQa.id}}"
+        <i class="fa fa-trash-o pointer text-default"
+           title="Delete Quality Attribute Template with ID: {{catalogQa.id}}"
            ng-click="deleteQA(catalogQa.id)"></i>
       </td>
     </tr>

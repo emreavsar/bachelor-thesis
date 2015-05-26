@@ -7,9 +7,9 @@
        title="Unfavorite this project"
        ng-click="removeFromFavorites(projectId)"></i>
     <i class="fa fa-download pointer" data-placement="bottom" data-animation="am-flip-x"
+       title="Export Project"
        bs-popover="popover"
        html="true" template="templates/popover.tpl.html" auto-close="true"></i>
-
   </div>
 
   <h3>{{project.name}}
@@ -142,6 +142,7 @@
     </button>
 
     <button type="button" ng-click="validate()" class="btn btn-success btn-md"
+            style="margin-left: 5px;"
             data-trigger="hover"
             data-type="success" data-title="{{tooltipsValidate}}"
             bs-tooltip>
