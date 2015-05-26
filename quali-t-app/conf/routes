@@ -2,104 +2,104 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET           /                                  controllers.Application.index()
+GET           /                                   controllers.Application.index()
 
 # TODO: check the GET route below are needed or not
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                      controllers.Assets.at(path="/public", file)
+GET           /assets/*file                       controllers.Assets.at(path="/public", file)
 
-GET           /app/bower_components/*file        controllers.ConfigurableAssets.at(path="/bower_components", file)
-GET           /app/*file                         controllers.ConfigurableAssets.at(path="/app", file)
+GET           /app/bower_components/*file         controllers.ConfigurableAssets.at(path="/bower_components", file)
+GET           /app/*file                          controllers.ConfigurableAssets.at(path="/app", file)
 
 # QUALI-47: POC: Backend-Service erstellen und mit Client-App verbinden
-GET           /api/get/nfr/first                 controllers.Application.getFirstQA()
+GET           /api/get/nfr/first                  controllers.Application.getFirstQA()
 
 # AUTHENTICATION
-POST          /api/auth/login                    @controllers.Authentication.login()
-POST          /api/auth/logout                   @controllers.Authentication.logout()
-POST          /api/auth/register                 @controllers.Authentication.register()
-POST          /api/auth/changePw                 @controllers.Authentication.changePassword()
+POST          /api/auth/login                     @controllers.Authentication.login()
+POST          /api/auth/logout                    @controllers.Authentication.logout()
+POST          /api/auth/register                  @controllers.Authentication.register()
+POST          /api/auth/changePw                  @controllers.Authentication.changePassword()
 
 # USER
-GET           /api/mytasks                       @controllers.Misc.getTasksOfCurrentUser()
-POST          /api/mytasks/toggle                @controllers.Misc.toggleStateOfTask()
+GET           /api/mytasks                        @controllers.Misc.getTasksOfCurrentUser()
+POST          /api/mytasks/toggle                 @controllers.Misc.toggleStateOfTask()
 
 # Favorites
-GET           /api/myfavorites/                  @controllers.Misc.getFavoritesOfCurrentUser()
-POST          /api/myfavorites                   @controllers.Misc.updateFavorite()
+GET           /api/myfavorites/                   @controllers.Misc.getFavoritesOfCurrentUser()
+POST          /api/myfavorites                    @controllers.Misc.updateFavorite()
 
 
 # Search
-GET           /api/search                        @controllers.Search.search(searchArgument: String ?= "")
-GET           /api/search/:searchArgument        @controllers.Search.search(searchArgument: String)
+GET           /api/search                         @controllers.Search.search(searchArgument: String ?= "")
+GET           /api/search/:searchArgument         @controllers.Search.search(searchArgument: String)
 
 # Testing
-GET           /api/set/custproject/:cust         controllers.Application.setCustomerProject(cust: String)
+GET           /api/set/custproject/:cust          controllers.Application.setCustomerProject(cust: String)
 
 # Customer
-POST          /api/customer                      @controllers.CustomerController.createCustomer()
-GET           /api/customer                      @controllers.CustomerController.getAll()
-PUT           /api/customer                      @controllers.CustomerController.updateCustomer()
-DELETE        /api/customer/:id                  @controllers.CustomerController.deleteCustomer(id: Long)
+POST          /api/customer                       @controllers.CustomerController.createCustomer()
+GET           /api/customer                       @controllers.CustomerController.getAll()
+PUT           /api/customer                       @controllers.CustomerController.updateCustomer()
+DELETE        /api/customer/:id                   @controllers.CustomerController.deleteCustomer(id: Long)
 
 # Quality Attribute
-POST          /api/qa                            @controllers.QualityAttributeController.createQA()
-POST          /api/qa/clone/:id                  @controllers.QualityAttributeController.cloneQA(id: Long)
-GET           /api/qa                            @controllers.QualityAttributeController.getAllQAs()
-GET           /api/qa/catalog/:id                @controllers.QualityAttributeController.getQAsByCatalog(id: Long)
-GET           /api/qa/standardcatalog            @controllers.QualityAttributeController.getAllStandardCatalogQAs()
-PUT           /api/qa                            @controllers.QualityAttributeController.updateQA()
-DELETE        /api/qa/:id                        @controllers.QualityAttributeController.deleteQA(id: Long)
+POST          /api/qa                             @controllers.QualityAttributeController.createQA()
+POST          /api/qa/clone/:id                   @controllers.QualityAttributeController.cloneQA(id: Long)
+GET           /api/qa                             @controllers.QualityAttributeController.getAllQAs()
+GET           /api/qa/catalog/:id                 @controllers.QualityAttributeController.getQAsByCatalog(id: Long)
+GET           /api/qa/standardcatalog             @controllers.QualityAttributeController.getAllStandardCatalogQAs()
+PUT           /api/qa                             @controllers.QualityAttributeController.updateQA()
+DELETE        /api/qa/:id                         @controllers.QualityAttributeController.deleteQA(id: Long)
 
 # Project
-POST          /api/project                       @controllers.ProjectController.createProject()
-GET           /api/project                       @controllers.ProjectController.getAllProjects()
-GET           /api/project/:id                   @controllers.ProjectController.getProject(id: Long)
-PUT           /api/project                       @controllers.ProjectController.updateProject()
-DELETE        /api/project/:id                   @controllers.ProjectController.deleteProject(id: Long)
-POST          /api/project/qa                    @controllers.ProjectController.createInstance()
-POST          /api/project/qa/clone/:id          @controllers.ProjectController.cloneInstance(id: Long)
-PUT           /api/project/qa                    @controllers.ProjectController.updateInstance()
-DELETE        /api/project/qa/:id                @controllers.ProjectController.deleteInstance(id: Long)
-GET         /api/project/export/pdf/:id        @controllers.ProjectController.exportToPdf(id: Long)
-GET         /api/project/export/xml/:id        @controllers.ProjectController.exportToXml(id: Long)
+POST          /api/project                        @controllers.ProjectController.createProject()
+GET           /api/project                        @controllers.ProjectController.getAllProjects()
+GET           /api/project/:id                    @controllers.ProjectController.getProject(id: Long)
+PUT           /api/project                        @controllers.ProjectController.updateProject()
+DELETE        /api/project/:id                    @controllers.ProjectController.deleteProject(id: Long)
+POST          /api/project/qa                     @controllers.ProjectController.createInstance()
+POST          /api/project/qa/clone/:id           @controllers.ProjectController.cloneInstance(id: Long)
+PUT           /api/project/qa                     @controllers.ProjectController.updateInstance()
+DELETE        /api/project/qa/:id                 @controllers.ProjectController.deleteInstance(id: Long)
+GET           /api/project/export/pdf/:id         @controllers.ProjectController.exportToPdf(id: Long)
+GET           /api/project/export/xml/:id         @controllers.ProjectController.exportToXml(id: Long)
 
 # Catalog
-GET           /api/catalog                       @controllers.CatalogController.getAllCatalogs()
-POST          /api/catalog                       @controllers.CatalogController.createCatalog()
-PUT           /api/catalog                       @controllers.CatalogController.updateCatalog()
-DELETE        /api/catalog/:id                   @controllers.CatalogController.deleteCatalog(id: Long)
-GET           /api/catalog/:id                   @controllers.CatalogController.getCatalog(id: Long)
-GET           /api/catalog/qa/:id                @controllers.CatalogController.getCatalogQA(id: Long)
-POST          /api/catalog/qa                    @controllers.CatalogController.createCatalogQA()
-PUT           /api/catalog/qa                    @controllers.CatalogController.updateCatalogQA()
-DELETE        /api/catalog/qa/:id                @controllers.CatalogController.deleteCatalogQA(id: Long)
+GET           /api/catalog                        @controllers.CatalogController.getAllCatalogs()
+POST          /api/catalog                        @controllers.CatalogController.createCatalog()
+PUT           /api/catalog                        @controllers.CatalogController.updateCatalog()
+DELETE        /api/catalog/:id                    @controllers.CatalogController.deleteCatalog(id: Long)
+GET           /api/catalog/:id                    @controllers.CatalogController.getCatalog(id: Long)
+GET           /api/catalog/qa/:id                 @controllers.CatalogController.getCatalogQA(id: Long)
+POST          /api/catalog/qa                     @controllers.CatalogController.createCatalogQA()
+PUT           /api/catalog/qa                     @controllers.CatalogController.updateCatalogQA()
+DELETE        /api/catalog/qa/:id                 @controllers.CatalogController.deleteCatalogQA(id: Long)
 
-POST        /api/catalog/import                @controllers.CatalogController.importCatalog()
-GET         /api/catalog/export/:id            @controllers.CatalogController.exportCatalog(id: Long)
+POST          /api/catalog/import                 @controllers.CatalogController.importCatalog()
+GET           /api/catalog/export/json/:id        @controllers.CatalogController.exportCatalog(id: Long)
 
 # QACategories
 #GET         /api/cat/:parent,:name             controllers.QualityAttribute.createSubCat(parent: Long, name: String)
-POST          /api/cat                           @controllers.QACategoryController.createCat()
+POST          /api/cat                            @controllers.QACategoryController.createCat()
 #GET         /api/cat/get/:id                   controllers.QualityAttribute.getCategoryTree(id: Long)
-GET           /api/cat                           @controllers.QACategoryController.getAllCats()
-DELETE        /api/cat/:id                       @controllers.QACategoryController.deleteCat(id: Long)
-PUT           /api/cat                           @controllers.QACategoryController.updateCat()
+GET           /api/cat                            @controllers.QACategoryController.getAllCats()
+DELETE        /api/cat/:id                        @controllers.QACategoryController.deleteCat(id: Long)
+PUT           /api/cat                            @controllers.QACategoryController.updateCat()
 
 # QualityProperties
-GET           /api/qp                            @controllers.QualityPropertyController.getAllQualityProperties()
-POST          /api/qp                            @controllers.QualityPropertyController.createQualityProperty()
-PUT           /api/qp                            @controllers.QualityPropertyController.updateQualityProperty()
-DELETE        /api/qp/:id                        @controllers.QualityPropertyController.deleteQualityProperty(id: Long)
+GET           /api/qp                             @controllers.QualityPropertyController.getAllQualityProperties()
+POST          /api/qp                             @controllers.QualityPropertyController.createQualityProperty()
+PUT           /api/qp                             @controllers.QualityPropertyController.updateQualityProperty()
+DELETE        /api/qp/:id                         @controllers.QualityPropertyController.deleteQualityProperty(id: Long)
 
 # JIRAConnections
-GET           /api/jiraconnection                @controllers.JIRAConnectionController.getAllJIRAConnections()
-POST          /api/jiraconnection                @controllers.JIRAConnectionController.createJIRAConnection()
-PUT           /api/jiraconnection                @controllers.JIRAConnectionController.updateJIRAConnection()
-DELETE        /api/jiraconnection/:id            @controllers.JIRAConnectionController.deleteJIRAConnection(id: Long)
+GET           /api/jiraconnection                 @controllers.JIRAConnectionController.getAllJIRAConnections()
+POST          /api/jiraconnection                 @controllers.JIRAConnectionController.createJIRAConnection()
+PUT           /api/jiraconnection                 @controllers.JIRAConnectionController.updateJIRAConnection()
+DELETE        /api/jiraconnection/:id             @controllers.JIRAConnectionController.deleteJIRAConnection(id: Long)
 
-POST          /api/jira/export                   @controllers.JIRAConnectionController.export()
+POST          /api/jira/export                    @controllers.JIRAConnectionController.export()
 
 # TODO only for testing detector api
-GET           /api/validate/:projectId           @controllers.ValidateInstanceController.validate(projectId: Long)
+GET           /api/validate/:projectId            @controllers.ValidateInstanceController.validate(projectId: Long)
 
