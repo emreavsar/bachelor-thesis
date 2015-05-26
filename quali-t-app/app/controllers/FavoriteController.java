@@ -4,9 +4,7 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
 import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
-import logics.authentication.UserTaskLogic;
 import logics.project.ProjectLogic;
-import logics.user.TaskLogic;
 import models.authentication.User;
 import models.project.Project;
 import play.Logger;
@@ -17,33 +15,14 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.List;
 import java.util.Set;
 
 
-// TODO emre: rename this class!
-public class Misc extends Controller {
+public class FavoriteController extends Controller {
     @Inject
     ProjectLogic projectLogic;
     @Inject
     private Authenticator authenticator;
-    @Inject
-    private UserTaskLogic userTaskLogic;
-    @Inject
-    private TaskLogic taskLogic;
-
-    @SubjectPresent
-    @Transactional
-    public Result getTasksOfCurrentUser() {
-        Logger.info("getTasksOfCurrentUser called");
-        try {
-            long userid = Long.parseLong(session().get("userid"));
-            List<models.user.Task> tasks = userTaskLogic.getTasksOfUser(userid);
-            return ok(Json.toJson(tasks));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
-    }
 
     @SubjectPresent
     @Transactional
@@ -53,22 +32,6 @@ public class Misc extends Controller {
             long userid = Long.parseLong(session().get("userid"));
             Set<Project> favorites = authenticator.getUser(userid).getFavorites();
             return ok(Json.toJson(favorites));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
-    }
-
-    @SubjectPresent
-    @Transactional
-    public Result toggleStateOfTask() {
-        Logger.info("toggleStateOfTask called");
-
-        DynamicForm requestData = Form.form().bindFromRequest();
-        Long taskId = Long.valueOf(requestData.get("taskId"));
-
-        try {
-            models.user.Task t = taskLogic.changeState(taskId);
-            return ok(Json.toJson(t));
         } catch (EntityNotFoundException e) {
             return status(400, e.getMessage());
         }

@@ -21,12 +21,12 @@ POST          /api/auth/register                  @controllers.Authentication.re
 POST          /api/auth/changePw                  @controllers.Authentication.changePassword()
 
 # USER
-GET           /api/mytasks                        @controllers.Misc.getTasksOfCurrentUser()
-POST          /api/mytasks/toggle                 @controllers.Misc.toggleStateOfTask()
+GET           /api/mytasks                        @controllers.TaskController.getTasksOfCurrentUser()
+POST          /api/mytasks/toggle                 @controllers.TaskController.toggleStateOfTask()
 
 # Favorites
-GET           /api/myfavorites/                   @controllers.Misc.getFavoritesOfCurrentUser()
-POST          /api/myfavorites                    @controllers.Misc.updateFavorite()
+GET           /api/myfavorites/                   @controllers.FavoriteController.getFavoritesOfCurrentUser()
+POST          /api/myfavorites                    @controllers.FavoriteController.updateFavorite()
 
 
 # Search
