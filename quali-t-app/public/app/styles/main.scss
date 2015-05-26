@@ -791,3 +791,22 @@ div[text-angular-toolbar] {
   margin-bottom: 30px !important;
 }
 
+.help-container {
+  h4 {
+    color: #00BF56;
+    margin-top: 30px;
+  }
+  .question {
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    border-left: #00BF56 5px solid;
+    margin-top: 30px;
+    margin-bottom: 5px;
+  }
+  .answer {
+    background-color: rgba(218, 234, 228, 0.0980392);
+    padding: 30px;
+    border-left: 5px solid rgb(0, 236, 140);
+  }
+}

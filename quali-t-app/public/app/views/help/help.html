@@ -1,0 +1,137 @@
+<div>
+  <h3>Help</h3>
+
+  <div class="help-container">
+    <h4>Quality Attributes, Catalogs, Projects?</h4>
+
+    <div>Before you can benefit from QUALI-T you must understand the key models of the application. There are <b>5</b>
+      of
+      them:<br><br>
+      <table class="table table-hover">
+        <tbody>
+        <colgroup>
+          <col style="width:30%">
+          <col style="width:70%">
+        </colgroup>
+        <tr>
+          <th>Key Model</th>
+          <th>Explaination</th>
+        </tr>
+        <tr>
+          <td>Quality Attribute Template (QA Template)</td>
+          <td>
+            Create templates for quality attributes, which can be then used while creating of a new project.
+            The big advantage of templates is the option to add variables.
+          </td>
+        </tr>
+        <tr>
+          <td>Catalog</td>
+          <td>
+            Group multiple quality attribute templates into one catalog and re-use the catalog for creating new
+            projects.
+            Every project of the same catalog has automatically all quality attribute templates inside.
+          </td>
+        </tr>
+        <tr>
+          <td>Project</td>
+          <td>
+            This is the most important element in QUALI-T, because it is the original intention of the software.
+            Specify quality attributes for the project you are working on. A project consists of a set of quality
+            attributes instances.
+          </td>
+        </tr>
+        <tr>
+          <td>Quality Attribute Instance (QA)</td>
+          <td>
+            Quality Attribute Instances live inside projects. After creating the project based on a catalog, each of the
+            quality attribute template gets an instance.
+            The instance is now decoupled from the catalog and can be edited. The user wants typically to change values
+            of
+            the variables, change quality property states or
+            export to Issue Tracking System (JIRA).
+          </td>
+        </tr>
+        <tr>
+          <td>Quality Properties (QP)</td>
+          <td>
+            Quality Properties are useful for measuring some specific properties of a quality attribute. QP's are
+            boolean
+            values
+            and can either be satisfied or not. An example could be <b>S - Specific</b>. Each quality attribute has a
+            checkbox
+            next to it.
+            If the quality property is specific, the checkbox could be checked. This means that the <b>S - Specific</b>
+            quality
+            property is satisfied.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="help-container">
+    <h4>FAQ</h4>
+
+    <p class="question">
+      <b>Question:</b> We have a new project for our customer and I'm new to QUALI-T. How can I benefit from this software?
+    </p>
+
+    <div class="answer">
+      <b>Answer:</b> Follow the steps below.<br/><br/>
+      <table class="table table-hover">
+        <tbody>
+        <colgroup>
+          <col style="width:30%">
+          <col style="width:70%">
+        </colgroup>
+        <tr>
+          <th>Step</th>
+          <th>Instructions</th>
+        </tr>
+        <tr>
+          <td>1. Create Customer</td>
+          <td>First you need to create the customer in the QUALI-T system.</td>
+        </tr>
+        <tr>
+          <td>2. Check existing catalogs &amp; quality attributes</td>
+          <td>
+            Maybe there is already a matching catalog with quality attributes. Check the list of catalogs.
+          </td>
+        </tr>
+        <tr>
+          <td>3. Create a new catalog, if no matching catalog was found.</td>
+          <td>
+            Create desired catalog with quality attribute templates. Specify variables for quality attribute templates.
+          </td>
+        </tr>
+        <tr>
+          <td>4. Create Project by using a catalog</td>
+          <td>
+            Specify your projects properties (name, JIRA connection, quality properties) and choose the matching
+            catalog.
+          </td>
+        </tr>
+        <tr>
+          <td>5. Edit Project</td>
+          <td>
+            After creating the project you will be in the edit mode. Specify each quality attribute instance by filling
+            out
+            the
+            variables.
+          </td>
+        </tr>
+        <tr>
+          <td>6. Administrate the project in the future</td>
+          <td>
+            Keep in mind that you have also an overview of all quality attribute instances in the project. You can set
+            the
+            state
+            of quality properties, export to Issue Management System, check for validity (fuzziness detector API).
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      </p>
+    </div>
+  </div>

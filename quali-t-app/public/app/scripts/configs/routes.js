@@ -170,5 +170,10 @@ angular.module('qualitApp')
         data: {
           roles: ['curator', 'synthesizer', 'projectmanager', 'analyst', 'admin']
         }
+      })
+      .state('help', {
+        templateUrl: 'views/help/help.html',
+        url: '/authenticated/help',
+        controller: 'HelpCtrl'
       });
   });

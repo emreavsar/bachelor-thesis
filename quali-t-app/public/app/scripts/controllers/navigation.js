@@ -31,8 +31,11 @@ angular.module('qualitApp')
       {
         linkName: 'Show Projects',
         toState: 'showProjects'
+      },
+      {
+        linkName: 'Help',
+        toState: 'help'
       }
-
     ]
 
     $scope.isActive = function (toState) {
