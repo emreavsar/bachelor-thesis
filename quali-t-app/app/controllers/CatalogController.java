@@ -24,6 +24,8 @@ public class CatalogController extends Controller implements ExceptionHandlingIn
     @Inject
     private JsonConverter jsonConverter;
 
+    @SubjectPresent
+    @Transactional
     public Result getAllEditableCatalogs() {
         Logger.info("getAllCatalogs Ctrl called");
         return ok(Json.toJson(catalogLogic.getAllEditableCatalogs()));
