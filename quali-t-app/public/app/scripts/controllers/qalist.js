@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QaListCtrl', function ($scope, apiService, ngParamService) {
+  .controller('QaListCtrl', function ($scope, apiService, ngTableParams, $filter) {
     $scope.qaList = new Array();
 
     $scope.deleteQA = function (qaId) {
@@ -27,9 +27,7 @@ angular.module('qualitApp')
 
       duplicatePromise.then(
         function (payload) {
-          return apiService.getStandardCatalogQas();
-        }).then(function (payload) {
-          $scope.qaList = payload.data;
+          $scope.init();
         });
     }
 
@@ -39,9 +37,31 @@ angular.module('qualitApp')
 
       promiseInit.then(
         function (payload) {
-          var data = payload.data;
-          $scope.qaList = data;
-          $scope.tableParams = ngParamService.getDefaultNgParams(data);
+          $scope.qaList = payload.data;
+          if ($scope.tableParams == undefined) {
+            $scope.tableParams = new ngTableParams({
+              page: 1,
+              count: 10,
+              sorting: {
+                id: 'asc'
+              }
+            }, {
+              total: function () {
+                return $scope.qaList.length;
+              },
+              getData: function ($defer, params) {
+                // use build-in angular filter
+                var orderedData = params.sorting() ?
+                  $filter('orderBy')($scope.qaList, params.orderBy()) :
+                  $scope.qaList;
+                params.total(orderedData.length);
+                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+              }
+            });
+          }
+          else {
+            $scope.tableParams.reload();
+          }
         });
     }
   });

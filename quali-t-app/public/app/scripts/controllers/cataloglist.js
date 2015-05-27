@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CatalogListCtrl', function ($scope, apiService, alerts, ngParamService) {
+  .controller('CatalogListCtrl', function ($scope, apiService, alerts, ngTableParams, $filter) {
     $scope.catalogs = new Array();
 
 
@@ -24,9 +24,32 @@ angular.module('qualitApp')
     $scope.init = function () {
       var initPromise = apiService.getCatalogs();
       initPromise.then(function (payload) {
-        var data = payload.data;
-        $scope.catalogs = data;
-        $scope.tableParams = ngParamService.getDefaultNgParams(data);
+        $scope.catalogs = payload.data;
+
+        if ($scope.tableParams == undefined) {
+          $scope.tableParams = new ngTableParams({
+            page: 1,
+            count: 10,
+            sorting: {
+              id: 'asc'
+            }
+          }, {
+            total: function () {
+              return $scope.catalogs.length;
+            },
+            getData: function ($defer, params) {
+              // use build-in angular filter
+              var orderedData = params.sorting() ?
+                $filter('orderBy')($scope.catalogs, params.orderBy()) :
+                $scope.catalogs;
+              params.total(orderedData.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            }
+          });
+        }
+        else {
+          $scope.tableParams.reload();
+        }
       })
     }
   });

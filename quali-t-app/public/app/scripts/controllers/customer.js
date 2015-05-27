@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CustomerCtrl', function ($scope, apiService, $modal, ngParamService) {
+  .controller('CustomerCtrl', function ($scope, apiService, $modal, ngTableParams, $filter) {
     $scope.name = "";
     $scope.address = "";
     $scope.errors = new Array();
@@ -30,9 +30,31 @@ angular.module('qualitApp')
     $scope.loadCustomer = function () {
       var loadPromise = apiService.getCustomers();
       loadPromise.then(function (payload) {
-        var data = payload.data;
-        $scope.customerList = data;
-        $scope.tableParams = ngParamService.getDefaultNgParams(data);
+        $scope.customerList = payload.data;
+        if ($scope.tableParams == undefined) {
+          $scope.tableParams = new ngTableParams({
+            page: 1,
+            count: 10,
+            sorting: {
+              id: 'asc'
+            }
+          }, {
+            total: function () {
+              return $scope.customerList.length;
+            },
+            getData: function ($defer, params) {
+              // use build-in angular filter
+              var orderedData = params.sorting() ?
+                $filter('orderBy')($scope.customerList, params.orderBy()) :
+                $scope.customerList;
+              params.total(orderedData.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            }
+          });
+        }
+        else {
+          $scope.tableParams.reload();
+        }
       });
     }
 
@@ -87,4 +109,5 @@ angular.module('qualitApp')
     $scope.init = function () {
       $scope.loadCustomer();
     }
-  });
+  })
+;
