@@ -2,9 +2,7 @@ package controllers;
 
 import api.DetectorService;
 import com.google.inject.Inject;
-import dao.models.ProjectDAO;
-import exceptions.EntityNotFoundException;
-import models.project.Project;
+import logics.project.ProjectLogic;
 import models.project.nfritem.Instance;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -12,7 +10,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by emre on 21/05/15.
@@ -20,23 +18,15 @@ import java.util.ArrayList;
 public class ValidateInstanceController extends Controller implements ExceptionHandlingInterface {
     @Inject
     DetectorService detectorService;
-
     @Inject
-    ProjectDAO projectDao;
+    ProjectLogic projectLogic;
 
     @Transactional(readOnly = true)
-    public Result validate(Long projectId) {
+    public Result validate(Long id) {
         Logger.info("validate called");
-
-        ArrayList<Instance> qaInstances = new ArrayList<>();
-
-        // TODO move to functional interface
-        try {
-            Project project = projectDao.readById(projectId);
-            ArrayList<Instance> instances = new ArrayList<>(project.getQualityAttributes());
+        return catchAbstractException(id, projectId -> {
+            List<Instance> instances = projectLogic.getQualityAttributes(projectId);
             return ok(Json.toJson(detectorService.validateAll(instances)));
-        } catch (EntityNotFoundException e) {
-            return status(e.getStatusCode(), e.getMessage());
-        }
+        });
     }
 }

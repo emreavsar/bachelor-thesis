@@ -13,7 +13,7 @@ public class DetectorService {
         loader = ServiceLoader.load(FuzzynessDetector.class);
     }
 
-    public HashMap<Long, List<String>> validateAll(ArrayList<Instance> qualityAttributes) {
+    public HashMap<Long, List<String>> validateAll(List<Instance> qualityAttributes) {
         Logger.info("validateAll called");
         HashMap<Long, List<String>> detections = new HashMap<>();
 
