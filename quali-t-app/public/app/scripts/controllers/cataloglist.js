@@ -22,7 +22,7 @@ angular.module('qualitApp')
     }
 
     $scope.init = function () {
-      var initPromise = apiService.getCatalogs();
+      var initPromise = apiService.getEditableCatalogs();
       initPromise.then(function (payload) {
         $scope.catalogs = payload.data;
 

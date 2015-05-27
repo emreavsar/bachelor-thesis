@@ -300,37 +300,30 @@ angular.module('qualitApp')
               $state.go('editQA', {
                 catalogQa: catalogQa.id
               });
-
-              // move textangular box to current edited qa
-              //$(".currentEditedQa").detach().appendTo("#qa-" + catalogQa.id + " .textangular-box");
-              //$(".currentEditedQa, .textangular-box ").removeClass("hidden");
-
-              // set the textangular's properties to currentEditedQas description
-              //$(".currentEditedQa div[id^='taTextElement']").html(catalogQa.qa.description);
             }
           });
 
-          var cloneBtn = $("<i/>", {
-            title: "Clone quality attribute",
-            class: "fa fa-files-o pointer"
-          }).appendTo(actions);
+          if (context == "editproject") {
+            var cloneBtn = $("<i/>", {
+              title: "Clone quality attribute",
+              class: "fa fa-files-o pointer"
+            }).appendTo(actions);
 
-          cloneBtn.click(function () {
-            var promiseRemove;
-            if (context == "editproject") {
-              promiseRemove = apiService.cloneQaInstance(qa.id);
-            } else if (context == "editcatalog") {
-              promiseRemove = apiService.cloneCatalogQa(catalogQa.id);
-            }
-            promiseRemove.then(
-              function (payload) {
-                alerts.createSuccess("Quality Attribute was successfully cloned.");
-                if (scope.updateQaFunction() != undefined) {
-                  // reload information
-                  scope.updateQaFunction()();
-                }
-              });
-          });
+            cloneBtn.click(function () {
+              var promiseRemove;
+              if (context == "editproject") {
+                promiseRemove = apiService.cloneQaInstance(qa.id);
+              }
+              promiseRemove.then(
+                function (payload) {
+                  alerts.createSuccess("Quality Attribute was successfully cloned.");
+                  if (scope.updateQaFunction() != undefined) {
+                    // reload information
+                    scope.updateQaFunction()();
+                  }
+                });
+            });
+          }
 
           var deleteBtn = $("<i/>", {
             title: "Delete quality attribute",
@@ -342,7 +335,7 @@ angular.module('qualitApp')
             if (context == "editproject") {
               promiseRemove = apiService.removeQaInstance(qa.id);
             } else if (context == "editcatalog") {
-              promiseRemove = apiService.removeQa(qa.id);
+              promiseRemove = apiService.removeCatalogQa(catalogQa.id);
             }
             promiseRemove.then(
               function (payload) {

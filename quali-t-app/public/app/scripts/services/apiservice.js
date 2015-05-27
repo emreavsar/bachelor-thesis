@@ -269,8 +269,18 @@ angular.module('qualitApp')
           alerts.createError(status, data);
         });
     }
-    apiService.removeQa = function (catalogQaId) {
-      return $http.delete(this.apiPath + "qa/" + catalogQaId)
+    apiService.removeQa = function (qaId) {
+      return $http.delete(this.apiPath + "qa/" + qaId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
+    apiService.removeCatalogQa = function (catalogQaId) {
+      return $http.delete(this.apiPath + "catalog/qa/" + catalogQaId)
         .success(function (data) {
           return data;
         })
