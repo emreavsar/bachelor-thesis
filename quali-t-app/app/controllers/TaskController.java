@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
-import exceptions.EntityNotFoundException;
 import logics.user.TaskLogic;
 import play.Logger;
 import play.data.DynamicForm;
@@ -12,10 +11,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.List;
 
-
-public class TaskController extends Controller {
+public class TaskController extends Controller implements ExceptionHandlingInterface {
     @Inject
     private TaskLogic taskLogic;
 
@@ -23,28 +20,20 @@ public class TaskController extends Controller {
     @Transactional
     public Result getTasksOfCurrentUser() {
         Logger.info("getTasksOfCurrentUser called");
-        try {
+        return catchAbstractException(() -> {
             long userid = Long.parseLong(session().get("userid"));
-            List<models.user.Task> tasks = taskLogic.getTasksOfUser(userid);
-            return ok(Json.toJson(tasks));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
+            return ok(Json.toJson(taskLogic.getTasksOfUser(userid)));
+        });
     }
 
     @SubjectPresent
     @Transactional
     public Result toggleStateOfTask() {
         Logger.info("toggleStateOfTask called");
-
-        DynamicForm requestData = Form.form().bindFromRequest();
-        Long taskId = Long.valueOf(requestData.get("taskId"));
-
-        try {
-            models.user.Task t = taskLogic.changeState(taskId);
-            return ok(Json.toJson(t));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
+        return catchAbstractException(() -> {
+            DynamicForm requestData = Form.form().bindFromRequest();
+            Long taskId = Long.valueOf(requestData.get("taskId"));
+            return ok(Json.toJson(taskLogic.changeState(taskId)));
+        });
     }
 }

@@ -316,4 +316,12 @@ public class ProjectLogic {
         }
         throw new MissingParameterException("Please provide a valid ID!");
     }
+
+    public List<Instance> getQualityAttributes(Long id) throws EntityNotFoundException, MissingParameterException {
+        if (id != null) {
+            Project project = projectDAO.readById(id);
+            return new ArrayList<>(project.getQualityAttributes());
+        }
+        throw new MissingParameterException("Please provide a valid ID!");
+    }
 }
