@@ -1,7 +1,11 @@
 <div ng-init="init()">
   <h3>Show all Catalogs</h3>
 
-  <h3 class="steps"></h3>
+  <p>Here are all catalogs listed. Keep in mind that projects which are based on a catalog are decoupled after creating
+    process. This means that any changes to the catalog will <b>not</b> affect projects.
+    <br><br>
+    The standard catalog is not listed below, because it is <i>read only</i> for the users. <br><br>
+  </p>
 
   <table class="table table-hover" ng-table="tableParams">
     <tr ng-repeat="catalog in $data">

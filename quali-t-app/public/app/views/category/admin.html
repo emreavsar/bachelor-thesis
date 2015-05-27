@@ -2,14 +2,12 @@
 
   <h3>Categories</h3>
 
-  <div class="information-box">
-      <span class="text-info">
-        <i class="fa fa-info-circle"></i>
-        Browse through categories by clicking on the categories name. You can add new sub-categories, edit or delete them.
-        If you want to create a new category without nesting it as a sub-category, use the button <b>Add
-        Supercategory</b>.
-      </span>
-  </div>
+  <p> Browse through categories by clicking on the categories name. You can add new sub-categories, edit or delete them.
+    If you want to create a new category without nesting it as a sub-category, use the button <b>Add
+      Supercategory</b>
+  </p>
+
+  <filter hide-checkbox="true" add-callback="add" edit-callback="edit" delete-callback="delete" categories="catList"/>
 
   <div class="form crud-form">
     <div class="row text-center" style="margin-bottom:20px;">
@@ -18,6 +16,4 @@
       </button>
     </div>
   </div>
-
-  <filter hide-checkbox="true" add-callback="add" edit-callback="edit" delete-callback="delete" categories="catList"/>
 </div>

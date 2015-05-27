@@ -2,7 +2,10 @@
 
   <h3>Show all Customers</h3>
 
-  <h3 class="steps"></h3>
+  <p>Here are all customers listed. A customer has typically projects. By deleting a customer, all projects and its data will
+    be cleared from QUALI-T.<br/><br/>
+  </p>
+
   <table class="table table-hover" ng-table="tableParams">
     <tr ng-repeat="cust in $data">
       <td data-title="'Id'"  sortable="'id'">

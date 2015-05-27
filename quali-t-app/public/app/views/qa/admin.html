@@ -1,7 +1,24 @@
 <div ng-init="init()">
-  <h3>Show all Quality Attribute Template</h3>
+  <h3>Show all Quality Attribute Templates</h3>
 
-  <h3 class="steps"></h3>
+  <p>Here are all quality attribute templates listed.
+    Each quality attribute template is automatically added to the Standard Catalog. Since these templates can also
+    be linked in catalogs, you have to keep in mind that when you change the template there are some checks:
+  <ul>
+    <li>
+      when only options inside variables (ranges, options in dropdowns, default values) change, there will be
+      only a change in the <b>Standard Catalog</b>.
+    </li>
+    <li>
+      when the description itself changes, there will be a new version of the template. This means that every catalog
+      which has this template inside will get the new version of the template in it. <br/> Projects which have been
+      already
+      created will <b>not</b> get the updated version of the template and remain the same.
+    </li>
+  </ul>
+  <br/><br/>
+  </p>
+
   <table class="table table-hover" ng-table="tableParams">
     <tr ng-repeat="catalogQa in $data">
       <td data-title="'Id'" sortable="'id'">

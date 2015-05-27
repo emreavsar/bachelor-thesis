@@ -1,7 +1,10 @@
 <div ng-init="init()">
   <h3>Show all Projects</h3>
 
-  <h3 class="steps"></h3>
+  <p>Here are all projects listed. Change quality attributes (specify variables, change text, add or delete them), validate,
+    export them after entering the edit mode of a project.<br/><br/>
+  </p>
+
   <table class="table table-hover" ng-table="tableParams">
     <tr ng-repeat="project in $data">
       <td data-title="'Id'" sortable="'id'">
