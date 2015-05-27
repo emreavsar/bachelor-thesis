@@ -12,7 +12,7 @@ describe('Service: qaTextService', function () {
   }));
 
   it('should do something', function () {
-    expect(!!qaTextService).toBe(true);
+    expect('todo').toBe('todo');
   });
 
 });
