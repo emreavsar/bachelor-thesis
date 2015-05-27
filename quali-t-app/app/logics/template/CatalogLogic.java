@@ -47,6 +47,16 @@ public class CatalogLogic {
         return catalogDAO.readAll();
     }
 
+    public List<Catalog> getAllEditableCatalogs() {
+        List<Catalog> catalogList = new ArrayList<>();
+        for (Catalog catalog : getAllCatalogs()) {
+            if (catalog.getId() != -6000) {
+                catalogList.add(catalog);
+            }
+        }
+        return catalogList;
+    }
+
     public Object getCatalogQA(Long id) throws EntityNotFoundException, MissingParameterException {
         if (id != null) {
             return catalogQADAO.readById(id);
@@ -84,7 +94,8 @@ public class CatalogLogic {
 
     public models.template.CatalogQA createCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
         if (catalogQA != null) {
-            return catalogQADAO.persist(addQaToCatalog(catalogQA));
+            CatalogQA newCatalogQA = addQaToCatalog(catalogQA);
+            return catalogQADAO.persist(newCatalogQA);
         }
         throw new MissingParameterException("Please provide a valid CatalogQA");
     }
@@ -107,7 +118,7 @@ public class CatalogLogic {
     public models.template.CatalogQA updateCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
         models.template.Catalog catalog = catalogQA.getCatalog();
         deleteCatalogQA(catalogQA.getId());
-        catalogQA.setId(null);
+//        catalogQA.setId(null);
         catalogQA.setCatalog(catalog);
         return catalogQADAO.persist(addQaToCatalog(catalogQA));
     }
@@ -152,7 +163,9 @@ public class CatalogLogic {
         if (catalogQA.getQa() != null && catalogQA.getCatalog() != null && catalogQA.getCatalog().getId() != null && catalogQA.getQa().getId() != null) {
             catalogQA.setQa(qualityAttributeDAO.readById(catalogQA.getQa().getId()));
             catalogQA.setCatalog(catalogDAO.readById(catalogQA.getCatalog().getId()));
-            return catalogQADAO.persist(catalogQA);
+            catalogQA.setId(null);
+//            return catalogQADAO.persist(catalogQA);
+            return catalogQA;
         }
         throw new MissingParameterException("Please provide a valid CatalogQA");
     }

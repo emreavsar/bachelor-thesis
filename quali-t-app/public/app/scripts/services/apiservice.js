@@ -433,6 +433,17 @@ angular.module('qualitApp')
           alerts.createError(status, data);
         });
     }
+
+    apiService.getEditableCatalogs = function () {
+      return $http.get(this.apiPath + "catalog/editable")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.getQAsOfCatalog = function (catalogId) {
       return $http.get(this.apiPath + "qa/catalog/" + catalogId)
         .success(function (data) {
