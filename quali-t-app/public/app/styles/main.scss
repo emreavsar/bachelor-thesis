@@ -184,8 +184,14 @@ input[disabled], select [disabled] {
 }
 
 .main-view {
+  h1,h2,h3 {
+    color: #3DC59E;
+    i {
+      font-size: smaller;
+      margin-right: 10px;
+    }
+  }
   h1, h2, h3, h4, h5 {
-    color: #3f3f44;
     &.steps {
       color: #40A989;
     }
