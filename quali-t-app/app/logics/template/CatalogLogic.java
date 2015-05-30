@@ -87,9 +87,8 @@ public class CatalogLogic {
                 }
             }
             return catalog;
-        } else {
-            throw new MissingParameterException("Please provide all required Catalog Parameters");
         }
+        throw new MissingParameterException("Please provide all required Catalog Parameters");
     }
 
     public models.template.CatalogQA createCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
