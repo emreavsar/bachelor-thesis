@@ -4,6 +4,7 @@ import base.AbstractDatabaseTest;
 import base.AbstractTestDataCreator;
 import dao.models.UserDao;
 import exceptions.EntityAlreadyExistsException;
+import exceptions.MissingParameterException;
 import models.authentication.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class UserDaoTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void createUserTest() throws EntityAlreadyExistsException {
+    public void createUserTest() throws EntityAlreadyExistsException, MissingParameterException {
         // ARRANGE
         AbstractTestDataCreator.createUser("Hans", "1234");
         // ACT
