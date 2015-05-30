@@ -17,12 +17,12 @@ import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
 import org.apache.fop.apps.FOPException;
-import play.Logger;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,27 +173,21 @@ public class ProjectLogic {
             persistedProject.setName(updatedProject.getName());
             if (!persistedProject.getJiraKey().equals(updatedProject.getJiraKey())) {
                 jiraConnectionChanged = true;
-                Logger.info("called super");
             }
             persistedProject.setJiraKey(updatedProject.getJiraKey());
             persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
             if (updatedProject.getJiraConnection() != null && updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
                 updatedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
                 if (updatedProject.getJiraConnection() != persistedProject.getJiraConnection()) {
-                    //
                     jiraConnectionChanged = true;
-                    Logger.info("called");
                 }
                 persistedProject.setJiraConnection(updatedProject.getJiraConnection());
             } else {
                 if (persistedProject.getJiraConnection() != null) {
-                    //
-                    Logger.info("called");
                     jiraConnectionChanged = true;
                 }
                 persistedProject.setJiraConnection(null);
             }
-
             if (jiraConnectionChanged) {
                 resetQaInstanceJiraParameter(persistedProject);
             }
@@ -215,7 +209,7 @@ public class ProjectLogic {
         List<QualityPropertyStatus> qualityPropertyStatusesToRemove = new ArrayList<>();
         List<models.project.QualityProperty> qualityPropertyList = qualityPropertyDAO.readAllById(qualityPropertyIdList);
         models.project.Project persistedProject = projectDAO.readById(project.getId());
-        //find qualityproperties and qualitypropertystatuses to remove
+        //find qualityProperties and qualityPropertyStatuses to remove
         for (models.project.QualityProperty persistedQualityProperty : persistedProject.getQualityProperties()) {
             if (persistedQualityProperty != null && !qualityPropertyList.contains(persistedQualityProperty)) {
                 qualityPropertiesToRemove.add(persistedQualityProperty);
@@ -230,7 +224,7 @@ public class ProjectLogic {
                 addQualityPropertyToInstances(persistedProject, qualityProperty);
             }
         }
-        //remove marked qualityproperties from project
+        //remove marked qualityProperties from project
         persistedProject = projectDAO.readById(project.getId());
         for (models.project.QualityProperty qualityProperty : qualityPropertiesToRemove) {
             removeQualityPropertyFromProject(persistedProject, qualityProperty);
@@ -296,7 +290,8 @@ public class ProjectLogic {
             Project project = projectDAO.readById(id);
             try {
                 ByteArrayOutputStream xml = xmlRepo.projectToXML(modelConverter.convertProject(project));
-                return pdfRepo.createPdf(new ByteArrayInputStream(xml.toByteArray()), getClass().getResourceAsStream("project.xsl"));
+                InputStream inputStream = getClass().getResourceAsStream("project_export.xsl");
+                return pdfRepo.createPdf(new ByteArrayInputStream(xml.toByteArray()), inputStream);
             } catch (JAXBException | FOPException | TransformerException e) {
                 throw new CouldNotConvertException("Could not Convert due to internal server error");
             }

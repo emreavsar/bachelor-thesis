@@ -1,5 +1,6 @@
 package models.authentication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Nullable
 public class Token extends AbstractEntity {
     private String token;
+    @JsonIgnore
     private LocalDateTime validUntil;
 
     @ManyToOne

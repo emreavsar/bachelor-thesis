@@ -7,6 +7,7 @@ import dao.authentication.TokenDao;
 import dao.models.UserDao;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import exceptions.PasswordsNotMatchException;
 import models.authentication.Role;
 import models.authentication.Token;
@@ -16,7 +17,6 @@ import play.Logger;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-import java.security.InvalidParameterException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
@@ -55,9 +55,9 @@ public class Authenticator {
      * @param token
      * @return user
      */
-    public Token authenticate(String username, String password, String token) throws EntityNotFoundException, InvalidParameterException, PasswordsNotMatchException {
+    public Token authenticate(String username, String password, String token) throws EntityNotFoundException, PasswordsNotMatchException, MissingParameterException {
         if (username == null) {
-            throw new InvalidParameterException("Username must not be specified!");
+            throw new MissingParameterException("Username must not be specified!");
         }
 
         UserDao userDao = new UserDao();
@@ -124,7 +124,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public boolean checkPassword(@Nullable User user, @NotNull String password) throws PasswordsNotMatchException, EntityNotFoundException {
+    public boolean checkPassword(@Nullable User user, @NotNull String password) throws EntityNotFoundException, PasswordsNotMatchException {
         if (user != null) {
             if (user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))) {
                 return true;
@@ -191,23 +191,26 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public User registerUser(String username, String password) throws EntityAlreadyExistsException {
-        // Default roles for registered user
-        List<Role> defaultRoles = roleDao.findDefaultRoles();
+    public User registerUser(String username, String password) throws EntityAlreadyExistsException, MissingParameterException {
+        if (username != null && password != null) {
+            // Default roles for registered user
+            List<Role> defaultRoles = roleDao.findDefaultRoles();
 
-        // check if user already exists
-        User user = userDao.findByUsername(username);
-        if (user == null) {
-            user = new User();
-            user.setName(username);
-            user.initSalt();
-            user.setHashedPassword(calculatePasswordHash(user.getSalt(), password));
-            user.getRoles().addAll(roleDao.findDefaultRoles());
-            userDao.persist(user);
-            return user;
-        } else {
-            throw new EntityAlreadyExistsException("User already exists");
+            // check if user already exists
+            User user = userDao.findByUsername(username);
+            if (user == null) {
+                user = new User();
+                user.setName(username);
+                user.initSalt();
+                user.setHashedPassword(calculatePasswordHash(user.getSalt(), password));
+                user.getRoles().addAll(roleDao.findDefaultRoles());
+                userDao.persist(user);
+                return user;
+            } else {
+                throw new EntityAlreadyExistsException("User already exists");
+            }
         }
+        throw new MissingParameterException("Username and password can't be null!");
     }
 
     /**
@@ -217,21 +220,25 @@ public class Authenticator {
      * @param token
      * @return
      */
-    public void invalidateUserSession(String username, String token) throws EntityNotFoundException {
-        User user = userDao.findByUsername(username);
-        Token userToken = tokenDao.findByToken(token);
+    public void invalidateUserSession(String username, String token) throws EntityNotFoundException, MissingParameterException {
+        if (username != null && token != null) {
+            User user = userDao.findByUsername(username);
+            Token userToken = tokenDao.findByToken(token);
 
-        if (userToken != null) {
-            // prevent that a user can invalidate sessions of others
-            if (userToken.getUser().equals(user)) {
-                user.removeToken(userToken);
-                userDao.persist(user);
-                tokenDao.remove(userToken);
+            if (userToken != null) {
+                // prevent that a user can invalidate sessions of others
+                if (userToken.getUser().equals(user)) {
+                    user.removeToken(userToken);
+                    userDao.persist(user);
+                    tokenDao.remove(userToken);
+                } else {
+                    throw new EntityNotFoundException("Error at invalidating user session.");
+                }
             } else {
-                throw new EntityNotFoundException("Error at invalidating user session.");
+                throw new EntityNotFoundException("No token for user found");
             }
         } else {
-            throw new EntityNotFoundException("No token for user found");
+            throw new MissingParameterException("Username and token can't be null!");
         }
     }
 

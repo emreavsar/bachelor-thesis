@@ -97,7 +97,7 @@ public class JIRAExportLogic {
     }
 
     private JsonNode parseJiraUpdateIssue(Instance qa, String text) {
-        jiraAPIAddress = "/rest/api/2/issue/" + qa.getJiraKey() + "/comment";
+        jiraAPIAddress = "/rest/api/latest/issue/" + qa.getJiraKey() + "/comment";
         //parse JSON for JIRA POST Update Comment
         return Json.parse("{\n" +
                 "    \"body\": \"" + text + "\"\n" +
@@ -121,37 +121,4 @@ public class JIRAExportLogic {
                 "   }\n" +
                 "}");
     }
-//
-//    private String getDescriptionWithVars(Instance qualityAttributeInstance) throws EntityNotFoundException {
-//        Set<Val> values = qualityAttributeInstance.getValues();
-//        return replacePlaceholder(qualityAttributeInstance.getDescription(), values);
-//    }
-//
-//    private String removeHtmlTags(String text) {
-//
-//        return Jsoup.parse(text).text();
-//    }
-//
-//    private Val getVarValue(int i, Set<Val> values) throws EntityNotFoundException {
-//        for (Val value : values) {
-//            if (value.getVarIndex() == i) {
-//                return value;
-//            }
-//        }
-//        throw new EntityNotFoundException("Value with this varindex not found!");
-//    }
-//
-//    private String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
-//        Pattern p = Pattern.compile("%VARIABLE_.*?([0-9]*)%");
-//        Matcher m = p.matcher(text);
-//
-//        if (m.find()) {
-//            Val value = getVarValue(Integer.parseInt(m.group(1)), values);
-//            text = m.replaceFirst(value.getValue());
-//            return replacePlaceholder(text, values);
-//        }
-//        return text;
-//    }
-
-
 }
