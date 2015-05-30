@@ -24,7 +24,7 @@ input[disabled], select [disabled] {
   max-width: 1900px !important;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: #00BD5B !important;
+  background-color: #46C49F !important;
   padding: 0px;
 
   h1, h2, h3, h4, h5, h6 {
@@ -78,9 +78,13 @@ input[disabled], select [disabled] {
   padding-top: 20px;
   color: #fff;
 
+  .profile {
+    margin-top: 20px;
+  }
+  
   .title {
     color: #fff;
-    font-size: 12px;
+    font-size: 16px;
     text-transform: uppercase;
     & i {
       margin-right: 5px;
@@ -97,12 +101,12 @@ input[disabled], select [disabled] {
       &:hover, &.active {
         background-color: #fff;
         a {
-          color: #00BC5C;
+          color: #0AA17A;
         }
       }
       a {
         color: #fff;
-        font-size: 14px;
+        font-size: 16px;
         background-color: transparent;
       }
     }
@@ -183,14 +187,14 @@ input[disabled], select [disabled] {
   h1, h2, h3, h4, h5 {
     color: #3f3f44;
     &.steps {
-      color: #00EC78;
+      color: #40A989;
     }
   }
 
   h3 {
     font-size: 2em !important;
     &.steps {
-      color: #00EC78;
+      color: #40A989;
       font-size: 1.75em !important;
       margin-top: 50px;
       margin-bottom: 30px;
@@ -396,7 +400,7 @@ body {
   }
 
   .auth-form-heading {
-    color: #00E789;
+    color: #40A989;
     text-align: center;
     margin-bottom: 30px;
   }
@@ -454,7 +458,7 @@ body {
 
 .popover {
   i {
-    color: #00E980;
+    color: #60DEAB;
   }
 }
 
@@ -534,7 +538,7 @@ div[text-angular-toolbar] {
     min-height: 50px;
   }
   &.selected {
-    background-color: #94F9CE;
+    background-color: #8EFFDB;
     .fa-check {
       display: block;
     }
@@ -562,7 +566,7 @@ div[text-angular-toolbar] {
   .fa-check {
     margin-top: 30px;
     font-size: 22px;
-    color: #00893B;
+    color: #008E67;
     display: none;
   }
   select {
@@ -794,21 +798,21 @@ div[text-angular-toolbar] {
 
 .help-container {
   h4 {
-    color: #00BF56;
+    color: #40A989;
     margin-top: 30px;
   }
   .question {
     padding-left: 30px;
     padding-top: 20px;
     padding-bottom: 30px;
-    border-left: #00BF56 5px solid;
+    border-left: #3CE1A8 5px solid;
     margin-top: 30px;
     margin-bottom: 5px;
   }
   .answer {
     background-color: rgba(218, 234, 228, 0.0980392);
     padding: 30px;
-    border-left: 5px solid rgb(0, 236, 140);
+    border-left: 5px solid #00C69D;
   }
 }
 

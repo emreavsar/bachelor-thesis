@@ -2,8 +2,8 @@ body, html {
   width: 100%;
   height: 100%;
   background-color: #fff !important;
+  font-family: "Roboto", sans-serif;
 }
-
 
 body,
 h1,
@@ -12,7 +12,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 700;
+  font-weight: initial;
 }
 
 .lead {
@@ -38,11 +38,10 @@ h6 {
 }
 
 .intro-message > h1 {
-  margin: 0;
+  margin: 0px;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
-  font-size: 5em;
-  color: #fff;
-
+  font-size: 9em;
+  color: #FFF;font-weight: 200;
 }
 
 .intro-divider {
@@ -55,8 +54,9 @@ h6 {
 
 .intro-message > h3 {
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
-  color: #fff;
-
+  color: #FFF;
+  font-weight: 100;
+  font-size: 4em !important;
 }
 
 .about-qualit-templates > h2, .about-qualit-evaluate > h2 {
