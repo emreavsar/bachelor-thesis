@@ -22,4 +22,8 @@ angular.module('qualitApp')
       function (payload) {
         $scope.favoriteProjects = payload.data;
       });
+
+    $scope.$on('favorites', function (event, arg) {
+      $scope.favoriteProjects = arg;
+    });
   });

@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alerts, $popover) {
+  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alerts, $popover, $rootScope) {
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
@@ -80,6 +80,8 @@ angular.module('qualitApp')
         function (payload) {
           $scope.favoriteProjects = payload.data.favorites;
           $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
+
+          $rootScope.$broadcast('favorites', $scope.favoriteProjects);
         });
     }
 
