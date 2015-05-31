@@ -1,5 +1,6 @@
 <div ng-init="init()">
-  <h3 ng-show="catalogQa"><i class="glyphicon glyphicon-grain"></i> Edit Quality Attribute Template (ID: {{catalogQa.id}})</h3>
+  <h3 ng-show="catalogQa"><i class="glyphicon glyphicon-grain"></i> Edit Quality Attribute Template (ID:
+    {{catalogQa.id}})</h3>
 
   <h3 ng-show="!catalogQa"><i class="glyphicon glyphicon-grain"></i> Create new Quality Attribute Template</h3>
 
@@ -32,8 +33,9 @@
     <div class="preview">
       <h3 class="steps">Step 3: Verify your desired result:</h3>
       <h4>Preview in new Catalog / Project mode: </h4>
+      <span class="text-info" ng-show="qaText.length==0">No preview available when there is no description.</span>
 
-      <div ng-bind-html="previewHtml" class="qa-preview"></div>
+      <div ng-bind-html="previewHtml" class="qa-preview" ng-hide="qaText.length==0"></div>
 
     </div>
 
