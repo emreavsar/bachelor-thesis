@@ -184,7 +184,7 @@ input[disabled], select [disabled] {
 }
 
 .main-view {
-  h1,h2,h3 {
+  h1, h2, h3 {
     color: #3DC59E;
     i {
       font-size: smaller;
@@ -800,6 +800,9 @@ div[text-angular-toolbar] {
   width: 500px !important;
   font-size: 0.9em;
   margin-bottom: 30px !important;
+  h5 {
+    font-size: 14px;
+  }
 }
 
 .help-container {

@@ -1,7 +1,6 @@
 package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 
@@ -32,6 +31,8 @@ public class QAVar extends AbstractEntity {
     @OneToOne(mappedBy = "rangeInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "variableRange")
     private ValRange valRange;
+    private String averageValue;
+    private String mosteUsedValue;
 
     public QAVar(int varIndex) {
         super();
@@ -134,5 +135,21 @@ public class QAVar extends AbstractEntity {
 
     public void setExtendable(boolean extendable) {
         this.extendable = extendable;
+    }
+
+    public String getAverageValue() {
+        return averageValue;
+    }
+
+    public void setAverageValue(String averageValue) {
+        this.averageValue = averageValue;
+    }
+
+    public String getMosteUsedValue() {
+        return mosteUsedValue;
+    }
+
+    public void setMosteUsedValue(String mosteUsedValue) {
+        this.mosteUsedValue = mosteUsedValue;
     }
 }

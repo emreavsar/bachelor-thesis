@@ -1,4 +1,4 @@
-package api;
+package logics.validation;
 
 import ch.qualit.fuzziness.detector.spi.FuzzynessDetector;
 import models.project.nfritem.Instance;
@@ -6,7 +6,7 @@ import play.Logger;
 
 import java.util.*;
 
-public class DetectorService {
+public class DetectorService implements ValidationService {
     private ServiceLoader<FuzzynessDetector> loader;
 
     public DetectorService() {
