@@ -2,25 +2,20 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
-import exceptions.EntityNotFoundException;
 import logics.authentication.Authenticator;
 import logics.project.ProjectLogic;
 import models.authentication.User;
 import models.project.Project;
 import play.Logger;
-import play.data.DynamicForm;
-import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.Set;
 
-
-public class FavoriteController extends Controller {
+public class FavoriteController extends Controller implements ExceptionHandlingInterface {
     @Inject
-    ProjectLogic projectLogic;
+    private ProjectLogic projectLogic;
     @Inject
     private Authenticator authenticator;
 
@@ -28,39 +23,31 @@ public class FavoriteController extends Controller {
     @Transactional
     public Result getFavoritesOfCurrentUser() {
         Logger.info("getFavoritesOfCurrentUser called");
-        try {
+        return catchAbstractException(() -> {
             long userid = Long.parseLong(session().get("userid"));
-            Set<Project> favorites = authenticator.getUser(userid).getFavorites();
-            return ok(Json.toJson(favorites));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
+            return ok(Json.toJson(authenticator.getUser(userid).getFavorites()));
+        });
     }
 
     @SubjectPresent
     @Transactional
+    // TODO: Logik im Controller!!!!! In Logic Class auslagern und MissingParameterExceptions abfangen
     public Result updateFavorite() {
         Logger.info("updateFavorite called");
-        try {
-            DynamicForm requestData = Form.form().bindFromRequest();
-            Long projectId = Long.valueOf(requestData.get("projectId"));
-
-            long userid = Long.parseLong(session().get("userid"));
-            boolean isFavorite = Boolean.parseBoolean(requestData.get("isFavorite"));
-            Project projectToFavorite = projectLogic.getProject(projectId);
-
+        return catchAbstractException(request(), json -> {
+            long userId = Long.parseLong(session().get("userid"));
+            boolean isFavorite = json.findPath("isFavorite").asBoolean();
+            Project projectToFavorite = projectLogic.getProject(json.findPath("projectId").asLong());
             User u;
             // add favorite
             if (isFavorite) {
-                u = authenticator.getUser(userid).addToFavorites(projectToFavorite);
+                u = authenticator.getUser(userId).addToFavorites(projectToFavorite);
             } else { // remove favorite
-                u = authenticator.getUser(userid).removeFromFavorites(projectToFavorite);
+                u = authenticator.getUser(userId).removeFromFavorites(projectToFavorite);
             }
             authenticator.update(u);
 
             return ok(Json.toJson(u));
-        } catch (EntityNotFoundException e) {
-            return status(400, e.getMessage());
-        }
+        });
     }
 }

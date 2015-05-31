@@ -48,6 +48,8 @@ public class ProjectLogic {
     @Inject
     private QualityPropertyStatusDAO qualityPropertyStatusDAO;
     @Inject
+    private QAVarDAO qaVarDAO;
+    @Inject
     private Helper helper;
     @Inject
     private PdfRepo pdfRepo;

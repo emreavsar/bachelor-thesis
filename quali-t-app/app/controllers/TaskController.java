@@ -4,8 +4,6 @@ import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
 import logics.user.TaskLogic;
 import play.Logger;
-import play.data.DynamicForm;
-import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -30,10 +28,8 @@ public class TaskController extends Controller implements ExceptionHandlingInter
     @Transactional
     public Result toggleStateOfTask() {
         Logger.info("toggleStateOfTask called");
-        return catchAbstractException(() -> {
-            DynamicForm requestData = Form.form().bindFromRequest();
-            Long taskId = Long.valueOf(requestData.get("taskId"));
-            return ok(Json.toJson(taskLogic.changeState(taskId)));
+        return catchAbstractException(request(), json -> {
+            return ok(Json.toJson(taskLogic.changeState(json.findPath("taskId").asLong())));
         });
     }
 }

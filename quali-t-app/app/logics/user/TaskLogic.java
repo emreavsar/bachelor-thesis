@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import dao.models.UserDao;
 import dao.user.TaskDao;
 import exceptions.EntityNotFoundException;
+import exceptions.MissingParameterException;
 import models.authentication.User;
 import models.user.Task;
 
@@ -19,11 +20,14 @@ public class TaskLogic {
     @Inject
     UserDao userDao;
 
-    public models.user.Task changeState(Long taskId) throws EntityNotFoundException {
-        models.user.Task t = taskDao.readById(taskId);
-        t.toggleState();
-        taskDao.persist(t);
-        return t;
+    public models.user.Task changeState(Long taskId) throws EntityNotFoundException, MissingParameterException {
+        if (taskId != null && taskId != 0) {
+            models.user.Task t = taskDao.readById(taskId);
+            t.toggleState();
+            taskDao.persist(t);
+            return t;
+        }
+        throw new MissingParameterException("Please provide a valid taskId!");
     }
 
     public List<Task> getTasksOfUser(long userid) throws EntityNotFoundException {
