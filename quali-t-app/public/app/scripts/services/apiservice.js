@@ -41,7 +41,7 @@ angular.module('qualitApp')
     }
 
     apiService.getFavorites = function () {
-      return $http.get(this.apiPath + "myfavorites/")
+      return $http.get(this.apiPath + "myfavorites")
         .success(function (data) {
           return data;
         })
