@@ -48,7 +48,7 @@ public class Authentication extends Controller implements ExceptionHandlingInter
             User user = jsonConverter.getUserFromJson(json);
             authenticator.invalidateUserSession(user.getName(), user.getToken().get(0).getToken());
             session().remove("user");
-            return ok();
+            return status(204);
         });
     }
 
@@ -68,7 +68,7 @@ public class Authentication extends Controller implements ExceptionHandlingInter
                 return status(400, "User and password do not match");
             }
             authenticator.changePassword(username, newPassword, newPasswordRepeated);
-            return ok();
+            return status(204);
         });
     }
 }

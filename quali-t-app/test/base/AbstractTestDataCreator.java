@@ -33,7 +33,7 @@ public abstract class AbstractTestDataCreator {
         em.flush();
     }
 
-    public static User createUser(String name, String password) throws EntityAlreadyExistsException {
+    public static User createUser(String name, String password) throws EntityAlreadyExistsException, MissingParameterException {
         return TestDependencyUtil.createInjector().getInstance(Authenticator.class).registerUser(name, password);
     }
 

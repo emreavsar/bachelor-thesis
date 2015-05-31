@@ -34,7 +34,7 @@ public class CustomerLogic {
         }
     }
 
-    public models.project.Customer updateCustomer(models.project.Customer updatedCustomer) throws MissingParameterException, EntityNotFoundException, EntityAlreadyExistsException {
+    public models.project.Customer updateCustomer(models.project.Customer updatedCustomer) throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         if (updatedCustomer != null && updatedCustomer.getId() != null && helper.validate(updatedCustomer.getName())) {
             models.project.Customer c = customerDAO.findByName(updatedCustomer.getName());
             if (c == null) {

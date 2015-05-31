@@ -1,6 +1,5 @@
 package logics.interfaces.projectExport.repositories;
 
-import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import org.apache.fop.apps.*;
 
 import javax.xml.transform.*;
@@ -15,7 +14,8 @@ import java.io.InputStream;
 public class PdfRepo {
 
     private Transformer getTransformer(StreamSource streamSource) throws TransformerConfigurationException {
-        TransformerFactoryImpl impl = new TransformerFactoryImpl();
+//        TransformerFactoryImpl impl = new TransformerFactoryImpl();
+        TransformerFactory impl = TransformerFactory.newInstance();
         return impl.newTransformer(streamSource);
     }
 
