@@ -153,7 +153,7 @@ angular.module('qualitApp')
 
           _.forEach(validationWarnings, function (n, key) {
             var warningScope = $scope.$new(true);
-            warningScope.title = "Validation Errors:";
+            warningScope.title = "Warnings:";
             warningScope.warnings = n;
 
             $popover($("#qa-" + key + " .validation-warnings"), {

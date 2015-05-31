@@ -1,10 +1,19 @@
 <div class="popover validation-popover">
   <div class="arrow"></div>
-  <h5 class="popover-title">{{title + " (" + warnings.length + ")"}}</h5>
+  <h4 class="popover-title">{{title + " (" + (warnings.detector.length + warnings.statistic.length) + ")"}}</h4>
 
-  <div class="popover-content ">
-    <ul>
-      <li ng-repeat="warning in warnings">{{warning}}</li>
-    </ul>
+  <div class="popover-content">
+    <div ng-show="warnings.detector.length>0">
+      <h5>Fuzziness Detector Warnings: </h5>
+      <ul>
+        <li ng-repeat="warning in warnings.detector">{{warning}}</li>
+      </ul>
+    </div>
+    <div ng-show="warnings.statistic.length>0">
+      <h5>Statistic Warnings: </h5>
+      <ul>
+        <li ng-repeat="warning in warnings.statistic">{{warning}}</li>
+      </ul>
+    </div>
   </div>
 </div>

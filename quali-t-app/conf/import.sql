@@ -110,9 +110,9 @@ INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7012, false, -60
 --
 -- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (-4020, 'FREETEXT', false,  0, -7000);
-INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (-5020, 'ENUMNUMBER', true, 1, -7000);
-INSERT INTO qavar (id, type, extendable, varindex, template_id) VALUES (-6020, 'FREENUMBER', false, 0, -7012);
+INSERT INTO qavar (id, type, averagevalue, mosteusedvalue, extendable, varindex, template_id) VALUES (-4020, 'FREETEXT', 0, 0, false,  0, -7000);
+INSERT INTO qavar (id, type, averagevalue, mosteusedvalue, extendable, varindex, template_id) VALUES (-5020, 'ENUMNUMBER', 0, 0, true, 1, -7000);
+INSERT INTO qavar (id, type, averagevalue, mosteusedvalue, extendable, varindex, template_id) VALUES (-6020, 'FREENUMBER', 0, 0, false, 0, -7012);
 
 --
 -- Data for Name: qavarval; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -138,10 +138,8 @@ INSERT INTO task (id, description, done, assignee_id) VALUES (-6011, 'Create Cat
 -- Data for Name: instance; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO instance (id, description, project_id, template_id) VALUES (-5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p> bad good', -11000, null);
+INSERT INTO instance (id, description, project_id, template_id) VALUES (-5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p> bad good', -11000, -7000);
 
 --
 -- Data for Name: val; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO val (id, "value", varindex, instance_id) VALUES (-99, 'test 1', 0, -5);
-INSERT INTO val (id, "value", varindex, instance_id) VALUES (-98, 'test 2', 1, -5);

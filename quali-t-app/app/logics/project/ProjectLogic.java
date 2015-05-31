@@ -17,7 +17,8 @@ import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
 import org.apache.fop.apps.FOPException;
-
+import play.Logger;
+import play.db.jpa.JPA;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.ByteArrayInputStream;
@@ -137,10 +138,52 @@ public class ProjectLogic {
             }
             persistedInstance.getValues().clear();
             persistedInstance.addValues(valueList);
-            return qaInstanceDAO.persist(persistedInstance);
+            // update the instance to database
+            Instance toReturn = qaInstanceDAO.persist(persistedInstance);
+            // TODO emre: discuss with corina wether to check statistics before or after saving the new values
+            JPA.em().flush();
+            // and do after that some statistics
+            updateQaVarStatistics(toReturn);
+            return toReturn;
         }
         throw new MissingParameterException("Please provide all required Parameters!");
 
+    }
+
+
+    /**
+     * Updates the statistic values (inside QaVar) for each value of the given instance.
+     *
+     * @param persistedInstance
+     */
+    private void updateQaVarStatistics(Instance persistedInstance) {
+        // TODO inject
+        QAVarDAO qaVarDAO = new QAVarDAO();
+        qaVarDAO.updateStatistic(persistedInstance.getTemplate());
+
+//
+//        Set<QAVar> templateVariables = persistedInstance.getTemplate().getVariables();
+//        // all these instances count for the statistics
+//        Set<Instance> instancesWithSameTemplate = persistedInstance.getTemplate().getQaInstances();
+//
+//        /**
+//         * save averages in an array, the index is the index of the variable in the qa
+//         * the value is the sum (will be divided in the end)
+//         */
+//        Double[] averages = new Double[persistedInstance.getValues().size()];
+//
+//        /**
+//         * Same here, but the value here is the count
+//         */
+//        Double[] mostUsed = new Double[persistedInstance.getValues().size()];
+//
+//
+//        for (QAVar templateVariable : templateVariables) {
+//            // statistics make no sense for freetext but for other QaTypes
+//            if (!templateVariable.getType().equals(QAType.FREETEXT)) {
+//
+//            }
+//        }
     }
 
     public void deleteProject(Long id) throws EntityNotFoundException, MissingParameterException {
