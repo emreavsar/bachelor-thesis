@@ -17,8 +17,8 @@ import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
 import org.apache.fop.apps.FOPException;
-import play.Logger;
 import play.db.jpa.JPA;
+
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.ByteArrayInputStream;
@@ -47,6 +47,8 @@ public class ProjectLogic {
     private ValDAO valDAO;
     @Inject
     private QualityPropertyStatusDAO qualityPropertyStatusDAO;
+    @Inject
+    private QAVarDAO qaVarDAO;
     @Inject
     private Helper helper;
     @Inject
@@ -157,8 +159,6 @@ public class ProjectLogic {
      * @param persistedInstance
      */
     private void updateQaVarStatistics(Instance persistedInstance) {
-        // TODO inject
-        QAVarDAO qaVarDAO = new QAVarDAO();
         qaVarDAO.updateStatistic(persistedInstance.getTemplate());
 
 //
