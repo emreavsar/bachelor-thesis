@@ -25,11 +25,14 @@ GET           /api/mytasks                        @controllers.TaskController.ge
 POST          /api/mytasks/toggle                 @controllers.TaskController.toggleStateOfTask()
 
 # Favorites
+# TODO, muss der / nach myFavorites sein???
 GET           /api/myfavorites/                   @controllers.FavoriteController.getFavoritesOfCurrentUser()
+GET        /api/myfavorites        @controllers.FavoriteController.getFavoritesOfCurrentUser()
 POST          /api/myfavorites                    @controllers.FavoriteController.updateFavorite()
 
 
 # Search
+# TODO: für was ist die erste search URI? wird diese benötigt?
 GET           /api/search                         @controllers.Search.search(searchArgument: String ?= "")
 GET           /api/search/:searchArgument         @controllers.Search.search(searchArgument: String)
 

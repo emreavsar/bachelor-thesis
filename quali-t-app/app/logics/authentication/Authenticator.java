@@ -252,11 +252,15 @@ public class Authenticator {
         }
     }
 
-    public User getUser(long userid) throws EntityNotFoundException {
-        User u = userDao.readById(userid);
-        if (u == null) {
-            throw new EntityNotFoundException("No user found");
+    public User getUser(Long userid) throws EntityNotFoundException, MissingParameterException {
+        if (userid != null && userid != 0) {
+            User u = userDao.readById(userid);
+            if (u == null) {
+                throw new EntityNotFoundException("No user found");
+            }
+            return u;
         }
-        return u;
+        throw new MissingParameterException("Please provid a valid UserId!");
     }
+
 }
