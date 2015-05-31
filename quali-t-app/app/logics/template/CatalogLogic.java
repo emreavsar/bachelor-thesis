@@ -117,7 +117,7 @@ public class CatalogLogic {
     public models.template.CatalogQA updateCatalogQA(CatalogQA catalogQA) throws EntityNotFoundException, MissingParameterException {
         models.template.Catalog catalog = catalogQA.getCatalog();
         deleteCatalogQA(catalogQA.getId());
-//        catalogQA.setId(null);
+
         catalogQA.setCatalog(catalog);
         return catalogQADAO.persist(addQaToCatalog(catalogQA));
     }
