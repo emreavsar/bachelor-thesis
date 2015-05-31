@@ -39,9 +39,11 @@
               <div class="all-qas col-sm-8">
                 <h5>All Quality Attributes</h5>
 
-                <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories" ng-click="toggleSelection(catalogQa)"
+                <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories"
+                     ng-click="toggleSelection(catalogQa)"
                      ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
-                  <qa categories="categories" qa="catalogQa.qa" context="catalog" variables="catalogQa.variables" editable="false"/>
+                  <qa categories="categories" qa="catalogQa.qa" context="catalog" variables="catalogQa.variables"
+                      editable="false"/>
                 </div>
               </div>
 
@@ -57,8 +59,11 @@
             </button>
           </div>
         </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

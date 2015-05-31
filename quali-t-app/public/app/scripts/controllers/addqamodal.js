@@ -24,6 +24,7 @@ angular.module('qualitApp')
           var promise = apiService.addCatalogQa($stateParams.catalogId, n.qa.id, n.id, n.variables);
           promise.then(function(payload) {
             alerts.createSuccess("CatalogQa added to Catalog");
+            $scope.hideModal();
           });
         });
       } else {
