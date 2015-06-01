@@ -39,3 +39,12 @@ herokuIncludePaths in Compile := Seq(
   "app", "conf", "public"
 )
 
+jacoco.settings
+
+parallelExecution in jacoco.Config := false
+
+jacoco.reportTitle in jacoco.Config := "QUALI-T Code Coverage Report"
+
+jacoco.reportFormats in jacoco.Config := Seq(de.johoop.jacoco4sbt.XMLReport(), de.johoop.jacoco4sbt.HTMLReport())
+
+jacoco.excludes in jacoco.Config := Seq("views*", "*Routes*", "controller*ref*", "controllers*")

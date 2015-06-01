@@ -2,14 +2,15 @@ package logics.template;
 
 import com.google.inject.Inject;
 import dao.models.*;
-import logics.Helper;
 import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import logics.Helper;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
 import models.template.QAVar;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,7 @@ public class QualityAttributeLogic {
             //if description is the same and only categories or var values are changed, the standard catalogqa is edited
 
             if (currentQA.getDescription().equals(qa.getDescription())) {
+                Logger.info("desc is equal");
                 if (defaultCatalogQA.getVariables().size() == qaVars.size()) {
                     int checkNumber = defaultCatalogQA.getVariables().size();
                     List<QAVar> varsToDelete = new ArrayList<>();
