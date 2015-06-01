@@ -391,7 +391,6 @@ angular.module('qualitApp')
           id: qaId
         },
         catalogQa: {
-          //id: catalogQaId,
           catalog: catalogId,
           variables: variables
         }

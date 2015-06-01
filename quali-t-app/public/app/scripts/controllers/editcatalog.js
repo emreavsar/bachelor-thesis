@@ -69,6 +69,7 @@ angular.module('qualitApp')
 
     $scope.addQaToCatalog = function() {
       var modalScope = $scope.$new(true);
+      modalScope.catalogId = $scope.catalog.id;
       var modal = $modal({
         scope: modalScope,
         template: "templates/add-qa-modal.tpl.html"

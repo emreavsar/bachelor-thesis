@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('AddQaModalCtrl', function ($scope, apiService, $stateParams, alerts) {
+  .controller('AddQaModalCtrl', function ($scope, apiService, $state, $stateParams, alerts) {
     $scope.isChooseMode = true;
     $scope.catalogQas = new Array();
     $scope.catList = new Array();
@@ -28,7 +28,11 @@ angular.module('qualitApp')
           });
         });
       } else {
-
+        // open new qa state with additional parameter (catalogQa) to handle redirect after creating QA
+        $state.go("newQA", {
+          catalogId: $scope.catalogId
+        });
+        $scope.hideModal();
       }
     }
 

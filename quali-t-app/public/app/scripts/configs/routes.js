@@ -77,7 +77,7 @@ angular.module('qualitApp')
       })
       .state('newQA', {
         templateUrl: 'views/qa/createEdit.html',
-        url: '/authenticated/qa/create',
+        url: '/authenticated/qa/create/:catalogId',
         controller: 'QACtrl',
         data: {
           roles: ['curator', 'admin']

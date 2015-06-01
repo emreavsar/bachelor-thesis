@@ -349,11 +349,28 @@ angular.module('qualitApp')
           if ($stateParams.catalogQa != undefined) {
             var alert = alerts.createSuccess('Quality Attribute Template updated successfully');
           } else {
-            var alert = alerts.createSuccess('Quality Attribute Template created successfully');
+            // if a redirect to edit catalog is desired, add qa to catalog also
+            if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {
+              var alert = alerts.createSuccess('Quality Attribute Template created successfully');
+            } else {
+              // TODO provide correct parameters below
+              return apiService.addCatalogQa($stateParams.catalogId, payload.data.id, null, data.catalogQa.variables);
+            }
           }
           $scope.taOptions.lastUsedVariableNumber = 0;
-          // go back to list of qas
-          $state.go("showQA");
+
+          // redirect to showQA if no catalogId was given in parameter
+          if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {
+            $state.go("showQA");
+          }
+        }).then(function (payload) {
+          if (payload != undefined) {
+            // only when qa is added to catalog and needs a redirect
+            var alert = alerts.createSuccess('Quality Attribute Template created successfully and added to Catalog');
+            $state.go("editCatalog", {
+              catalogId: $stateParams.catalogId
+            });
+          }
         });
     }
   });
