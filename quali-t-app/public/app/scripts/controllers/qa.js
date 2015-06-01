@@ -14,6 +14,8 @@ angular.module('qualitApp')
     $scope.taOptions = taOptions;
     $scope.previewHtml = "";
     $scope.catalogQa = null;
+    $scope.catalogId = null;
+    $scope.isEditMode = false;
 
     // only for controlling of used variables
     $scope.usedVariables = new Array();
@@ -291,6 +293,10 @@ angular.module('qualitApp')
       if ($stateParams.catalogQa != undefined) {
         $scope.catalogQa = $stateParams.catalogQa;
       }
+      if ($stateParams.catalogId != undefined) {
+        $scope.catalogId = $stateParams.catalogId;
+      }
+      $scope.isEditMode = $state.$current.name == "editQA";
 
       var promiseInit = apiService.getCategories();
       promiseInit.then(
@@ -322,11 +328,16 @@ angular.module('qualitApp')
       if ($stateParams.catalogQa != undefined) {
         data.catalogQa = $scope.catalogQa;
         var qaId = $scope.catalogQa.qa.id;
-        // TODO refactor standard catalog id into a configuration class
-        data.catalog = -6000;
         delete data.catalogQa["qa"];
         data.qa.id = qaId;
-        data.qa.categories = $scope.getSelectedCategories();
+        if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {
+          data.qa.categories = $scope.getSelectedCategories();
+          // TODO refactor standard catalog id into a configuration class
+          data.catalog = -6000;
+        } else {
+          data.catalog = $stateParams.catalogId;
+          delete data.qa["description"];
+        }
         delete data.catalogQa["qaInstances"];
         delete data.catalogQa["variables"];
         // update variables
@@ -340,7 +351,13 @@ angular.module('qualitApp')
 
       var promiseCreateOrUpdate;
       if ($stateParams.catalogQa != undefined) {
-        promiseCreateOrUpdate = apiService.updateQa(data);
+        // if catalog is given, only change variables
+        if ($stateParams.catalogId != undefined && $stateParams.catalogId != "") {
+          promiseCreateOrUpdate = apiService.updateQaFromCatalog(data);
+        } else {
+          // else change the catalog itself
+          promiseCreateOrUpdate = apiService.updateQa(data);
+        }
       } else {
         promiseCreateOrUpdate = apiService.createQa(data);
       }
@@ -348,6 +365,11 @@ angular.module('qualitApp')
         function (payload) {
           if ($stateParams.catalogQa != undefined) {
             var alert = alerts.createSuccess('Quality Attribute Template updated successfully');
+            if ($stateParams.catalogId != undefined && $stateParams.catalogId != "") {
+              $state.go("editCatalog", {
+                catalogId: $stateParams.catalogId
+              });
+            }
           } else {
             // if a redirect to edit catalog is desired, add qa to catalog also
             if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {

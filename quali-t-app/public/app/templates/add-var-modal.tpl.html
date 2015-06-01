@@ -20,7 +20,8 @@
           Edit dropdown text / number variable
         </h4>
         <span class="text-info" ng-show="isEditMode">You are in edit mode, you can <b>not change</b>
-          the variables type. If you want to do that, remove the variable and create a new one.</span>
+          the variables type. If you want to do that, remove the variable and create a new one.
+          Removing variables is only possible in edit mode of the quality attribute template itself and not through edit catalog.</span>
       </div>
 
       <!-- START: FREETEXT OR FREENUMBER -->
@@ -89,7 +90,7 @@
         </label>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode">  Numeric (Floating Point)
+          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode"> Numeric (Floating Point)
         </label>
 
         <div ng-show="subType" class="row">
@@ -198,7 +199,9 @@
                 Select the default value
               </label>
               <select ng-show="enumList" class="form-control" ng-model="defaultValue" id="defaultValueSelection">
-                <option ng-repeat="enumElement in enumList" value="{{enumElement}}" ng-selected="defaultValue.value==enumElement">{{enumElement}}</option>
+                <option ng-repeat="enumElement in enumList" value="{{enumElement}}"
+                        ng-selected="defaultValue.value==enumElement">{{enumElement}}
+                </option>
               </select>
             </div>
           </div>

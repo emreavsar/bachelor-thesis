@@ -298,7 +298,8 @@ angular.module('qualitApp')
             } else if (context == "editcatalog") {
               // go to edit mode of qa
               $state.go('editQA', {
-                catalogQa: catalogQa.id
+                catalogQa: catalogQa.id,
+                catalogId: $state.params.catalogId
               });
             }
           });

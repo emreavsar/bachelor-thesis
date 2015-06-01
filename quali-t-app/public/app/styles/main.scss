@@ -500,6 +500,12 @@ div[text-angular-toolbar] {
   }
 }
 
+// disabled text angular editors
+text-angular[ta-disabled='true'], text-angular[ta-disabled='true'] > * {
+  cursor: not-allowed;
+  opacity: 0.5 !important;
+}
+
 .image-upload-container {
   text-align: center !important;
 
@@ -822,7 +828,6 @@ div[text-angular-toolbar] {
 .ng-table-counts.btn-group.pull-right.ng-scope {
   margin-top: 25px;
 }
-
 
 .used-variables {
   .disabled {

@@ -4,32 +4,50 @@
 
   <h3 ng-show="!catalogQa"><i class="glyphicon glyphicon-grain"></i> Create new Quality Attribute Template</h3>
 
+  <span class="text-info" ng-show="catalogId && isEditMode">
+    You are editing a Quality Attribute Template, which is already connected to a catalog. So you are editing this link.
+    In this case, you can <b>only change variable values</b>.
+  </span>
+
+
   <h3 class="steps">Step 1: Select categories</h3>
 
   <div class="form crud-form">
-    <h4>Categories</h4>
-    <label>Choose the categories for your quality attribute. </label>
-    <filter id="categories" callback="" hide-checkbox="false" categories="catList"></filter>
+    <div ng-show="!catalogId || !isEditMode">
+      <h4>Categories</h4>
+      <label>Choose the categories for your quality attribute. </label>
+      <filter id="categories" callback="" hide-checkbox="false" categories="catList"></filter>
+    </div>
+    <span ng-show="catalogId && isEditMode"
+          class="text-info">This step is disabled, see info at the top of the page. </span>
 
-    <h3 class="steps">Step 2: Write your Quality Attribute's text with variables</h3>
+    <div>
+      <h3 class="steps">Step 2: Write your Quality Attribute's text with variables</h3>
 
-    <div class="form-group row">
-      <div class="col-md-9">
-        <h4>Quality Attribute Information:</h4>
-        <text-angular ng-model="qaText" id="qa-Text"></text-angular>
-      </div>
-      <div class="used-variables col-md-3">
-        <h4>Used Variables:</h4>
-        <span ng-hide="usedVariables.length">No variables used yet.</span>
-        <ul class="list-group">
-          <li ng-repeat="variable in usedVariables" class="list-group-item">
-            {{variable.type + "_" + variable.varIndex}}
-            <!-- FREETEXT is not editable -->
-            <i class="fa fa-pencil pointer" ng-click="editVariable(variable)" ng-hide="variable.type=='FREETEXT'"></i>
-            <i class="fa fa-pencil disabled" ng-show="variable.type=='FREETEXT'" title="FREETEXT cannot be edited, there are no options for FREETEXT variables."></i>
-            <i class="fa fa-trash-o pointer" ng-click="removeVariable(variable)"></i>
-          </li>
-        </ul>
+      <div class="form-group row">
+        <div class="col-md-9">
+          <h4>Quality Attribute Information:</h4>
+          <text-angular ng-model="qaText" id="qa-Text"
+                        ta-disabled="{{catalogId!=undefined && catalogId!='' && isEditMode}}"></text-angular>
+        </div>
+        <div class="used-variables col-md-3">
+          <h4>Used Variables:</h4>
+          <span ng-hide="usedVariables.length">No variables used yet.</span>
+          <ul class="list-group">
+            <li ng-repeat="variable in usedVariables" class="list-group-item">
+              {{variable.type + "_" + variable.varIndex}}
+              <!-- FREETEXT is not editable -->
+              <i class="fa fa-pencil pointer" ng-click="editVariable(variable)" ng-hide="variable.type=='FREETEXT'"></i>
+              <i class="fa fa-pencil disabled" ng-show="variable.type=='FREETEXT'"
+                 title="FREETEXT cannot be edited, there are no options for FREETEXT variables."></i>
+
+              <i class="fa fa-trash-o pointer" ng-show="catalogId && !isEditMode"
+                 ng-click="removeVariable(variable)"></i>
+              <i class="fa fa-trash-o disabled" ng-hide="catalogId && !isEditMode"
+                 title="Delete Variable does not work for Quality Attribute Templates which are already used in catalogs."></i>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 

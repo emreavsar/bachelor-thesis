@@ -413,6 +413,16 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.updateQaFromCatalog = function (data) {
+      return $http.put(this.apiPath + "catalog/qa", data)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alerts.createError(status, data);
+        });
+    }
+
     apiService.getJiraInstances = function () {
       return $http.get(this.apiPath + "jiraconnection")
         .success(function (data) {
