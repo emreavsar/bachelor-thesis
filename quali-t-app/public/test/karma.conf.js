@@ -32,8 +32,6 @@ module.exports = function(config) {
       'bower_components/ui-router/release/angular-ui-router.js',
       'bower_components/angular-aria/angular-aria.js',
       'bower_components/angular-material/angular-material.js',
-      'bower_components/lodash/dist/lodash.compat.js',
-      'bower_components/restangular/dist/restangular.js',
       'bower_components/angular-strap/dist/angular-strap.js',
       'bower_components/angular-strap/dist/angular-strap.tpl.js',
       'bower_components/angular-gravatar/build/angular-gravatar.js',
@@ -51,6 +49,7 @@ module.exports = function(config) {
       'bower_components/bootstrap-switch/dist/js/bootstrap-switch.js',
       'bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js',
       'bower_components/ng-table/dist/ng-table.min.js',
+      'bower_components/lodash/lodash.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

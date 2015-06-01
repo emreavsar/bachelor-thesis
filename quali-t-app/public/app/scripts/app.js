@@ -17,7 +17,6 @@ angular.module('qualitApp', [
   'ngTouch',
   'angular-loading-bar',
   'ui.router',
-  'restangular',
   'mgcrea.ngStrap',
   'ui.gravatar',
   'textAngular',
@@ -25,8 +24,8 @@ angular.module('qualitApp', [
   'frapontillo.bootstrap-switch',
   'ngTable'
 ])
-  .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies', 'Restangular',
-    function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies, Restangular) {
+  .run(['$rootScope', '$http', '$state', '$stateParams', 'authorization', 'principal', '$cookies',
+    function ($rootScope, $http, $state, $stateParams, authorization, principal, $cookies) {
       $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
         // track the state the user wants to go to; authorization service needs this
         $rootScope.toState = toState;
