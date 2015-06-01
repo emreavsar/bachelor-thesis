@@ -1,30 +1,38 @@
 <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="AddVarModalCtrl"
-     ng-init="bindHide($hide)">
+     ng-init="init($hide)">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
-        <h4 class="modal-title" ng-show="isFree()">
+        <h4 class="modal-title" ng-show="isFree() && !isEditMode">
           Add field text / number variable
         </h4>
+        <h4 class="modal-title" ng-show="isFree() && isEditMode">
+          Edit field text / number variable
+        </h4>
 
-        <h4 class="modal-title" ng-show="isEnum()">
+        <h4 class="modal-title" ng-show="isEnum() && !isEditMode">
           Add dropdown text / number variable
         </h4>
+        <h4 class="modal-title" ng-show="isEnum() && isEditMode">
+          Edit dropdown text / number variable
+        </h4>
+        <span class="text-info" ng-show="isEditMode">You are in edit mode, you can <b>not change</b>
+          the variables type. If you want to do that, remove the variable and create a new one.</span>
       </div>
 
       <!-- START: FREETEXT OR FREENUMBER -->
       <div class="modal-body" ng-show="isFree()">
-        <h5>Select the type of your textfield:</h5>
+        <h5 ng-show="!isEditMode">Select the type of your textfield:</h5>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="TEXT"> Text (String)
+          <input type="radio" ng-model="subType" value="TEXT" ng-disabled="isEditMode"> Text (String)
         </label>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="NUMBER"> Numeric (Floating Point)
+          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode"> Numeric (Floating Point)
         </label>
 
         <div ng-show="subType" class="row">
@@ -57,9 +65,14 @@
           </div>
 
           <div class="margin-top-50 text-center">
-            <button type="button" class="btn btn-default btn-md"
+            <button type="button" class="btn btn-default btn-md" ng-show="!isEditMode"
                     ng-click="add(editor, savedSelection, type, subType, null, minValue, maxValue, null, null)">
               Add specified variable
+            </button>
+
+            <button type="button" class="btn btn-default btn-md" ng-show="isEditMode"
+                    ng-click="update(type, subType, null, minValue, maxValue, null, null)">
+              Save edited variable
             </button>
           </div>
         </div>
@@ -72,11 +85,11 @@
         <h5>Select the type of your dropdown:</h5>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="TEXT"> Text (String)
+          <input type="radio" ng-model="subType" value="TEXT" ng-disabled="isEditMode"> Text (String)
         </label>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="NUMBER"> Numeric (Floating Point)
+          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode">  Numeric (Floating Point)
         </label>
 
         <div ng-show="subType" class="row">
@@ -185,15 +198,19 @@
                 Select the default value
               </label>
               <select ng-show="enumList" class="form-control" ng-model="defaultValue" id="defaultValueSelection">
-                <option ng-repeat="enumElement in enumList" value="{{enumElement}}">{{enumElement}}</option>
+                <option ng-repeat="enumElement in enumList" value="{{enumElement}}" ng-selected="defaultValue.value==enumElement">{{enumElement}}</option>
               </select>
             </div>
           </div>
 
           <div class="margin-top-50 text-center">
-            <button type="button" class="btn btn-default btn-md"
+            <button type="button" class="btn btn-default btn-md" ng-show="!isEditMode"
                     ng-click="add(editor, savedSelection, type, subType, enumList, minValue, maxValue, defaultValue, isExtendable);">
               Add specified variable
+            </button>
+            <button type="button" class="btn btn-default btn-md" ng-show="isEditMode"
+                    ng-click="update(type, subType, enumList, minValue, maxValue, defaultValue, isExtendable)">
+              Save updated variable
             </button>
           </div>
         </div>

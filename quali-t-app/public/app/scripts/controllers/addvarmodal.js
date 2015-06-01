@@ -8,13 +8,15 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('AddVarModalCtrl', function ($scope, $modal, taOptions) {
+  .controller('AddVarModalCtrl', function ($scope, $modal, taOptions, $rootScope) {
     $scope.enumElementText = "";
     $scope.enumList = new Array();
     $scope.subType;
     $scope.type;
+    $scope.variable;
     $scope.taOptions = taOptions;
-    //taOptions.variables = taOptions.variables;
+    $scope.isEditMode = false;
+    $scope.enumList = new Array();
 
     $scope.tooltipsExtendable = "By checking this box you allow the users to use custom values at creating a new project. " +
     "If not checked, the user has to take one of the specified values";
@@ -56,6 +58,31 @@ angular.module('qualitApp')
       }
     });
 
+    $scope.update = function (type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
+      var elementText = "%VARIABLE_" + type + subType + "_" + $scope.taOptions.lastUsedVariableNumber + "%";
+      var fullType = type + subType;
+
+      var options = $scope.getOptions(type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable);
+      $rootScope.$broadcast('variablesUpdated', $scope.getVariableObject(fullType, options));
+      $scope.hideModal();
+    }
+
+    $scope.getUpdatedOptions = function (variable, type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
+      var options = variable;
+
+      if (variable.type == "FREENUMBER") {
+        if (rangeMinValue != undefined) {
+          options.valRange.min = rangeMinValue;
+        }
+        if (rangeMaxValue != undefined) {
+          options.valRange.max = rangeMaxValue;
+        }
+      }
+
+      return options;
+    }
+
+
     $scope.add = function (editor, savedSelection, type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
 
       rangy.restoreSelection(savedSelection);
@@ -63,7 +90,7 @@ angular.module('qualitApp')
       var fullType = type + subType;
 
       var options = $scope.getOptions(type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable);
-      $scope.taOptions.variables[elementText]=$scope.getVariableObject(fullType, options);
+      $scope.taOptions.variables[elementText] = $scope.getVariableObject(fullType, options);
 
       editor.focussed = true;
       editor.wrapSelection('italic');
@@ -110,7 +137,7 @@ angular.module('qualitApp')
     $scope.getVariableObject = function (type, options) {
       var variable = {
         type: type,
-        number: $scope.taOptions.lastUsedVariableNumber
+        varIndex: $scope.taOptions.lastUsedVariableNumber
       }
 
       // add options as key-value to the variable object
@@ -130,6 +157,32 @@ angular.module('qualitApp')
       $scope.hideModal = hideFunction;
     }
 
+
+    $scope.init = function (hideFunction) {
+      $scope.bindHide(hideFunction);
+      $scope.isEditMode = $scope.variable != undefined;
+      if ($scope.isEditMode) {
+        $scope.initializeOptions($scope.variable);
+      }
+    }
+
+    $scope.initializeOptions = function (variable) {
+      if (variable.type == "FREENUMBER") {
+        // check for range
+        if (variable.valRange != undefined) {
+          $scope.useRange = true;
+          $scope.minValue = variable.valRange.min;
+          $scope.maxValue = variable.valRange.max;
+        }
+      } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
+        _.forEach(variable.values, function (n) {
+          $scope.enumList.push(n.value);
+        });
+        $scope.isExtendable = variable.extendable;
+        $scope.defaultValue = _.findWhere(variable.values, {'default': true});
+        $scope.useDefaultValue = $scope.defaultValue != undefined;
+      }
+    }
 
     /**
      * Helper function. Function makes checks in the view easier

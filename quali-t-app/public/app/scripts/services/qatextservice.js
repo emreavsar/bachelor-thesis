@@ -39,6 +39,34 @@ angular.module('qualitApp')
       return "%VARIABLE_" + variable.type + "_" + variable.varIndex + "%";
     }
 
+    /**
+     * Returns FREE or ENUM (rest is not interesting here)
+     * @param variable
+     */
+    qaTextService.getSupertype = function (variable) {
+      var superType = "";
+      if (variable.type == "FREETEXT" || variable.type == "FREENUMBER") {
+        superType = "FREE";
+      } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
+        superType = "ENUM";
+      }
+      return superType;
+    }
+
+    /**
+     * Returns TEXT or NUMBER (rest is not interesting here)
+     * @param variable
+     */
+    qaTextService.getSubType = function (variable) {
+      var subType = "";
+      if (variable.type == "FREETEXT" || variable.type == "ENUMTEXT") {
+        subType = "TEXT";
+      } else if (variable.type == "FREENUMBER" || variable.type == "ENUMNUMBER") {
+        subType = "NUMBER";
+      }
+      return subType;
+    }
+
     qaTextService.getPopulatedQa = function (qa, values) {
       var populatedStr = "";
 
@@ -52,7 +80,7 @@ angular.module('qualitApp')
           if (value != undefined) {
             populatedStr += value.value;
           } else {
-            populatedStr += "<i>"+this.getVariableString({
+            populatedStr += "<i>" + this.getVariableString({
               type: part,
               varIndex: actualVariableIndex
             }) + "</i>";
@@ -67,4 +95,6 @@ angular.module('qualitApp')
     }
 
     return qaTextService;
-  });
+  }
+)
+;

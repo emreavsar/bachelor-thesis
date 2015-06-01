@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, apiService, alerts, taOptions, $sce, qaTextService, $stateParams, $state) {
+  .controller('QACtrl', function ($scope, apiService, alerts, taOptions, $sce, qaTextService, $stateParams, $state, $modal) {
     $scope.qaText = "";
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
@@ -25,7 +25,6 @@ angular.module('qualitApp')
     $scope.$watch('qaText', function (newValue, oldValue) {
       if (newValue != oldValue) {
 
-        // TODO: emre cleanup here
         // verify if a quality attribute is not used twice (same ID)
         var variables = $scope.getVariables(newValue, false);
         var uniqueVariables = _.uniq(variables, 'varIndex');
@@ -68,8 +67,35 @@ angular.module('qualitApp')
       });
     }
 
-    $scope.removeVariable = function (variable, key) {
-      delete $scope.taOptions.variables[key];
+    $scope.editVariable = function (variable) {
+      var superType = qaTextService.getSupertype(variable);
+      var subType = qaTextService.getSubType(variable);
+
+      // create new isolated scope for modal view
+      var modalScope = $scope.$new(true);
+      modalScope.variable = variable;
+      modalScope.type = superType;
+      modalScope.subType = subType;
+      modalScope.editor = null;
+      modalScope.savedSelection = null;
+
+      if (superType == 'ENUM') {
+        modalScope.enumList = new Array();
+      }
+
+      var modal = $modal({
+        scope: modalScope,
+        template: "templates/add-var-modal.tpl.html"
+      });
+    }
+
+    $scope.$on('variablesUpdated', function (event, arg) {
+      $scope.taOptions.variables[qaTextService.getVariableString(arg)] = arg;
+    });
+
+
+    $scope.removeVariable = function (variable) {
+      delete $scope.taOptions.variables[qaTextService.getVariableString(variable)];
       $scope.qaText = $scope.getUpdatedQaText($scope.qaText, variable);
     }
 
@@ -80,12 +106,7 @@ angular.module('qualitApp')
      * @returns {*}
      */
     $scope.getUpdatedQaText = function (qaText, variableToRemove) {
-      var updatedQaText = qaText;
-
-      var textToDelete = "%VARIABLE_" + variableToRemove.type + "_" + variableToRemove.number + "%";
-      updatedQaText = updatedQaText.replace(textToDelete, "");
-
-      return updatedQaText;
+      return qaText.replace(qaTextService.getVariableString(variableToRemove), "");
     }
 
     /**
@@ -157,14 +178,26 @@ angular.module('qualitApp')
             if (variable.values == undefined) {
               var localWarning = alerts.createLocalWarning("Have you inserted the variable (" + qaTextService.getVariableString(variable) + ") manually?");
             } else {
-
               for (var j = 0; j < variable.values.length; j++) {
                 var selectedAttr = "";
+
+                var value;
+                // if already persisted
+                if (typeof(variable.values[j]) == "object") {
+                  value = variable.values[j].value;
+                } else {
+                  value = variable.values[j];
+                }
+
                 // if there was a default value, make selection
                 if (variable.defaultValue != undefined) {
-                  selectedAttr = (variable.values[j] == variable.defaultValue ? "selected" : "");
+                  if (typeof(variable.values[j]) == "object") {
+                    selectedAttr = (variable.values[j].default ? "selected" : "");
+                  } else {
+                    selectedAttr = (variable.values[j] == variable.defaultValue ? "selected" : "");
+                  }
                 }
-                descContainerHtml += "<option class='form-option' " + selectedAttr + ">" + variable.values[j] + "</option>";
+                descContainerHtml += "<option class='form-option' " + selectedAttr + ">" + value + "</option>";
               }
               descContainerHtml += "</select>";
               if (variable.extendable) {
@@ -215,7 +248,18 @@ angular.module('qualitApp')
 
         // qa type specific content, will not be saved in the string -> only setable with ui-interactions
         // check if has key
-        var varOptions = $scope.taOptions.variables[token];
+        if ($stateParams.catalogQa != undefined) {
+          // find the variable with the varindex
+          // check if $scope.taOptions.variables is normal array or associative array
+
+          if ($scope.taOptions.variables.length == 0) {
+            var varOptions = $scope.taOptions.variables[token];
+          } else {
+            var varOptions = _.findWhere($scope.taOptions.variables, {'varIndex': parseInt(varIndex)});
+          }
+        } else {
+          var varOptions = $scope.taOptions.variables[token];
+        }
         if (varOptions == undefined) {
           var varOptions = {
             min: '',
@@ -261,7 +305,7 @@ angular.module('qualitApp')
           if ($stateParams.catalogQa != undefined) {
             $scope.catalogQa = payload.data;
             $scope.qaText = $scope.catalogQa.qa.description;
-            $scope.taOptions.variables = $scope.catalogQa.vars;
+            $scope.taOptions.variables = $scope.catalogQa.variables;
 
             $scope.selectCategories($scope.catalogQa.qa.categories);
           }
@@ -307,6 +351,7 @@ angular.module('qualitApp')
           } else {
             var alert = alerts.createSuccess('Quality Attribute Template created successfully');
           }
+          $scope.taOptions.lastUsedVariableNumber = 0;
           // go back to list of qas
           $state.go("showQA");
         });
