@@ -1,11 +1,8 @@
 package logics.template;
 
 import com.google.inject.Inject;
+import dao.models.*;
 import logics.Helper;
-import dao.models.CatalogDAO;
-import dao.models.CatalogQADAO;
-import dao.models.QACategoryDAO;
-import dao.models.QualityAttributeDAO;
 import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
@@ -30,6 +27,8 @@ public class QualityAttributeLogic {
     private QACategoryDAO qaCategoryDAO;
     @Inject
     private QualityAttributeDAO qualityAttributeDAO;
+    @Inject
+    private QAVarDAO qaVarDAO;
     @Inject
     private CatalogLogic catalogLogic;
     @Inject
@@ -74,7 +73,9 @@ public class QualityAttributeLogic {
             if (currentQA.getDescription().equals(qa.getDescription())) {
                 if (defaultCatalogQA.getVariables().size() == qaVars.size()) {
                     int checkNumber = defaultCatalogQA.getVariables().size();
+                    List<QAVar> varsToDelete = new ArrayList<>();
                     for (QAVar var : defaultCatalogQA.getVariables()) {
+                        varsToDelete.add(var);
                         for (QAVar varNew : qaVars) {
                             if (var.getVarIndex() == varNew.getVarIndex() && var.getType() == var.getType())
                                 checkNumber--;
@@ -83,6 +84,9 @@ public class QualityAttributeLogic {
                     if (checkNumber == 0) {
                         setCategoriesInQa(currentQA, categoryIds);
                         defaultCatalogQA.getVariables().clear();
+                        for (QAVar varToDelete : varsToDelete) {
+                            qaVarDAO.remove(varToDelete);
+                        }
                         addVarsToQA(defaultCatalogQA, qaVars);
                         return currentQA;
                     }

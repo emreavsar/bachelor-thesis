@@ -25,10 +25,10 @@ public class QAVar extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private QAType type;
     private boolean extendable;
-    @OneToMany(mappedBy = "valInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "valInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference(value = "variableValue")
     private Set<QAVarVal> values = new HashSet<>();
-    @OneToOne(mappedBy = "rangeInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(mappedBy = "rangeInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonManagedReference(value = "variableRange")
     private ValRange valRange;
     private String averageValue;
