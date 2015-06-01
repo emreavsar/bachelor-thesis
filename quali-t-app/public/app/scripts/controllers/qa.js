@@ -353,8 +353,7 @@ angular.module('qualitApp')
             if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {
               var alert = alerts.createSuccess('Quality Attribute Template created successfully');
             } else {
-              // TODO provide correct parameters below
-              return apiService.addCatalogQa($stateParams.catalogId, payload.data.id, null, data.catalogQa.variables);
+              return apiService.addCatalogQa($stateParams.catalogId, payload.data.id, data.catalogQa.variables);
             }
           }
           $scope.taOptions.lastUsedVariableNumber = 0;

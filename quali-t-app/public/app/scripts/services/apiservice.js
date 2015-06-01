@@ -385,7 +385,7 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.addCatalogQa = function (catalogId, qaId, catalogQaId, variables) {
+    apiService.addCatalogQa = function (catalogId, qaId, variables) {
       return $http.post(this.apiPath + "catalog/qa", {
         qa: {
           id: qaId
