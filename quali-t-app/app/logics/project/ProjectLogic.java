@@ -156,6 +156,7 @@ public class ProjectLogic {
         if (id != null) {
             models.project.Project project = projectDAO.readById(id);
             project.removeQualityProperties();
+            project.removeFavoritedBy();
             projectDAO.remove(projectDAO.update(project));
         } else {
             throw new MissingParameterException("Please provide all required Parameters!");

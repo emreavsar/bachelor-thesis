@@ -38,7 +38,7 @@ public class JsonConverter {
     }
 
     public List<Long> getQaCategoriesFromJson(JsonNode json) throws EntityNotFoundException {
-        JsonNode categoriesNode = json.findValue("categories");
+        JsonNode categoriesNode = json.findPath("categories");
         List<String> list = categoriesNode.findValuesAsText("id");
         return Lists.transform(list, helper.parseLongFunction());
     }
@@ -218,10 +218,19 @@ public class JsonConverter {
 
     public User getUserFromJson(JsonNode json) {
         User user = new User();
+        user.setId(json.findPath("id").asLong());
         user.setName(json.findPath("username").asText());
         user.setHashedPassword(json.findPath("password").asText());
         user.addToken(new Token(json.findPath("token").asText()));
         return user;
+    }
+
+    public List<Long> getUserRolesFromJson(JsonNode json) {
+        List<Long> roleIds = new ArrayList<>();
+        for (JsonNode roleId : json.findPath("selectedRoles")) {
+            roleIds.add(roleId.asLong());
+        }
+        return roleIds;
     }
 
 //    public List<CatalogQA> getImportCatalogQAList(JsonNode json){

@@ -32,25 +32,27 @@ public class User extends AbstractEntity implements Subject {
     @JsonIgnore
     private String hashedPassword;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "role_user",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Token> token = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assignee")
+    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Task> tasks = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "favorite_project",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "project_id")})
+//    @ManyToMany(mappedBy = "isFavorite", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private Set<Project> favorites = new HashSet<>();
 
@@ -154,5 +156,19 @@ public class User extends AbstractEntity implements Subject {
     public void addToken(Token token) {
         this.token.add(token);
         token.setUser(this);
+    }
+
+    public void addRole(Role role) {
+        if (role != null) {
+            this.roles.add(role);
+            role.getUser().add(this);
+        }
+    }
+
+    public void removeRoles() {
+        for (Role role : this.getRoles()) {
+            role.getUser().remove(this);
+        }
+        this.roles.clear();
     }
 }

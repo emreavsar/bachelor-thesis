@@ -4,17 +4,11 @@ package models.project;
 import javax.persistence.*;
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import models.AbstractEntity;
 import models.Interface.JIRAConnection;
 import models.authentication.User;
 import models.project.nfritem.Instance;
-import models.template.Catalog;
-import models.template.CatalogQA;
-import models.template.QA;
 
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +39,10 @@ public class Project extends AbstractEntity {
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "projectsJiraConnection")
     private JIRAConnection jiraConnection;
+
+    @ManyToMany(mappedBy = "favorites", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
+    private Set<User> favoritedBy = new HashSet<>();
 
     public Project() {
     }
@@ -134,6 +132,21 @@ public class Project extends AbstractEntity {
 
     public void setJiraConnection(JIRAConnection jiraConnection) {
         this.jiraConnection = jiraConnection;
+    }
+
+    public Set<User> getFavoritedBy() {
+        return favoritedBy;
+    }
+
+    public void setFavoritedBy(Set<User> isFavorite) {
+        this.favoritedBy = isFavorite;
+    }
+
+    public void removeFavoritedBy() {
+        for (User user : this.favoritedBy) {
+            user.getFavorites().remove(this);
+        }
+        this.favoritedBy.clear();
     }
 }
 
