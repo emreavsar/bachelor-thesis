@@ -12,11 +12,19 @@ angular.module('qualitApp')
     $scope.name = "";
     $scope.password = "";
     $scope.users = new Array();
+    $scope.roles = new Array();
 
-    $scope.loadUsers= function () {
+    $scope.loadUsers = function () {
       var loadPromise = apiService.getUsers();
       loadPromise.then(function (payload) {
         $scope.users = payload.data;
+      });
+    }
+
+    $scope.loadRoles = function () {
+      var loadPromise = apiService.getRoles();
+      loadPromise.then(function (payload) {
+        $scope.roles = payload.data;
       });
     }
 
@@ -32,11 +40,10 @@ angular.module('qualitApp')
     }
 
     $scope.editUser = function (user) {
-      var updatePromise = apiService.updateUser(user.id, user.name, user.selectedRoles);
+      var updatePromise = apiService.updateUser(user.id, user.name, $scope.selectedRoles);
 
       updatePromise.then(function (payload) {
         $scope.loadUsers();
-        $scope.success.push(payload.data);
         // todo add success alert
       });
     }
@@ -45,6 +52,7 @@ angular.module('qualitApp')
       // create new isolated scope for modal view
       var modalScope = $scope.$new(true);
       modalScope.user = user;
+      modalScope.roles = $scope.roles;
       modalScope.type = 'edit';
       modalScope.callBackFunction = $scope.editUser;
 
@@ -55,7 +63,12 @@ angular.module('qualitApp')
     }
 
     $scope.addUser = function (user) {
-      var createPromise = apiService.createUser(user.name, user.password, user.selectedRoles);
+      var selectedRoles = new Array();
+      _.forEach($scope.selectedRoles, function (n) {
+        selectedRoles.push(n.id);
+      });
+
+      var createPromise = apiService.createUser(user.name, user.password, selectedRoles);
 
       createPromise.then(function (payload) {
         $scope.loadUsers();
@@ -67,6 +80,7 @@ angular.module('qualitApp')
       // create new isolated scope for modal view
       var modalScope = $scope.$new(true);
       modalScope.user = user;
+      modalScope.roles = $scope.roles;
       modalScope.type = 'add';
       modalScope.callBackFunction = $scope.addUser;
 
@@ -78,5 +92,6 @@ angular.module('qualitApp')
 
     $scope.init = function () {
       $scope.loadUsers();
+      $scope.loadRoles();
     }
   });

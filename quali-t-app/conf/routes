@@ -21,13 +21,13 @@ POST          /api/auth/register                  @controllers.Authentication.re
 POST          /api/auth/changePw                  @controllers.Authentication.changePassword()
 
 # USER
-GET           /api/user            @controllers.UserController.getAllUsers()
-POST          /api/user            @controllers.UserController.createUser()
-PUT           /api/user            @controllers.UserController.updateUser()
-DELETE        /api/user/:id        @controllers.UserController.deleteUser(id: Long)
+GET           /api/user                           @controllers.UserController.getAllUsers()
+POST          /api/user                           @controllers.UserController.createUser()
+PUT           /api/user                           @controllers.UserController.updateUser()
+DELETE        /api/user/:id                       @controllers.UserController.deleteUser(id: Long)
 GET           /api/mytasks                        @controllers.TaskController.getTasksOfCurrentUser()
 POST          /api/mytasks/toggle                 @controllers.TaskController.toggleStateOfTask()
-GET           /api/role            @controllers.UserController.getAllRoles()
+GET           /api/roles                          @controllers.UserController.getAllRoles()
 
 # Favorites
 GET           /api/myfavorites                    @controllers.FavoriteController.getFavoritesOfCurrentUser()

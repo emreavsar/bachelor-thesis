@@ -21,6 +21,18 @@
               <input type="text" class="form-control" id="password" ng-model="user.password" ng-show="type == 'add'"/>
               <span ng-show="type == 'edit'" class="text-info">You cannot edit passwords of others.
                 If you want to change your password, change in profile settings (click on the arrow right to your username in the navigation).</span>
+
+              <label for="userRoles">User Roles</label>
+              <ui-select id="userRoles"
+                         ng-model="user.selectedRoles"
+                         multiple theme="bootstrap"
+                         class="qualityproperties-selection">
+                <ui-select-match placeholder="Select roles...">{{$item.name}}</ui-select-match>
+
+                <ui-select-choices repeat="role in roles  | filter:$select.search">
+                  <div ng-bind-html="role.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
             </div>
 
             <button type="submit" class="btn btn-success" ng-show="type == 'add'"

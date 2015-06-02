@@ -376,7 +376,7 @@ angular.module('qualitApp')
     }
 
     apiService.deleteProject = function (projectId) {
-      return $http.delete(this.apiPath + "project/"+projectId)
+      return $http.delete(this.apiPath + "project/" + projectId)
         .success(function (data) {
           return data;
         })
@@ -599,7 +599,7 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.getUsers = function() {
+    apiService.getUsers = function () {
       return $http.get(this.apiPath + "user")
         .success(function (data) {
           return data;
@@ -609,7 +609,7 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.deleteUser = function(userId) {
+    apiService.deleteUser = function (userId) {
       return $http.delete(this.apiPath + "user/" + userId)
         .success(function (data) {
           return data;
@@ -619,7 +619,7 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.updateUser = function(userId, username, selectedRoles) {
+    apiService.updateUser = function (userId, username, selectedRoles) {
       return $http.put(this.apiPath + "user", {
         id: userId,
         username: username,
@@ -632,12 +632,21 @@ angular.module('qualitApp')
           var alert = alerts.createError(status, data);
         });
     }
-    apiService.createUser = function(username, password, selectedRoles) {
+    apiService.createUser = function (username, password, selectedRoles) {
       return $http.post(this.apiPath + "user", {
         username: username,
         password: password,
         selectedRoles: selectedRoles
       })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+    apiService.getRoles = function () {
+      return $http.get(this.apiPath + "roles")
         .success(function (data) {
           return data;
         })
