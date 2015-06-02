@@ -599,6 +599,53 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.getUsers = function() {
+      return $http.get(this.apiPath + "user")
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.deleteUser = function(userId) {
+      return $http.delete(this.apiPath + "user/" + userId)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
+    apiService.updateUser = function(userId, username, selectedRoles) {
+      return $http.put(this.apiPath + "user", {
+        id: userId,
+        username: username,
+        selectedRoles: selectedRoles
+      })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+    apiService.createUser = function(username, password, selectedRoles) {
+      return $http.post(this.apiPath + "user", {
+        username: username,
+        password: password,
+        selectedRoles: selectedRoles
+      })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alerts.createError(status, data);
+        });
+    }
+
     return apiService;
   })
 ;

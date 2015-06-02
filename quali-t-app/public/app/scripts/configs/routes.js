@@ -163,6 +163,14 @@ angular.module('qualitApp')
           roles: ['curator', 'admin']
         }
       })
+      .state('editUsers', {
+        templateUrl: 'views/user/admin.html',
+        url: '/authenticated/user/admin',
+        controller: 'UserCtrl',
+        data: {
+          roles: ['curator', 'admin']
+        }
+      })
       .state('editJIRAConnections', {
         templateUrl: 'views/jiraconnection/admin.html',
         url: '/authenticated/jiraconnection/admin',
