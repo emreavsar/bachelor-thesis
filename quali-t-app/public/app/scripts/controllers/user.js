@@ -40,7 +40,11 @@ angular.module('qualitApp')
     }
 
     $scope.editUser = function (user) {
-      var updatePromise = apiService.updateUser(user.id, user.name, $scope.selectedRoles);
+      var selectedRoles = new Array();
+      _.forEach(user.roles, function (n) {
+        selectedRoles.push(n.id);
+      });
+      var updatePromise = apiService.updateUser(user.id, user.name, selectedRoles);
 
       updatePromise.then(function (payload) {
         $scope.loadUsers();
@@ -64,7 +68,7 @@ angular.module('qualitApp')
 
     $scope.addUser = function (user) {
       var selectedRoles = new Array();
-      _.forEach($scope.selectedRoles, function (n) {
+      _.forEach(user.roles, function (n) {
         selectedRoles.push(n.id);
       });
 
