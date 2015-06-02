@@ -17,7 +17,7 @@ import java.util.List;
 public class Role extends AbstractEntity implements be.objectify.deadbolt.core.models.Role {
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private List<User> user = new ArrayList<>();
 

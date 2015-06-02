@@ -20,18 +20,18 @@ INSERT INTO role VALUES (-20005, 'evaluator');
 INSERT INTO role VALUES (-20006, 'projectmanager');
 
 --
--- Data for Name: role_user; Type: TABLE DATA; Schema: public; Owner: qualit
+-- Data for Name: user_role; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO role_user VALUES (-1000, -20000);
-INSERT INTO role_user VALUES (-1000, -20001);
+INSERT INTO user_role VALUES (-1000, -20000);
+INSERT INTO user_role VALUES (-1000, -20001);
 
---INSERT INTO role_user VALUES (1001, 2000);
-INSERT INTO role_user VALUES (-1001, -20001);
-INSERT INTO role_user VALUES (-1002, -20000);
-INSERT INTO role_user VALUES (-1002, -20001);
-INSERT INTO role_user VALUES (-1003, -20000);
-INSERT INTO role_user VALUES (-1003, -20001);
+--INSERT INTO user_role VALUES (1001, 2000);
+INSERT INTO user_role VALUES (-1001, -20001);
+INSERT INTO user_role VALUES (-1002, -20000);
+INSERT INTO user_role VALUES (-1002, -20001);
+INSERT INTO user_role VALUES (-1003, -20000);
+INSERT INTO user_role VALUES (-1003, -20001);
 
 --
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: qualit
