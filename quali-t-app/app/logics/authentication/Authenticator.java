@@ -15,7 +15,6 @@ import models.authentication.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import play.Logger;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -57,7 +56,7 @@ public class Authenticator {
      */
     public Token authenticate(String username, String password, String token) throws EntityNotFoundException, PasswordsNotMatchException, MissingParameterException {
         if (username == null) {
-            throw new MissingParameterException("Username must not be specified!");
+            throw new MissingParameterException("Username must be specified!");
         }
 
         UserDao userDao = new UserDao();
@@ -124,7 +123,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public boolean checkPassword(@Nullable User user, @NotNull String password) throws EntityNotFoundException, PasswordsNotMatchException {
+    public boolean checkPassword(User user, @NotNull String password) throws EntityNotFoundException, PasswordsNotMatchException {
         if (user != null) {
             if (user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))) {
                 return true;
@@ -242,9 +241,11 @@ public class Authenticator {
         }
     }
 
-    public void changePassword(String username, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException {
+    public void changePassword(String username, String currentPassword, String newPassword, String newPasswordRepeated) throws PasswordsNotMatchException, EntityNotFoundException {
         User user = userDao.findByUsername(username);
-
+        if (!checkPassword(user, currentPassword)) {
+            throw new PasswordsNotMatchException("User and password do not match");
+        }
         if (newPassword.equals(newPasswordRepeated)) {
             user.setHashedPassword(calculatePasswordHash(user.getSalt(), newPassword));
         } else {

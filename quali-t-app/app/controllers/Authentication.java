@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
-import dao.models.UserDao;
 import logics.authentication.Authenticator;
 import models.authentication.Token;
 import models.authentication.User;
@@ -48,7 +47,7 @@ public class Authentication extends Controller implements ExceptionHandlingInter
             User user = jsonConverter.getUserFromJson(json);
             authenticator.invalidateUserSession(user.getName(), user.getToken().get(0).getToken());
             session().remove("user");
-            return status(204);
+            return status(202);
         });
     }
 
@@ -58,17 +57,12 @@ public class Authentication extends Controller implements ExceptionHandlingInter
         Logger.info("changePassword called");
         return catchAbstractException(() -> {
             DynamicForm requestData = Form.form().bindFromRequest();
-            String username = session().get("user");
+            String username = session().get("username");
             String currentPassword = requestData.get("currentPassword");
             String newPassword = requestData.get("newPassword");
             String newPasswordRepeated = requestData.get("newPasswordRepeated");
-            UserDao userDao = new UserDao();
-            User user = userDao.findByUsername(username);
-            if (!authenticator.checkPassword(user, currentPassword)) {
-                return status(400, "User and password do not match");
-            }
-            authenticator.changePassword(username, newPassword, newPasswordRepeated);
-            return status(204);
+            authenticator.changePassword(username, currentPassword, newPassword, newPasswordRepeated);
+            return status(202);
         });
     }
 }
