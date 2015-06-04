@@ -93,6 +93,9 @@ angular.module('qualitApp')
 
     $scope.$on('variablesUpdated', function (event, arg) {
       $scope.taOptions.variables[qaTextService.getVariableString(arg)] = arg;
+      if ($stateParams.catalogId != undefined) {
+        $scope.usedVariables = $scope.getVariables($scope.qaText, false);
+      }
     });
 
 
@@ -166,7 +169,12 @@ angular.module('qualitApp')
           if (variable.type == "FREETEXT") {
             descContainerHtml += "<input type='text' placeholder='' />";
           } else if (variable.type == "FREENUMBER") {
-            if (variable.min != undefined && variable.max != undefined) {
+            // already persisted
+            if ("valRange" in variable && variable.valRange != undefined && variable.valRange != null && Object.keys(variable.valRange).length !== 0) {
+              var placeholderText = "Value must be between " + variable.valRange.min + " and " + variable.valRange.max;
+              var inputSize = placeholderText.length;
+            }
+            else if (variable.min != undefined && variable.max != undefined) { // not peristed yet
               var placeholderText = "Value must be between " + variable.min + " and " + variable.max;
               var inputSize = placeholderText.length;
             } else {

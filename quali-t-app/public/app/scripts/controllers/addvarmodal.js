@@ -59,29 +59,13 @@ angular.module('qualitApp')
     });
 
     $scope.update = function (type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
-      var elementText = "%VARIABLE_" + type + subType + "_" + $scope.taOptions.lastUsedVariableNumber + "%";
+      var elementText = "%VARIABLE_" + type + subType + "_" + $scope.variable.varIndex + "%";
       var fullType = type + subType;
 
       var options = $scope.getOptions(type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable);
       $rootScope.$broadcast('variablesUpdated', $scope.getVariableObject(fullType, options));
       $scope.hideModal();
     }
-
-    $scope.getUpdatedOptions = function (variable, type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
-      var options = variable;
-
-      if (variable.type == "FREENUMBER") {
-        if (rangeMinValue != undefined) {
-          options.valRange.min = rangeMinValue;
-        }
-        if (rangeMaxValue != undefined) {
-          options.valRange.max = rangeMaxValue;
-        }
-      }
-
-      return options;
-    }
-
 
     $scope.add = function (editor, savedSelection, type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
 
@@ -114,8 +98,24 @@ angular.module('qualitApp')
     $scope.getOptions = function (type, subType, enumList, rangeMinValue, rangeMaxValue, defaultValue, isExtendable) {
       var options = {};
       if (type == "FREE" && subType == "NUMBER") {
-        options.min = rangeMinValue;
-        options.max = rangeMaxValue;
+        if ($scope.useRange) {
+          if (rangeMinValue != undefined) {
+            options.valRange = {};
+            // if already persisted
+            if ($scope.variable != undefined && "valRange" in $scope.variable) {
+              options.valRange.min = rangeMinValue;
+            } else {
+              options.min = rangeMinValue;
+            }
+          }
+          if (rangeMaxValue != undefined) {
+            if ($scope.variable != undefined && "valRange" in $scope.variable) {
+              options.valRange.max = rangeMaxValue;
+            } else {
+              options.max = rangeMaxValue;
+            }
+          }
+        }
       } else if (type == "ENUM") {
         options.defaultValue = defaultValue;
         options.values = enumList;
@@ -137,7 +137,11 @@ angular.module('qualitApp')
     $scope.getVariableObject = function (type, options) {
       var variable = {
         type: type,
-        varIndex: $scope.taOptions.lastUsedVariableNumber
+      }
+      if ($scope.variable != undefined) {
+        variable.varIndex = $scope.variable.varIndex;
+      } else {
+        variable.varIndex = $scope.taOptions.lastUsedVariableNumber;
       }
 
       // add options as key-value to the variable object
@@ -168,11 +172,15 @@ angular.module('qualitApp')
 
     $scope.initializeOptions = function (variable) {
       if (variable.type == "FREENUMBER") {
-        // check for range
+        // check for range (for already persisted qa's)
         if (variable.valRange != undefined) {
           $scope.useRange = true;
           $scope.minValue = variable.valRange.min;
           $scope.maxValue = variable.valRange.max;
+        } else if ("min" in variable && "max" in variable) { // check for range for not yet persisted qa's
+          $scope.useRange = true;
+          $scope.minValue = variable.min;
+          $scope.maxValue = variable.max;
         }
       } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
         _.forEach(variable.values, function (n) {
