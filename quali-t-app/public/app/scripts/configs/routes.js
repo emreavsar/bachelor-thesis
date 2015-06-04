@@ -8,6 +8,11 @@ angular.module('qualitApp')
         url: '/welcome',
         controller: 'HomeCtrl'
       })
+      .state('about', {
+        templateUrl: 'views/home/about.html',
+        url: '/about',
+        controller: 'HomeCtrl'
+      })
       .state('login', {
         templateUrl: 'views/auth/login.html',
         url: '/login',
