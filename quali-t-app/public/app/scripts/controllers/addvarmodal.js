@@ -184,7 +184,11 @@ angular.module('qualitApp')
         }
       } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
         _.forEach(variable.values, function (n) {
-          $scope.enumList.push(n.value);
+          if ($scope.variable.id != undefined) {
+            $scope.enumList.push(n.value);
+          } else {
+            $scope.enumList.push(n);
+          }
         });
         $scope.isExtendable = variable.extendable;
         $scope.defaultValue = _.findWhere(variable.values, {'default': true});
