@@ -18,11 +18,6 @@ angular.module('qualitApp')
         url: '/register',
         controller: 'AuthCtrl'
       })
-      .state('resetPassword', {
-        templateUrl: 'views/auth/resetPassword.html',
-        url: '/resetPassword',
-        controller: 'AuthCtrl'
-      })
       .state('logout', {
         url: '/logout',
         controller: 'AuthCtrl',

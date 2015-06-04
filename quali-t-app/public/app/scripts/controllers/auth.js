@@ -8,10 +8,9 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('AuthCtrl', function ($scope, $location, apiService, $state, principal, $rootScope, $cookies, authValidationFactory) {
+  .controller('AuthCtrl', function ($scope, $location, apiService, $state, principal, $rootScope, $cookies, authValidationFactory, alerts) {
     $scope.username = "";
     $scope.password = "";
-    $scope.errors = new Array();
 
     $scope.login = function (username, password) {
       // save into rootscope
@@ -33,17 +32,13 @@ angular.module('qualitApp')
       var errors = authValidationFactory.validateRegistration(username, password, passwordRepeated);
       $scope.errors = errors;
       if (errors.length == 0) {
-
         var registerPromise = apiService.register(username, password, passwordRepeated);
         registerPromise.then(function(payload){
           $scope.registrationDone = true;
         });
+      } else {
+        alerts.createLocalWarning(errors.join("<br/>"));
       }
-    }
-
-    $scope.resetPassword = function (username) {
-      $scope.errors = new Array();
-      // todo implement reset function here
     }
 
     /**

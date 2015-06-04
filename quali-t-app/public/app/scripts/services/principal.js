@@ -78,7 +78,7 @@ angular.module('qualitApp')
             _authenticated = true;
             deferred.resolve(newIdentity);
           })
-          .error(function () {
+          .error(function (data, status) {
             $rootScope._identity = {
               userid: null,
               username: null,
@@ -88,9 +88,6 @@ angular.module('qualitApp')
             _authenticated = false;
             newIdentity = undefined;
             deferred.resolve(newIdentity);
-
-            // TODO work with events!
-            $rootScope.loginFailed = true;
 
             $cookies.loggedInIdentity = null;
             $rootScope.inAuthArea=false;

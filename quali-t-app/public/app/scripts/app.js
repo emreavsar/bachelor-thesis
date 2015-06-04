@@ -55,7 +55,6 @@ angular.module('qualitApp', [
           token: null,
           roles: null
         });
-        $rootScope.loginFailed = false;
 
         // invalidate session on server side
         var loggedInUser = JSON.parse($cookies.loggedInIdentity);
@@ -90,8 +89,6 @@ angular.module('qualitApp', [
       }
 
       $rootScope._identity = identityToSave;
-      // todo CHANGE TO EVENTS
-      $rootScope.loginFailed = false;
 
       $rootScope.currentEditedQa = {
         id: "",
