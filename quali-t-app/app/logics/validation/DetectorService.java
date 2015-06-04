@@ -1,16 +1,16 @@
 package logics.validation;
 
-import ch.qualit.fuzziness.detector.spi.FuzzynessDetector;
+import ch.qualit.fuzziness.detector.spi.FuzzinessDetector;
 import models.project.nfritem.Instance;
 import play.Logger;
 
 import java.util.*;
 
 public class DetectorService implements ValidationService {
-    private ServiceLoader<FuzzynessDetector> loader;
+    private ServiceLoader<FuzzinessDetector> loader;
 
     public DetectorService() {
-        loader = ServiceLoader.load(FuzzynessDetector.class);
+        loader = ServiceLoader.load(FuzzinessDetector.class);
     }
 
     public HashMap<Long, List<String>> validateAll(List<Instance> qualityAttributes) {
@@ -20,10 +20,10 @@ public class DetectorService implements ValidationService {
         try {
             for (Instance instance : qualityAttributes) {
                 // get detectors and iterate through them
-                Iterator<FuzzynessDetector> detectors = loader.iterator();
+                Iterator<FuzzinessDetector> detectors = loader.iterator();
                 Logger.debug("detectors found = " + detectors.hasNext());
                 while (detectors.hasNext()) {
-                    FuzzynessDetector detector = detectors.next();
+                    FuzzinessDetector detector = detectors.next();
                     Logger.debug("Detector: " + detector.getClass().getName());
 
                     ArrayList<String> suggestions = (ArrayList<String>) detector
