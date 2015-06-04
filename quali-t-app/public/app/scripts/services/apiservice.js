@@ -595,7 +595,8 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          // data is arraybuffer, so there must be conversion
+          var alert = alerts.createError(status, String.fromCharCode.apply(null, new Uint8Array(data)));
         });
     }
 

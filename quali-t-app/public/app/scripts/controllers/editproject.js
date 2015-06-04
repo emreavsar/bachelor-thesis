@@ -57,7 +57,7 @@ angular.module('qualitApp')
     $scope.export = function (fileType) {
       var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
       exportPromise.then(function (payload) {
-        console.log("remove this");
+        alerts.createSuccess("Export successfully created");
       });
     }
 
