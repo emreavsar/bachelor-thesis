@@ -656,5 +656,4 @@ angular.module('qualitApp')
     }
 
     return apiService;
-  })
-;
+  });
