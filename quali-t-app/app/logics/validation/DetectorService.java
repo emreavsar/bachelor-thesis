@@ -2,6 +2,7 @@ package logics.validation;
 
 import ch.qualit.fuzziness.detector.spi.FuzzinessDetector;
 import models.project.nfritem.Instance;
+import models.project.nfritem.Val;
 import play.Logger;
 
 import java.util.*;
@@ -28,6 +29,11 @@ public class DetectorService implements ValidationService {
 
                     ArrayList<String> suggestions = (ArrayList<String>) detector
                             .validate(instance.getDescription());
+
+                    // validate variables
+                    for (Val val : instance.getValues()) {
+                        suggestions.addAll(detector.validate(val.getValue()));
+                    }
 
                     if (!suggestions.isEmpty()) {
                         Logger.debug("Suggestions for the word found: " + instance.getDescription()
