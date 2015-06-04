@@ -17,18 +17,17 @@ import java.util.Set;
 @Entity
 @Table(name = "qacategory")
 @Nullable
-@JsonIgnoreProperties({"id2"})
 public class QACategory extends AbstractEntity {
     private String name;
     private String icon;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference(value = "categoryParent")
+    @JsonBackReference
     private QACategory parent;
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JsonManagedReference(value = "categoryParent")
+    @JsonManagedReference
     private Set<QACategory> categories = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference(value = "qaCategories")
+    @JsonBackReference
     private Set<QA> usedInQA = new HashSet<>();
 
     public QACategory() {

@@ -12,6 +12,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.JsonConverter;
 
 public class Authentication extends Controller implements ExceptionHandlingInterface {
     @Inject

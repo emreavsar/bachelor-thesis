@@ -20,16 +20,16 @@ import java.util.Set;
 public class QAVar extends AbstractEntity {
     private int varIndex;
     @ManyToOne
-    @JsonBackReference(value = "variables")
+    @JsonBackReference
     private CatalogQA template;
     @Enumerated(EnumType.STRING)
     private QAType type;
     private boolean extendable;
     @OneToMany(mappedBy = "valInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JsonManagedReference(value = "variableValue")
+    @JsonManagedReference
     private Set<QAVarVal> values = new HashSet<>();
     @OneToOne(mappedBy = "rangeInVar", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JsonManagedReference(value = "variableRange")
+    @JsonManagedReference
     private ValRange valRange;
     private String averageValue;
     private String mosteUsedValue;

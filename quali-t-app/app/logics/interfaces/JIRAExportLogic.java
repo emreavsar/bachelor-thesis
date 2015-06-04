@@ -14,7 +14,7 @@ import dao.models.QAInstanceDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.InvalidConnectionParameter;
 import exceptions.MissingParameterException;
-import logics.Helper;
+import util.Helper;
 import models.Interface.JIRAConnection;
 import models.project.Project;
 import models.project.nfritem.Instance;

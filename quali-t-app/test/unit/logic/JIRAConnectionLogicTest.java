@@ -5,7 +5,7 @@ import base.AbstractTestDataCreator;
 import dao.interfaces.JIRAConnectionDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import logics.JIRAConnectionLogic;
+import logics.interfaces.JIRAConnectionLogic;
 import models.Interface.JIRAConnection;
 import org.junit.Before;
 import org.junit.Test;

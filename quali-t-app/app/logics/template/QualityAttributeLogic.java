@@ -5,7 +5,7 @@ import dao.models.*;
 import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import logics.Helper;
+import util.Helper;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;

@@ -1,7 +1,7 @@
 package logics.template;
 
 import com.google.inject.Inject;
-import logics.Helper;
+import util.Helper;
 import dao.models.QACategoryDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;

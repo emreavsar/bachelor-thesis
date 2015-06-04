@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 public class QAVarVal extends AbstractEntity {
     boolean isDefault;
     @ManyToOne
-    @JsonBackReference(value = "variableValue")
+    @JsonBackReference
     private QAVar valInVar;
     @Enumerated(EnumType.STRING)
     private ValueType type;

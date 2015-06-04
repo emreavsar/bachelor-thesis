@@ -1,8 +1,5 @@
 package models;
 
-import org.hibernate.annotations.DiscriminatorOptions;
-import org.hibernate.id.SequenceHiLoGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
 

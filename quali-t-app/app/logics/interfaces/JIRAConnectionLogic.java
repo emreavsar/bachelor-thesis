@@ -1,10 +1,11 @@
-package logics;
+package logics.interfaces;
 
 import com.google.inject.Inject;
 import dao.interfaces.JIRAConnectionDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.Interface.JIRAConnection;
+import util.Helper;
 
 import java.util.List;
 

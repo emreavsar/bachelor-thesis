@@ -2,7 +2,7 @@ package unit.logic;
 
 
 import base.AbstractDatabaseTest;
-import logics.Helper;
+import util.Helper;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package controllers;
+package util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.template.*;

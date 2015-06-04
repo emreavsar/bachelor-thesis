@@ -17,7 +17,7 @@ public class ValRange extends AbstractEntity {
     private float min;
     private float max;
     @OneToOne(optional = true)
-    @JsonBackReference(value = "variableRange")
+    @JsonBackReference
     private QAVar rangeInVar;
 
     public ValRange() {

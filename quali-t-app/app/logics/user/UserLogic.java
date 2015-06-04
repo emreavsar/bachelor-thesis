@@ -6,7 +6,7 @@ import dao.models.UserDao;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import logics.Helper;
+import util.Helper;
 import logics.authentication.Authenticator;
 import models.authentication.Role;
 import models.authentication.User;

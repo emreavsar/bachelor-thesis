@@ -21,7 +21,7 @@ public class Catalog extends AbstractEntity {
     private String description;
     private String image;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "catalog", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference(value = "catalogQAs")
+    @JsonBackReference
     private Set<CatalogQA> templates = new HashSet<>();
 
     public Catalog() {

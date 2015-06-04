@@ -2,7 +2,7 @@ package logics.interfaces.projectExport.models;
 
 import com.google.inject.Inject;
 import exceptions.EntityNotFoundException;
-import logics.Helper;
+import util.Helper;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -21,17 +21,17 @@ import java.util.Set;
 @Table(name = "catalogqa")
 @Nullable
 public class CatalogQA extends AbstractEntity {
-    @OneToMany
-    @JsonManagedReference("qaTemplate")
+    @OneToMany(mappedBy = "template")
+    @JsonBackReference
     private Set<Instance> qaInstances = new HashSet<>();
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference(value = "catalogQAs")
+    @JsonBackReference
     private Catalog catalog;
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference(value = "QA")
+    @JsonManagedReference
     private QA qa;
     @OneToMany(mappedBy = "template", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference(value = "variables")
+    @JsonManagedReference
     private Set<QAVar> variables = new HashSet<>();
     private boolean deleted;
 

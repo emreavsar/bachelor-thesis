@@ -6,7 +6,7 @@ import dao.models.*;
 import exceptions.CouldNotConvertException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import logics.Helper;
+import util.Helper;
 import logics.interfaces.projectExport.models.ModelConverter;
 import logics.interfaces.projectExport.repositories.PdfRepo;
 import logics.interfaces.projectExport.repositories.XmlRepo;

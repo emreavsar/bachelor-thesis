@@ -2,13 +2,14 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
-import logics.JIRAConnectionLogic;
+import logics.interfaces.JIRAConnectionLogic;
 import logics.interfaces.JIRAExportLogic;
 import models.project.Project;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.JsonConverter;
 
 import java.util.List;
 

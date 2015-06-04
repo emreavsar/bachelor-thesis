@@ -36,7 +36,6 @@ public class User extends AbstractEntity implements Subject {
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private List<Role> roles = new ArrayList<>();
 
@@ -52,7 +51,6 @@ public class User extends AbstractEntity implements Subject {
     @JoinTable(name = "favorite_project",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "project_id")})
-//    @ManyToMany(mappedBy = "isFavorite", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference
     private Set<Project> favorites = new HashSet<>();
 

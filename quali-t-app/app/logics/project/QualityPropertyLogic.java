@@ -1,7 +1,7 @@
 package logics.project;
 
 import com.google.inject.Inject;
-import logics.Helper;
+import util.Helper;
 import dao.models.QualityPropertyDAO;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
