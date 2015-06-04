@@ -208,6 +208,11 @@ angular.module('qualitApp')
       }
     }
 
+    // reload when projects qa gets updated (in edit mode)
+    $scope.$on('projectsQaUpdated', function (event, arg) {
+      $scope.init();
+    });
+
     $scope.init = function () {
       var promiseInit = apiService.getFavorites();
       promiseInit.then(

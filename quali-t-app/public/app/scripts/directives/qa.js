@@ -288,6 +288,8 @@ angular.module('qualitApp')
             if (context == "editproject") {
               var modalScope = scope.$new(true);
               modalScope.qa = qa;
+              // order qa's variables by varIndex (not guaranteed)
+              modalScope.qa.template.variables = _.sortBy(qa.template.variables, 'varIndex');
               modalScope.context = context;
 
               var modal = $modal({

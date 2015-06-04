@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditQaCtrl', function ($scope, apiService) {
+  .controller('EditQaCtrl', function ($scope, apiService, $rootScope) {
     if($scope.context=='editproject'){
       $scope.isTextMode = false;
     } else if($scope.context=='editcatalog'){
@@ -96,6 +96,8 @@ angular.module('qualitApp')
         instance.values = qaValues;
       }
       apiService.updateQaInstance(instance);
+      $rootScope.$broadcast('projectsQaUpdated', {});
+
       $scope.hideModal();
     }
   });
