@@ -1,14 +1,14 @@
 'use strict';
 
-describe('Service: alerts', function () {
+describe('Service: alertService', function () {
 
   // load the service's module
   beforeEach(module('qualitApp'));
 
   // instantiate service
-  var alerts;
-  beforeEach(inject(function (_alerts_) {
-    alerts = _alerts_;
+  var alertService;
+  beforeEach(inject(function (_alertService_) {
+    alertService = _alertService_;
   }));
 
   it('todo', function () {

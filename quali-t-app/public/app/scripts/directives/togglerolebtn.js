@@ -17,7 +17,7 @@ angular.module('qualitApp')
           var roleChangerIsVisible = $("#role-changer").is(":visible");
           $("#role-changer").slideToggle('fast');
 
-          if(roleChangerIsVisible) {
+          if (roleChangerIsVisible) {
             $(this).find(".fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
           } else {
             $(this).find(".fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");

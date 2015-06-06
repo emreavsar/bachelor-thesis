@@ -28,7 +28,7 @@ angular.module('qualitApp')
 
     $scope.export = function (fileType) {
       var exportPromise = apiService.exportRessource("catalog", $stateParams.catalogId, $scope.catalog.name, fileType);
-        exportPromise.then(function (payload) {
+      exportPromise.then(function (payload) {
         console.log("remove this");
       });
     }
@@ -67,7 +67,7 @@ angular.module('qualitApp')
       });
     }
 
-    $scope.addQaToCatalog = function() {
+    $scope.addQaToCatalog = function () {
       var modalScope = $scope.$new(true);
       modalScope.catalogId = $scope.catalog.id;
       var modal = $modal({

@@ -32,7 +32,7 @@ angular.module('qualitApp')
         }
 
         // if something was undefined no more validation needed, return here.
-        if(errors.length > 0) {
+        if (errors.length > 0) {
           return errors;
         }
 

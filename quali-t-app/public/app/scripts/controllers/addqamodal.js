@@ -22,7 +22,7 @@ angular.module('qualitApp')
       if ($scope.isChooseMode) {
         _.forEach($scope.selection, function (n) {
           var promise = apiService.addCatalogQa($stateParams.catalogId, n.qa.id, n.variables);
-          promise.then(function(payload) {
+          promise.then(function (payload) {
             alertService.createSuccess("CatalogQa added to Catalog");
             $rootScope.$broadcast('qasOfCatalogUpdated', {});
             $scope.hideModal();

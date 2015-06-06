@@ -9,7 +9,7 @@
  */
 angular.module('qualitApp')
   .controller('HomeCtrl', function ($scope, $state) {
-    $scope.login = function() {
+    $scope.login = function () {
       $state.go('login');
     };
   });

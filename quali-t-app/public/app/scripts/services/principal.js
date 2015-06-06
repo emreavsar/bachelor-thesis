@@ -90,7 +90,7 @@ angular.module('qualitApp')
             deferred.resolve(newIdentity);
 
             $cookies.loggedInIdentity = null;
-            $rootScope.inAuthArea=false;
+            $rootScope.inAuthArea = false;
 
           });
 

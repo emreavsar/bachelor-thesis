@@ -15,9 +15,9 @@ angular.module('qualitApp')
       var togglePromise = apiService.toggleTask(taskId);
     }
 
-    $scope.init = function() {
+    $scope.init = function () {
       var initPromise = apiService.getMyTasks();
-      initPromise.then(function(payload) {
+      initPromise.then(function (payload) {
         $scope.tasks = payload.data;
       });
     }

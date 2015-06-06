@@ -3,7 +3,7 @@ angular.module('qualitApp')
 
     $provide.decorator('taOptions', ['taRegisterTool', '$delegate', '$modal', '$injector',
       function (taRegisterTool, taOptions, $modal, $injector) {
-          // all variables after adding them are saved here
+        // all variables after adding them are saved here
         taOptions.variables = new Array();
         taOptions.lastUsedVariableNumber = 0;
 

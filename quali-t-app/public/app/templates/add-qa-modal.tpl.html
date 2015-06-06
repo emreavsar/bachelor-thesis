@@ -42,7 +42,8 @@
                 <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories"
                      ng-click="toggleSelection(catalogQa)"
                      ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
-                  <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="catalog" variables="catalogQa.variables"
+                  <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="catalog"
+                      variables="catalogQa.variables"
                       editable="false"/>
                 </div>
               </div>

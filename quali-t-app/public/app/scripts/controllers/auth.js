@@ -33,7 +33,7 @@ angular.module('qualitApp')
       $scope.errors = errors;
       if (errors.length == 0) {
         var registerPromise = apiService.register(username, password, passwordRepeated);
-        registerPromise.then(function(payload){
+        registerPromise.then(function (payload) {
           $scope.registrationDone = true;
         });
       } else {

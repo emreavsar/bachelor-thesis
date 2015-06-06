@@ -9,9 +9,9 @@
  */
 angular.module('qualitApp')
   .controller('EditQaCtrl', function ($scope, apiService, $rootScope) {
-    if($scope.context=='editproject'){
+    if ($scope.context == 'editproject') {
       $scope.isTextMode = false;
-    } else if($scope.context=='editcatalog'){
+    } else if ($scope.context == 'editcatalog') {
       $scope.isTextMode = true;
     }
     $scope.tooltipsEditMode = "Change either the quality attribute itself (text) or set the values (variables)";
