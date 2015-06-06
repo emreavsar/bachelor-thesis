@@ -16,6 +16,7 @@ angular.module('qualitApp')
     $scope.customerList = new Array();
     $scope.selectedQualityProperties = new Array();
     $scope.qualityPropertiesList = new Array();
+    $scope.remainingQualityPropertiesList = new Array();
     $scope.qualityAttributesToUpdate = new Array();
     $scope.jiraConnections = new Array();
     $scope.isProjectFavorite = false;
@@ -53,6 +54,13 @@ angular.module('qualitApp')
         }
       ]
     };
+
+    $scope.$watch('project.qualityProperties', function (newValue, oldValue) {
+      if (newValue != oldValue) {
+        $scope.remainingQualityPropertiesList = _.difference($scope.qualityPropertiesList, newValue);
+      }
+    });
+
 
     $scope.export = function (fileType) {
       var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
@@ -132,7 +140,7 @@ angular.module('qualitApp')
         jiraKey: $scope.project.jiraKey,
         jiraConnection: $scope.project.jiraConnection,
         customer: $scope.selectedCustomer.id,
-        qualityProperties: $scope.selectedQualityProperties,
+        qualityProperties: $scope.project.qualityProperties,
         qualityAttributes: $scope.getQAToUpdate()
       };
 
@@ -208,10 +216,6 @@ angular.module('qualitApp')
       promiseInit.then(
         function (payload) {
           $scope.favoriteProjects = payload.data;
-          return apiService.getProject($scope.projectId);
-        }).then(
-        function (payload) {
-          $scope.setProject(payload);
           return apiService.getCustomers();
         }).then(
         function (payload) {
@@ -224,9 +228,10 @@ angular.module('qualitApp')
         }).then(
         function (payload) {
           $scope.jiraConnections = payload.data;
-        }
-      );
+          return apiService.getProject($scope.projectId);
+        }).then(
+        function (payload) {
+          $scope.setProject(payload);
+        });
     }
-  }
-)
-;
+  });

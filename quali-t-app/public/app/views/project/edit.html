@@ -41,12 +41,12 @@
 
       <div class="form-group col-sm-12">
         <label>Quality Properties</label>
-        <ui-select ng-model="$parent.selectedQualityProperties"
+        <ui-select ng-model="$parent.project.qualityProperties"
                    multiple theme="bootstrap" ng-disabled="disabled"
                    class="qualityproperties-selection">
           <ui-select-match placeholder="Select quality properties...">{{$item.description}}</ui-select-match>
 
-          <ui-select-choices repeat="qp in qualityPropertiesList | filter:$select.search">
+          <ui-select-choices repeat="qp in remainingQualityPropertiesList | filter:$select.search">
             <div ng-bind-html="'<b>'+qp.name + '</b> - ' + qp.description | highlight: $select.search"></div>
           </ui-select-choices>
         </ui-select>
