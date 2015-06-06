@@ -8,17 +8,17 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
-  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
-  <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css"/>
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"/>
+  <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css"/>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -37,27 +37,50 @@
 
   <!-- role changer -->
   <div ng-if="inAuthArea" class="col-xs-12" id="role-changer" ng-controller="RolesCtrl">
-    <h4>Change Roles</h4>
+    <h4>Change Roles
+      <i class="fa fa-question-circle pointer"
+         data-trigger="hover" data-type="success"
+         data-title="{{tooltipsRoleChanger}}"
+         data-placement="right"
+      bs-tooltip></i><br>
+      <small>(available roles)</small>
+    </h4>
 
     <div class="roles col-xs-12">
-      <div class="img-circle role" ng-class="selectedRole=='curator' ? 'active' : ''"
+      <div class="img-circle role"
+           ng-show="isRoleAvailable('curator')"
+           ng-class="selectedRole=='curator' ? 'active' : ''"
            ng-click="changeRole('curator')" title="Change to role Catalog Curator">
         <i class="fa fa-lightbulb-o"></i> <span class="role-name">Catalog Curator</span>
       </div>
-      <div class="img-circle role" ng-class="selectedRole=='analyst' ? 'active' : ''"
+      <div class="img-circle role"
+           ng-show="isRoleAvailable('analyst')"
+           ng-class="selectedRole=='analyst' ? 'active' : ''"
            ng-click="changeRole('analyst')" title="Change to role Architecture Analyst">
         <i class="fa fa-search"></i> <span class="role-name">Architecture Analyst</span>
       </div>
-      <div class="img-circle role" ng-class="selectedRole=='synthesizer' ? 'active' : ''"
+      <div class="img-circle role"
+           ng-show="isRoleAvailable('synthesizer')"
+           ng-class="selectedRole=='synthesizer' ? 'active' : ''"
            ng-click="changeRole('synthesizer')"
            title="Change to role Architecture Synthiseizer">
         <i class="fa fa-flask"></i> <span class="role-name">Architecture Synthiseizer</span>
       </div>
-      <div class="img-circle role" ng-class="selectedRole=='evaluator' ? 'active' : ''"
+      <div class="img-circle role"
+           ng-show="isRoleAvailable('evaluator')"
+           ng-class="selectedRole=='evaluator' ? 'active' : ''"
            ng-click="changeRole('evaluator')" title="Change to role Architecture Evaluator">
         <i class="fa fa-eye"></i> <span class="role-name">Architecture Evaluator</span>
       </div>
-      <div class="img-circle role" ng-class="selectedRole=='admin' ? 'active' : ''"
+      <div class="img-circle role"
+           ng-show="isRoleAvailable('projectmanager')"
+           ng-class="selectedRole=='projectmanager' ? 'active' : ''"
+           ng-click="changeRole('projectmanager')" title="Change to role Project Manager">
+        <i class="fa fa-calendar"></i> <span class="role-name">Project Manager</span>
+      </div>
+      <div class="img-circle role"
+           ng-show="isRoleAvailable('admin')"
+           ng-class="selectedRole=='admin' ? 'active' : ''"
            ng-click="changeRole('admin')" title="Change to role Admin">
         <i class="fa fa-user"></i> <span class="role-name">Administrator</span>
       </div>
