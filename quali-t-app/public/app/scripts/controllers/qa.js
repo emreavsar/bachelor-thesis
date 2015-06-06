@@ -164,13 +164,15 @@ angular.module('qualitApp')
         // if its a token, do special htmlizing
         if ($scope.isVariable(token)) {
           var variable = variables[varTokens[nextToken]];
+          var isAlreadyPersisted = "id" in variable;
+
           nextToken++;
 
           if (variable.type == "FREETEXT") {
             descContainerHtml += "<input type='text' placeholder='' />";
           } else if (variable.type == "FREENUMBER") {
             // already persisted
-            if ("valRange" in variable && variable.valRange != undefined && variable.valRange != null && Object.keys(variable.valRange).length !== 0) {
+            if (isAlreadyPersisted && variable.valRange != null && Object.keys(variable.valRange).length !== 0) {
               var placeholderText = "Value must be between " + variable.valRange.min + " and " + variable.valRange.max;
               var inputSize = placeholderText.length;
             }
@@ -192,8 +194,7 @@ angular.module('qualitApp')
                 var selectedAttr = "";
 
                 var value;
-                // if already persisted
-                if (typeof(variable.values[j]) == "object") {
+                if (isAlreadyPersisted) {
                   value = variable.values[j].value;
                 } else {
                   value = variable.values[j];
@@ -201,7 +202,7 @@ angular.module('qualitApp')
 
                 // if there was a default value, make selection
                 if (variable.defaultValue != undefined) {
-                  if (typeof(variable.values[j]) == "object") {
+                  if (isAlreadyPersisted) {
                     selectedAttr = (variable.values[j].default ? "selected" : "");
                   } else {
                     selectedAttr = (variable.values[j] == variable.defaultValue ? "selected" : "");
@@ -212,8 +213,20 @@ angular.module('qualitApp')
               descContainerHtml += "</select>";
               if (variable.extendable) {
                 var extendablePlaceholderText = "or add a new value";
-                if (variable.min != undefined && variable.max != undefined) {
-                  extendablePlaceholderText += " (between " + variable.min + " and " + variable.max + ")";
+                if (variable.type == "ENUMNUMBER") {
+
+                  var min = "";
+                  var max = "";
+                  if (isAlreadyPersisted) {
+                    min = variable.valRange.min;
+                    max = variable.valRange.max;
+                  } else if (variable.min != undefined && variable.max != undefined) {
+                    min = variable.min;
+                    max = variable.max;
+                  }
+                  if (min != "" && max != "") {
+                    extendablePlaceholderText += " (between " + min + " and " + max + ")";
+                  }
                 }
                 descContainerHtml += " or <input type='text' placeholder='" + extendablePlaceholderText + "'' size='" + extendablePlaceholderText.length + "'' />";
               }

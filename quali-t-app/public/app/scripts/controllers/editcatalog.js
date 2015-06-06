@@ -75,4 +75,8 @@ angular.module('qualitApp')
         template: "templates/add-qa-modal.tpl.html"
       });
     }
+
+    $scope.$on('qasOfCatalogUpdated', function (event, arg) {
+      $scope.loadCatalogQas();
+    });
   });

@@ -117,10 +117,13 @@ angular.module('qualitApp')
           }
         }
       } else if (type == "ENUM") {
-        options.defaultValue = defaultValue;
+        if ($scope.useDefaultValue) {
+          options.defaultValue = defaultValue;
+
+        }
         options.values = enumList;
         options.extendable = isExtendable;
-        if (subType == "NUMBER") {
+        if (subType == "NUMBER" && $scope.useRange) {
           options.min = rangeMinValue;
           options.max = rangeMaxValue;
         }
@@ -171,9 +174,12 @@ angular.module('qualitApp')
     }
 
     $scope.initializeOptions = function (variable) {
+      var isAlreadyPersisted = "id" in variable;
+
+
       if (variable.type == "FREENUMBER") {
         // check for range (for already persisted qa's)
-        if (variable.valRange != undefined) {
+        if (isAlreadyPersisted) {
           $scope.useRange = true;
           $scope.minValue = variable.valRange.min;
           $scope.maxValue = variable.valRange.max;
@@ -184,14 +190,31 @@ angular.module('qualitApp')
         }
       } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
         _.forEach(variable.values, function (n) {
-          if ($scope.variable.id != undefined) {
+          if (isAlreadyPersisted) {
             $scope.enumList.push(n.value);
           } else {
             $scope.enumList.push(n);
           }
         });
         $scope.isExtendable = variable.extendable;
-        $scope.defaultValue = _.findWhere(variable.values, {'default': true});
+        if ($scope.isExtendable && variable.type == "ENUMNUMBER") {
+          if (isAlreadyPersisted) {
+            if ("valRange" in variable && "min" in variable.valRange) {
+              $scope.minValue = variable.valRange.min;
+              $scope.maxValue = variable.valRange.max;
+              $scope.useRange = true;
+            }
+          } else if ("min" in variable && "max" in variable) {
+            $scope.minValue = variable.min;
+            $scope.maxValue = variable.max;
+            $scope.useRange = true;
+          }
+        }
+        if (isAlreadyPersisted) {
+          $scope.defaultValue = _.findWhere(variable.values, {'default': true});
+        } else {
+          $scope.defaultValue = variable.defaultValue;
+        }
         $scope.useDefaultValue = $scope.defaultValue != undefined;
       }
     }

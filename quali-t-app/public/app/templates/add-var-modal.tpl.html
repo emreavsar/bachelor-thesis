@@ -200,7 +200,7 @@
               </label>
               <select ng-show="enumList" class="form-control" ng-model="defaultValue" id="defaultValueSelection">
                 <option ng-repeat="enumElement in enumList" value="{{enumElement}}"
-                        ng-selected="defaultValue.value==enumElement">{{enumElement}}
+                        ng-selected="defaultValue == enumElement || defaultValue.value==enumElement">{{enumElement}}
                 </option>
               </select>
             </div>
