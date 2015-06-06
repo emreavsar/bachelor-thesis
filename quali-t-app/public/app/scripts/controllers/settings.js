@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('SettingsCtrl', function ($scope, apiService, alerts, authValidationFactory) {
+  .controller('SettingsCtrl', function ($scope, apiService, alertService, authValidationFactory) {
     $scope.currentPassword = "";
     $scope.newPassword = "";
     $scope.newPasswordRepeated = "";
@@ -22,11 +22,11 @@ angular.module('qualitApp')
           $scope.currentPassword = "";
           $scope.newPassword = "";
           $scope.newPasswordRepeated = "";
-          var alert = alerts.createSuccess(data);
+          var alert = alertService.createSuccess(data);
         });
 
       } else {
-        var alert = alerts.createError("Client error", errors.join(" "))
+        var alert = alertService.createError("Client error", errors.join(" "))
       }
 
     }

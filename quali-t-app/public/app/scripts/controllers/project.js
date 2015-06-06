@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('ProjectCtrl', function ($scope, alerts, $state, apiService) {
+  .controller('ProjectCtrl', function ($scope, alertService, $state, apiService) {
     $scope.currentStep = 0;
     $scope.model = "Project";
     $scope.filteredCatalogQas = new Array();
@@ -69,7 +69,7 @@ angular.module('qualitApp')
         }
 
         if (errors.length > 0) {
-          var err = alerts.createLocalWarning(errors);
+          var err = alertService.createLocalWarning(errors);
           return false;
         }
       }
@@ -120,7 +120,7 @@ angular.module('qualitApp')
         additionalQualityAttributes: selectedAdditionalQas
       });
       promise.then(function (payload) {
-        alerts.createSuccess("Your Project was created successfully.");
+        alertService.createSuccess("Your Project was created successfully.");
         $state.go('editProject', {
           projectId: payload.data.id
         });

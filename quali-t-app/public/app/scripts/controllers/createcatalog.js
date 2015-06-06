@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CreateCatalogCtrl', function ($scope, apiService, alerts, $state) {
+  .controller('CreateCatalogCtrl', function ($scope, apiService, alertService, $state) {
     $scope.name = "";
     $scope.description = "";
     $scope.image = "";
@@ -90,7 +90,7 @@ angular.module('qualitApp')
 
       var createPromise = apiService.createCatalog($scope.getSelectedQas(), $scope.name, $scope.description, $scope.image);
       createPromise.then(function (payload) {
-        alerts.createSuccess("Catalog " + payload.data.name + " created successfully.");
+        alertService.createSuccess("Catalog " + payload.data.name + " created successfully.");
         $state.go('editCatalog', {
           catalogId: payload.data.id
         });

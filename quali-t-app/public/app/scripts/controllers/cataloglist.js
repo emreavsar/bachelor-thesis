@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CatalogListCtrl', function ($scope, apiService, alerts, ngTableParams, $filter) {
+  .controller('CatalogListCtrl', function ($scope, apiService, ngTableParams, $filter) {
     $scope.catalogs = new Array();
 
 

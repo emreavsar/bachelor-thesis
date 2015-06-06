@@ -82,6 +82,4 @@ angular.module('qualitApp')
     $scope.init = function () {
       $scope.loadQualityProperties();
     }
-
-
   });

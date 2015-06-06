@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc service
- * @name qualitApp.alerts
+ * @name qualitApp.alertService
  * @description
  * # alerts
  * Factory in the qualitApp.
  */
 angular.module('qualitApp')
-  .factory('alerts', function ($alert) {
+  .factory('alertService', function ($alert) {
     return {
       createSuccess: function (content) {
         var alert = $alert({

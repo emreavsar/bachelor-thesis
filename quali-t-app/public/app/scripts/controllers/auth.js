@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('AuthCtrl', function ($scope, $location, apiService, $state, principal, $rootScope, $cookies, authValidationFactory, alerts) {
+  .controller('AuthCtrl', function ($scope, $location, apiService, $state, principal, $rootScope, $cookies, authValidationFactory, alertService) {
     $scope.username = "";
     $scope.password = "";
 
@@ -37,7 +37,7 @@ angular.module('qualitApp')
           $scope.registrationDone = true;
         });
       } else {
-        alerts.createLocalWarning(errors.join("<br/>"));
+        alertService.createLocalWarning(errors.join("<br/>"));
       }
     }
 

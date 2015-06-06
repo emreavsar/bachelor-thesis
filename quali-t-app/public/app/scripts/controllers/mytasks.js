@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('MytasksCtrl', function ($scope, apiService, $rootScope, alerts) {
+  .controller('MytasksCtrl', function ($scope, apiService, $rootScope) {
     $scope.tasks = new Array();
 
     $scope.toggleDoneState = function (taskId) {

@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('FavoritesCtrl', function ($scope, $state, apiService, alerts) {
+  .controller('FavoritesCtrl', function ($scope, $state, apiService) {
     $scope.favoriteProjects = new Array();
 
     $scope.openFavorite = function (favoriteId) {

@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alerts, $popover, $rootScope) {
+  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alertService, $popover, $rootScope) {
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
@@ -65,7 +65,7 @@ angular.module('qualitApp')
     $scope.export = function (fileType) {
       var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
       exportPromise.then(function (payload) {
-        alerts.createSuccess("Export successfully created");
+        alertService.createSuccess("Export successfully created");
       });
     }
 
@@ -147,7 +147,7 @@ angular.module('qualitApp')
       var promiseSave = apiService.updateProject(project);
       promiseSave.then(
         function (payload) {
-          alerts.createSuccess("Project was successfully updated.");
+          alertService.createSuccess("Project was successfully updated.");
           $scope.qualityAttributesToUpdate = new Array();
           $scope.project = payload.data;
         });

@@ -220,10 +220,7 @@ angular.module('qualitApp')
               scope.createPanelBody(category, i == 0);
             }
           }
-
-
         });
       }
-
     };
   });

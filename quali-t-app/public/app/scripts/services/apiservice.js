@@ -9,7 +9,7 @@
  */
 
 angular.module('qualitApp')
-  .factory('apiService', function ($http, alerts, $rootScope) {
+  .factory('apiService', function ($http, alertService, $rootScope) {
     var apiService = {};
     apiService.apiPath = "/api/";
 
@@ -24,7 +24,7 @@ angular.module('qualitApp')
         .success(function (data) {
           $scope.registrationDone = true;
         }).error(function (data) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -36,7 +36,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, data);
+        alertService.createError(status, data);
       });
     }
 
@@ -46,7 +46,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Favorites were not found.");
+          alertService.createError(status, "Favorites were not found.");
         });
     }
 
@@ -56,7 +56,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -66,7 +66,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -78,7 +78,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, data);
+        alertService.createError(status, data);
       });
     }
 
@@ -90,7 +90,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, data);
+        alertService.createError(status, data);
       });
     }
 
@@ -102,7 +102,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, "Quality Attribute Template could not be created.");
+        alertService.createError(status, "Quality Attribute Template could not be created.");
       });
     }
 
@@ -112,7 +112,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Project was not found.");
+          alertService.createError(status, "Project was not found.");
         });
     }
 
@@ -122,7 +122,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Customers were not found.");
+          alertService.createError(status, "Customers were not found.");
         });
     }
 
@@ -135,7 +135,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Error at creating customer.");
+          alertService.createError(status, "Error at creating customer.");
         });
     }
 
@@ -149,7 +149,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -159,7 +159,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -169,7 +169,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Quality Properties were not found.");
+          alertService.createError(status, "Quality Properties were not found.");
         });
     }
 
@@ -179,7 +179,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Quality Properties were not found.");
+          alertService.createError(status, "Quality Properties were not found.");
         });
     }
 
@@ -190,7 +190,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, "Quality Properties were not found.");
+        alertService.createError(status, "Quality Properties were not found.");
       });
     }
 
@@ -202,7 +202,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alerts.createError(status, "Quality Properties were not found.");
+        alertService.createError(status, "Quality Properties were not found.");
       });
     }
 
@@ -216,7 +216,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Project favorite state coulnd't be changed.");
+          alertService.createError(status, "Project favorite state coulnd't be changed.");
         });
     }
 
@@ -226,7 +226,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -236,7 +236,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -246,7 +246,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -256,7 +256,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -266,7 +266,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
     apiService.removeQa = function (qaId) {
@@ -275,7 +275,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -285,7 +285,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -295,7 +295,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -310,7 +310,7 @@ angular.module('qualitApp')
           return data;
         }).
         error(function (data, status, headers, config) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -320,7 +320,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, "Catalog was not found.");
+          alertService.createError(status, "Catalog was not found.");
         });
     }
 
@@ -331,7 +331,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -341,7 +341,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -351,7 +351,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -361,7 +361,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -371,7 +371,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -381,7 +381,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -399,7 +399,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -409,7 +409,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -419,7 +419,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -429,7 +429,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -439,7 +439,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -449,7 +449,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -459,7 +459,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -469,7 +469,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
     apiService.createProject = function (project) {
@@ -477,7 +477,7 @@ angular.module('qualitApp')
         .success(function (data) {
           return data;
         }).error(function (data, status) {
-          alerts.createError(status, "Error at creating project.");
+          alertService.createError(status, "Error at creating project.");
         });
     }
 
@@ -490,7 +490,7 @@ angular.module('qualitApp')
         .success(function (data) {
           return data;
         }).error(function (data, status) {
-          alerts.createError(status, "Error at exporting Quality Attributes to Issue Tracking System.");
+          alertService.createError(status, "Error at exporting Quality Attributes to Issue Tracking System.");
         });
     }
 
@@ -500,7 +500,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -510,7 +510,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alerts.createError(status, data);
+          alertService.createError(status, data);
         });
     }
 
@@ -519,7 +519,7 @@ angular.module('qualitApp')
         taskId: taskId
       }).
         error(function (data, status, headers, config) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -529,7 +529,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -539,7 +539,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -549,7 +549,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -563,7 +563,7 @@ angular.module('qualitApp')
         return data;
       })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -576,7 +576,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        var alert = alerts.createError(status, data);
+        var alert = alertService.createError(status, data);
       });
     }
 
@@ -596,7 +596,7 @@ angular.module('qualitApp')
         })
         .error(function (data, status) {
           // data is arraybuffer, so there must be conversion
-          var alert = alerts.createError(status, String.fromCharCode.apply(null, new Uint8Array(data)));
+          var alert = alertService.createError(status, String.fromCharCode.apply(null, new Uint8Array(data)));
         });
     }
 
@@ -606,7 +606,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -616,7 +616,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 
@@ -630,7 +630,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
     apiService.createUser = function (username, password, selectedRoles) {
@@ -643,7 +643,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
     apiService.getRoles = function () {
@@ -652,7 +652,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          var alert = alerts.createError(status, data);
+          var alert = alertService.createError(status, data);
         });
     }
 

@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, apiService, alerts, taOptions, $sce, qaTextService, $stateParams, $state, $modal) {
+  .controller('QACtrl', function ($scope, apiService, alertService, taOptions, $sce, qaTextService, $stateParams, $state, $modal) {
     $scope.qaText = "";
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
@@ -41,7 +41,7 @@ angular.module('qualitApp')
               multipleUsedVariableName += ", ";
             }
           });
-          var alert = alerts.createLocalWarning('Multiple usage of a variable is not permitted: ' + multipleUsedVariableName, 'body ');
+          var alert = alertService.createLocalWarning('Multiple usage of a variable is not permitted: ' + multipleUsedVariableName, 'body ');
         }
         else {
           $scope.taOptions.variables = $scope.getVariables(newValue, true);
@@ -188,7 +188,7 @@ angular.module('qualitApp')
             descContainerHtml += "<select class='form-control'>";
             descContainerHtml += "<option class='form-option' value=''>Select a value</option>";
             if (variable.values == undefined) {
-              var localWarning = alerts.createLocalWarning("Have you inserted the variable (" + qaTextService.getVariableString(variable) + ") manually?");
+              var localWarning = alertService.createLocalWarning("Have you inserted the variable (" + qaTextService.getVariableString(variable) + ") manually?");
             } else {
               for (var j = 0; j < variable.values.length; j++) {
                 var selectedAttr = "";
@@ -385,7 +385,7 @@ angular.module('qualitApp')
       promiseCreateOrUpdate.then(
         function (payload) {
           if ($stateParams.catalogQa != undefined) {
-            var alert = alerts.createSuccess('Quality Attribute Template updated successfully');
+            var alert = alertService.createSuccess('Quality Attribute Template updated successfully');
             if ($stateParams.catalogId != undefined && $stateParams.catalogId != "") {
               $state.go("editCatalog", {
                 catalogId: $stateParams.catalogId
@@ -394,7 +394,7 @@ angular.module('qualitApp')
           } else {
             // if a redirect to edit catalog is desired, add qa to catalog also
             if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {
-              var alert = alerts.createSuccess('Quality Attribute Template created successfully');
+              var alert = alertService.createSuccess('Quality Attribute Template created successfully');
             } else {
               return apiService.addCatalogQa($stateParams.catalogId, payload.data.id, data.catalogQa.variables);
             }
@@ -408,7 +408,7 @@ angular.module('qualitApp')
         }).then(function (payload) {
           if (payload != undefined) {
             // only when qa is added to catalog and needs a redirect
-            var alert = alerts.createSuccess('Quality Attribute Template created successfully and added to Catalog');
+            var alert = alertService.createSuccess('Quality Attribute Template created successfully and added to Catalog');
             $state.go("editCatalog", {
               catalogId: $stateParams.catalogId
             });

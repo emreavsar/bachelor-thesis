@@ -8,7 +8,7 @@
  * Directive to replace content with custom text.
  */
 angular.module('qualitApp')
-  .directive('qa', function (qaTextService, $modal, apiService, alerts, $state) {
+  .directive('qa', function (qaTextService, $modal, apiService, alertService, $state) {
     return {
       template: '',
       restrict: 'E',
@@ -51,7 +51,6 @@ angular.module('qualitApp')
             }
           }
         }
-
 
         scope.getQpHtml = function (qualityPropertyStatuses, qaId) {
           var qpsTable = $("<table/>", {
@@ -321,7 +320,7 @@ angular.module('qualitApp')
               }
               promiseRemove.then(
                 function (payload) {
-                  alerts.createSuccess("Quality Attribute was successfully cloned.");
+                  alertService.createSuccess("Quality Attribute was successfully cloned.");
                   if (scope.updateQaFunction() != undefined) {
                     // reload information
                     scope.updateQaFunction()();
@@ -344,7 +343,7 @@ angular.module('qualitApp')
             }
             promiseRemove.then(
               function (payload) {
-                alerts.createSuccess("Quality Attribute was successfully removed.");
+                alertService.createSuccess("Quality Attribute was successfully removed.");
                 if (scope.updateQaFunction() != undefined) {
                   // reload information
                   scope.updateQaFunction()();
@@ -419,7 +418,6 @@ angular.module('qualitApp')
           var qaCheckboxDiv = $("<i/>", {
             class: "fa fa-check checkbox"
           }).appendTo(qaCheckboxDiv);
-
         }
       }
     }

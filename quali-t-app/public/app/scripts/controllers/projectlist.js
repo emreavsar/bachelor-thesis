@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('ProjectListCtrl', function ($scope, apiService, alerts, ngTableParams, $filter) {
+  .controller('ProjectListCtrl', function ($scope, apiService, ngTableParams, $filter) {
     $scope.projects = new Array();
 
 
