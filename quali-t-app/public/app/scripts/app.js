@@ -94,5 +94,7 @@ angular.module('qualitApp', [
         id: "",
         description: ""
       };
+
+      $rootScope.selectedRole = 'admin';
     }
   ]);

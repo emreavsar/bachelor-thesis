@@ -55,7 +55,7 @@ input[disabled], select [disabled] {
 
 /* ROLE CHANGER */
 #role-changer {
-  height: 140px;
+  height: 160px;
   display: none;
   color: #fff;
   text-align: center;
@@ -68,6 +68,28 @@ input[disabled], select [disabled] {
     margin-left: 50px;
     margin-right: 50px;
     cursor: pointer;
+    width: 100px;
+    height: 100px;
+    background-color: #CCCCCC;
+    display: inline-block;
+    &.active {
+      background-color: #89DAB8;
+      border: 1px #E8E8E8 dotted;
+    }
+    i {
+      font-size: 25px;
+      padding-top: 10px;
+      color: #fff;
+      padding-bottom: 5px;
+    }
+    .role-name {
+      font-size: 14px;
+      text-align: center;
+      clear: both;
+      float: left;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
   }
 }
 

@@ -36,18 +36,31 @@
 <div ng-class="inAuthArea ? 'row-offcanvas row-offcanvas-left container content-container' : ''">
 
   <!-- role changer -->
-  <div ng-if="inAuthArea" class="col-xs-12" id="role-changer">
+  <div ng-if="inAuthArea" class="col-xs-12" id="role-changer" ng-controller="RolesCtrl">
     <h4>Change Roles</h4>
 
     <div class="roles col-xs-12">
-      <img src="http://placehold.it/75x75&amp;text=CC" class="img-circle role"
-           title="Change to role Catalog Curator">
-      <img src="http://placehold.it/75x75&amp;text=AA" class="img-circle role"
-           title="Change to role Architecture Analyst">
-      <img src="http://placehold.it/75x75&amp;text=AS" class="img-circle role"
+      <div class="img-circle role" ng-class="selectedRole=='curator' ? 'active' : ''"
+           ng-click="changeRole('curator')" title="Change to role Catalog Curator">
+        <i class="fa fa-lightbulb-o"></i> <span class="role-name">Catalog Curator</span>
+      </div>
+      <div class="img-circle role" ng-class="selectedRole=='analyst' ? 'active' : ''"
+           ng-click="changeRole('analyst')" title="Change to role Architecture Analyst">
+        <i class="fa fa-search"></i> <span class="role-name">Architecture Analyst</span>
+      </div>
+      <div class="img-circle role" ng-class="selectedRole=='synthesizer' ? 'active' : ''"
+           ng-click="changeRole('synthesizer')"
            title="Change to role Architecture Synthiseizer">
-      <img src="http://placehold.it/75x75&amp;text=AE" class="img-circle role"
-           title="Change to role Architecture Evaluator">
+        <i class="fa fa-flask"></i> <span class="role-name">Architecture Synthiseizer</span>
+      </div>
+      <div class="img-circle role" ng-class="selectedRole=='evaluator' ? 'active' : ''"
+           ng-click="changeRole('evaluator')" title="Change to role Architecture Evaluator">
+        <i class="fa fa-eye"></i> <span class="role-name">Architecture Evaluator</span>
+      </div>
+      <div class="img-circle role" ng-class="selectedRole=='admin' ? 'active' : ''"
+           ng-click="changeRole('admin')" title="Change to role Admin">
+        <i class="fa fa-user"></i> <span class="role-name">Administrator</span>
+      </div>
     </div>
   </div>
   <!-- sidebar -->
@@ -81,6 +94,7 @@
       <ul class="nav">
         <li ng-repeat="navItem in navigationItems"
             ng-class="{ active: isActive(navItem.toState)}"
+            ng-show="isVisible(navItem)"
           >
           <a ui-sref="{{navItem.toState}}">{{navItem.linkName}}</a>
         </li>
@@ -222,6 +236,7 @@
   <script src="scripts/controllers/addqamodal.js"></script>
   <script src="scripts/controllers/projectlist.js"></script>
   <script src="scripts/controllers/user.js"></script>
+  <script src="scripts/controllers/roles.js"></script>
   <!-- endbuild -->
 </body>
 </html>

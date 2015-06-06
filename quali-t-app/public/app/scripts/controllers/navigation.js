@@ -8,38 +8,67 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('NavigationCtrl', function ($scope, $state, $location) {
+  .controller('NavigationCtrl', function ($scope, $state, $location, $rootScope) {
     $scope.customers = "";
 
     $scope.navigationItems = [
       {
         linkName: 'Home',
-        toState: 'dashboard'
+        toState: 'dashboard',
+        visibleFor: [
+          'admin', 'curator'
+        ]
       },
       {
         linkName: 'Show Customer',
-        toState: 'customer'
+        toState: 'customer',
+        visibleFor: [
+          'admin', 'curator'
+        ]
       },
       {
         linkName: 'Show QAs',
-        toState: 'showQA'
+        toState: 'showQA',
+        visibleFor: [
+          'admin', 'curator'
+        ]
       },
       {
         linkName: 'Show Catalogs',
-        toState: 'showCatalogs'
+        toState: 'showCatalogs',
+        visibleFor: [
+          'admin', 'curator'
+        ]
+      },
+      {
+        linkName: 'Create Catalog',
+        toState: 'newCatalog',
+        visibleFor: [
+          'admin', 'curator'
+        ]
       },
       {
         linkName: 'Show Projects',
-        toState: 'showProjects'
+        toState: 'showProjects',
+        visibleFor: [
+          'admin', 'curator'
+        ]
       },
       {
         linkName: 'Help',
-        toState: 'help'
+        toState: 'help',
+        visibleFor: [
+          'curator', 'synthesizer', 'projectmanager', 'analyst', 'admin'
+        ]
       }
     ]
 
     $scope.isActive = function (toState) {
       return $state.href(toState).substr(1) === $location.path();
+    }
+
+    $scope.isVisible = function(navItem) {
+      return navItem.visibleFor.indexOf($rootScope.selectedRole) > -1;
     }
 
 
