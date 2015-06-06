@@ -12,12 +12,11 @@ INSERT INTO "user" VALUES (-1003, 'd5506a1c7feda5c81f98f73cb547821d82d04d60', 'o
 --
 
 INSERT INTO role VALUES (-20000, 'admin');
-INSERT INTO role VALUES (-20001, 'dashboard');
-INSERT INTO role VALUES (-20002, 'curator');
-INSERT INTO role VALUES (-20003, 'analyst');
-INSERT INTO role VALUES (-20004, 'synthesizer');
-INSERT INTO role VALUES (-20005, 'evaluator');
-INSERT INTO role VALUES (-20006, 'projectmanager');
+INSERT INTO role VALUES (-20001, 'curator');
+INSERT INTO role VALUES (-20002, 'analyst');
+INSERT INTO role VALUES (-20003, 'synthesizer');
+INSERT INTO role VALUES (-20004, 'evaluator');
+INSERT INTO role VALUES (-20005, 'projectmanager');
 
 --
 -- Data for Name: user_role; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -25,6 +24,10 @@ INSERT INTO role VALUES (-20006, 'projectmanager');
 
 INSERT INTO user_role VALUES (-1000, -20000);
 INSERT INTO user_role VALUES (-1000, -20001);
+INSERT INTO user_role VALUES (-1000, -20002);
+INSERT INTO user_role VALUES (-1000, -20003);
+INSERT INTO user_role VALUES (-1000, -20004);
+INSERT INTO user_role VALUES (-1000, -20005);
 
 --INSERT INTO user_role VALUES (1001, 2000);
 INSERT INTO user_role VALUES (-1001, -20001);
