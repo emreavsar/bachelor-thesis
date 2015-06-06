@@ -110,7 +110,7 @@
           <h5>Quality Properties:</h5>
           <table class="qp-table">
             <tr>
-              <th ng-repeat="qp in project.qualityProperties | orderBy:'id'">
+              <th ng-repeat="qp in project.qualityProperties | orderBy:'-id'">
               <span data-trigger="hover" data-type="success"
                     data-title="{{qp.name + ' - ' + qp.description}}"
                     bs-tooltip
@@ -128,7 +128,7 @@
             id="{{'qa-' + qa.id}}"
             jira-url="project.jiraConnection.hostAddress"
             toggle-qp-status-function="toggleQpStatus"
-            categories="qa.template.categories" qa="qa" context="editproject" variables="qa.template.variables"
+            categories="qa.template.qa.categories" qa="qa" context="editproject" variables="qa.template.variables"
             qualityproperties="qa.qualityPropertyStatus" values="qa.values"/>
       </div>
     </div>

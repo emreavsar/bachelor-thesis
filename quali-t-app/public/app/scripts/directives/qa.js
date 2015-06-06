@@ -16,6 +16,7 @@ angular.module('qualitApp')
         qa: '=',
         catalogQa: '=',
         variables: '=',
+        categories: '=',
         qualityproperties: '=',
         values: '=',
         jiraUrl: '=',
@@ -219,14 +220,15 @@ angular.module('qualitApp')
         }
 
         var qa = scope.qa;
-        var categories = (qa.categories != undefined ? qa.categories : new Array());
+        //var categories = (qa.categories != undefined ? qa.categories : new Array());
+        var categories = (scope.categories != undefined ? scope.categories : new Array());
         var variables = (scope.variables != undefined ? scope.variables : new Array());
         var qualityproperties = (scope.qualityproperties != undefined ? scope.qualityproperties : new Array());
         var values = (scope.values != undefined ? scope.values : new Array());
 
         // sort by qp id
         qualityproperties = _.sortBy(qualityproperties, function (n) {
-          return n.qp.id
+          return -n.qp.id
         });
         var context = (scope.context != undefined ? scope.context : "");
 

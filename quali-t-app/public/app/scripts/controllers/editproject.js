@@ -196,16 +196,6 @@ angular.module('qualitApp')
       $scope.selectedCustomer = $scope.project.projectCustomer;
       $scope.selectedQualityProperties = $scope.project.qualityProperties;
       $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
-
-      // sort by qp id
-      for (var i = 0; i < $scope.project.qualityAttributes.length; i++) {
-        var qa = $scope.project.qualityAttributes[i];
-
-        qa = _.sortBy(qa.qualityPropertyStatus, function (n) {
-          return n.id;
-        });
-
-      }
     }
 
     // reload when projects qa gets updated (in edit mode)
@@ -222,7 +212,6 @@ angular.module('qualitApp')
         }).then(
         function (payload) {
           $scope.setProject(payload);
-
           return apiService.getCustomers();
         }).then(
         function (payload) {
