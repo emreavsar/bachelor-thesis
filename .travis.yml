@@ -13,7 +13,6 @@ before_install:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 - wget $ACTIVATOR_ZIP_URL
 - unzip -q $ACTIVATOR_ZIP_FILE
-- $ACTIVATOR_BIN run&
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - npm install -g npm@latest
 - npm cache clean
@@ -28,9 +27,9 @@ before_script:
 - bower install
 - npm install
 script:
-- cd $TRAVIS_BUILD_DIR/quali-t-app/
-# - $ACTIVATOR_BIN test
+- cd 
+- $ACTIVATOR_BIN test
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
-- grunt clean build protractor:firefox
+- grunt clean build testBasic
 after_success:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public && grunt clean && grunt build && cd $TRAVIS_BUILD_DIR/quali-t-app/ && $ACTIVATOR_BIN stage deployHeroku

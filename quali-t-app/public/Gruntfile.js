@@ -513,13 +513,17 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('test', [
+  grunt.registerTask('testBasic', [
     'clean:server',
     'wiredep',
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma',
+    'karma'
+  ]);
+
+  grunt.registerTask('test', [
+    'testBasic',
     'protractor'
   ]);
 
