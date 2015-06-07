@@ -2,10 +2,10 @@
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO "user" VALUES (-1000, '78c036a9bfc08d0c4150a9b9af9dd61c79ab4b8a', 'admin', 'eATliOMyVQhhmOLINQHO');
-INSERT INTO "user" VALUES (-1001, '994b8e7341be4aff15db7412cdafb4e33ac64eb7', 'corina', 'wUScbpcsYHyLjEQTHTmT');
+INSERT INTO "user" VALUES (-1000, '78c036a9bfc08d0c4150a9b9af9dd61c79ab4b8a', 'admin@quali-t.ch', 'eATliOMyVQhhmOLINQHO');
+INSERT INTO "user" VALUES (-1001, '994b8e7341be4aff15db7412cdafb4e33ac64eb7', 'corina.honegger@gmail.ch', 'wUScbpcsYHyLjEQTHTmT');
 INSERT INTO "user" VALUES (-1002, '4dd3a08cdda45838c11591789b4a47fedc1d3cc9', 'emre.avsar92@gmail.com', 'YqYpSzIoxBmpOliRctnV');
-INSERT INTO "user" VALUES (-1003, 'd5506a1c7feda5c81f98f73cb547821d82d04d60', 'ozimmermann', 'zAmVyCdklHphTtkyJuKM');
+INSERT INTO "user" VALUES (-1003, 'd5506a1c7feda5c81f98f73cb547821d82d04d60', 'ozimmermann@hsr.ch', 'zAmVyCdklHphTtkyJuKM');
 
 --
 -- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: qualit

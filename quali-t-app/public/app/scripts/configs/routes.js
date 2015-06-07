@@ -61,9 +61,6 @@ angular.module('qualitApp')
               return authorization.authorize();
             }
           ]
-        },
-        data: {
-          roles: ['dashboard']
         }
       })
       .state('customer', {
