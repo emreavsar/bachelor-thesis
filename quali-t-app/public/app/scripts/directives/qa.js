@@ -82,11 +82,11 @@ angular.module('qualitApp')
           return qpsTable;
         }
 
-        scope.getQaHtml = function (qa, variables, values) {
+        scope.getQaHtml = function (qa, variables, valuesOfVariable) {
           var descriptionParts = qaTextService.splitVariables(qa.description);
           var qaHtml = "";
-          var qaVars = _.sortBy(variables, ['varIndex']);
-          var values = _.sortBy(values, ['varIndex']);
+          var qaVars = _.sortByAll(variables, ['varIndex']);
+          var values = _.sortByAll(valuesOfVariable, ['varIndex']);
           var qaVarIndex = 0;
 
           for (var i = 0; i < descriptionParts.length; i++) {

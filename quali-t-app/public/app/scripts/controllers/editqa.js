@@ -37,7 +37,7 @@ angular.module('qualitApp')
 
       // update QAs text
       if ($scope.isTextMode) {
-        instance.description = qaNew.description;
+        instance.description = $scope.qaNew.description;
       } else {
         // update QAs instance values
         var qaValues = new Array();
