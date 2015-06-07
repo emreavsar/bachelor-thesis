@@ -16,6 +16,7 @@
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                 <input ng-model="username"
+                       id="input-username"
                        type="email" class="form-control"
                        name="username" placeholder="E-Mail" required="">
               </div>
@@ -23,11 +24,12 @@
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon glyphicon-lock"></i></span>
                 <input ng-model="password"
+                       id="input-password"
                        type="password" class="form-control"
                        name="password" value="" placeholder="Password" required="">
               </div>
 
-              <button class="btn btn-lg btn-primary btn-block" type="submit">
+              <button class="btn btn-lg btn-primary btn-block" type="submit" id="button_sign_in">
                 Sign In
               </button>
 

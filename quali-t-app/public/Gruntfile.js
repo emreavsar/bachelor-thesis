@@ -21,6 +21,9 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  // load protactor plugin for grunt
+  grunt.loadNpmTasks('grunt-protractor-runner');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -238,13 +241,13 @@ module.exports = function (grunt) {
           sourcemap: true
         }
       },
-      main : {
+      main: {
         options: {
           sassDir: '<%= yeoman.app %>/styles/',
           cssDir: '<%= yeoman.app %>/styles/'
         }
       },
-      extra : {
+      extra: {
         options: {
           sassDir: '<%= yeoman.app %>/styles/extra-styles/',
           cssDir: '<%= yeoman.app %>/styles/extra-styles/'
@@ -449,6 +452,10 @@ module.exports = function (grunt) {
         'compass',
         'imagemin',
         'svgmin'
+      ],
+      protractor_test: [
+        'protractor:chrome',
+        'protractor:firefox'
       ]
     },
 
@@ -457,6 +464,32 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'test/karma.conf.js',
         singleRun: true
+      }
+    },
+
+    // e2e test
+    protractor: {
+      options: {
+        configFile: "test/protractor.conf.js", //your protractor config file
+        keepAlive: true, // If false, the grunt process stops when the test fails.
+        noColor: false, // If true, protractor will not use colors in its output.
+        args: {
+          // Arguments passed to the command
+        }
+      },
+      chrome: {
+        options: {
+          args: {
+            browser: "chrome"
+          }
+        }
+      },
+      firefox: {
+        options: {
+          args: {
+            browser: "firefox"
+          }
+        }
       }
     }
   });
@@ -482,13 +515,19 @@ module.exports = function (grunt) {
     grunt.task.run(['serve:' + target]);
   });
 
+
+  grunt.registerTask('protractor-e2e', [
+    'concurrent:protractor_test'
+  ]);
+
   grunt.registerTask('test', [
     'clean:server',
     'wiredep',
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma',
+    'protractor-e2e'
   ]);
 
   grunt.registerTask('build', [
@@ -507,6 +546,7 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin'
   ]);
+
 
   grunt.registerTask('default', [
     'newer:jshint',
