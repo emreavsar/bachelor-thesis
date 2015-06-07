@@ -11,6 +11,8 @@ env:
   - HEROKU_API_KEY: 849fa6e4-48c6-40f2-9977-675e1636477b
 before_install:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
+- wget $ACTIVATOR_ZIP_URL
+- unzip -q $ACTIVATOR_ZIP_FILE
 - $ACTIVATOR_BIN run&
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - npm install -g npm@latest
@@ -25,9 +27,6 @@ before_script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - bower install
 - npm install
-- cd $TRAVIS_BUILD_DIR/quali-t-app/
-- wget $ACTIVATOR_ZIP_URL
-- unzip -q $ACTIVATOR_ZIP_FILE
 script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 # - $ACTIVATOR_BIN test
