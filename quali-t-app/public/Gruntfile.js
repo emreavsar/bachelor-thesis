@@ -453,7 +453,7 @@ module.exports = function (grunt) {
         'imagemin',
         'svgmin'
       ],
-      protractor_test: [
+      protractorTest: [
         'protractor:chrome',
         'protractor:firefox'
       ]
@@ -517,7 +517,7 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('protractor-e2e', [
-    'concurrent:protractor_test'
+    'concurrent:protractorTest'
   ]);
 
   grunt.registerTask('test', [
