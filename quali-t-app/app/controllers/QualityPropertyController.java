@@ -26,19 +26,19 @@ public class QualityPropertyController extends Controller implements ExceptionHa
         return ok(Json.toJson(qualityPropertyLogic.getAllQualityProperties()));
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("analyst"), @Group("admin")})
     @Transactional
     public Result createQualityProperty() {
         return catchAbstractException(request(), json -> ok(Json.toJson(qualityPropertyLogic.createQualityProperty(jsonConverter.getQualityPropertyFromJson(json)))));
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("analyst"), @Group("admin")})
     @Transactional
     public Result updateQualityProperty() {
         return catchAbstractException(request(), json -> ok(Json.toJson(qualityPropertyLogic.updateQualityProperty(jsonConverter.getQualityPropertyFromJson(json)))));
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("analyst"), @Group("admin")})
     @Transactional
     public Result deleteQualityProperty(long id) {
         return catchAbstractException(id, qualityPropertyId -> {

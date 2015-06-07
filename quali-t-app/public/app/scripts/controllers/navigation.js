@@ -16,14 +16,21 @@ angular.module('qualitApp')
         linkName: 'Home',
         toState: 'dashboard',
         visibleFor: [
+          'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+        ]
+      },
+      {
+        linkName: 'Show Categories',
+        toState: 'editCategories',
+        visibleFor: [
           'admin', 'curator'
         ]
       },
       {
-        linkName: 'Show Customer',
-        toState: 'customer',
+        linkName: 'Show Project Initiators',
+        toState: 'projectInitiator',
         visibleFor: [
-          'admin', 'curator'
+          'admin', 'analyst', 'projectmanager'
         ]
       },
       {
@@ -41,24 +48,38 @@ angular.module('qualitApp')
         ]
       },
       {
-        linkName: 'Create Catalog',
-        toState: 'newCatalog',
+        linkName: 'Show Quality Properties',
+        toState: 'editQualityProperties',
         visibleFor: [
-          'admin', 'curator'
+          'admin', 'analyst'
         ]
       },
       {
         linkName: 'Show Projects',
         toState: 'showProjects',
         visibleFor: [
-          'admin', 'curator'
+          'admin', 'projectmanager', 'analyst', 'synthesizer', 'evaluator'
+        ]
+      },
+      {
+        linkName: 'Show JIRA Connections',
+        toState: 'editJIRAConnections',
+        visibleFor: [
+          'admin', 'projectmanager'
+        ]
+      },
+      {
+        linkName: 'Show Users',
+        toState: 'editUsers',
+        visibleFor: [
+          'admin'
         ]
       },
       {
         linkName: 'Help',
         toState: 'help',
         visibleFor: [
-          'curator', 'synthesizer', 'projectmanager', 'analyst', 'admin'
+          'curator', 'synthesizer', 'projectmanager', 'analyst', 'admin', 'evaluator'
         ]
       }
     ]

@@ -1,5 +1,7 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
 import logics.user.UserLogic;
@@ -27,7 +29,7 @@ public class UserController extends Controller implements ExceptionHandlingInter
         return ok(Json.toJson(userLogic.getAllRoles()));
     }
 
-    @SubjectPresent
+    @Restrict(@Group("admin"))
     @Transactional
     public Result createUser() {
         return catchAbstractException(request(), json -> {
@@ -37,7 +39,7 @@ public class UserController extends Controller implements ExceptionHandlingInter
         });
     }
 
-    @SubjectPresent
+    @Restrict(@Group("admin"))
     @Transactional
     public Result updateUser() {
         return catchAbstractException(request(), json -> {
@@ -47,7 +49,7 @@ public class UserController extends Controller implements ExceptionHandlingInter
         });
     }
 
-    @SubjectPresent
+    @Restrict(@Group("admin"))
     @Transactional
     public Result deleteUser(Long id) {
         return catchAbstractException(id, userId -> {

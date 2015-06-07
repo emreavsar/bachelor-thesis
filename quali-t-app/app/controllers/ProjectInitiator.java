@@ -15,7 +15,7 @@ import util.JsonConverter;
 /**
  * Created by corina on 01.04.2015.
  */
-public class CustomerController extends Controller implements ExceptionHandlingInterface {
+public class ProjectInitiator extends Controller implements ExceptionHandlingInterface {
     @Inject
     private CustomerLogic customerLogic;
     @Inject
@@ -23,26 +23,26 @@ public class CustomerController extends Controller implements ExceptionHandlingI
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public Result createCustomer() {
+    public Result createProjectInitiator() {
         return catchAbstractException(request(), json -> ok(Json.toJson(customerLogic.createCustomer(jsonConverter.getCustomerFromJson(json)))));
     }
 
     @SubjectPresent
     @Transactional
-    public Result getAll() {
+    public Result getAllProjectInitiators() {
         Logger.info("getAllCustomers Customres called");
         return ok(Json.toJson(customerLogic.getAllCustomers()));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public Result updateCustomer() {
+    public Result updateProjectInitiator() {
         return catchAbstractException(request(), json -> ok(Json.toJson(customerLogic.updateCustomer(jsonConverter.getCustomerFromJson(json)))));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
-    public Result deleteCustomer(Long id) {
+    public Result deleteProjectInitiator(Long id) {
         return catchAbstractException(id, customerId -> {
             customerLogic.deleteCustomer(customerId);
             return status(202);

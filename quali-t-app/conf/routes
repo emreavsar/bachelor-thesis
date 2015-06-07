@@ -32,10 +32,10 @@ POST          /api/myfavorites                    @controllers.FavoriteControlle
 GET           /api/search/:searchArgument         @controllers.Search.search(searchArgument: String)
 
 # Customer
-POST          /api/customer                       @controllers.CustomerController.createCustomer()
-GET           /api/customer                       @controllers.CustomerController.getAll()
-PUT           /api/customer                       @controllers.CustomerController.updateCustomer()
-DELETE        /api/customer/:id                   @controllers.CustomerController.deleteCustomer(id: Long)
+POST          /api/customer            @controllers.ProjectInitiator.createProjectInitiator()
+GET           /api/customer            @controllers.ProjectInitiator.getAllProjectInitiators()
+PUT           /api/customer            @controllers.ProjectInitiator.updateProjectInitiator()
+DELETE        /api/customer/:id        @controllers.ProjectInitiator.deleteProjectInitiator(id: Long)
 
 # Quality Attribute
 POST          /api/qa                             @controllers.QualityAttributeController.createQA()

@@ -1,5 +1,7 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.google.inject.Inject;
 import logics.project.ValidationLogic;
 import play.Logger;
@@ -15,6 +17,7 @@ public class ValidateInstanceController extends Controller implements ExceptionH
     @Inject
     ValidationLogic validationLogic;
 
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional(readOnly = true)
     public Result validate(Long id) {
         Logger.info("validate called");

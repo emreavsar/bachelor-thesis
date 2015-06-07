@@ -24,7 +24,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
     @Inject
     private JsonConverter jsonConverter;
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result exportToXml(long id) {
         return catchAbstractException(id, projectId -> {
@@ -34,7 +34,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
         });
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result exportToPdf(long id) {
         return catchAbstractException(id, projectId -> {
@@ -44,7 +44,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
         });
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result createProject() {
         return catchAbstractException(request(), json -> {
@@ -67,7 +67,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
         return catchAbstractException(id, projectId -> ok(Json.toJson(projectLogic.getProject(projectId))));
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result deleteProject(Long id) {
         return catchAbstractException(id, projectId -> {
@@ -76,7 +76,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
         });
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result updateProject() {
         return catchAbstractException(request(), json -> {
@@ -86,13 +86,13 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
         });
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result createInstance() {
         return catchAbstractException(request(), json -> ok(Json.toJson(projectLogic.createInstance(new Instance()))));
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result deleteInstance(Long id) {
         return catchAbstractException(id, projectId -> {
@@ -101,13 +101,13 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
         });
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result updateInstance() {
         return catchAbstractException(request(), json -> ok(Json.toJson(projectLogic.updateInstance(jsonConverter.getInstanceFromJson(json)))));
     }
 
-    @Restrict({@Group("synthesizer"), @Group("admin")})
+    @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result cloneInstance(Long id) {
         return catchAbstractException(id, projectId -> ok(Json.toJson(projectLogic.cloneInstance(projectId))));

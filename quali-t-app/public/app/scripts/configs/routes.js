@@ -63,12 +63,12 @@ angular.module('qualitApp')
           ]
         }
       })
-      .state('customer', {
-        templateUrl: 'views/customer/admin.html',
-        url: '/authenticated/customer/admin',
+      .state('projectInitiator', {
+        templateUrl: 'views/projectInitiator/admin.html',
+        url: '/authenticated/projectInitiator/admin',
         controller: 'CustomerCtrl',
         data: {
-          roles: ['curator', 'admin']
+          roles: ['projectmanager', 'admin']
         }
 
       })
@@ -85,7 +85,7 @@ angular.module('qualitApp')
         url: '/authenticated/qa/edit/:catalogQa/:catalogId',
         controller: 'QACtrl',
         data: {
-          roles: ['analyst', 'admin']
+          roles: ['curator', 'admin']
         }
       })
       .state('showQA', {
@@ -109,7 +109,7 @@ angular.module('qualitApp')
         url: '/authenticated/catalog/edit/:catalogId',
         controller: 'EditCatalogCtrl',
         data: {
-          roles: ['analyst', 'admin']
+          roles: ['curator', 'admin']
         }
       })
       .state('newCatalog', {
@@ -125,7 +125,7 @@ angular.module('qualitApp')
         url: '/authenticated/project/create',
         controller: 'ProjectCtrl',
         data: {
-          roles: ['analyst', 'admin']
+          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin']
         }
       })
       .state('editProject', {
@@ -133,7 +133,7 @@ angular.module('qualitApp')
         url: '/authenticated/project/edit/:projectId',
         controller: 'EditProjectCtrl',
         data: {
-          roles: ['analyst', 'admin']
+          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin']
         }
       })
       .state('showProjects', {
@@ -141,7 +141,7 @@ angular.module('qualitApp')
         url: '/authenticated/project/admin',
         controller: 'ProjectListCtrl',
         data: {
-          roles: ['curator', 'admin']
+          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin']
         }
       })
       .state('editCategories', {
@@ -157,7 +157,7 @@ angular.module('qualitApp')
         url: '/authenticated/qp/admin',
         controller: 'QualitypropertyCtrl',
         data: {
-          roles: ['curator', 'admin']
+          roles: ['analyst', 'admin']
         }
       })
       .state('editUsers', {
@@ -165,7 +165,7 @@ angular.module('qualitApp')
         url: '/authenticated/user/admin',
         controller: 'UserCtrl',
         data: {
-          roles: ['curator', 'admin']
+          roles: ['admin']
         }
       })
       .state('editJIRAConnections', {
@@ -173,7 +173,7 @@ angular.module('qualitApp')
         url: '/authenticated/jiraconnection/admin',
         controller: 'JiraconnectionCtrl',
         data: {
-          roles: ['curator', 'synthesizer', 'projectmanager', 'analyst', 'admin']
+          roles: ['projectmanager', 'admin']
         }
       })
       .state('help', {

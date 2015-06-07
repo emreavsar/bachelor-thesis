@@ -34,23 +34,6 @@ public class CatalogController extends Controller implements ExceptionHandlingIn
 
     @SubjectPresent
     @Transactional
-    public Result importCatalog() {
-        return catchAbstractException(request(), json -> {
-            Catalog catalog = jsonConverter.getImportCatalogFromJson(json);
-            return ok(Json.toJson(catalogLogic.importCatalog(catalog)));
-        });
-    }
-
-    @SubjectPresent
-    @Transactional
-    public Result exportCatalog(Long id) {
-        return catchAbstractException(id, catalogId -> {
-            return ok(catalogLogic.getCatalogToExport(catalogId));
-        });
-    }
-
-    @SubjectPresent
-    @Transactional
     public Result getAllCatalogs() {
         Logger.info("getAllCatalogs Ctrl called");
         return ok(Json.toJson(catalogLogic.getAllCatalogs()));
@@ -114,5 +97,22 @@ public class CatalogController extends Controller implements ExceptionHandlingIn
     @Transactional
     public Result getCatalogQA(Long id) {
         return catchAbstractException(id, catalogId -> ok(Json.toJson(catalogLogic.getCatalogQA(id))));
+    }
+
+    @Restrict({@Group("curator"), @Group("admin")})
+    @Transactional
+    public Result importCatalog() {
+        return catchAbstractException(request(), json -> {
+            Catalog catalog = jsonConverter.getImportCatalogFromJson(json);
+            return ok(Json.toJson(catalogLogic.importCatalog(catalog)));
+        });
+    }
+
+    @Restrict({@Group("curator"), @Group("admin")})
+    @Transactional
+    public Result exportCatalog(Long id) {
+        return catchAbstractException(id, catalogId -> {
+            return ok(catalogLogic.getCatalogToExport(catalogId));
+        });
     }
 }

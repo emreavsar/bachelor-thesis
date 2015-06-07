@@ -25,7 +25,7 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
         customerLogic = getInjector().getInstance(CustomerLogic.class);
     }
 
-    //createCustomer Tests
+    //createProjectInitiator Tests
     @Test
     public void testCreateValidCustomer() throws MissingParameterException, EntityAlreadyExistsException, InterruptedException {
         // ACT
@@ -72,7 +72,7 @@ public class CustomerLogicTest extends AbstractDatabaseTest {
         // ASSERT
     }
 
-    //updateCustomer Tests
+    //updateProjectInitiator Tests
 
     @Test
     public void testUpdateValidCustomer() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
