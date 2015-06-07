@@ -29,6 +29,7 @@ before_script:
 script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 # - $ACTIVATOR_BIN test
+- $ACTIVATOR_BIN run
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - grunt clean build protractor:firefox
 after_success:
