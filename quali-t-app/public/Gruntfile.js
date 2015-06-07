@@ -21,8 +21,9 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
-  // load protactor plugin for grunt
+  // load protactor specific plugins
   grunt.loadNpmTasks('grunt-protractor-runner');
+
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -452,10 +453,6 @@ module.exports = function (grunt) {
         'compass',
         'imagemin',
         'svgmin'
-      ],
-      protractorTest: [
-        'protractor:chrome',
-        'protractor:firefox'
       ]
     },
 
@@ -516,10 +513,6 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('protractor-e2e', [
-    'concurrent:protractorTest'
-  ]);
-
   grunt.registerTask('test', [
     'clean:server',
     'wiredep',
@@ -527,7 +520,7 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma',
-    'protractor-e2e'
+    'protractor'
   ]);
 
   grunt.registerTask('build', [
