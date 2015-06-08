@@ -52,6 +52,7 @@
           <div class="col-md-5">
             <label>Quality Properties</label>
             <ui-select ng-model="$parent.selectedQualityProperties"
+                       id="projectQualityProperties"
                        multiple theme="bootstrap" ng-disabled="disabled"
                        class="qualityproperties-selection">
               <ui-select-match placeholder="Select quality properties...">{{$item.description}}</ui-select-match>
@@ -64,7 +65,7 @@
         </div>
 
         <div class="row end-row col-sm-12">
-          <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg">Choose Catalog and QAs</button>
+          <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg" id="choose-catalog-button">Choose Catalog and QAs</button>
         </div>
       </div>
       <!-- END STEP 1 -->
@@ -179,7 +180,7 @@
           </div>
 
           <div class="row end-row col-sm-12">
-            <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg">Create Project and set values for
+            <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg" id="create-project-button">Create Project and set values for
               QAs
             </button>
           </div>

@@ -61,10 +61,10 @@
     </div>
 
     <div class="row end-row">
-      <button ng-show="catalogQa" type="submit" class="btn btn-success btn-lg" ng-click="createOrUpdate(qaText)">
+      <button id="update-qa-button" ng-show="catalogQa" type="submit" class="btn btn-success btn-lg" ng-click="createOrUpdate(qaText)">
         Update Quality Attribute Template
       </button>
-      <button ng-show="!catalogQa" type="submit" class="btn btn-success btn-lg" ng-click="createOrUpdate(qaText)">
+      <button id="create-qa-button" ng-show="!catalogQa" type="submit" class="btn btn-success btn-lg" ng-click="createOrUpdate(qaText)">
         Create Quality Attribute Template
       </button>
     </div>

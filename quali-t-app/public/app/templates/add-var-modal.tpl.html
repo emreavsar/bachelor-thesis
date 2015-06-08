@@ -29,18 +29,18 @@
         <h5 ng-show="!isEditMode">Select the type of your textfield:</h5>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="TEXT" ng-disabled="isEditMode"> Text (String)
+          <input type="radio" ng-model="subType" value="TEXT" ng-disabled="isEditMode" id="free-text-option"> Text (String)
         </label>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode"> Numeric (Floating Point)
+          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode" id="free-numberic-option"> Numeric (Floating Point)
         </label>
 
         <div ng-show="subType" class="row">
           <div ng-show="isNumeric()" class="row">
             <div class="row">
               <label>
-                <input type="checkbox" ng-model="useRange"> I want to use a range
+                <input type="checkbox" ng-model="useRange" id="free-userange-checkbox"> I want to use a range
                 <i class="fa fa-info-circle" data-trigger="hover" data-type="success" data-title="{{tooltipsRange}}"
                    bs-tooltip></i>
               </label>
@@ -50,14 +50,14 @@
                   <label for="minValue" class="control-label">Minimum value</label>
 
                   <div>
-                    <input type="number" ng-model="minValue" class="form-input" id="minValue">
+                    <input type="number" ng-model="minValue" class="form-input" id="freeMinValue">
                   </div>
                 </div>
                 <div class="form-input col-md-6">
                   <label for="maxValue" class="control-label">Maximum value</label>
 
                   <div>
-                    <input type="number" ng-model="maxValue" class="form-input" id="maxValue">
+                    <input type="number" ng-model="maxValue" class="form-input" id="freeMaxValue">
                   </div>
                 </div>
               </div>
@@ -66,7 +66,7 @@
           </div>
 
           <div class="margin-top-50 text-center">
-            <button type="button" class="btn btn-default btn-md" ng-show="!isEditMode"
+            <button id="add-free-variable-button" type="button" class="btn btn-default btn-md" ng-show="!isEditMode"
                     ng-click="add(editor, savedSelection, type, subType, null, minValue, maxValue, null, null)">
               Add specified variable
             </button>
@@ -86,11 +86,11 @@
         <h5>Select the type of your dropdown:</h5>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="TEXT" ng-disabled="isEditMode"> Text (String)
+          <input id="enum-text-option"  type="radio" ng-model="subType" value="TEXT" ng-disabled="isEditMode"> Text (String)
         </label>
 
         <label class="col-md-6">
-          <input type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode"> Numeric (Floating Point)
+          <input id="enum-numeric-option"  type="radio" ng-model="subType" value="NUMBER" ng-disabled="isEditMode"> Numeric (Floating Point)
         </label>
 
         <div ng-show="subType" class="row">
@@ -99,10 +99,10 @@
               Add elements to your dropdown:
               <div ng-show="enumList">
                 Elements of your enumeration:
-                <ul>
+                <ul id="enum-list-ul">
                   <li ng-repeat="enumElement in enumList">
                     {{enumElement}}
-                    <i class="fa fa-trash-o pointer" ng-click="removeFromList(enumElement);"></i>
+                    <i class="fa fa-trash-o pointer" ng-click="removeFromList(enumElement);" id="remove-enum-element-button"></i>
                   </li>
                 </ul>
               </div>
@@ -113,7 +113,7 @@
                 <input type="text" ng-model="enumElementText" name="nameNumber" ng-minlength="0"
                        ng-pattern="/^[0-9]+(?:[\,\.]{1}[0-9]*)?$/" ng-show="isNumeric()"/>
 
-                <button class="btn btn-default btn-sm" type="submit">
+                <button class="btn btn-default btn-sm" type="submit" id="add-enum-element-button">
                   <i class="fa fa-plus"></i> Add
                 </button>
 
@@ -207,7 +207,7 @@
           </div>
 
           <div class="margin-top-50 text-center">
-            <button type="button" class="btn btn-default btn-md" ng-show="!isEditMode"
+            <button id="add-enum-variable-button" type="button" class="btn btn-default btn-md" ng-show="!isEditMode"
                     ng-click="add(editor, savedSelection, type, subType, enumList, minValue, maxValue, defaultValue, isExtendable);">
               Add specified variable
             </button>
