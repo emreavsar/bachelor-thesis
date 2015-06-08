@@ -10,14 +10,9 @@ env:
   - ACTIVATOR_BIN: $TRAVIS_BUILD_DIR/quali-t-app/activator-$ACTIVATOR_VERSION-minimal/activator
   - HEROKU_API_KEY: 849fa6e4-48c6-40f2-9977-675e1636477b
 before_install:
-- cd $TRAVIS_BUILD_DIR/quali-t-app/
-- wget $ACTIVATOR_ZIP_URL
-- unzip -q $ACTIVATOR_ZIP_FILE
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - npm install -g npm@latest
 - npm cache clean
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
 install:
 - npm install -g bower grunt-cli
 - gem update --system
@@ -26,10 +21,14 @@ before_script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
 - bower install
 - npm install
+- cd $TRAVIS_BUILD_DIR/quali-t-app/
+- wget $ACTIVATOR_ZIP_URL
+- unzip -q $ACTIVATOR_ZIP_FILE
 script:
-- cd 
-- $ACTIVATOR_BIN test
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
-- grunt clean build testBasic
+- grunt clean
+- grunt
+- cd $TRAVIS_BUILD_DIR/quali-t-app/
+- $ACTIVATOR_BIN test
 after_success:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public && grunt clean && grunt build && cd $TRAVIS_BUILD_DIR/quali-t-app/ && $ACTIVATOR_BIN stage deployHeroku
