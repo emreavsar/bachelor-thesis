@@ -66,7 +66,7 @@ angular.module('qualitApp')
       .state('projectInitiator', {
         templateUrl: 'views/projectInitiator/admin.html',
         url: '/authenticated/projectInitiator/admin',
-        controller: 'CustomerCtrl',
+        controller: 'ProjectInitiatorCtrl',
         data: {
           roles: ['projectmanager', 'admin']
         }

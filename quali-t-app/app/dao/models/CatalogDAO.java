@@ -1,6 +1,7 @@
 package dao.models;
 
 import dao.AbstractDAO;
+import exceptions.EntityNotFoundException;
 import models.template.Catalog;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  */
 public class CatalogDAO extends AbstractDAO<Catalog> {
 
-    public ArrayList<Catalog> search(String searchArgument) {
+    public ArrayList<Catalog> search(String searchArgument) throws EntityNotFoundException {
         ArrayList<Catalog> searchResults = new ArrayList<>();
         searchArgument = "%" + searchArgument + "%";
         searchResults = (ArrayList<Catalog>) findAll("select c from Catalog c where lower(c.name) like ? or  lower(c.description) like ?", searchArgument, searchArgument);

@@ -4,7 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
-import logics.project.CustomerLogic;
+import logics.project.ProjectInitiatorLogic;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -15,36 +15,36 @@ import util.JsonConverter;
 /**
  * Created by corina on 01.04.2015.
  */
-public class ProjectInitiator extends Controller implements ExceptionHandlingInterface {
+public class ProjectInitiatorController extends Controller implements ExceptionHandlingInterface {
     @Inject
-    private CustomerLogic customerLogic;
+    private ProjectInitiatorLogic projectInitiatorLogic;
     @Inject
     private JsonConverter jsonConverter;
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public Result createProjectInitiator() {
-        return catchAbstractException(request(), json -> ok(Json.toJson(customerLogic.createCustomer(jsonConverter.getCustomerFromJson(json)))));
+        return catchAbstractException(request(), json -> ok(Json.toJson(projectInitiatorLogic.createProjectInitiator(jsonConverter.getProjectInitiatorFromJson(json)))));
     }
 
     @SubjectPresent
     @Transactional
     public Result getAllProjectInitiators() {
-        Logger.info("getAllCustomers Customres called");
-        return ok(Json.toJson(customerLogic.getAllCustomers()));
+        Logger.info("getAllProjectInitiators ProjectInitiator called");
+        return ok(Json.toJson(projectInitiatorLogic.getAllProjectInitiators()));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public Result updateProjectInitiator() {
-        return catchAbstractException(request(), json -> ok(Json.toJson(customerLogic.updateCustomer(jsonConverter.getCustomerFromJson(json)))));
+        return catchAbstractException(request(), json -> ok(Json.toJson(projectInitiatorLogic.updateProjectInitiator(jsonConverter.getProjectInitiatorFromJson(json)))));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public Result deleteProjectInitiator(Long id) {
-        return catchAbstractException(id, customerId -> {
-            customerLogic.deleteCustomer(customerId);
+        return catchAbstractException(id, projectInitiatorId -> {
+            projectInitiatorLogic.deleteProjectInitiator(projectInitiatorId);
             return status(202);
         });
     }

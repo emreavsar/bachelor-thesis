@@ -18,7 +18,7 @@ angular.module('qualitApp')
     $scope.newQaInEdit = false;
     $scope.name = "";
     $scope.jiraKey = "";
-    $scope.customer = "";
+    $scope.projectInitiator = "";
     $scope.qpList = new Array();
     $scope.catalog = "";
     // local unbinded variable => used for not loading the same catalog twice (see loadQAs)
@@ -26,7 +26,7 @@ angular.module('qualitApp')
     $scope.currentCategoriesFilter = new Array();
     $scope.selectedQualityProperties = new Array();
     $scope.selectedJiraConnection = null;
-    $scope.selectedCustomer = {};
+    $scope.selectedProjectInitiator = {};
 
     // qa's which are created on the fly
     $scope.additionalQas = new Array();
@@ -64,8 +64,8 @@ angular.module('qualitApp')
         if ($scope.selectedQualityProperties.length == 0) {
           errors.push("You must select at least one quality property for a project.");
         }
-        if ($scope.selectedCustomer.id == undefined) {
-          errors.push("You must select the customer of the project.");
+        if ($scope.selectedProjectInitiator.id == undefined) {
+          errors.push("You must select the projectInitiator of the project.");
         }
 
         if (errors.length > 0) {
@@ -114,7 +114,7 @@ angular.module('qualitApp')
         name: $scope.name,
         jiraKey: $scope.jiraKey,
         jiraConnection: $scope.selectedJiraConnection,
-        customer: $scope.selectedCustomer.id,
+        projectInitiator: $scope.selectedProjectInitiator.id,
         qualityProperties: $scope.selectedQualityProperties,
         qualityAttributes: selectedCatalogQAs,
         additionalQualityAttributes: selectedAdditionalQas
@@ -228,10 +228,10 @@ angular.module('qualitApp')
       promiseInit.then(
         function (payload) {
           $scope.qpList = payload.data;
-          return apiService.getCustomers();
+          return apiService.getProjectInitiators();
         }).then(
         function (payload) {
-          $scope.customerList = payload.data;
+          $scope.projectInitiatorList = payload.data;
           return apiService.getCatalogs();
         }).then(
         function (payload) {

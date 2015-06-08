@@ -8,7 +8,7 @@ import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import logics.project.ProjectLogic;
 import models.Interface.JIRAConnection;
-import models.project.Customer;
+import models.project.ProjectInitiator;
 import models.project.Project;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -32,7 +32,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     private List<Long> qualityAttributeIdList;
     private List<Long> qualityPropertyIdList;
     private Project project;
-    private Customer customer;
+    private ProjectInitiator projectInitiator;
     private CatalogQA qa;
     private QualityProperty qualityProperty;
     private Project persistedProject;
@@ -52,9 +52,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         qualityPropertyIdList = new ArrayList<>();
         qualityProperty = AbstractTestDataCreator.createQualityProperty("D", "Description");
         qualityPropertyIdList.add(qualityProperty.getId());
-        customer = AbstractTestDataCreator.createCustomer("name", "address");
+        projectInitiator = AbstractTestDataCreator.createCustomer("name", "address");
         project = new Project();
-        project.setProjectCustomer(customer);
+        project.setProjectInitiator(projectInitiator);
         project.setName("project name");
         project.setJiraKey("jira key");
         projectLogic = getInjector().getInstance(ProjectLogic.class);
@@ -73,7 +73,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         assertThat(newProject.getId()).isNotNull();
         assertThat(newProject.getJiraKey()).isEqualTo("jira key");
         assertThat(newProject.getName()).isEqualTo("project name");
-        assertThat(newProject.getProjectCustomer()).isEqualTo(customer);
+        assertThat(newProject.getProjectInitiator()).isEqualTo(projectInitiator);
         assertThat(newProject.getQualityProperties().size()).isEqualTo(1);
         assertThat(newProject.getQualityProperties().contains(qualityProperty));
         assertThat(newProject.getQualityAttributes().size()).isEqualTo(1);
@@ -118,7 +118,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         assertThat(newProject.getId()).isNotNull();
         assertThat(newProject.getJiraKey()).isEqualTo("jira key");
         assertThat(newProject.getName()).isEqualTo("project name");
-        assertThat(newProject.getProjectCustomer()).isEqualTo(customer);
+        assertThat(newProject.getProjectInitiator()).isEqualTo(projectInitiator);
         assertThat(newProject.getQualityProperties().size()).isEqualTo(1);
         assertThat(newProject.getQualityProperties().contains(qualityProperty));
         assertThat(newProject.getQualityAttributes().size()).isEqualTo(0);
@@ -142,7 +142,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         assertThat(newProject.getId()).isNotNull();
         assertThat(newProject.getJiraKey()).isEqualTo("jira key");
         assertThat(newProject.getName()).isEqualTo("project name");
-        assertThat(newProject.getProjectCustomer()).isEqualTo(customer);
+        assertThat(newProject.getProjectInitiator()).isEqualTo(projectInitiator);
         assertThat(newProject.getQualityProperties().size()).isEqualTo(0);
         assertThat(newProject.getQualityAttributes().size()).isEqualTo(1);
         assertThat(newProject.getQualityAttributes().contains(qa));
@@ -220,9 +220,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         JIRAConnection jiraConnection = AbstractTestDataCreator.createJiraConnection("new host", "new user", "new password");
-        Customer newCustomer = AbstractTestDataCreator.createCustomer("new name", "new address");
+        ProjectInitiator newProjectInitiator = AbstractTestDataCreator.createCustomer("new name", "new address");
         projectToUpdate.setJiraConnection(jiraConnection);
-        projectToUpdate.setProjectCustomer(newCustomer);
+        projectToUpdate.setProjectInitiator(newProjectInitiator);
         projectToUpdate.setName("new name");
         projectToUpdate.setJiraKey("new jira key");
         projectToUpdate.setId(persistedProject.getId());
@@ -232,7 +232,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         assertThat(updatedProject.getId()).isEqualTo(persistedProject.getId());
         assertThat(updatedProject.getJiraKey()).isEqualTo("new jira key");
         assertThat(updatedProject.getName()).isEqualTo("new name");
-        assertThat(updatedProject.getProjectCustomer()).isEqualTo(newCustomer);
+        assertThat(updatedProject.getProjectInitiator()).isEqualTo(newProjectInitiator);
         assertThat(updatedProject.getQualityProperties().size()).isEqualTo(persistedProject.getQualityProperties().size());
         assertThat(updatedProject.getQualityProperties().contains(qualityProperty));
         assertThat(updatedProject.getQualityAttributes().size()).isEqualTo(persistedProject.getQualityAttributes().size());
@@ -247,7 +247,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         QualityProperty newQualityProperty = AbstractTestDataCreator.createQualityProperty("S", "Specific");
         qualityPropertyIdList.add(newQualityProperty.getId());
         projectToUpdate.setId(persistedProject.getId());
@@ -275,7 +275,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         qualityPropertyIdList = new ArrayList<>();
         projectToUpdate.setId(persistedProject.getId());
         // ACT
@@ -296,7 +296,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
 //        project.addQualityAttribute(persistedInstance);
 //        persistedProject = AbstractTestDataCreator.createProject(project);
 //        Project projectToUpdate = new Project();
-//        projectToUpdate.setProjectCustomer(customer);
+//        projectToUpdate.setProjectCustomer(projectInitiator);
 //        Instance instanceToUpdate = new Instance();
 //        instanceToUpdate.setId(persistedInstance.getId());
 //        instanceToUpdate.addQualityProperty(qualityProperty);
@@ -334,7 +334,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         projectToUpdate.setId(persistedProject.getId());
         projectToUpdate.setName("");
         // ACT
@@ -347,9 +347,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ARRANGE
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         projectToUpdate.setId(persistedProject.getId());
-        projectToUpdate.setProjectCustomer(null);
+        projectToUpdate.setProjectInitiator(null);
         // ACT
         projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
         // ASSERT
@@ -361,7 +361,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         projectToUpdate.setId(new Long(99999));
         // ACT
         projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
@@ -374,9 +374,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         projectToUpdate.setId(null);
-        projectToUpdate.setProjectCustomer(null);
+        projectToUpdate.setProjectInitiator(null);
         // ACT
         projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
         // ASSERT
@@ -388,9 +388,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
-        projectToUpdate.setProjectCustomer(customer);
+        projectToUpdate.setProjectInitiator(projectInitiator);
         projectToUpdate.setId(null);
-        projectToUpdate.setProjectCustomer(null);
+        projectToUpdate.setProjectInitiator(null);
         // ACT
         projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
         // ASSERT

@@ -14,14 +14,15 @@
           </div>
 
           <div class="col-md-5 col-md-offset-1">
-            <label for="customerName">Customer</label>
+            <label for="projectInitiatorName">Project Initiator</label>
 
-            <ui-select id="customerName" required="required" ng-model="$parent.selectedCustomer" theme="bootstrap"
+            <ui-select id="projectInitiatorName" required="required" ng-model="$parent.selectedProjectInitiator"
+                       theme="bootstrap"
                        ng-disabled="disabled">
-              <ui-select-match placeholder="Select customer...">{{$select.selected.name}}</ui-select-match>
+              <ui-select-match placeholder="Select projectInitiator...">{{$select.selected.name}}</ui-select-match>
 
-              <ui-select-choices repeat="customer in customerList | filter:$select.search">
-                <div ng-bind-html="customer.name | highlight: $select.search"></div>
+              <ui-select-choices repeat="projectInitiator in projectInitiatorList | filter:$select.search">
+                <div ng-bind-html="projectInitiator.name | highlight: $select.search"></div>
               </ui-select-choices>
             </ui-select>
           </div>

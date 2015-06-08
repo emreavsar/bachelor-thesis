@@ -23,7 +23,7 @@ public class QualityPropertyLogic {
         return qualityPropertyDAO.readAll();
     }
 
-    public models.project.QualityProperty createQualityProperty(models.project.QualityProperty qualityProperty) throws MissingParameterException, EntityAlreadyExistsException {
+    public models.project.QualityProperty createQualityProperty(models.project.QualityProperty qualityProperty) throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         if (qualityProperty != null && helper.validate(qualityProperty.getName()) && helper.validate(qualityProperty.getDescription())) {
             if (qualityPropertyDAO.findByName(qualityProperty.getName()) == null) {
                 qualityProperty.setId(null);

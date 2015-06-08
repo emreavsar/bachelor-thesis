@@ -19,16 +19,16 @@ public class ModelConverter {
         Project convertedProject = new Project();
         convertedProject.setName(project.getName());
         convertedProject.setJiraKey(project.getJiraKey());
-        convertedProject.setProjectCustomer(convertCustomer(project.getProjectCustomer()));
+        convertedProject.setProjectInitiator(convertProjectInitiator(project.getProjectInitiator()));
         convertedProject.setQualityAttributes(convertInstance(project.getQualityAttributes()));
         return convertedProject;
     }
 
-    private Customer convertCustomer(models.project.Customer customer) {
-        Customer convertCustomer = new Customer();
-        convertCustomer.setAddress(customer.getAddress());
-        convertCustomer.setName(customer.getName());
-        return convertCustomer;
+    private ProjectInitiator convertProjectInitiator(models.project.ProjectInitiator projectInitiator) {
+        ProjectInitiator convertProjectInitiator = new ProjectInitiator();
+        convertProjectInitiator.setAddress(projectInitiator.getAddress());
+        convertProjectInitiator.setName(projectInitiator.getName());
+        return convertProjectInitiator;
     }
 
     private Set<Instance> convertInstance(Set<models.project.nfritem.Instance> instanceSet) throws EntityNotFoundException {

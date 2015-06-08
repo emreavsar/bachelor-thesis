@@ -6,7 +6,7 @@ import exceptions.MissingParameterException;
 import logics.authentication.Authenticator;
 import models.Interface.JIRAConnection;
 import models.authentication.User;
-import models.project.Customer;
+import models.project.ProjectInitiator;
 import models.project.Project;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -33,12 +33,12 @@ public abstract class AbstractTestDataCreator {
         em.flush();
     }
 
-    public static User createUser(String name, String password) throws EntityAlreadyExistsException, MissingParameterException {
+    public static User createUser(String name, String password) throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
         return TestDependencyUtil.createInjector().getInstance(Authenticator.class).registerUser(name, password);
     }
 
-    public static Customer createCustomer(String name, String address) {
-        Customer c = new Customer(name, address);
+    public static ProjectInitiator createCustomer(String name, String address) {
+        ProjectInitiator c = new ProjectInitiator(name, address);
         persistAndFlush(c);
         return c;
     }
@@ -100,6 +100,13 @@ public abstract class AbstractTestDataCreator {
         persistAndFlush(instance);
         instance.setProject(project);
         instance.setTemplate(catalogQA);
+        persistAndFlush(instance);
+        return instance;
+    }
+
+    public static Instance createInstanceWithVars(String descirption, List<Val> valueList) {
+        Instance instance = new Instance(descirption);
+        instance.addValues(valueList);
         persistAndFlush(instance);
         return instance;
     }

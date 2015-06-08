@@ -19,7 +19,7 @@ public class QualityAttributeDAO extends AbstractDAO<QA> {
         return qas;
     }
 
-    public ArrayList<QA> search(String searchArgument) {
+    public ArrayList<QA> search(String searchArgument) throws EntityNotFoundException {
         ArrayList<QA> searchResults = new ArrayList<>();
         searchArgument = "%" + searchArgument + "%";
         searchResults = (ArrayList<QA>) findAll("select q from QA q where lower(q.description) like ?", searchArgument);

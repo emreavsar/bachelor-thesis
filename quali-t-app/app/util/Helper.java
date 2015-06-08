@@ -27,7 +27,7 @@ public class Helper {
         return replacePlaceholder(qualityAttributeInstance.getDescription(), values);
     }
 
-    public String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
+    private String replacePlaceholder(String text, Set<Val> values) throws EntityNotFoundException {
         Pattern p = Pattern.compile("%VARIABLE_.*?([0-9]*)%");
         Matcher m = p.matcher(text);
 

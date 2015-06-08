@@ -5,8 +5,9 @@
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
-        <h4 class="modal-title" ng-show="type == 'add'">Add new Customer</h4>
-        <h4 class="modal-title" ng-show="type == 'edit'">Edit Customer {{customer.id}} {{customer.name}}</h4>
+        <h4 class="modal-title" ng-show="type == 'add'">Add new Project Initiator</h4>
+        <h4 class="modal-title" ng-show="type == 'edit'">Edit Project Initiator {{projectInitiator.id}}
+          {{projectInitiator.name}}</h4>
       </div>
 
       <div class="modal-body">
@@ -14,24 +15,24 @@
         <div class="form crud-form">
           <form>
             <div class="form-group">
-              <label for="name">Customer name</label>
+              <label for="name">Project Initiator name</label>
 
-              <input type="text" class="form-control" id="name" ng-model="customer.name" required/>
+              <input type="text" class="form-control" id="name" ng-model="projectInitiator.name" required/>
 
               <label for="address">Address</label>
-              <input type="text" class="form-control" id="address" ng-model="customer.address"/>
+              <input type="text" class="form-control" id="address" ng-model="projectInitiator.address"/>
             </div>
           </form>
         </div>
         <div class="margin-top-50 text-center">
           <button type="submit" class="btn btn-default" ng-show="type == 'edit'"
-                  ng-click="callBackFunction(customer); $hide()">
-            <i class="fa fa-plus"></i> Save Customer
+                  ng-click="callBackFunction(projectInitiator); $hide()">
+            <i class="fa fa-plus"></i> Save Project Initiator
           </button>
 
           <button type="submit" class="btn btn-success" ng-show="type == 'add'"
-                  ng-click="callBackFunction(customer.name, customer.address); $hide()">
-            <i class="fa fa-plus"></i> Add Customer
+                  ng-click="callBackFunction(projectInitiator.name, projectInitiator.address); $hide()">
+            <i class="fa fa-plus"></i> Add Project Initiator
           </button>
         </div>
 

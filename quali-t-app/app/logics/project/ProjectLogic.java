@@ -6,7 +6,6 @@ import dao.models.*;
 import exceptions.CouldNotConvertException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import util.Helper;
 import logics.interfaces.projectExport.models.ModelConverter;
 import logics.interfaces.projectExport.repositories.PdfRepo;
 import logics.interfaces.projectExport.repositories.XmlRepo;
@@ -18,6 +17,7 @@ import models.project.nfritem.Val;
 import models.template.CatalogQA;
 import org.apache.fop.apps.FOPException;
 import play.db.jpa.JPA;
+import util.Helper;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
@@ -34,7 +34,7 @@ public class ProjectLogic {
     @Inject
     private ProjectDAO projectDAO;
     @Inject
-    private CustomerDAO customerDAO;
+    private ProjectInitiatorDAO projectInitiatorDAO;
     @Inject
     private QualityPropertyDAO qualityPropertyDAO;
     @Inject
@@ -58,12 +58,6 @@ public class ProjectLogic {
     @Inject
     private ModelConverter modelConverter;
 
-    /**
-     * Creates and persists customer.
-     *
-     * @param
-     * @return Project
-     */
 
     public models.project.Project createProject(models.project.Project project, List<Long> qualityAttributeIdList, List<Long> qualityPropertyIdList) throws EntityNotFoundException, MissingParameterException {
         if (project != null && qualityAttributeIdList != null && qualityPropertyIdList != null) {
@@ -151,7 +145,7 @@ public class ProjectLogic {
         throw new MissingParameterException("Please provide all required Parameters!");
 
     }
-    
+
     public void deleteProject(Long id) throws EntityNotFoundException, MissingParameterException {
         if (id != null) {
             models.project.Project project = projectDAO.readById(id);
@@ -172,7 +166,7 @@ public class ProjectLogic {
     }
 
     private models.project.Project setProjectParameters(models.project.Project updatedProject) throws EntityNotFoundException, MissingParameterException {
-        if (helper.validate(updatedProject.getName()) && updatedProject.getProjectCustomer() != null) {
+        if (helper.validate(updatedProject.getName()) && updatedProject.getProjectInitiator() != null) {
             boolean jiraConnectionChanged = false;
             models.project.Project persistedProject;
             if (updatedProject.getId() != null) {
@@ -181,11 +175,13 @@ public class ProjectLogic {
                 persistedProject = updatedProject;
             }
             persistedProject.setName(updatedProject.getName());
-            if (!persistedProject.getJiraKey().equals(updatedProject.getJiraKey())) {
+            if (persistedProject.getJiraKey() == null && updatedProject.getJiraKey() == null) {
+            } else if (persistedProject.getJiraKey() == null || updatedProject.getJiraKey() == null) {
+                jiraConnectionChanged = true;
+            } else if (!persistedProject.getJiraKey().equals(updatedProject.getJiraKey())) {
                 jiraConnectionChanged = true;
             }
-            persistedProject.setJiraKey(updatedProject.getJiraKey());
-            persistedProject.setProjectCustomer(customerDAO.readById(updatedProject.getProjectCustomer().getId()));
+            persistedProject.setProjectInitiator(projectInitiatorDAO.readById(updatedProject.getProjectInitiator().getId()));
             if (updatedProject.getJiraConnection() != null && updatedProject.getJiraConnection().getId() != null && updatedProject.getJiraConnection().getId() != 0) {
                 updatedProject.setJiraConnection(jiraConnectionDAO.readById(updatedProject.getJiraConnection().getId()));
                 if (updatedProject.getJiraConnection() != persistedProject.getJiraConnection()) {
@@ -200,6 +196,7 @@ public class ProjectLogic {
             }
             if (jiraConnectionChanged) {
                 resetQaInstanceJiraParameter(persistedProject);
+                persistedProject.setJiraKey(updatedProject.getJiraKey());
             }
 
             return projectDAO.persist(persistedProject);
