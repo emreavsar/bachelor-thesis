@@ -8,20 +8,21 @@
     <br/><br/>
   </p>
 
-  <table class="table table-hover">
-    <tr>
-      <th>Id</th>
-      <th>Hostaddress</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Actions</th>
-    </tr>
-    <tr ng-repeat="jiraconnection in jiraConnectionList | orderBy:'id'">
-      <td>{{jiraconnection.id}}</td>
-      <td>{{jiraconnection.hostAddress}}</td>
-      <td>{{jiraconnection.username}}</td>
-      <td>{{jiraconnection.password}}</td>
-      <td>
+  <table class="table table-hover" ng-table="tableParams">
+    <tr ng-repeat="jiraconnection in $data">
+      <td data-title="'Id'" sortable="'id'">
+        {{jiraconnection.id}}
+      </td>
+      <td data-title="'Hostaddress'" sortable="'hostAddress'">
+        <div ng-bind-html="jiraconnection.hostAddress"></div>
+      </td>
+      <td data-title="'Username'" sortable="'username'">
+        <div ng-bind-html="jiraconnection.username"></div>
+      </td>
+      <td data-title="'Password'" sortable="'password'">
+        <div ng-bind-html="jiraconnection.password"></div>
+      </td>
+      <td data-title="'Actions'">
         <i class="fa fa-pencil pointer" ng-click="edit(jiraconnection)"></i>
         <i class="fa fa-trash-o pointer" ng-click="delete(jiraconnection)"></i>
       </td>
