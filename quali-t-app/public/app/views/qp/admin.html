@@ -6,23 +6,24 @@
     <br/><br/>
   </p>
 
-  <table class="table table-hover">
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Actions</th>
-    </tr>
-    <tr ng-repeat="qp in qpList | orderBy:'name'">
-      <td>{{qp.id}}</td>
-      <td>{{qp.name}}</td>
-      <td>{{qp.description}}</td>
-      <td>
+  <table class="table table-hover" ng-table="tableParams">
+    <tr ng-repeat="qp in $data">
+      <td data-title="'Id'" sortable="'id'">
+        {{qp.id}}
+      </td>
+      <td data-title="'Name'" sortable="'name'">
+        <div ng-bind-html="qp.name"></div>
+      </td>
+      <td data-title="'Description'" sortable="'description'">
+        <div ng-bind-html="qp.description"></div>
+      </td>
+      <td data-title="'Actions'">
         <i class="fa fa-pencil pointer" ng-click="edit(qp)"></i>
         <i class="fa fa-trash-o pointer" ng-click="delete(qp)"></i>
       </td>
     </tr>
   </table>
+
   <div class="form crud-form">
     <div class="row text-center" style="margin-bottom:20px;">
       <button type="submit" class="btn btn-success" ng-click="add(qp)">
