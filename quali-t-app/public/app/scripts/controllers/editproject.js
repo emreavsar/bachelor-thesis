@@ -12,8 +12,8 @@ angular.module('qualitApp')
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
-    $scope.selectedCustomer = {};
-    $scope.customerList = new Array();
+    $scope.selectedProjectInitiator = {};
+    $scope.projectInitiatorList = new Array();
     $scope.selectedQualityProperties = new Array();
     $scope.qualityPropertiesList = new Array();
     $scope.remainingQualityPropertiesList = new Array();
@@ -139,7 +139,7 @@ angular.module('qualitApp')
         name: $scope.project.name,
         jiraKey: $scope.project.jiraKey,
         jiraConnection: $scope.project.jiraConnection,
-        customer: $scope.selectedCustomer.id,
+        projectInitiator: $scope.selectedProjectInitiator.id,
         qualityProperties: $scope.project.qualityProperties,
         qualityAttributes: $scope.getQAToUpdate()
       };
@@ -201,7 +201,7 @@ angular.module('qualitApp')
 
     $scope.setProject = function (payload) {
       $scope.project = payload.data;
-      $scope.selectedCustomer = $scope.project.projectCustomer;
+      $scope.selectedProjectInitiator = $scope.project.projectInitiator;
       $scope.selectedQualityProperties = $scope.project.qualityProperties;
       $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
     }
@@ -216,10 +216,10 @@ angular.module('qualitApp')
       promiseInit.then(
         function (payload) {
           $scope.favoriteProjects = payload.data;
-          return apiService.getCustomers();
+          return apiService.getProjectInitiators();
         }).then(
         function (payload) {
-          $scope.customerList = payload.data;
+          $scope.projectInitiatorList = payload.data;
           return apiService.getQualityProperties();
         }).then(
         function (payload) {

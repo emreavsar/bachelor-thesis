@@ -190,7 +190,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public User registerUser(String username, String password) throws EntityAlreadyExistsException, MissingParameterException {
+    public User registerUser(String username, String password) throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
         if (username != null && password != null) {
             // Default roles for registered user
             List<Role> defaultRoles = roleDao.findDefaultRoles();

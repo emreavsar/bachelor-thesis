@@ -9,10 +9,10 @@ import java.util.Set;
  * Created by corina on 22.05.2015.
  */
 @XmlRootElement(name = "project")
-@XmlType(propOrder = {"name", "jiraKey", "projectCustomer", "qualityAttributes"})
+@XmlType(propOrder = {"name", "jiraKey", "projectInitiator", "qualityAttributes"})
 public class Project {
 
-    private Customer projectCustomer;
+    private ProjectInitiator projectInitiator;
     private String name;
     private Set<Instance> qualityAttributes = new HashSet<>();
     private String jiraKey;
@@ -30,12 +30,12 @@ public class Project {
     }
 
     @XmlElement
-    public Customer getProjectCustomer() {
-        return projectCustomer;
+    public ProjectInitiator getProjectInitiator() {
+        return projectInitiator;
     }
 
-    public void setProjectCustomer(Customer projectCustomer) {
-        this.projectCustomer = projectCustomer;
+    public void setProjectInitiator(ProjectInitiator projectInitiator) {
+        this.projectInitiator = projectInitiator;
     }
 
     @XmlElementWrapper(name = "qualityAttributes")

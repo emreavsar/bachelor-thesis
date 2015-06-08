@@ -23,7 +23,7 @@ public class QACategoryDAO extends AbstractDAO<QACategory> {
         return categories;
     }
 
-    public QACategory findByName(String name) {
+    public QACategory findByName(String name) throws EntityNotFoundException {
         return find("select q from QACategory q where q.name=?", name);
     }
 }

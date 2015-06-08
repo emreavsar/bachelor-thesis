@@ -201,7 +201,7 @@ public class CatalogLogic {
         return newCatalog;
     }
 
-    private void setQaCategories(Catalog catalog) {
+    private void setQaCategories(Catalog catalog) throws EntityNotFoundException {
         List<QACategory> qaCategoriesList = new ArrayList<>();
         for (CatalogQA catalogQA : catalog.getTemplates()) {
             qaCategoriesList.clear();

@@ -2,11 +2,13 @@ package logics.search;
 
 import com.google.inject.Inject;
 import dao.models.CatalogDAO;
-import dao.models.CustomerDAO;
+import dao.models.ProjectInitiatorDAO;
 import dao.models.ProjectDAO;
 import dao.models.QualityAttributeDAO;
+import exceptions.EntityNotFoundException;
 import models.AbstractEntity;
 import models.project.Project;
+import models.project.ProjectInitiator;
 import models.template.Catalog;
 import models.template.QA;
 
@@ -20,16 +22,16 @@ public class SearchLogic {
     @Inject
     private CatalogDAO catalogDAO;
     @Inject
-    private CustomerDAO customerDAO;
+    private ProjectInitiatorDAO projectInitiatorDAO;
     @Inject
     private ProjectDAO projectDAO;
     @Inject
     private QualityAttributeDAO qualityAttributeDAO;
 
-    public HashMap<String, ArrayList<? extends AbstractEntity>> search(String searchArgument) {
+    public HashMap<String, ArrayList<? extends AbstractEntity>> search(String searchArgument) throws EntityNotFoundException {
         HashMap<String, ArrayList<? extends AbstractEntity>> results = new HashMap<>();
 
-        results.put("customer", searchCustomer(searchArgument));
+        results.put("projectInitiator", searchProjectInitiator(searchArgument));
         results.put("projects", searchProjects(searchArgument));
         results.put("catalogs", searchCatalogs(searchArgument));
         results.put("qualityAttributes", searchQAs(searchArgument));
@@ -37,7 +39,7 @@ public class SearchLogic {
         return results;
     }
 
-    private ArrayList<Catalog> searchCatalogs(String searchArgument) {
+    private ArrayList<Catalog> searchCatalogs(String searchArgument) throws EntityNotFoundException {
         ArrayList<Catalog> catalogs;
 
         catalogs = (ArrayList<Catalog>) catalogDAO.search(searchArgument);
@@ -45,16 +47,16 @@ public class SearchLogic {
         return catalogs;
     }
 
-    private ArrayList<models.project.Customer> searchCustomer(String searchArgument) {
-        ArrayList<models.project.Customer> customers;
+    private ArrayList<ProjectInitiator> searchProjectInitiator(String searchArgument) throws EntityNotFoundException {
+        ArrayList<ProjectInitiator> projectInitiators;
 
-        customers = customerDAO.search(searchArgument);
+        projectInitiators = projectInitiatorDAO.search(searchArgument);
 
-        return customers;
+        return projectInitiators;
     }
 
 
-    private ArrayList<Project> searchProjects(String searchArgument) {
+    private ArrayList<Project> searchProjects(String searchArgument) throws EntityNotFoundException {
         ArrayList<Project> projects;
 
         projects = projectDAO.search(searchArgument);
@@ -63,7 +65,7 @@ public class SearchLogic {
     }
 
 
-    private ArrayList<QA> searchQAs(String searchArgument) {
+    private ArrayList<QA> searchQAs(String searchArgument) throws EntityNotFoundException {
         // TODO emre: implement real search
         ArrayList<QA> qas;
 

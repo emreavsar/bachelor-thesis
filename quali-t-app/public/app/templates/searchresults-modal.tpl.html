@@ -9,13 +9,13 @@
 
       <div class="modal-body">
         <div
-          ng-hide="searchResults.projects.length > 0 || searchResults.customers.length > 0 || searchResults.catalogs.length > 0 || searchResults.qualityAttributes.length > 0">
+          ng-hide="searchResults.projects.length > 0 || searchResults.projectInitiators.length > 0 || searchResults.catalogs.length > 0 || searchResults.qualityAttributes.length > 0">
           <i class="fa fa-exclamation-circle"></i>
           Nothing was found.
         </div>
 
         <div
-          ng-show="searchResults.projects.length > 0 || searchResults.customers.length > 0 || searchResults.catalogs.length > 0 || searchResults.qualityAttributes.length > 0">
+          ng-show="searchResults.projects.length > 0 || searchResults.projectInitiators.length > 0 || searchResults.catalogs.length > 0 || searchResults.qualityAttributes.length > 0">
 
           <div class="search-results-container" id="search-results-projects">
             <h4>Projects:</h4>
@@ -34,18 +34,18 @@
             </div>
           </div>
 
-          <div class="search-results-container" id="search-results-customers">
-            <h4>Customers:</h4>
+          <div class="search-results-container" id="search-results-projectInitiators">
+            <h4>Project Initiators:</h4>
 
-          <span ng-hide="searchResults.customers.length > 0">
+          <span ng-hide="searchResults.projectInitiators.length > 0">
             <i class="fa fa-exclamation-circle"></i>
-            No customers were found.
+            No project initiators were found.
           </span>
 
-            <div ng-show="searchResults.customers">
+            <div ng-show="searchResults.projectInitiators">
               <ul>
-                <li ng-repeat="customer in searchResults.customers">
-                  {{ customer.name }}
+                <li ng-repeat="projectInitiator in searchResults.projectInitiators">
+                  {{ projectInitiator.name }}
                 </li>
               </ul>
             </div>

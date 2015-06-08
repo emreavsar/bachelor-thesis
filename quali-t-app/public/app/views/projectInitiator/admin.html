@@ -1,33 +1,34 @@
 <div ng-init="init()">
 
-  <h3><i class="glyphicon glyphicon-user"></i> Show all Customers</h3>
+  <h3><i class="glyphicon glyphicon-user"></i> Show all Project Initiators</h3>
 
-  <p>Here are all customers listed. A customer has typically projects. By deleting a customer, all projects and its data
+  <p>Here are all project initiators listed. A project initiator has typically projects. By deleting a project
+    initiator, all projects and its data
     will
     be cleared from QUALI-T.<br/><br/>
   </p>
 
   <table class="table table-hover" ng-table="tableParams">
-    <tr ng-repeat="cust in $data">
+    <tr ng-repeat="projectInitiator in $data">
       <td data-title="'Id'" sortable="'id'">
-        {{cust.id}}
+        {{projectInitiator.id}}
       </td>
       <td data-title="'Name'" sortable="'name'">
-        {{cust.name}}
+        {{projectInitiator.name}}
       </td>
       <td data-title="'Address'" sortable="'address'">
-        {{cust.address}}
+        {{projectInitiator.address}}
       </td>
       <td data-title="'Actions'">
-        <i class="fa fa-pencil pointer" ng-click="edit(cust)"></i>
-        <i class="fa fa-trash-o pointer" ng-click="delete(cust)"></i>
+        <i class="fa fa-pencil pointer" ng-click="edit(projectInitiator)"></i>
+        <i class="fa fa-trash-o pointer" ng-click="delete(projectInitiator)"></i>
       </td>
     </tr>
   </table>
   <div class="form crud-form col-sm-12 margin-top-15">
     <div class="row text-center" style="margin-bottom:20px;">
-      <button type="submit" class="btn btn-success" ng-click="add(cust)">
-        <i class="fa fa-plus"></i> Add Customer
+      <button type="submit" class="btn btn-success" ng-click="add(projectInitiator)">
+        <i class="fa fa-plus"></i> Add Project Initiator
       </button>
     </div>
   </div>

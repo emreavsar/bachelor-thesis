@@ -4,17 +4,17 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "customer")
+@XmlRootElement(name = "projectInitiator")
 @XmlType(propOrder = {"name", "address"})
-public class Customer {
+public class ProjectInitiator {
 
     private String name;
     private String address;
 
-    public Customer() {
+    public ProjectInitiator() {
     }
 
-    public Customer(String name, String address) {
+    public ProjectInitiator(String name, String address) {
         this.name = name;
         this.address = address;
     }
@@ -39,7 +39,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "ProjectInitiator{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 '}';

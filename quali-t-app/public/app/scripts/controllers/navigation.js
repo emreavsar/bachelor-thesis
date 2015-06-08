@@ -9,7 +9,7 @@
  */
 angular.module('qualitApp')
   .controller('NavigationCtrl', function ($scope, $state, $location, $rootScope) {
-    $scope.customers = "";
+    $scope.ProjectInitiators = "";
 
     $scope.navigationItems = [
       {

@@ -116,18 +116,18 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.getCustomers = function () {
-      return $http.get(this.apiPath + "customer")
+    apiService.getProjectInitiators = function () {
+      return $http.get(this.apiPath + "projectInitiator")
         .success(function (data) {
           return data;
         })
         .error(function (data, status) {
-          alertService.createError(status, "Customers were not found.");
+          alertService.createError(status, "Project Initiators were not found.");
         });
     }
 
-    apiService.createCustomer = function (name, address) {
-      return $http.post(this.apiPath + "customer", {
+    apiService.createProjectInitiator = function (name, address) {
+      return $http.post(this.apiPath + "projectInitiator", {
         name: name,
         address: address
       })
@@ -135,12 +135,12 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alertService.createError(status, "Error at creating customer.");
+          alertService.createError(status, "Error at creating project initiator.");
         });
     }
 
-    apiService.updateCustomer = function (id, name, address) {
-      return $http.put(this.apiPath + "customer", {
+    apiService.updateProjectInitiator = function (id, name, address) {
+      return $http.put(this.apiPath + "projectInitiator", {
         id: id,
         name: name,
         address: address
@@ -153,8 +153,8 @@ angular.module('qualitApp')
         });
     }
 
-    apiService.deleteCustomer = function (id) {
-      return $http.delete(this.apiPath + "customer/" + id)
+    apiService.deleteProjectInitiator = function (id) {
+      return $http.delete(this.apiPath + "projectInitiator/" + id)
         .success(function (data) {
           return data;
         })

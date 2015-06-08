@@ -7,7 +7,7 @@ import exceptions.EntityNotFoundException;
 import models.Interface.JIRAConnection;
 import models.authentication.Token;
 import models.authentication.User;
-import models.project.Customer;
+import models.project.ProjectInitiator;
 import models.project.Project;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
@@ -42,10 +42,10 @@ public class JsonConverter {
         return Lists.transform(list, helper.parseLongFunction());
     }
 
-    public models.project.Customer getCustomerFromJson(JsonNode json) {
-        models.project.Customer customer = new models.project.Customer(json.findPath("name").asText(), json.findPath("address").asText());
-        customer.setId(json.findPath("id").asLong());
-        return customer;
+    public ProjectInitiator getProjectInitiatorFromJson(JsonNode json) {
+        ProjectInitiator projectInitiator = new ProjectInitiator(json.findPath("name").asText(), json.findPath("address").asText());
+        projectInitiator.setId(json.findPath("id").asLong());
+        return projectInitiator;
     }
 
     public Catalog getCatalogFromJson(JsonNode json) {
@@ -85,12 +85,15 @@ public class JsonConverter {
         models.project.Project project = new models.project.Project();
         project.setName(json.findPath("name").asText());
         project.setJiraKey(json.findPath("jiraKey").asText());
+        if (project.getJiraKey().equals("null")) {
+            project.setJiraKey(null);
+        }
         JIRAConnection jiraConnection = new JIRAConnection();
         jiraConnection.setId(json.findPath("jiraConnection").findPath("id").asLong());
         project.setJiraConnection(jiraConnection);
-        Customer projectCustomer = new Customer();
-        projectCustomer.setId(json.findPath("customer").asLong());
-        project.setProjectCustomer(projectCustomer);
+        ProjectInitiator projectProjectInitiator = new ProjectInitiator();
+        projectProjectInitiator.setId(json.findPath("projectInitiator").asLong());
+        project.setProjectInitiator(projectProjectInitiator);
         project.setId(json.findPath("id").asLong());
         //set additional qualityInstances
         project.addQualityAttributes(getAdditionalQualityAttributesFromJson(json));

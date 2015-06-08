@@ -40,11 +40,11 @@
                                 </fo:table-row>
                                 <fo:table-row>
                                     <fo:table-cell font-weight="bold">
-                                        <fo:block>Customer</fo:block>
+                                        <fo:block>Project Initiator</fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell>
                                         <fo:block>
-                                            <xsl:value-of select="project/projectCustomer/@name"/>
+                                            <xsl:value-of select="project/projectInitiator/@name"/>
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>

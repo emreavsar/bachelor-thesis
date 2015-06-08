@@ -72,14 +72,18 @@ public abstract class AbstractDAO<T> {
         return getResultList(JPA.em().createQuery(query));
     }
 
-    protected List<T> findAll(String query, @NotNull Object... params) {
+    protected List<T> findAll(String query, @NotNull Object... params) throws EntityNotFoundException {
+        try {
         Query q = JPA.em().createQuery(query);
         for (int i = 1; i <= params.length; i++) {
             q.setParameter(i, params[i - 1]);
             Logger.debug(q.getParameterValue(i).getClass().toString());
         }
         Logger.debug("looked for " + query + params + params.toString());
-        return getResultList(q);
+            return getResultList(q);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("There is a problem by executing the query");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -88,7 +92,7 @@ public abstract class AbstractDAO<T> {
     }
 
     @Nullable
-    protected T find(String query, Object... params) {
+    protected T find(String query, Object... params) throws EntityNotFoundException {
         final List<T> results = findAll(query, params);
         return results.isEmpty() ? null : results.get(0);
     }

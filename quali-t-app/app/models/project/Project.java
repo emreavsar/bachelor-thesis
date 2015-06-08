@@ -26,7 +26,7 @@ public class Project extends AbstractEntity {
 
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "userProjects")
-    private Customer projectCustomer;
+    private ProjectInitiator projectInitiator;
     private String name;
     @ManyToMany(mappedBy = "usedByProject", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference(value = "qualityProperty")
@@ -51,9 +51,9 @@ public class Project extends AbstractEntity {
         this.addQualityProperties(qps);
     }
 
-    public Project(String name, Customer projectCustomer, List<QualityProperty> qps) {
+    public Project(String name, ProjectInitiator projectInitiator, List<QualityProperty> qps) {
         this.name = name;
-        this.projectCustomer = projectCustomer;
+        this.projectInitiator = projectInitiator;
         this.addQualityProperties(qps);
     }
 
@@ -65,12 +65,12 @@ public class Project extends AbstractEntity {
         this.name = name;
     }
 
-    public Customer getProjectCustomer() {
-        return projectCustomer;
+    public ProjectInitiator getProjectInitiator() {
+        return projectInitiator;
     }
 
-    public void setProjectCustomer(Customer projectCustomer) {
-        this.projectCustomer = projectCustomer;
+    public void setProjectInitiator(ProjectInitiator projectInitiator) {
+        this.projectInitiator = projectInitiator;
     }
 
     public Set<QualityProperty> getQualityProperties() {

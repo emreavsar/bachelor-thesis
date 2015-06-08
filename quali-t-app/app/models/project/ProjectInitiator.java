@@ -17,19 +17,19 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "customer")
+@Table(name = "projectInitiator")
 @Nullable
-public class Customer extends AbstractEntity {
+public class ProjectInitiator extends AbstractEntity {
     private String name;
     private String address;
-    @OneToMany(mappedBy = "projectCustomer", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "projectInitiator", cascade = CascadeType.REMOVE)
     @JsonBackReference(value = "userProjects")
     private List<Project> projects = new ArrayList<>();
 
-    public Customer() {
+    public ProjectInitiator() {
     }
 
-    public Customer(String name, String address) {
+    public ProjectInitiator(String name, String address) {
         this.name = name;
         this.address = address;
     }
@@ -60,7 +60,7 @@ public class Customer extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "ProjectInitiator{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", projects=" + projects +

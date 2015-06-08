@@ -20,9 +20,9 @@ angular.module('qualitApp')
           icon: "glyphicon glyphicon-folder-open"
         },
         {
-          title: "Customer",
+          title: "Project Initiator",
           clickFunction: function () {
-            $state.go("customerCreate");
+            $state.go("projectInitiatorCreate");
           },
           icon: "glyphicon glyphicon-user"
         },

@@ -19,7 +19,7 @@ public class QualityPropertyDAO extends AbstractDAO<QualityProperty> {
         return qps;
     }
 
-    public QualityProperty findByName(String name) {
+    public QualityProperty findByName(String name) throws EntityNotFoundException {
         return find("select q from QualityProperty q where q.name=?", name);
     }
 }
