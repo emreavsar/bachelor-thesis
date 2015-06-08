@@ -16,13 +16,13 @@
           <form>
             <div class="form-group">
               <label for="hostAddress">JIRA Hostaddress</label>
-              <input type="text" class="form-control" id="hostAddress" ng-model="jiraconnection.hostAddress" required/>
+              <input type="url" class="form-control" id="hostAddress" ng-model="jiraconnection.hostAddress" required="required"/>
 
               <label for="username">username</label>
-              <input type="text" class="form-control" id="username" ng-model="jiraconnection.username" required/>
+              <input type="text" class="form-control" id="username" ng-model="jiraconnection.username" required="required"/>
 
               <label for="password">password</label>
-              <input type="text" class="form-control" id="password" ng-model="jiraconnection.password" required/>
+              <input type="text" class="form-control" id="password" ng-model="jiraconnection.password" required="required"/>
             </div>
 
             <button type="submit" class="btn btn-success" ng-show="type == 'add'"
