@@ -5,7 +5,7 @@ describe('project', function () {
   var testJiraKey = "QTP";
 
 
-  it('should create a new project with the first customer and SM quality properties', function () {
+  it('should create a new project with the first project initiator and SM quality properties', function () {
     browser.get('/#/authenticated/project/create');
     expect(browser.getLocationAbsUrl()).toMatch("/authenticated/project/create");
 
@@ -14,8 +14,8 @@ describe('project', function () {
     element(by.id("jiraKey")).sendKeys(testJiraKey);
 
     // special input (needs workarounds because it is ui-select)
-    element(by.id("customerName")).click(); // opens the selection box
-    element(by.css("#customerName .ui-select-choices-row")).click(); // selects the first customer
+    element(by.id("projectInitiatorName")).click(); // opens the selection box
+    element(by.css("#projectInitiatorName .ui-select-choices-row")).click(); // selects the first project initiator
 
     // same for quality properties and jira instance
     element(by.id("jiraInstance")).click();
