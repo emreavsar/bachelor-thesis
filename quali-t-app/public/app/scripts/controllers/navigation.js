@@ -82,13 +82,14 @@ angular.module('qualitApp')
           'curator', 'synthesizer', 'projectmanager', 'analyst', 'admin', 'evaluator'
         ]
       }
-    ]
+    ];
 
     $scope.isActive = function (toState) {
       return $state.href(toState).substr(1) === $location.path();
     }
 
-    $scope.isVisible = function(navItem) {
+
+    $scope.isVisible = function (navItem) {
       return navItem.visibleFor.indexOf($rootScope.selectedRole) > -1;
     }
 

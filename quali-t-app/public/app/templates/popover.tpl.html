@@ -3,7 +3,7 @@
   <h4 class="popover-title" ng-bind="popover.title"></h4>
 
   <div class="popover-content">
-    <div ng-repeat="button in popover.buttons">
+    <div ng-repeat="button in popover.buttons" ng-show="isVisible(button)">
       <i class="{{button.icon}}"></i>
       <button ng-click="button.clickFunction();$hide()" class="btn-link">
         {{ button.title }}
