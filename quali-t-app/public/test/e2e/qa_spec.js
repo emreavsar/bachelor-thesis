@@ -18,10 +18,6 @@ describe('quality attribute templates', function () {
     element(by.id("create-qa-button")).click();
 
     expect(browser.getLocationAbsUrl()).toMatch("/authenticated/qa/admin");
-
-    // check success message
-    var successMessage = element(by.css('.register-form .text-success'));
-    expect(successMessage.getText().indexOf("Quality Attribute Template created successfully"));
   });
 
 
