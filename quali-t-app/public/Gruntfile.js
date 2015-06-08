@@ -467,7 +467,7 @@ module.exports = function (grunt) {
     // e2e test
     protractor: {
       options: {
-        configFile: "test/protractor.conf.js", //your protractor config file
+        configFile: 'test/protractor.conf.js', //your protractor config file
         keepAlive: true, // If false, the grunt process stops when the test fails.
         noColor: false, // If true, protractor will not use colors in its output.
         args: {
@@ -477,14 +477,14 @@ module.exports = function (grunt) {
       chrome: {
         options: {
           args: {
-            browser: "chrome"
+            browser: 'chrome'
           }
         }
       },
       firefox: {
         options: {
           args: {
-            browser: "firefox"
+            browser: 'firefox'
           }
         }
       }
