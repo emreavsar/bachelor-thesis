@@ -669,6 +669,15 @@ angular.module('qualitApp')
           var alert = alertService.createError(status, data);
         });
     }
+    apiService.importCatalog = function (catalogJson) {
+      return $http.post(this.apiPath + "catalog/import", catalogJson)
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          var alert = alertService.createError(status, data);
+        });
+    }
 
     return apiService;
   });

@@ -76,6 +76,13 @@ angular.module('qualitApp')
         ]
       },
       {
+        linkName: 'Import Catalog',
+        toState: 'importCatalog',
+        visibleFor: [
+          'admin', 'curator'
+        ]
+      },
+      {
         linkName: 'Help',
         toState: 'help',
         visibleFor: [
