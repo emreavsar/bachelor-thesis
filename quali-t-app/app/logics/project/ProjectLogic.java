@@ -16,6 +16,7 @@ import models.project.nfritem.QualityPropertyStatus;
 import models.project.nfritem.Val;
 import models.template.CatalogQA;
 import org.apache.fop.apps.FOPException;
+import play.Play;
 import play.db.jpa.JPA;
 import util.Helper;
 
@@ -297,7 +298,8 @@ public class ProjectLogic {
             Project project = projectDAO.readById(id);
             try {
                 ByteArrayOutputStream xml = xmlRepo.projectToXML(modelConverter.convertProject(project));
-                InputStream inputStream = getClass().getResourceAsStream("project_export.xsl");
+
+                InputStream inputStream = Play.application().resourceAsStream("project_export.xsl");
                 return pdfRepo.createPdf(new ByteArrayInputStream(xml.toByteArray()), inputStream);
             } catch (JAXBException | FOPException | TransformerException e) {
                 throw new CouldNotConvertException("Could not Convert due to internal server error");
