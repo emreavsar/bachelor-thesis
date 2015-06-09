@@ -212,7 +212,7 @@ angular.module('qualitApp')
     }
 
     // reload when projects qa gets updated (in edit mode)
-    $scope.$on('projectsQaUpdated', function (event, arg) {
+    $scope.$on('qasOfProjectUpdated', function (event, arg) {
       $scope.init();
     });
 

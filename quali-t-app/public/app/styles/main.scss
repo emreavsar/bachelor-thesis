@@ -549,6 +549,13 @@ text-angular[ta-disabled='true'], text-angular[ta-disabled='true'] > * {
 .qa {
   clear: both;
   cursor: pointer;
+  .qa-id {
+    margin-left: -15px;
+    margin-top: 2px;
+    width: 30px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
   &.well {
     padding-top: 0px;
     background-color: #fff;

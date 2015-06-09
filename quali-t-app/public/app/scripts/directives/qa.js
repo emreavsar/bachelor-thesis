@@ -237,9 +237,23 @@ angular.module('qualitApp')
 
         var qaId = "qa-" + qa.id;
 
+        if (context == "editproject") {
+          var idBox = $("<span/>", {
+            text: qa.id,
+            class: "qa-id label label-success col-sm-1"
+          }).prependTo(element);
+        }
+
         var categoriesDiv = $("<div/>", {
           class: "categories"
         }).appendTo(element);
+
+        if(categories.length==0) {
+          var categorySpan = $("<span/>", {
+            class: "label label-default",
+            text: "No categories"
+          }).appendTo(categoriesDiv);
+        }
 
         for (var i = 0; i < categories.length; i++) {
           var category = categories[i];
@@ -362,6 +376,7 @@ angular.module('qualitApp')
               class: "col-sm-1 export-checkbox",
               "data-qainstanceid": qa.id
             }).prependTo(qaDescSpan);
+
 
             var qaCheckboxDiv = $("<div/>", {
               class: "col-sm-3",
