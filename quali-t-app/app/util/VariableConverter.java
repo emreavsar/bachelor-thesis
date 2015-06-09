@@ -34,7 +34,6 @@ public class VariableConverter {
                         JsonNode valueNode = variableParametersEntry.getValue();
                         if (valueNode != null) {
                             for (Iterator<JsonNode> textNode = valueNode.elements(); textNode.hasNext(); ) {
-//                        for (JsonNode value : valueNode){
                                 valueNode = textNode.next();
                                 if (valueNode.size() > 1) {
                                     variableValues.add(valueNode.findPath("value").asText());
@@ -118,8 +117,6 @@ public class VariableConverter {
         Logger.info(Boolean.toString(values.containsKey("min")) + values.containsKey("max"));
         if (values.containsKey("min") && values.containsKey("max")) {
             var.setValRange(new ValRange(Float.parseFloat(values.get("min")), Float.parseFloat(values.get("max"))));
-//            values.remove("min");
-//            values.remove("max");
         }
         return var;
     }
@@ -128,7 +125,6 @@ public class VariableConverter {
         if (values.get("extendable") == "true") {
             var.setExtendable(true);
         }
-//        values.remove("extendable");
         return var;
     }
 }

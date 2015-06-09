@@ -2,6 +2,7 @@ package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 
@@ -73,4 +74,13 @@ public class QAVarVal extends AbstractEntity {
     }
 
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("isDefault", isDefault)
+                .append("valInVar", valInVar)
+                .append("type", type)
+                .append("value", value)
+                .toString();
+    }
 }

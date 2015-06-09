@@ -142,15 +142,6 @@ public class User extends AbstractEntity implements Subject {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("name", name)
-                .append("roles", roles)
-                .append("token", token)
-                .toString();
-    }
-
     public void addToken(Token token) {
         this.token.add(token);
         token.setUser(this);
@@ -161,6 +152,19 @@ public class User extends AbstractEntity implements Subject {
             this.roles.add(role);
             role.getUser().add(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("salt", salt)
+                .append("hashedPassword", hashedPassword)
+                .append("roles", roles)
+                .append("token", token)
+                .append("tasks", tasks)
+                .append("favorites", favorites)
+                .toString();
     }
 
     public void removeRoles() {

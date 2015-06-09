@@ -2,6 +2,7 @@ package models.project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
@@ -60,11 +61,10 @@ public class ProjectInitiator extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "ProjectInitiator{" +
-                "name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", projects=" + projects +
-                ", id'" + getId() +
-                '}';
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("address", address)
+                .append("projects", projects)
+                .toString();
     }
 }

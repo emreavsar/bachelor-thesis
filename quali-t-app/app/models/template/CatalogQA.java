@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.nfritem.Instance;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.Logger;
 
 import javax.annotation.Nullable;
@@ -109,5 +110,16 @@ public class CatalogQA extends AbstractEntity {
 
     public void setQaInstances(Set<Instance> qaInstances) {
         this.qaInstances = qaInstances;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("qaInstances", qaInstances)
+                .append("catalog", catalog)
+                .append("qa", qa)
+                .append("variables", variables)
+                .append("deleted", deleted)
+                .toString();
     }
 }

@@ -3,6 +3,7 @@ package models.Interface;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 import models.project.Project;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
@@ -26,6 +27,16 @@ public class JIRAConnection extends AbstractEntity {
     @OneToMany(mappedBy = "jiraConnection")
     @JsonBackReference(value = "projectsJiraConnection")
     protected Set<Project> usedForProject = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("hostAddress", hostAddress)
+                .append("username", username)
+                .append("password", password)
+                .append("usedForProject", usedForProject)
+                .toString();
+    }
 
     public JIRAConnection(String hostAddress, String username, String password) {
         this.hostAddress = hostAddress;

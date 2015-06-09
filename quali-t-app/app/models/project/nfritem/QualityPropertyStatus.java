@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.project.QualityProperty;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
@@ -80,5 +81,14 @@ public class QualityPropertyStatus extends AbstractEntity {
         QualityPropertyStatus qualityPropertyStats = new QualityPropertyStatus();
         qualityPropertyStats.setQp(this.qp);
         return qualityPropertyStats;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("qa", qa)
+                .append("qp", qp)
+                .append("status", status)
+                .toString();
     }
 }

@@ -1,5 +1,7 @@
 package models;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -23,4 +25,10 @@ public abstract class AbstractEntity implements Serializable {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .toString();
+    }
 }

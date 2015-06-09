@@ -6,6 +6,7 @@ import models.AbstractEntity;
 import models.project.Project;
 import models.project.QualityProperty;
 import models.template.CatalogQA;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -161,5 +162,18 @@ public class Instance extends AbstractEntity {
 
     public void setJiraDirectURL(String jiraDirectURL) {
         this.jiraDirectURL = jiraDirectURL;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("description", description)
+                .append("project", project)
+                .append("template", template)
+                .append("values", values)
+                .append("qualityPropertyStatus", qualityPropertyStatus)
+                .append("jiraKey", jiraKey)
+                .append("jiraDirectURL", jiraDirectURL)
+                .toString();
     }
 }

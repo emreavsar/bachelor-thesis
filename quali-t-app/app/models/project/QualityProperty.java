@@ -3,6 +3,7 @@ package models.project;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 import models.project.nfritem.QualityPropertyStatus;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -72,5 +73,15 @@ public class QualityProperty extends AbstractEntity {
 
     public void setQualityPropertyStatus(Set<QualityPropertyStatus> qualityPropertyStatus) {
         this.qualityPropertyStatus = qualityPropertyStatus;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("description", description)
+                .append("usedByProject", usedByProject)
+                .append("qualityPropertyStatus", qualityPropertyStatus)
+                .toString();
     }
 }

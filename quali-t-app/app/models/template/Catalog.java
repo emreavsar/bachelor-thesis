@@ -2,6 +2,7 @@ package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -83,4 +84,13 @@ public class Catalog extends AbstractEntity {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("description", description)
+                .append("image", image)
+                .append("templates", templates)
+                .toString();
+    }
 }

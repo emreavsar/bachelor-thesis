@@ -3,6 +3,7 @@ package models.template;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -151,5 +152,19 @@ public class QAVar extends AbstractEntity {
 
     public void setMosteUsedValue(String mosteUsedValue) {
         this.mosteUsedValue = mosteUsedValue;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("varIndex", varIndex)
+                .append("template", template)
+                .append("type", type)
+                .append("extendable", extendable)
+                .append("values", values)
+                .append("valRange", valRange)
+                .append("averageValue", averageValue)
+                .append("mosteUsedValue", mosteUsedValue)
+                .toString();
     }
 }

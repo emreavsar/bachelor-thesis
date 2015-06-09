@@ -2,6 +2,7 @@ package models.template;
 
 import com.fasterxml.jackson.annotation.*;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -122,4 +123,15 @@ public class QA extends AbstractEntity {
     }
 
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("description", description)
+                .append("usedInCatalog", usedInCatalog)
+                .append("categories", categories)
+                .append("previousVersion", previousVersion)
+                .append("deleted", deleted)
+                .append("versionNumber", versionNumber)
+                .toString();
+    }
 }

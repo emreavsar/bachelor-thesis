@@ -9,6 +9,7 @@ import models.AbstractEntity;
 import models.Interface.JIRAConnection;
 import models.authentication.User;
 import models.project.nfritem.Instance;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.HashSet;
 import java.util.List;
@@ -147,6 +148,19 @@ public class Project extends AbstractEntity {
             user.getFavorites().remove(this);
         }
         this.favoritedBy.clear();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("projectInitiator", projectInitiator)
+                .append("name", name)
+                .append("qualityProperties", qualityProperties)
+                .append("qualityAttributes", qualityAttributes)
+                .append("jiraKey", jiraKey)
+                .append("jiraConnection", jiraConnection)
+                .append("favoritedBy", favoritedBy)
+                .toString();
     }
 }
 

@@ -3,6 +3,7 @@ package models.user;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 import models.authentication.User;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
@@ -51,18 +52,19 @@ public class Task extends AbstractEntity {
         this.description = description;
     }
 
-//    public AbstractEntity getResource() {
-//        return resource;
-//    }
-//
-//    public void setResource(AbstractEntity resource) {
-//        this.resource = resource;
-//    }
-
     public Task() {
     }
 
     public void toggleState() {
         this.done = !this.done;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("assignee", assignee)
+                .append("done", done)
+                .append("description", description)
+                .toString();
     }
 }

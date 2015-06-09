@@ -2,6 +2,7 @@ package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -54,5 +55,14 @@ public class ValRange extends AbstractEntity {
 
     public ValRange copyValRange() {
         return new ValRange(this.min, this.max);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("min", min)
+                .append("max", max)
+                .append("rangeInVar", rangeInVar)
+                .toString();
     }
 }

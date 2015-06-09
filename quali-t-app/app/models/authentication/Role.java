@@ -2,6 +2,7 @@ package models.authentication;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -42,5 +43,13 @@ public class Role extends AbstractEntity implements be.objectify.deadbolt.core.m
 
     public void setUser(List<User> user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("user", user)
+                .toString();
     }
 }

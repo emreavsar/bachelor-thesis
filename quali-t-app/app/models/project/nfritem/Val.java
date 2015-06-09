@@ -2,6 +2,7 @@ package models.project.nfritem;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
@@ -60,5 +61,14 @@ public class Val extends AbstractEntity {
         value.setValue(this.value);
         value.setVarIndex(this.varIndex);
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("varIndex", varIndex)
+                .append("value", value)
+                .append("instance", instance)
+                .toString();
     }
 }
