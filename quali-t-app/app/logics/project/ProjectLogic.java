@@ -87,10 +87,11 @@ public class ProjectLogic {
     public models.project.Project createInstance(Project project, List<Long> qualityAttributeIdList) throws EntityNotFoundException, MissingParameterException {
         if (project != null && qualityAttributeIdList != null) {
             Project persistedProject = projectDAO.readById(project.getId());
+            addQualityAttributesToProject(qualityAttributeIdList, project);
             for (Instance instance : project.getQualityAttributes()) {
+                instance.addQualityProperty(persistedProject.getQualityProperties());
                 persistedProject.addQualityAttribute(instance);
             }
-            addQualityAttributesToProject(qualityAttributeIdList, persistedProject);
             return projectDAO.update(persistedProject);
         }
         throw new MissingParameterException("Please provide all required Parameters!");
@@ -205,7 +206,6 @@ public class ProjectLogic {
                 resetQaInstanceJiraParameter(persistedProject);
                 persistedProject.setJiraKey(updatedProject.getJiraKey());
             }
-
             return projectDAO.persist(persistedProject);
         }
         throw new MissingParameterException("Please provide all required Parameters!");
