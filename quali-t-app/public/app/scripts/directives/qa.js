@@ -140,7 +140,7 @@ angular.module('qualitApp')
                   varOptions.value = varOptions["data-value-current"];
                 }
 
-                varOptions.type = "text";
+                varOptions.type = "number";
                 var variableContainer = $("<input/>", varOptions);
               } else if (variable.type == "ENUMTEXT" || variable.type == "ENUMNUMBER") {
                 var extendableCSSClass = "";
@@ -191,10 +191,15 @@ angular.module('qualitApp')
                   }
 
                   varOptions.class = "";
-                  varOptions.type = "text";
+                  if (variable.type == "ENUMNUMBER") {
+                    varOptions.type = "number";
+                  } else {
+                    varOptions.type = "text";
+                  }
                   varOptions.placeholder = extendablePlaceholderText;
                   varOptions.size = extendablePlaceholderText.length;
-                  var extensionField = $("<input/>", varOptions).appendTo(variableContainer);
+                  var extensionField = $("<input/>", varOptions);
+                  extensionField.appendTo(variableContainer);
                 }
               }
 
