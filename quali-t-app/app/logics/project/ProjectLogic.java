@@ -72,7 +72,6 @@ public class ProjectLogic {
             projectDAO.persist(project);
             return project;
         }
-
         throw new MissingParameterException("Please provide all required Parameters!");
     }
 
@@ -85,13 +84,16 @@ public class ProjectLogic {
         throw new MissingParameterException("Please provide a valid ID!");
     }
 
-    public models.project.Project createInstance(Project project, List<Long> qualityAttributeIdList) throws EntityNotFoundException {
-        Project persistedProject = projectDAO.readById(project.getId());
-        for (Instance instance : project.getQualityAttributes()) {
-            persistedProject.addQualityAttribute(instance);
+    public models.project.Project createInstance(Project project, List<Long> qualityAttributeIdList) throws EntityNotFoundException, MissingParameterException {
+        if (project != null && qualityAttributeIdList != null) {
+            Project persistedProject = projectDAO.readById(project.getId());
+            for (Instance instance : project.getQualityAttributes()) {
+                persistedProject.addQualityAttribute(instance);
+            }
+            addQualityAttributesToProject(qualityAttributeIdList, persistedProject);
+            return projectDAO.update(persistedProject);
         }
-        addQualityAttributesToProject(qualityAttributeIdList, persistedProject);
-        return projectDAO.update(persistedProject);
+        throw new MissingParameterException("Please provide all required Parameters!");
     }
 
     private void addQualityAttributesToProject(List<Long> qualityAttributeIdList, Project persistedProject) throws EntityNotFoundException {

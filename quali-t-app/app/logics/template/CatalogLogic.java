@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import util.GlobalVariables;
-import util.Helper;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
 import dao.models.QACategoryDAO;
@@ -18,8 +16,9 @@ import models.template.Catalog;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
-import play.Logger;
 import play.libs.Json;
+import util.GlobalVariables;
+import util.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,6 @@ public class CatalogLogic {
                 for (CatalogQA catalogQA : newCatalogQAs) {
                     if (catalogQA.getQa() != null && catalogQA.getQa().getId() != null) {
                         QA qa = qualityAttributeDAO.readById(catalogQA.getQa().getId());
-                        Logger.info("descirption    " + qa.getDescription());
                         standardCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(GlobalVariables.standardCatalog), qa);
                         catalogQA = standardCatalogQA.copyCatalogQA();
                         catalogQA.setCatalog(newCatalog);
