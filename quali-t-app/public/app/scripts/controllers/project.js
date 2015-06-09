@@ -37,7 +37,6 @@ angular.module('qualitApp')
     }
 
     $scope.addNew = function (newItem) {
-      // TODO implement categories
       var qa = {
         description: newItem.description,
         categories: []

@@ -57,10 +57,6 @@ angular.module('qualitApp')
     }
 
     $scope.choose = function (name, image) {
-      // TODO emre: validation of first step's values -> if ok, go to next step
-
-      // TODO emre: save the image somewhere localy / temporarly
-
       // load all qas from standard catalog
       var promise = apiService.getStandardCatalogQas();
       promise.then(function (payload) {
