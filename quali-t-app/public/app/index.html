@@ -113,7 +113,6 @@
 
     <div class="col-xs-12 sidebar-group">
       <h4 class="title"><i class="fa fa-bars"></i> Navigation</h4>
-      <!-- TODO emre: move this into a custom directive? -->
       <ul class="nav">
         <li ng-repeat="navItem in navigationItems"
             ng-class="{ active: isActive(navItem.toState)}"
@@ -149,7 +148,6 @@
       <form ng-submit="search(searchArgument)" ng-controller="SearchCtrl">
         <div class="input-group">
           <span class="input-group-addon">
-            <!-- TODO emre: improve here with ng-switch if possible, watch is too slow and sometimes both items are displayed! -->
             <i class="fa fa-search" ng-hide="searchInProgress"></i>
             <i class="fa fa-refresh fa-spin" ng-show="searchInProgress"></i>
           </span>

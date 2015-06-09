@@ -107,7 +107,6 @@ angular.module('qualitApp')
                 };
                 var value = " value='" + value.value + "'";
               } else {
-                // TODO check if this is needed or not!
                 var varOptions = {};
                 var varOptions = {
                   "data-for-variable": qaTextService.getVariableString(variable),

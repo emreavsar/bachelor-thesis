@@ -26,9 +26,6 @@ angular.module('qualitApp')
       .state('logout', {
         url: '/logout',
         controller: 'AuthCtrl',
-        data: {
-          roles: ['logout']
-        },
         onEnter: function ($rootScope) {
           $rootScope.logout();
         }

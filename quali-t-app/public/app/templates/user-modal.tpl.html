@@ -37,15 +37,18 @@
               </ui-select>
             </div>
 
-            <button type="submit" class="btn btn-success" ng-show="type == 'add'"
-                    ng-click="callBackFunction(user); $hide()">
-              <i class="fa fa-plus"></i> Add User
-            </button>
-            <button type="submit" class="btn btn-success" ng-show="type == 'edit'"
-                    ng-click="callBackFunction(user); $hide()">
-              <i class="fa fa-plus"></i> Save
-              User
-            </button>
+
+            <div class="margin-top-50 text-center">
+              <button type="submit" class="btn btn-success" ng-show="type == 'add'"
+                      ng-click="callBackFunction(user); $hide()">
+                <i class="fa fa-plus"></i> Add User
+              </button>
+              <button type="submit" class="btn btn-success" ng-show="type == 'edit'"
+                      ng-click="callBackFunction(user); $hide()">
+                <i class="fa fa-plus"></i> Save
+                User
+              </button>
+            </div>
           </form>
         </div>
       </div>

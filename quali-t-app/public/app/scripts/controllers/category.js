@@ -8,14 +8,13 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('CategoryCtrl', function ($scope, apiService, $modal) {
+  .controller('CategoryCtrl', function ($scope, apiService, $modal, alertService) {
     $scope.errors = new Array();
     $scope.success = new Array();
 
 
     $scope.openModalView = function (type, clickedCat) {
       var parentId = ($(clickedCat).data('id') == "" ? null : $(clickedCat).data('id'));
-      var name = $(clickedCat).data('name');
       var name = $(clickedCat).data('name');
 
       // create new isolated scope for modal view
@@ -41,8 +40,7 @@ angular.module('qualitApp')
     $scope.delete = function (clickedCat) {
       var deletePromise = apiService.deleteCategory($(clickedCat).attr("data-id"));
       deletePromise.then(function (payload) {
-        // todo alert needed here
-        // reload when categories has changed
+        alertService.createSuccess("Category successfully deleted");
         $scope.loadCategories();
       });
     }
@@ -54,7 +52,7 @@ angular.module('qualitApp')
     $scope.updateSubCategory = function (name, icon, id) {
       var updatePromise = apiService.updateSubCategory(name, icon, id);
       updatePromise.then(function (payload) {
-        // todo alert needed here
+        alertService.createSuccess("Category successfully updated");
         $scope.loadCategories();
       });
 
@@ -63,18 +61,17 @@ angular.module('qualitApp')
     $scope.createSubCategory = function (name, icon, parent) {
       var createPromise = apiService.createSubCategory(name, icon, parent);
       createPromise.then(function (payload) {
-        // todo alert needed here
+        alertService.createSuccess("Category successfully created");
         $scope.loadCategories();
       });
     }
 
     $scope.createSuperCat = function (name, icon) {
-      console.log(name);
-      console.dir(name);
       // simulate a clicked element
       var clickedElement = $("<div/>", {
         'data-id': '',
-        'data-name': ''
+        'data-name': '',
+        'data-icon': ''
       });
 
       $scope.add(clickedElement);
