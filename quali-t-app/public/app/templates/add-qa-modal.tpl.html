@@ -6,79 +6,85 @@
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
-        <div class="modal-body">
-          <div class="text-center">
-            <label for="switchQaCreateMode" style="margin-right: 30px;"
-                   data-trigger="hover" data-type="success"
-                   data-title="{{tooltipsAddMode}}"
-                   bs-tooltip>Add mode:</label>
-            <input
-              id="switchQaCreateMode"
-              bs-switch
-              ng-model="isChooseMode"
-              type="checkbox"
-              switch-size="small"
-              switch-on-text="Choose"
-              switch-off-text="Create"
-              switch-on-color="default"
-              switch-off-color="default"
-              />
-          </div>
-          <div ng-show="isChooseMode">
-            <h4>Choose Quality Attributes from standard Catalog</h4>
+        <h4 class="modal-title" ng-show="projectId">Add new Quality Attribute(s) to the project</h4>
+        <h4 class="modal-title" ng-show="catalogId">Add new Quality Attribute Templates(s) to the catalog</h4>
+      </div>
 
-            <div class="col-sm-12">
+      <div class="modal-body">
+        <div class="text-center">
+          <label for="switchQaCreateMode" style="margin-right: 30px;"
+                 data-trigger="hover" data-type="success"
+                 data-title="{{tooltipsAddMode}}"
+                 bs-tooltip>Add mode:</label>
+          <input
+            id="switchQaCreateMode"
+            bs-switch
+            ng-model="isChooseMode"
+            type="checkbox"
+            switch-size="small"
+            switch-on-text="Choose"
+            switch-off-text="Create"
+            switch-on-color="default"
+            switch-off-color="default"
+            />
+        </div>
+        <div ng-show="isChooseMode">
+          <h4>Choose Quality Attributes from standard Catalog</h4>
 
-              <div class="filter col-sm-4">
-                <h5>Filter</h5>
-                <filter id="categories" hide-checkbox="false" callback="filter" categories="catList"></filter>
-              </div>
+          <div class="col-sm-12">
 
-              <div class="all-qas col-sm-8">
-                <h5>All Quality Attributes</h5>
-
-                <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories"
-                     ng-click="toggleSelection(catalogQa)"
-                     ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
-                  <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="catalog"
-                      variables="catalogQa.variables"
-                      editable="false"/>
-                </div>
-              </div>
-
+            <div class="filter col-sm-4">
+              <h5>Filter</h5>
+              <filter id="categories" hide-checkbox="false" callback="filter" categories="catList"></filter>
             </div>
-          </div>
-          <div ng-show="!isChooseMode">
-            <div ng-show="projectId">
-              <h4>Create new Quality Attribute directly in this project</h4>
 
-              <text-angular ta-toolbar="[
+            <div class="all-qas col-sm-8">
+              <h5>All Quality Attributes</h5>
+
+              <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories"
+                   ng-click="toggleSelection(catalogQa)"
+                   ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
+                <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="catalog"
+                    variables="catalogQa.variables"
+                    editable="false"/>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div ng-show="!isChooseMode">
+          <div ng-show="projectId">
+            <h4>Create new Quality Attribute directly in this project</h4>
+
+            <text-angular ta-toolbar="[
               ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
               ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'clear'],
               ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
               ['html', 'insertImage', 'insertLink', 'wordcount', 'charcount']
               ]" ng-model="additionalQualityAttribute"></text-angular>
 
-            </div>
-            <div ng-show="catalogId">
-              <h4>Create new Quality Attribute Template</h4>
+          </div>
+          <div ng-show="catalogId">
+            <h4>Create new Quality Attribute Template</h4>
             <span class="text-info">
               To create a new Quality Attribute Template you must <b>exit</b> the edit catalog mode, and enter create quality attribute template mode.
               You will be automatically redirected to edit catalog after creating the quality attribute template.
             </span>
-            </div>
-          </div>
-
-          <div class="margin-top-50 text-center">
-            <button type="button" class="btn btn-default btn-md" ng-click="add()">
-              Add Quality Attribute Template(s)
-            </button>
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+        <div class="margin-top-50 text-center">
+          <button ng-show="projectId" type="button" class="btn btn-default btn-md" ng-click="add()">
+            Add Quality Attribute(s)
+          </button>
+          <button ng-show="catalogId" type="button" class="btn btn-default btn-md" ng-click="add()">
+            Add Quality Attribute Template(s)
+          </button>
         </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
       </div>
     </div>
   </div>

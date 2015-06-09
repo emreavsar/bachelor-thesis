@@ -45,7 +45,7 @@ angular.module('qualitApp')
       } else {
         if ($scope.projectId != undefined) {
           var additionalAttributes = new Array();
-          additionalAttributes.push($scope.additionalQualityAttribute);
+          additionalAttributes.push({description: $scope.additionalQualityAttribute});
           var promise = apiService.addAdditionalQaToProject($stateParams.projectId, additionalAttributes);
           promise.then(function (payload) {
             alertService.createSuccess("Quality Attribute successfully added to the project");
