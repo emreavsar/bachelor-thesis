@@ -26,7 +26,7 @@ before_script:
 - unzip -q $ACTIVATOR_ZIP_FILE
 script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
-- grunt clean build test
+- grunt clean build testBasic
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
 - $ACTIVATOR_BIN test
 after_success:
