@@ -10,7 +10,6 @@
 angular.module('qualitApp')
   .factory('qaTextService', function () {
     var qaTextService = {};
-    // TODO emre: refactor to configservice
     qaTextService.variableTypes = new Array("FREETEXT", "FREENUMBER", "ENUMTEXT", "ENUMNUMBER");
 
     qaTextService.getRegex = function () {

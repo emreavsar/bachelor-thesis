@@ -127,7 +127,6 @@ angular.module('qualitApp')
       // these are all variables in text (%VARIABLES_TYPE_NUMBER_%)
       var varTokens = ($scope.qaText.match(/%VARIABLE_(FREETEXT|FREENUMBER|ENUMTEXT|ENUMNUMBER){1}_\d*%/g) || []);
 
-      // TODO emre: can be refactored to a custom directive, used in catalog, project and here
       var qaContainer = $("<div/>", {
         class: "qa well row"
       });

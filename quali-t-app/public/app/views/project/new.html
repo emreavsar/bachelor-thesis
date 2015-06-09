@@ -66,7 +66,9 @@
         </div>
 
         <div class="row end-row col-sm-12">
-          <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg" id="choose-catalog-button">Choose Catalog and QAs</button>
+          <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg" id="choose-catalog-button">Choose
+            Catalog and QAs
+          </button>
         </div>
       </div>
       <!-- END STEP 1 -->
@@ -139,6 +141,7 @@
             <div ng-show="additionalQas.length>0">
 
               <h5>Custom added quality attributes</h5>
+
               <div class="qa well row"
                    ng-repeat="addtionalQa in additionalQas"
                    ng-click="toggleSelection(addtionalQa, selectionAdditional)"
@@ -157,9 +160,6 @@
 
               <div ng-show="newQaInEdit">
                 <div class="well qa">
-                  <div class="categories">
-                    <span class="label label-default">CATEGORY: TODO</span>
-                  </div>
                   <!-- NO VARIABLES IN TOOLBAR -->
                   <text-angular ta-toolbar="[
               ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
@@ -179,7 +179,8 @@
           </div>
 
           <div class="row end-row col-sm-12">
-            <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg" id="create-project-button">Create Project and set values for
+            <button type="button" ng-click="nextStep()" class="btn btn-success btn-lg" id="create-project-button">Create
+              Project and set values for
               QAs
             </button>
           </div>

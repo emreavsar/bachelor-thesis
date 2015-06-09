@@ -22,7 +22,7 @@ angular.module('qualitApp')
 
       var createPromise = apiService.createProjectInitiator(name, address);
       createPromise.then(function (payload) {
-        // todo add success alert
+        alertService.createSuccess("Project initiator successfully added");
         $scope.loadProjectInitiators();
       });
     }
@@ -66,7 +66,7 @@ angular.module('qualitApp')
         deletePromise.then(function (payload) {
           $scope.projectInitiatorList = payload.data;
           $scope.loadProjectInitiators();
-          // todo add success alert
+          alertService.createSuccess("Project initiator successfully deleted");
         });
       }
     }
@@ -76,7 +76,7 @@ angular.module('qualitApp')
       updatePromise.then(function (payload) {
         $scope.projectInitiatorList = payload.data;
         $scope.loadProjectInitiators();
-        // todo add success alert
+        alertService.createSuccess("Project initiator successfully updated");
       });
     }
 
