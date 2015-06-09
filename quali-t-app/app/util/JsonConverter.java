@@ -3,7 +3,6 @@ package util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import exceptions.EntityNotFoundException;
 import models.Interface.JIRAConnection;
 import models.authentication.Token;
 import models.authentication.User;
@@ -36,7 +35,7 @@ public class JsonConverter {
         return qa;
     }
 
-    public List<Long> getQaCategoriesFromJson(JsonNode json) throws EntityNotFoundException {
+    public List<Long> getQaCategoriesFromJson(JsonNode json) {
         JsonNode categoriesNode = json.findPath("categories");
         List<String> list = categoriesNode.findValuesAsText("id");
         return Lists.transform(list, helper.parseLongFunction());

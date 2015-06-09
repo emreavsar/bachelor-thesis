@@ -9,9 +9,7 @@ import exceptions.EntityCanNotBeUpdated;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import logics.template.CatalogLogic;
-import models.template.Catalog;
-import models.template.CatalogQA;
-import models.template.QA;
+import models.template.*;
 import org.junit.Before;
 import org.junit.Test;
 import util.GlobalVariables;
@@ -398,5 +396,70 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
         // ACT
         catalogLogic.deleteCatalogQA(null);
         // ASSERT
+    }
+
+    @Test
+    public void testImportCatalog() throws MissingParameterException, EntityNotFoundException {
+        // ARRANGE
+        List<QACategory> categoryList = new ArrayList<>();
+        categoryList.add(new QACategory("Security", ""));
+        categoryList.add(new QACategory("Usability", ""));
+        QA qa = new QA("simple QA with categories");
+        qa.addCategories(categoryList);
+        catalog.addTemplate(qa);
+        catalogQA = new CatalogQA(new QA("advanced QA"), catalog);
+        QAVar qaVar1 = new QAVar(0);
+        qaVar1.setType(QAType.FREETEXT);
+        catalogQA.addVar(qaVar1);
+        QAVar qaVar2 = new QAVar(1);
+        qaVar2.setType(QAType.ENUMTEXT);
+        qaVar2.addValue(new QAVarVal("system", ValueType.TEXT));
+        qaVar2.setExtendable(true);
+        catalogQA.addVar(qaVar2);
+        catalog.addCatalogQA(catalogQA);
+        List<Integer> qaCount = new ArrayList<>();
+        List<Integer> varCount = new ArrayList<>();
+        // ACT
+        Catalog importedCatalog = catalogLogic.importCatalog(catalog);
+        // ASSERT
+        assertThat(importedCatalog.getId()).isNotNull();
+        assertThat(importedCatalog.getName()).isEqualTo("name");
+        assertThat(importedCatalog.getDescription()).isEqualTo("description");
+        assertThat(importedCatalog.getImage()).isEqualTo("image");
+        assertThat(importedCatalog.getTemplates().size()).isEqualTo(2);
+        for (CatalogQA catalogQA : importedCatalog.getTemplates()) {
+            if (catalogQA.getQa().getDescription().equals("simple QA with categories")) {
+                qaCount.add(1);
+                assertThat(catalogQA.getQa().getCategories().size()).isEqualTo(2);
+                for (QACategory qaCategory : catalogQA.getQa().getCategories()) {
+                    assertThat(new String[]{"Security", "Usability"}).contains(qaCategory.getName());
+                }
+
+            }
+            if (catalogQA.getQa().getDescription().equals("advanced QA")) {
+                qaCount.add(2);
+                assertThat(catalogQA.getQa().getCategories()).isEmpty();
+                for (QAVar qaVar : catalogQA.getVariables()) {
+                    varCount.add(qaVar.getVarIndex());
+                    if (qaVar.getVarIndex() == 0) {
+                        assertThat(qaVar.getType()).isEqualTo(QAType.FREETEXT);
+                    }
+                    if (qaVar.getVarIndex() == 1) {
+                        assertThat(qaVar.getValues().size()).isEqualTo(1);
+                        for (QAVarVal qaVarVal : qaVar.getValues()) {
+                            assertThat(qaVarVal.getValue()).isEqualTo("system");
+                            assertThat(qaVarVal.getType()).isEqualTo(ValueType.TEXT);
+                        }
+                        assertThat(qaVar.isExtendable()).isTrue();
+                    }
+                }
+                assertThat(varCount.size()).isEqualTo(2);
+                assertThat(varCount).containsOnly(0, 1);
+            }
+            assertThat(catalogQA.getId()).isNotNull();
+            assertThat(catalogQA.getCatalog().getName()).isEqualTo("name");
+        }
+        assertThat(qaCount.size()).isEqualTo(2);
+        assertThat(qaCount).containsOnly(1, 2);
     }
 }

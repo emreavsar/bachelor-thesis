@@ -55,6 +55,45 @@ public class JsonConverterTest extends AbstractDatabaseTest {
     }
 
     @Test
+    public void testGetQaCategoriesFromJson() {
+        // ARRANGE
+        jsonString = "{\n" +
+                "  \"categories\": [\n" +
+                "    {\n" +
+                "      \"id\": -4000,\n" +
+                "      \"name\": \"Functional Suitability\",\n" +
+                "      \"icon\": \"fa fa-cog\",\n" +
+                "      \"categories\": []\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": -4006,\n" +
+                "      \"name\": \"Maintainability\",\n" +
+                "      \"icon\": \"fa fa-wrench\",\n" +
+                "      \"categories\": []\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": -4005,\n" +
+                "      \"name\": \"Security\",\n" +
+                "      \"icon\": \"fa fa-lock\",\n" +
+                "      \"categories\": []\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": -4021,\n" +
+                "      \"name\": \"Maturity\",\n" +
+                "      \"icon\": \"\",\n" +
+                "      \"categories\": []\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+        jsonToConvert = Json.parse(jsonString);
+        // ACT
+        List<Long> qaCategoryIds = jsonConverter.getQaCategoriesFromJson(jsonToConvert);
+        // ASSERT
+        assertThat(qaCategoryIds.size()).isEqualTo(4);
+        assertThat(qaCategoryIds).containsOnly(Long.valueOf(-4000), Long.valueOf(-4006), Long.valueOf(-4005), Long.valueOf(-4021));
+    }
+
+    @Test
     public void testGetProjectInitiatorFromJson() {
         // ARRANGE
         jsonString = "{\n" +

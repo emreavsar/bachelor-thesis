@@ -19,7 +19,6 @@ import models.template.CatalogQA;
 import models.template.QA;
 import org.junit.Before;
 import org.junit.Test;
-import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -276,6 +275,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         QualityProperty qp = new QualityProperty("S", "Specified");
         qp.addUsedByProject(project);
         project.addQualityProperty(qp);
+        instance = new Instance("instance");
+        instance.addQualityProperty(qp);
+        project.addQualityAttribute(instance);
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
@@ -313,12 +315,10 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         instanceToUpdate.setId(persistedInstance.getId());
         instanceToUpdate.addQualityProperty(qualityProperty, true);
         for (QualityPropertyStatus qualityPropertyStatusToUpdate : instanceToUpdate.getQualityPropertyStatus()) {
-            Logger.debug(" status find");
             qualityPropertyStatusToUpdate.setStatus(true);
             qualityPropertyStatusToUpdate.setId(qpStatusId);
             //        for (Instance persistedInstance : persistedProject.getQualityAttributes()) {
             for (QualityPropertyStatus persistedQualityPropertyStatus : persistedInstance.getQualityPropertyStatus()) {
-                Logger.info("id persistiert" + persistedQualityPropertyStatus.getId());
                 qualityPropertyStatusToUpdate.setId(persistedQualityPropertyStatus.getId());
             }
         }
@@ -328,9 +328,7 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         Project updatedProject = projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
         // ASSERT
         for (Instance updatedInstance : updatedProject.getQualityAttributes()) {
-            Logger.info(("called for one instance" + updatedProject.getQualityProperties().size()));
             for (QualityPropertyStatus updatedQualityPropertyStatus : updatedInstance.getQualityPropertyStatus()) {
-                Logger.info("called  " + updatedQualityPropertyStatus.getQp().getName() + updatedQualityPropertyStatus.getQp().getId() + " boolean " + String.valueOf(updatedQualityPropertyStatus.isStatus()));
                 assertThat(updatedQualityPropertyStatus.isStatus()).isTrue();
             }
         }
@@ -513,6 +511,34 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
         // ACT
         projectLogic.deleteInstance(new Long(99999));
         // ASSERT
+    }
+
+    @Test
+    public void testCreateValidInstance() throws MissingParameterException, EntityNotFoundException {
+        // ARRANGE
+        Project newProject = projectLogic.createProject(project, new ArrayList<>(), qualityPropertyIdList);
+        Project updatedProject = new Project();
+        updatedProject.setId(newProject.getId());
+        updatedProject.addQualityAttribute(new Instance("simple qa instance"));
+        List<Integer> instanceList = new ArrayList<>();
+        // ACT
+        newProject = projectLogic.createInstance(updatedProject, qualityAttributeIdList);
+        // ASSERT
+        assertThat(newProject.getId()).isEqualTo(updatedProject.getId());
+        assertThat(newProject.getQualityAttributes().size()).isEqualTo(2);
+        for (Instance instance : newProject.getQualityAttributes()) {
+            if (instance.getDescription().equals("simple qa instance")) {
+                instanceList.add(0);
+                assertThat(instance.getTemplate()).isNull();
+                assertThat(instance.getValues()).isEmpty();
+            }
+            if (instance.getDescription().equals("description")) {
+                instanceList.add(1);
+                assertThat(instance.getTemplate().getId()).isEqualTo(qa.getId());
+            }
+        }
+        assertThat(instanceList.size()).isEqualTo(2);
+        assertThat(instanceList).containsOnly(0, 1);
     }
 
 
