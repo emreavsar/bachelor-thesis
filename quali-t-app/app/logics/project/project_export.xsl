@@ -30,7 +30,7 @@
                             <fo:table-body>
                                 <fo:table-row>
                                     <fo:table-cell font-weight="bold">
-                                        <fo:block>Jira-Key</fo:block>
+                                        <fo:block>JIRA Key</fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell>
                                         <fo:block>
