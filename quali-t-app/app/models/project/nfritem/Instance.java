@@ -168,7 +168,7 @@ public class Instance extends AbstractEntity {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("description", description)
-                .append("project", project)
+                .append("project", "disabled because of infinite loops (bi-directional)")
                 .append("template", template)
                 .append("values", values)
                 .append("qualityPropertyStatus", qualityPropertyStatus)

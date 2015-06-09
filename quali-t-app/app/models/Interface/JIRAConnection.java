@@ -34,7 +34,7 @@ public class JIRAConnection extends AbstractEntity {
                 .append("hostAddress", hostAddress)
                 .append("username", username)
                 .append("password", password)
-                .append("usedForProject", usedForProject)
+                .append("usedForProject", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 

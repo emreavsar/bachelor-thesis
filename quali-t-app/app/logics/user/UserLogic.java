@@ -6,10 +6,10 @@ import dao.models.UserDao;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import util.Helper;
 import logics.authentication.Authenticator;
 import models.authentication.Role;
 import models.authentication.User;
+import util.Helper;
 
 import java.util.ArrayList;
 import java.util.List;

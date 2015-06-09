@@ -158,7 +158,7 @@ public class QAVar extends AbstractEntity {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("varIndex", varIndex)
-                .append("template", template)
+                .append("template", "disabled because of infinite loops (bi-directional)")
                 .append("type", type)
                 .append("extendable", extendable)
                 .append("values", values)

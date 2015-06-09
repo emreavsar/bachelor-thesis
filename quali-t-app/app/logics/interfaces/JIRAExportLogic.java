@@ -14,7 +14,6 @@ import dao.models.QAInstanceDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.InvalidConnectionParameter;
 import exceptions.MissingParameterException;
-import util.Helper;
 import models.Interface.JIRAConnection;
 import models.project.Project;
 import models.project.nfritem.Instance;
@@ -23,6 +22,7 @@ import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSAuthScheme;
 import play.libs.ws.WSRequestHolder;
+import util.Helper;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class JIRAExportLogic {
                     }
 
                     //add jira Response to Json for final response with all QAs
-                    ((ObjectNode) responses).put(qa.getId().toString(), createIssueResponse);
+                    responses.put(qa.getId().toString(), createIssueResponse);
                 } catch (InvalidConnectionParameter e) {
                     throw e;
                 } catch (Exception e) {

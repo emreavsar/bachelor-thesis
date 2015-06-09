@@ -62,7 +62,7 @@ public class Task extends AbstractEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("assignee", assignee)
+                .append("assignee", "disabled because of infinite loops (bi-directional)")
                 .append("done", done)
                 .append("description", description)
                 .toString();

@@ -1,6 +1,7 @@
 package models.template;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -101,9 +102,9 @@ public class QACategory extends AbstractEntity {
         return new ToStringBuilder(this)
                 .append("name", name)
                 .append("icon", icon)
-                .append("parent", parent)
+                .append("parent", "disabled because of infinite loops (bi-directional)")
                 .append("categories", categories)
-                .append("usedInQA", usedInQA)
+                .append("usedInQA", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

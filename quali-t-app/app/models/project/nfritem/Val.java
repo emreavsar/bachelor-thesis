@@ -68,7 +68,7 @@ public class Val extends AbstractEntity {
         return new ToStringBuilder(this)
                 .append("varIndex", varIndex)
                 .append("value", value)
-                .append("instance", instance)
+                .append("instance", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

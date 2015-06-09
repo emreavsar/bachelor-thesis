@@ -1,16 +1,16 @@
 package models.project;
 
 
-import javax.persistence.*;
-import javax.annotation.Nullable;
-
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import models.Interface.JIRAConnection;
 import models.authentication.User;
 import models.project.nfritem.Instance;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.annotation.Nullable;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

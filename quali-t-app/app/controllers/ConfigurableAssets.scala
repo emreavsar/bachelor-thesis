@@ -1,9 +1,8 @@
 package controllers
 
-import play.api.{Logger, Play}
-import Play.current
-import play.api.mvc.Action
-import play.api.mvc.AnyContent
+import play.api.Play
+import play.api.Play.current
+import play.api.mvc.{Action, AnyContent}
 
 object ConfigurableAssets extends AssetsBuilder {
   private val assetsPath = Play.configuration.getString("assets.path").getOrElse("/public")
