@@ -26,9 +26,8 @@ before_script:
 - unzip -q $ACTIVATOR_ZIP_FILE
 script:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public/
-- grunt clean
-- grunt
+- grunt clean build test
 - cd $TRAVIS_BUILD_DIR/quali-t-app/
-- $ACTIVATOR_BIN testBasic
+- $ACTIVATOR_BIN test
 after_success:
 - cd $TRAVIS_BUILD_DIR/quali-t-app/public && grunt clean && grunt build && cd $TRAVIS_BUILD_DIR/quali-t-app/ && $ACTIVATOR_BIN stage deployHeroku
