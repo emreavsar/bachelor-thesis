@@ -24,7 +24,6 @@ public class QualitDeadboltHandler extends AbstractDeadboltHandler {
         try {
             return JPA.withTransaction(new play.libs.F.Function0<User>() {
                 public User apply() throws EntityNotFoundException {
-                    // TODO emre: move to userid instead of username -> easier
                     String u = context.session().get("username");
                     UserDao userDao = new UserDao();
                     User loggedInUser = userDao.findByUsername(u);

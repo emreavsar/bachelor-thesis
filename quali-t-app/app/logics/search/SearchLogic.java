@@ -66,7 +66,6 @@ public class SearchLogic {
 
 
     private ArrayList<QA> searchQAs(String searchArgument) throws EntityNotFoundException {
-        // TODO emre: implement real search
         ArrayList<QA> qas;
 
         qas = (ArrayList<QA>) qualityAttributeDAO.search(searchArgument);
