@@ -20,14 +20,27 @@ angular.module('qualitApp')
 
     $scope.add = function () {
       if ($scope.isChooseMode) {
-        _.forEach($scope.selection, function (n) {
-          var promise = apiService.addCatalogQa($stateParams.catalogId, n.qa.id, n.variables);
+        if ($scope.projectId != undefined) {
+          var selectedCatalogQaIds = new Array();
+          _.forEach($scope.selection, function (n) {
+            selectedCatalogQaIds.push(n.id);
+          });
+          var promise = apiService.addCatalogQaToProject($stateParams.projectId, selectedCatalogQaIds);
           promise.then(function (payload) {
-            alertService.createSuccess("CatalogQa added to Catalog");
-            $rootScope.$broadcast('qasOfCatalogUpdated', {});
+            alertService.createSuccess("Instances of the selected Quality Attribute Templates successfully added to the project");
+            $rootScope.$broadcast('qasOfProjectUpdated', {});
             $scope.hideModal();
           });
-        });
+        } else if ($scope.catalogId != undefined) {
+          _.forEach($scope.selection, function (n) {
+            var promise = apiService.addCatalogQa($stateParams.catalogId, n.qa.id, n.variables);
+            promise.then(function (payload) {
+              alertService.createSuccess("CatalogQa added to Catalog");
+              $rootScope.$broadcast('qasOfCatalogUpdated', {});
+              $scope.hideModal();
+            });
+          });
+        }
       } else {
         // open new qa state with additional parameter (catalogQa) to handle redirect after creating QA
         $state.go("newQA", {
