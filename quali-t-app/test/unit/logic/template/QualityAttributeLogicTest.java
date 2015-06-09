@@ -12,6 +12,7 @@ import logics.template.QualityAttributeLogic;
 import models.template.*;
 import org.junit.Before;
 import org.junit.Test;
+import util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
         qaVars.add(qaVar);
         //create Standard CatalogQA
         CatalogDAO catalogDAO = new CatalogDAO();
-        standardCatalogQA = AbstractTestDataCreator.createCatalogQA(qa, catalogDAO.readById(new Long(-6000)), qaVars);
+        standardCatalogQA = AbstractTestDataCreator.createCatalogQA(qa, catalogDAO.readById(GlobalVariables.standardCatalog), qaVars);
 
     }
 
@@ -256,7 +257,7 @@ public class QualityAttributeLogicTest extends AbstractDatabaseTest {
 //        }
         // ACT
         QA updatedQA = qualityAttributeLogic.updateQA(qaToUpdate, categoryIds, updatedQaVars);
-        CatalogQA updatedCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(new Long(-6000)), updatedQA);
+        CatalogQA updatedCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(GlobalVariables.standardCatalog), updatedQA);
         // ASSERT
         assertThat(updatedQA.getDescription()).isEqualTo(qaToUpdate.getDescription());
         assertThat(updatedQA.getVersionNumber()).isEqualTo(qaToUpdate.getVersionNumber());

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
+import util.GlobalVariables;
 import util.Helper;
 import dao.models.CatalogDAO;
 import dao.models.CatalogQADAO;
@@ -28,8 +29,6 @@ import java.util.List;
  * Created by corina on 10.04.2015.
  */
 public class CatalogLogic {
-    // TODO refactor default catalog id (-6000) into  ConfigClass.VARIABLE constant
-    final long defaultCatalog = new Long(-6000);
     @Inject
     private CatalogDAO catalogDAO;
     @Inject
@@ -50,7 +49,7 @@ public class CatalogLogic {
     public List<Catalog> getAllEditableCatalogs() {
         List<Catalog> catalogList = new ArrayList<>();
         for (Catalog catalog : getAllCatalogs()) {
-            if (catalog.getId() != -6000) {
+            if (catalog.getId() != GlobalVariables.standardCatalog) {
                 catalogList.add(catalog);
             }
         }
@@ -75,7 +74,7 @@ public class CatalogLogic {
                     if (catalogQA.getQa() != null && catalogQA.getQa().getId() != null) {
                         QA qa = qualityAttributeDAO.readById(catalogQA.getQa().getId());
                         Logger.info("descirption    " + qa.getDescription());
-                        standardCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(new Long(-6000)), qa);
+                        standardCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(GlobalVariables.standardCatalog), qa);
                         catalogQA = standardCatalogQA.copyCatalogQA();
                         catalogQA.setCatalog(newCatalog);
                         catalogQA.setQa(qa);
@@ -101,7 +100,7 @@ public class CatalogLogic {
 
     public models.template.Catalog updateCatalog(models.template.Catalog catalog) throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         if (catalog != null && helper.validate(catalog.getName()) && catalog.getId() != null) {
-            if (catalog.getId() != -6000) {
+            if (catalog.getId() != GlobalVariables.standardCatalog) {
                 models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId());
                 updatedCatalog.setDescription(catalog.getDescription());
                 updatedCatalog.setName(catalog.getName());
@@ -123,9 +122,8 @@ public class CatalogLogic {
     }
 
     public void deleteCatalog(Long id) throws EntityNotFoundException, EntityCanNotBeDeleted, MissingParameterException {
-        // TODO refactor default catalog id (-6000) into  ConfigClass.VARIABLE constant
         if (id != null) {
-            if (id != -6000) {
+            if (id != GlobalVariables.standardCatalog) {
                 models.template.Catalog catalog = catalogDAO.readById(id);
                 for (CatalogQA catalogQA : catalog.getTemplates()) {
                     deleteCatalogQA(catalogQA.getId());
@@ -191,7 +189,7 @@ public class CatalogLogic {
     public Catalog importCatalog(Catalog catalog) throws EntityNotFoundException, MissingParameterException {
         setQaCategories(catalog);
         Catalog newCatalog = catalogDAO.persist(catalog);
-        Catalog standardCatalog = catalogDAO.readById(new Long(-6000));
+        Catalog standardCatalog = catalogDAO.readById(GlobalVariables.standardCatalog);
         for (CatalogQA catalogQA : newCatalog.getTemplates()) {
             CatalogQA standardCatalogQA = catalogQA.copyCatalogQA();
             standardCatalogQA.setCatalog(standardCatalog);

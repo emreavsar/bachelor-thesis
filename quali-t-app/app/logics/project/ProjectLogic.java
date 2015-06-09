@@ -65,10 +65,7 @@ public class ProjectLogic {
             project.setId(null);
             //create qa instances
             CatalogQA catalogQA;
-            for (Long id : qualityAttributeIdList) {
-                catalogQA = catalogQADAO.readById(id);
-                project.addQualityAttribute(new Instance(catalogQA.getQa().getDescription(), catalogQA));
-            }
+            addQualityAttributesToProject(qualityAttributeIdList, project);
             // set project parameters
             setProjectParameters(project);
             setProjectQualityProperties(project, qualityPropertyIdList);
@@ -88,14 +85,21 @@ public class ProjectLogic {
         throw new MissingParameterException("Please provide a valid ID!");
     }
 
-    public models.project.Project createInstance(Instance updatedInstance) throws EntityNotFoundException {
-//        models.project.Project project = getProject(json.findPath("id").asLong());
-//        for (JsonNode qa : json.findPath("qualityAttributes")) {
-//            Instance instance = createQAInstance(qa);
-//            project.addQualityAttribute(instance);
-//        }
-//        return projectDAO.update(project);
-        return null;
+    public models.project.Project createInstance(Project project, List<Long> qualityAttributeIdList) throws EntityNotFoundException {
+        Project persistedProject = projectDAO.readById(project.getId());
+        for (Instance instance : project.getQualityAttributes()) {
+            persistedProject.addQualityAttribute(instance);
+        }
+        addQualityAttributesToProject(qualityAttributeIdList, persistedProject);
+        return projectDAO.update(persistedProject);
+    }
+
+    private void addQualityAttributesToProject(List<Long> qualityAttributeIdList, Project persistedProject) throws EntityNotFoundException {
+        CatalogQA catalogQA;
+        for (Long id : qualityAttributeIdList) {
+            catalogQA = catalogQADAO.readById(id);
+            persistedProject.addQualityAttribute(new Instance(catalogQA.getQa().getDescription(), catalogQA));
+        }
     }
 
     public List<models.project.Project> getAllProjects() {

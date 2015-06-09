@@ -57,7 +57,7 @@ public class JIRAConnectionController extends Controller implements ExceptionHan
     @Transactional
     public Result export() {
         return catchAbstractException(request(), json -> {
-            Project project = jsonConverter.getJiraProjectFromJson(json);
+            Project project = jsonConverter.getProjectIdFromJson(json);
             List<Long> qualityAttributesToExport = jsonConverter.getQualityAttributeIdsToExportFromJson(json);
             Boolean exportAsRaw = jsonConverter.getExportAsRawBoolean(json);
             return ok(Json.toJson(jiraExportLogic.exportToJira(project, qualityAttributesToExport, exportAsRaw)));

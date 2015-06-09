@@ -14,6 +14,7 @@ import models.template.CatalogQA;
 import models.template.QA;
 import org.junit.Before;
 import org.junit.Test;
+import util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     public void testCreateValidCatalog() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
         catalogQAList.clear();
-        catalogQAList.add(AbstractTestDataCreator.createCatalogQA(persistedQa, catalogDAO.readById(new Long(-6000))));
+        catalogQAList.add(AbstractTestDataCreator.createCatalogQA(persistedQa, catalogDAO.readById(GlobalVariables.standardCatalog)));
         // ACT
         Catalog newCatalog = catalogLogic.createCatalog(catalog, catalogQAList);
         // ASSERT
@@ -230,7 +231,7 @@ public class CatalogLogicTest extends AbstractDatabaseTest {
     @Test(expected = EntityCanNotBeUpdated.class)
     public void testUpdateStandardCatalog() throws EntityNotFoundException, MissingParameterException, EntityCanNotBeUpdated {
         // ARRANGE
-        updatedCatalog.setId(new Long(-6000));
+        updatedCatalog.setId(GlobalVariables.standardCatalog);
         // ACT
         catalogLogic.updateCatalog(updatedCatalog);
         // ASSERT

@@ -107,7 +107,15 @@ public class JsonConverter {
 
     public List<Long> getQualityAttributeIdsFromJson(JsonNode json) {
         JsonNode qualityAttributeNode = json.findPath("qualityAttributes");
-        return Lists.transform(qualityAttributeNode.findValuesAsText("id"), helper.parseLongFunction());
+        if (qualityAttributeNode.findPath("id").isMissingNode()) {
+            List<Long> idList = new ArrayList<>();
+            for (JsonNode id : qualityAttributeNode) {
+                idList.add(id.asLong());
+            }
+            return idList;
+        } else {
+            return Lists.transform(qualityAttributeNode.findValuesAsText("id"), helper.parseLongFunction());
+        }
     }
 
     private List<Instance> getAdditionalQualityAttributesFromJson(JsonNode json) {
@@ -178,7 +186,7 @@ public class JsonConverter {
         return jiraConnection;
     }
 
-    public Project getJiraProjectFromJson(JsonNode json) {
+    public Project getProjectIdFromJson(JsonNode json) {
         Project project = new Project();
         project.setId(json.findPath("projectId").asLong());
         return project;

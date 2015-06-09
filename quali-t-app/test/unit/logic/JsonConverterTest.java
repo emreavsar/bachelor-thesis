@@ -416,7 +416,7 @@ public class JsonConverterTest extends AbstractDatabaseTest {
                 "}";
         jsonToConvert = Json.parse(jsonString);
         // ACT
-        Project project = jsonConverter.getJiraProjectFromJson(jsonToConvert);
+        Project project = jsonConverter.getProjectIdFromJson(jsonToConvert);
         // ASSERT
         assertThat(project.getId()).isEqualTo(52);
     }
@@ -483,6 +483,177 @@ public class JsonConverterTest extends AbstractDatabaseTest {
         List<Long> roleIds = jsonConverter.getUserRolesFromJson(jsonToConvert);
         // ASSERT
         assertThat(roleIds).containsExactly(Long.valueOf(-20000), Long.valueOf(-20001));
+    }
+
+    @Test
+    public void testGetImportCatalogFromJson() {
+        // ARRANGE
+        List<Integer> qaVarIndex = new ArrayList<>();
+        List<Integer> qas = new ArrayList<>();
+        jsonString = "{\n" +
+                "  \"catalog\": {\n" +
+                "    \"id\": -6001,\n" +
+                "    \"name\": \"Cloud Katalog\",\n" +
+                "    \"description\": \"Katalog fuer Cloud Templates\",\n" +
+                "    \"image\": null\n" +
+                "  },\n" +
+                "  \"qualityAttributes\": [\n" +
+                "    {\n" +
+                "      \"id\": 60,\n" +
+                "      \"qa\": {\n" +
+                "        \"id\": -2011,\n" +
+                "        \"description\": \"<p>Dieses QA hat einen Range von 0 bis 100 %VARIABLE_FREENUMBER_0%</p>\",\n" +
+                "        \"categories\": [],\n" +
+                "        \"previousVersion\": null,\n" +
+                "        \"deleted\": false,\n" +
+                "        \"versionNumber\": 1\n" +
+                "      },\n" +
+                "      \"variables\": [\n" +
+                "        {\n" +
+                "          \"id\": 61,\n" +
+                "          \"varIndex\": 0,\n" +
+                "          \"type\": \"FREENUMBER\",\n" +
+                "          \"extendable\": false,\n" +
+                "          \"values\": [],\n" +
+                "          \"valRange\": {\n" +
+                "            \"id\": 62,\n" +
+                "            \"min\": 0,\n" +
+                "            \"max\": 100\n" +
+                "          },\n" +
+                "          \"averageValue\": null,\n" +
+                "          \"mosteUsedValue\": null,\n" +
+                "          \"defaultValue\": null\n" +
+                "        }\n" +
+                "      ],\n" +
+                "      \"deleted\": false\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": 54,\n" +
+                "      \"qa\": {\n" +
+                "        \"id\": -2000,\n" +
+                "        \"description\": \"<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfuegbar.</p>\",\n" +
+                "        \"categories\": [\n" +
+                "          {\n" +
+                "            \"id\": -4005,\n" +
+                "            \"name\": \"Availability\",\n" +
+                "            \"icon\": \"fa fa-cog\",\n" +
+                "            \"categories\": [\n" +
+                "              {\n" +
+                "                \"id\": -4006,\n" +
+                "                \"name\": \"SubcategoryOfAvailability\",\n" +
+                "                \"icon\": \"fa fa-cog\",\n" +
+                "                \"categories\": []\n" +
+                "              }\n" +
+                "            ]\n" +
+                "          }\n" +
+                "        ],\n" +
+                "        \"previousVersion\": null,\n" +
+                "        \"deleted\": false,\n" +
+                "        \"versionNumber\": 1\n" +
+                "      },\n" +
+                "      \"variables\": [\n" +
+                "        {\n" +
+                "          \"id\": 59,\n" +
+                "          \"varIndex\": 0,\n" +
+                "          \"type\": \"FREETEXT\",\n" +
+                "          \"extendable\": false,\n" +
+                "          \"values\": [],\n" +
+                "          \"valRange\": null,\n" +
+                "          \"averageValue\": null,\n" +
+                "          \"mosteUsedValue\": null,\n" +
+                "          \"defaultValue\": null\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"id\": 55,\n" +
+                "          \"varIndex\": 1,\n" +
+                "          \"type\": \"ENUMNUMBER\",\n" +
+                "          \"extendable\": true,\n" +
+                "          \"values\": [\n" +
+                "            {\n" +
+                "              \"id\": 56,\n" +
+                "              \"type\": \"NUMBER\",\n" +
+                "              \"value\": \"95\",\n" +
+                "              \"default\": false\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"id\": 58,\n" +
+                "              \"type\": \"NUMBER\",\n" +
+                "              \"value\": \"99\",\n" +
+                "              \"default\": true\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"id\": 57,\n" +
+                "              \"type\": \"NUMBER\",\n" +
+                "              \"value\": \"90\",\n" +
+                "              \"default\": false\n" +
+                "            }\n" +
+                "          ],\n" +
+                "          \"valRange\": null,\n" +
+                "          \"averageValue\": null,\n" +
+                "          \"mosteUsedValue\": null,\n" +
+                "          \"defaultValue\": {\n" +
+                "            \"id\": 58,\n" +
+                "            \"type\": \"NUMBER\",\n" +
+                "            \"value\": \"99\",\n" +
+                "            \"default\": true\n" +
+                "          }\n" +
+                "        }\n" +
+                "      ],\n" +
+                "      \"deleted\": false\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+        jsonToConvert = Json.parse(jsonString);
+        // ACT
+        Catalog catalog = jsonConverter.getImportCatalogFromJson(jsonToConvert);
+        // ASSERT
+        assertThat(catalog.getId()).isNull();
+        assertThat(catalog.getDescription()).isEqualTo("Katalog fuer Cloud Templates");
+        assertThat(catalog.getName()).isEqualTo("Cloud Katalog");
+        assertThat(catalog.getTemplates().size()).isEqualTo(2);
+        for (CatalogQA catalogQA : catalog.getTemplates()) {
+            assertThat(catalogQA.getId()).isNull();
+            if (catalogQA.getQa().getDescription().equals("<p>Dieses QA hat einen Range von 0 bis 100 %VARIABLE_FREENUMBER_0%</p>")) {
+                qas.add(0);
+                qaVarIndex.clear();
+                assertThat(catalogQA.getQa().getCategories().size()).isEqualTo(0);
+                assertThat(catalogQA.getVariables().size()).isEqualTo(1);
+                for (QAVar qaVar : catalogQA.getVariables()) {
+                    qaVarIndex.add(qaVar.getVarIndex());
+                    assertThat(qaVar.getValRange().getMin()).isEqualTo(0);
+                    assertThat(qaVar.getValRange().getMax()).isEqualTo(100);
+                    assertThat(qaVar.getVarIndex()).isEqualTo(0);
+                    assertThat(qaVar.getType()).isEqualTo(QAType.FREENUMBER);
+                    assertThat(qaVar.isExtendable()).isFalse();
+                }
+                assertThat(qaVarIndex).containsExactly(0);
+            }
+            if (catalogQA.getQa().getDescription().equals("<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfuegbar.</p>")) {
+                assertThat(catalogQA.getQa().getCategories().size()).isEqualTo(1);
+                qas.add(1);
+                qaVarIndex.clear();
+                for (QACategory qaCategory : catalogQA.getQa().getCategories()) {
+                    assertThat(qaCategory.getName()).isEqualTo("Availability");
+                }
+                assertThat(catalogQA.getVariables().size()).isEqualTo(2);
+                for (QAVar qaVar : catalogQA.getVariables()) {
+                    qaVarIndex.add(qaVar.getVarIndex());
+                    if (qaVar.getVarIndex() == 0) {
+                        assertThat(qaVar.getValues()).isEmpty();
+                        assertThat(qaVar.getType()).isEqualTo(QAType.FREETEXT);
+                        assertThat(qaVar.isExtendable()).isFalse();
+                    }
+                    if (qaVar.getVarIndex() == 1) {
+                        assertThat(qaVar.getValues().size()).isEqualTo(3);
+                        assertThat(qaVar.getDefaultValue().getValue()).isEqualTo("99");
+                        assertThat(qaVar.getDefaultValue().getType()).isEqualTo(ValueType.NUMBER);
+                        assertThat(qaVar.getType()).isEqualTo(QAType.ENUMNUMBER);
+                        assertThat(qaVar.isExtendable()).isTrue();
+                    }
+                }
+                assertThat(qaVarIndex).containsOnly(0, 1);
+            }
+        }
     }
 
 

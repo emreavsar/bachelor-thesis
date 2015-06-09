@@ -5,7 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
 import logics.project.ProjectLogic;
-import models.project.nfritem.Instance;
+import models.project.Project;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -48,7 +48,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
     @Transactional
     public Result createProject() {
         return catchAbstractException(request(), json -> {
-            models.project.Project project = jsonConverter.getProjectFromJson(json);
+            Project project = jsonConverter.getProjectFromJson(json);
             List<Long> qualityAttributeIdList = jsonConverter.getQualityAttributeIdsFromJson(json);
             List<Long> qualityPropertyIdList = jsonConverter.getQualityPropertiesFromJson(json);
             return ok(Json.toJson(projectLogic.createProject(project, qualityAttributeIdList, qualityPropertyIdList)));
@@ -80,7 +80,7 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
     @Transactional
     public Result updateProject() {
         return catchAbstractException(request(), json -> {
-            models.project.Project project = jsonConverter.getCompleteProjectFromJson(json);
+            Project project = jsonConverter.getCompleteProjectFromJson(json);
             List<Long> qualityPropertyList = jsonConverter.getQualityPropertiesFromJson(json);
             return ok(Json.toJson(projectLogic.updateProject(project, qualityPropertyList)));
         });
@@ -89,7 +89,11 @@ public class ProjectController extends Controller implements ExceptionHandlingIn
     @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})
     @Transactional
     public Result createInstance() {
-        return catchAbstractException(request(), json -> ok(Json.toJson(projectLogic.createInstance(new Instance()))));
+        return catchAbstractException(request(), json -> {
+            Project project = jsonConverter.getProjectFromJson(json);
+            List<Long> qualityAttributeIdList = jsonConverter.getQualityAttributeIdsFromJson(json);
+            return ok(Json.toJson(projectLogic.createInstance(project, qualityAttributeIdList)));
+        });
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin"), @Group("evaluator"), @Group("analyst"), @Group("projectmanager")})

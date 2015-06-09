@@ -8,8 +8,8 @@ import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import logics.project.ProjectLogic;
 import models.Interface.JIRAConnection;
-import models.project.ProjectInitiator;
 import models.project.Project;
+import models.project.ProjectInitiator;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
 import models.project.nfritem.QualityPropertyStatus;
@@ -19,6 +19,7 @@ import models.template.CatalogQA;
 import models.template.QA;
 import org.junit.Before;
 import org.junit.Test;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,6 +273,9 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
     @Test
     public void updateValidProjectRemoveQualityProperties() throws EntityNotFoundException, MissingParameterException {
         // ARRANGE
+        QualityProperty qp = new QualityProperty("S", "Specified");
+        qp.addUsedByProject(project);
+        project.addQualityProperty(qp);
         persistedProject = AbstractTestDataCreator.createProject(project);
         Project projectToUpdate = new Project();
         projectToUpdate.setName("name");
@@ -287,39 +291,50 @@ public class ProjectLogicTest extends AbstractDatabaseTest {
             assertThat(instance.getQualityPropertyStatus().size()).isEqualTo(0);
         }
     }
-//
-//    @Test
-//    public void updateValidProjectChangeQualityPropertyStatus() throws MissingParameterException, EntityNotFoundException {
-//        // ARRANGE
-//        Instance persistedInstance = AbstractTestDataCreator.createInstance("instance", project,qa);
-//        persistedInstance = AbstractTestDataCreator.addQualityPropertyStatusToInstance(persistedInstance, qualityProperty, true);
+
+    @Test
+    public void updateValidProjectChangeQualityPropertyStatus() throws MissingParameterException, EntityNotFoundException {
+        // ARRANGE
+        Long qpStatusId = null;
+        project.addQualityProperty(qualityProperty);
+        Instance persistedInstance = AbstractTestDataCreator.createFullInstance("instance", project, qa);
+        persistedInstance = AbstractTestDataCreator.addQualityPropertyStatusToInstance(persistedInstance, qualityProperty, true);
+        for (QualityPropertyStatus qpStatus : persistedInstance.getQualityPropertyStatus()) {
+            qpStatusId = qpStatus.getId();
+        }
 //        project.addQualityAttribute(persistedInstance);
 //        persistedProject = AbstractTestDataCreator.createProject(project);
-//        Project projectToUpdate = new Project();
-//        projectToUpdate.setProjectCustomer(projectInitiator);
-//        Instance instanceToUpdate = new Instance();
-//        instanceToUpdate.setId(persistedInstance.getId());
-//        instanceToUpdate.addQualityProperty(qualityProperty);
-//        for (QualityPropertyStatus qualityPropertyStatusToUpdate : instanceToUpdate.getQualityPropertyStatus()){
-//            Logger.debug(" status find");
-//            qualityPropertyStatusToUpdate.setStatus(true);
-//            //        for (Instance persistedInstance : persistedProject.getQualityAttributes()) {
-//            for (QualityPropertyStatus persistedQualityPropertyStatus : persistedInstance.getQualityPropertyStatus()) {
-//                Logger.info("id persistiert" + persistedQualityPropertyStatus.getId());
-//                qualityPropertyStatusToUpdate.setId(persistedQualityPropertyStatus.getId());
-//            }
-//        }
-//
-//        projectToUpdate.addQualityAttribute(instanceToUpdate);
-//        // ACT
-//        Project updatedProject = projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
-//        // ASSERT
-//        for (Instance updatedInstance : updatedProject.getQualityAttributes()) {
-//            for (QualityPropertyStatus updatedQualityPropertyStatus : updatedInstance.getQualityPropertyStatus()) {
-//                assertThat(updatedQualityPropertyStatus.isStatus()).isTrue();
-//            }
-//        }
-//    }
+        Project projectToUpdate = new Project();
+        projectToUpdate.setId(persistedInstance.getProject().getId());
+        projectToUpdate.setProjectInitiator(projectInitiator);
+        projectToUpdate.setName(persistedInstance.getProject().getName());
+//        projectToUpdate.addQualityProperty(qualityProperty);
+        Instance instanceToUpdate = new Instance();
+        instanceToUpdate.setId(persistedInstance.getId());
+        instanceToUpdate.addQualityProperty(qualityProperty, true);
+        for (QualityPropertyStatus qualityPropertyStatusToUpdate : instanceToUpdate.getQualityPropertyStatus()) {
+            Logger.debug(" status find");
+            qualityPropertyStatusToUpdate.setStatus(true);
+            qualityPropertyStatusToUpdate.setId(qpStatusId);
+            //        for (Instance persistedInstance : persistedProject.getQualityAttributes()) {
+            for (QualityPropertyStatus persistedQualityPropertyStatus : persistedInstance.getQualityPropertyStatus()) {
+                Logger.info("id persistiert" + persistedQualityPropertyStatus.getId());
+                qualityPropertyStatusToUpdate.setId(persistedQualityPropertyStatus.getId());
+            }
+        }
+
+        projectToUpdate.addQualityAttribute(instanceToUpdate);
+        // ACT
+        Project updatedProject = projectLogic.updateProject(projectToUpdate, qualityPropertyIdList);
+        // ASSERT
+        for (Instance updatedInstance : updatedProject.getQualityAttributes()) {
+            Logger.info(("called for one instance" + updatedProject.getQualityProperties().size()));
+            for (QualityPropertyStatus updatedQualityPropertyStatus : updatedInstance.getQualityPropertyStatus()) {
+                Logger.info("called  " + updatedQualityPropertyStatus.getQp().getName() + updatedQualityPropertyStatus.getQp().getId() + " boolean " + String.valueOf(updatedQualityPropertyStatus.isStatus()));
+                assertThat(updatedQualityPropertyStatus.isStatus()).isTrue();
+            }
+        }
+    }
 
     @Test(expected = MissingParameterException.class)
     public void updateNullProject() throws EntityNotFoundException, MissingParameterException {

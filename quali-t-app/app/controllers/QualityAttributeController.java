@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.GlobalVariables;
 import util.JsonConverter;
 import util.VariableConverter;
 
@@ -77,7 +78,7 @@ public class QualityAttributeController extends Controller implements ExceptionH
     @SubjectPresent
     @Transactional
     public Result getAllStandardCatalogQAs() {
-        return catchAbstractException(() -> ok(Json.toJson(qualityAttributeLogic.getQAsByCatalog(new Long(-6000)))));
+        return catchAbstractException(() -> ok(Json.toJson(qualityAttributeLogic.getQAsByCatalog(GlobalVariables.standardCatalog))));
     }
 
     @Restrict({@Group("curator"), @Group("admin")})

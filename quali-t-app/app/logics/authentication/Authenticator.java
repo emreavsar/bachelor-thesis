@@ -14,6 +14,7 @@ import models.authentication.Token;
 import models.authentication.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import play.Logger;
+import util.Helper;
 
 import javax.validation.constraints.NotNull;
 import java.security.MessageDigest;
@@ -32,12 +33,14 @@ public class Authenticator {
     private TokenDao tokenDao;
     @Inject
     private RoleDao roleDao;
+    @Inject
+    private Helper helper;
 
     public Authenticator() {
         Logger.info("constructor Authenticator() is called");
     }
 
-    public static String generateTokenString() {
+    private static String generateTokenString() {
         return RandomStringUtils.randomAlphanumeric(20).toString();
     }
 
@@ -55,7 +58,7 @@ public class Authenticator {
      * @return user
      */
     public Token authenticate(String username, String password, String token) throws EntityNotFoundException, PasswordsNotMatchException, MissingParameterException {
-        if (username == null) {
+        if (username == null | !helper.validate(username)) {
             throw new MissingParameterException("Username must be specified!");
         }
 
@@ -94,7 +97,7 @@ public class Authenticator {
      * @param tokenOfUser
      * @return
      */
-    public boolean isTokenValid(Token tokenOfUser) {
+    private boolean isTokenValid(Token tokenOfUser) {
         Logger.info("in tokenIsValid, argument=" + tokenOfUser);
         LocalDateTime validUntil = tokenOfUser.getValidUntil();
         Logger.info("isvaliduntilbefore? = LocalDateTime.now().isBefore(validUntil)");
@@ -112,7 +115,7 @@ public class Authenticator {
      * @param u
      * @return
      */
-    public boolean isTokenOfUser(Token token, User u) {
+    private boolean isTokenOfUser(Token token, User u) {
         return token != null && token.getUser().getId().equals(u.getId());
     }
 
@@ -123,7 +126,7 @@ public class Authenticator {
      * @param password
      * @return
      */
-    public boolean checkPassword(User user, @NotNull String password) throws EntityNotFoundException, PasswordsNotMatchException {
+    private boolean checkPassword(User user, @NotNull String password) throws EntityNotFoundException, PasswordsNotMatchException {
         if (user != null) {
             if (user.getHashedPassword().equals(calculatePasswordHash(user.getSalt(), password))) {
                 return true;
@@ -172,7 +175,7 @@ public class Authenticator {
      * @param user
      * @return
      */
-    public Token generateToken(User user) {
+    private Token generateToken(User user) {
         String generatedToken = generateTokenString();
 
         LocalDateTime date = LocalDateTime.now();
@@ -191,7 +194,7 @@ public class Authenticator {
      * @return
      */
     public User registerUser(String username, String password) throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
-        if (username != null && password != null) {
+        if (username != null && password != null && helper.validate(username) && helper.validate(password)) {
             // Default roles for registered user
             List<Role> defaultRoles = roleDao.findDefaultRoles();
 
@@ -202,7 +205,7 @@ public class Authenticator {
                 user.setName(username);
                 user.initSalt();
                 user.setHashedPassword(calculatePasswordHash(user.getSalt(), password));
-                user.getRoles().addAll(roleDao.findDefaultRoles());
+                user.getRoles().addAll(defaultRoles);
                 userDao.persist(user);
                 return user;
             } else {
@@ -220,7 +223,7 @@ public class Authenticator {
      * @return
      */
     public void invalidateUserSession(String username, String token) throws EntityNotFoundException, MissingParameterException {
-        if (username != null && token != null) {
+        if (username != null && token != null && helper.validate(username) && helper.validate(token)) {
             User user = userDao.findByUsername(username);
             Token userToken = tokenDao.findByToken(token);
 

@@ -67,14 +67,44 @@ INSERT INTO favorite_project (user_id, project_id) VALUES (-1001, -11001);
 -- Data for Name: qacategory; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO qacategory VALUES (-4000, 'fa fa-cog', 'Functionality', NULL);
-INSERT INTO qacategory VALUES (-4001, 'fa fa-heart', 'Usability', NULL);
-INSERT INTO qacategory VALUES (-4002, 'fa fa-heart', 'Portability', -4001);
-INSERT INTO qacategory VALUES (-4003, 'fa fa-heart', 'Portability2', -4002);
-INSERT INTO qacategory VALUES (-4004, 'fa fa-heart', 'Portability3', -4003);
-INSERT INTO qacategory VALUES (-4005, 'fa fa-cog', 'Availability', NULL);
-INSERT INTO qacategory VALUES (-4006, 'fa fa-cog', 'SubcategoryOfAvailability', -4005);
-
+INSERT INTO qacategory VALUES (-4000, 'fa fa-cog', 'Functional Suitability', NULL);
+INSERT INTO qacategory VALUES (-4001, 'fa fa-fighter-jet', 'Performance Efficiency', NULL);
+INSERT INTO qacategory VALUES (-4002, 'fa fa-plug', 'Compatibility', NULL);
+INSERT INTO qacategory VALUES (-4003, 'fa fa-heart', 'Usability', NULL);
+INSERT INTO qacategory VALUES (-4004, 'fa fa-bullseye', 'Reliability', NULL);
+INSERT INTO qacategory VALUES (-4005, 'fa fa-lock', 'Security', NULL);
+INSERT INTO qacategory VALUES (-4006, 'fa fa-wrench', 'Maintainability', NULL);
+INSERT INTO qacategory VALUES (-4007, 'fa fa-share-square-o', 'Portability', NULL);
+INSERT INTO qacategory VALUES (-4008, '', 'Functional Completeness', -4000);
+INSERT INTO qacategory VALUES (-4009, '', 'Functional Correctness', -4000);
+INSERT INTO qacategory VALUES (-4010, '', 'Functional Appropriateness', -4000);
+INSERT INTO qacategory VALUES (-4011, '', 'Time Behaviour', -4001);
+INSERT INTO qacategory VALUES (-4012, '', 'Resource Utilization', -4001);
+INSERT INTO qacategory VALUES (-4013, '', 'Capacity', -4001);
+INSERT INTO qacategory VALUES (-4014, '', 'Co-existence', -4002);
+INSERT INTO qacategory VALUES (-4015, '', 'Interoperability', -4002);
+INSERT INTO qacategory VALUES (-4016, '', 'Appropriateness Recognizability', -4003);
+INSERT INTO qacategory VALUES (-4017, '', 'Learnability', -4003);
+INSERT INTO qacategory VALUES (-4018, '', 'Operability', -4003);
+INSERT INTO qacategory VALUES (-4019, '', 'User Error Protection', -4003);
+INSERT INTO qacategory VALUES (-4020, '', 'User Interface Aesthetics', -4003);
+INSERT INTO qacategory VALUES (-4021, '', 'Maturity', -4004);
+INSERT INTO qacategory VALUES (-4022, '', 'Availability', -4004);
+INSERT INTO qacategory VALUES (-4023, '', 'Fault Tolerance', -4004);
+INSERT INTO qacategory VALUES (-4024, '', 'Recoverability', -4004);
+INSERT INTO qacategory VALUES (-4025, '', 'Confidentiality', -4005);
+INSERT INTO qacategory VALUES (-4026, '', 'Integrity', -4005);
+INSERT INTO qacategory VALUES (-4027, '', 'Non-repudiation', -4005);
+INSERT INTO qacategory VALUES (-4028, '', 'Accountability', -4005);
+INSERT INTO qacategory VALUES (-4029, '', 'Authenticity', -4005);
+INSERT INTO qacategory VALUES (-4030, '', 'Modularity', -4006);
+INSERT INTO qacategory VALUES (-4031, '', 'Reusability', -4006);
+INSERT INTO qacategory VALUES (-4032, '', 'Analysability', -4006);
+INSERT INTO qacategory VALUES (-4034, '', 'Modifiability', -4006);
+INSERT INTO qacategory VALUES (-4035, '', 'Testability', -4006);
+INSERT INTO qacategory VALUES (-4036, '', 'Adaptability', -4007);
+INSERT INTO qacategory VALUES (-4037, '', 'Installability', -4007);
+INSERT INTO qacategory VALUES (-4038, '', 'Replaceability', -4007);
 
 --
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: qualit

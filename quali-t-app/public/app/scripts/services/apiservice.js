@@ -402,7 +402,7 @@ angular.module('qualitApp')
 
     apiService.addAdditionalQaToProject = function (projectId, additionalQualityAttributes) {
       return $http.post(configService.apiPath + "project/qa", {
-        projectId: projectId,
+        id: projectId,
         additionalQualityAttributes: additionalQualityAttributes
       })
         .success(function (data) {
@@ -414,8 +414,8 @@ angular.module('qualitApp')
     }
     apiService.addCatalogQaToProject = function (projectId, selectedCatalogQaIds) {
       return $http.post(configService.apiPath + "project/qa", {
-        projectId: projectId,
-        selectedCatalogQas: selectedCatalogQaIds
+        id: projectId,
+        qualityAttributes: selectedCatalogQaIds
       })
         .success(function (data) {
           return data;

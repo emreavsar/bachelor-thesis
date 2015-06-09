@@ -5,9 +5,10 @@ import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import logics.authentication.Authenticator;
 import models.Interface.JIRAConnection;
+import models.authentication.Token;
 import models.authentication.User;
-import models.project.ProjectInitiator;
 import models.project.Project;
+import models.project.ProjectInitiator;
 import models.project.QualityProperty;
 import models.project.nfritem.Instance;
 import models.project.nfritem.Val;
@@ -15,6 +16,7 @@ import models.template.*;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -37,14 +39,23 @@ public abstract class AbstractTestDataCreator {
         return TestDependencyUtil.createInjector().getInstance(Authenticator.class).registerUser(name, password);
     }
 
+    public static User createUserWithToken(String name, String password, String token) throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
+        User user = TestDependencyUtil.createInjector().getInstance(Authenticator.class).registerUser(name, password);
+        LocalDateTime date = LocalDateTime.now();
+        date = date.plusMonths(6);
+        user.addToken(new Token(token, date, user));
+        persistAndFlush(user);
+        return user;
+    }
+
     public static ProjectInitiator createCustomer(String name, String address) {
         ProjectInitiator c = new ProjectInitiator(name, address);
         persistAndFlush(c);
         return c;
     }
 
-    public static QA createQA(String qaDescirption) throws EntityNotFoundException, MissingParameterException {
-        QA qa = new QA(qaDescirption, 1);
+    public static QA createQA(String qaDescription) throws EntityNotFoundException, MissingParameterException {
+        QA qa = new QA(qaDescription, 1);
         persistAndFlush(qa);
         return qa;
     }
@@ -100,6 +111,19 @@ public abstract class AbstractTestDataCreator {
         persistAndFlush(instance);
         instance.setProject(project);
         instance.setTemplate(catalogQA);
+        persistAndFlush(instance);
+        return instance;
+    }
+
+    public static Instance createFullInstance(String description, Project project, CatalogQA catalogQA) {
+        Instance instance = new Instance(description);
+        persistAndFlush(project);
+        persistAndFlush(catalogQA);
+        persistAndFlush(instance);
+//        instance.setProject(project);
+        project.addQualityAttribute(instance);
+        instance.setTemplate(catalogQA);
+        catalogQA.getQaInstances().add(instance);
         persistAndFlush(instance);
         return instance;
     }

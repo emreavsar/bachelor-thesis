@@ -5,6 +5,7 @@ import dao.models.*;
 import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import util.GlobalVariables;
 import util.Helper;
 import models.template.CatalogQA;
 import models.template.QA;
@@ -49,7 +50,7 @@ public class QualityAttributeLogic {
 
     public QA createQA(QA qa, List<Long> categoryIds, List<QAVar> qaVars) throws MissingParameterException, EntityNotFoundException {
         qa = createQA(qa, categoryIds);
-        CatalogQA catalogQA = addQaToCatalog(qa, catalogLogic.defaultCatalog);
+        CatalogQA catalogQA = addQaToCatalog(qa, GlobalVariables.standardCatalog);
         addVarsToQA(catalogQA, qaVars);
         return qa;
     }
@@ -68,7 +69,7 @@ public class QualityAttributeLogic {
     public QA updateQA(QA qa, List<Long> categoryIds, List<QAVar> qaVars) throws EntityNotFoundException, MissingParameterException {
         if (qa != null && qaVars != null) {
             QA currentQA = qualityAttributeDAO.readById(qa.getId());
-            CatalogQA defaultCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(catalogLogic.defaultCatalog), currentQA);
+            CatalogQA defaultCatalogQA = catalogQADAO.findByCatalogAndId(catalogDAO.readById(GlobalVariables.standardCatalog), currentQA);
             //if description is the same and only categories or var values are changed, the standard catalogqa is edited
 
             if (currentQA.getDescription().equals(qa.getDescription())) {
@@ -118,7 +119,7 @@ public class QualityAttributeLogic {
     public QA cloneQA(Long id) throws EntityNotFoundException, EntityNotCreatedException, MissingParameterException {
         if (id != null) {
             CatalogQA originalCatalogQA = catalogQADAO.readById(id);
-            if (originalCatalogQA.getCatalog().getId() == catalogLogic.defaultCatalog) {
+            if (originalCatalogQA.getCatalog().getId() == GlobalVariables.standardCatalog) {
                 QA originalQA = originalCatalogQA.getQa();
                 //create new qa with same description
                 QA newQA = originalQA.copyQA();
@@ -172,10 +173,6 @@ public class QualityAttributeLogic {
         }
         throw new MissingParameterException("Please provide valid Parameters");
     }
-//    private  CatalogQA addQaToCatalog(QA qa) throws EntityNotFoundException {
-//        // TODO refactor default catalog id (-6000) into  ConfigClass.VARIABLE constant
-//        return addQaToCatalog(qa, new Long(-6000));
-//    }
 
     private CatalogQA addQaToCatalog(QA qa, Long catalogId) throws EntityNotFoundException {
         return catalogQADAO.findByCatalogAndId(catalogDAO.persist(catalogDAO.readById(catalogId).addTemplate(qa)), qa);
