@@ -173,6 +173,14 @@ angular.module('qualitApp')
           roles: ['projectmanager', 'admin']
         }
       })
+      .state('importCatalog', {
+        templateUrl: 'views/import/catalog.html',
+        url: '/authenticated/import/catalog',
+        controller: 'ImportCtrl',
+        data: {
+          roles: ['admin', 'curator']
+        }
+      })
       .state('help', {
         templateUrl: 'views/help/help.html',
         url: '/authenticated/help'

@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('QACtrl', function ($scope, apiService, alertService, taOptions, $sce, qaTextService, $stateParams, $state, $modal) {
+  .controller('QACtrl', function ($scope, apiService, alertService, taOptions, $sce, qaTextService, $stateParams, $state, $modal, configService) {
     $scope.qaText = "";
     $scope.qaTextHtml = "";
     $scope.taOptions = taOptions;
@@ -353,8 +353,7 @@ angular.module('qualitApp')
         data.qa.id = qaId;
         if ($stateParams.catalogId == undefined || $stateParams.catalogId == "") {
           data.qa.categories = $scope.getSelectedCategories();
-          // TODO refactor standard catalog id into a configuration class
-          data.catalog = -6000;
+          data.catalog = configService.standardCatalogId;
         } else {
           data.catalog = $stateParams.catalogId;
           delete data.qa["description"];

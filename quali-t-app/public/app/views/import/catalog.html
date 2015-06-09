@@ -1,0 +1,36 @@
+<div>
+  <h3>Import</h3>
+
+  <p>You can import already exported catalogs to QUALI-T. By importing a catalog, you import automatically the following
+    data:
+  <ul>
+    <li>the Catalog itself</li>
+    <li>Quality Attribute Templates will be imported into Standard Catalog</li>
+    <li>Quality Attribute Templates will be imported into imported Catalog</li>
+  </ul>
+  </p>
+
+  <div class="form crud-form margin-top-30" style="margin-top: 75px;">
+    <form class="form-horizontal">
+
+      <div class="form-group">
+        <label for="importFile" class="col-sm-2 control-label">Import File (JSON)</label>
+
+        <div class="col-sm-10 image-upload-container">
+          <input type="file" id="importFile"/>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="form crud-form col-sm-12 margin-top-30">
+    <div class="row text-center" style="margin-bottom:20px;">
+      <button type="button" class="btn btn-success btn-md" ng-click="import()">
+        <i class="fa fa-upload"></i> Import
+      </button>
+      <a ng-show="importedCatalogName" class="btn btn-success btn-md"
+         ui-sref="editCatalog({ catalogId: importedCatalogId })">Edit imported Catalog: {{importedCatalogName}}</a>
+    </div>
+  </div>
+
+</div>

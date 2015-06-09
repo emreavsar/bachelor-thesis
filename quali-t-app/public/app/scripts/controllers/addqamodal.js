@@ -14,6 +14,7 @@ angular.module('qualitApp')
     $scope.catList = new Array();
     $scope.selection = new Array();
     $scope.currentCategoriesFilter = new Array();
+    $scope.additionalQualityAttribute = "";
 
     $scope.tooltipsAddMode = "You can choose from existing Quality Attribute Tempaltes " +
     "or create a new Quality Attribute Template (will be automatically added to standard catalog).";
@@ -42,11 +43,22 @@ angular.module('qualitApp')
           });
         }
       } else {
-        // open new qa state with additional parameter (catalogQa) to handle redirect after creating QA
-        $state.go("newQA", {
-          catalogId: $scope.catalogId
-        });
-        $scope.hideModal();
+        if ($scope.projectId != undefined) {
+          var additionalAttributes = new Array();
+          additionalAttributes.push($scope.additionalQualityAttribute);
+          var promise = apiService.addAdditionalQaToProject($stateParams.projectId, additionalAttributes);
+          promise.then(function (payload) {
+            alertService.createSuccess("Quality Attribute successfully added to the project");
+            $rootScope.$broadcast('qasOfProjectUpdated', {});
+            $scope.hideModal();
+          });
+        } else if ($scope.catalogId != undefined) {
+          // open new qa state with additional parameter (catalogQa) to handle redirect after creating QA
+          $state.go("newQA", {
+            catalogId: $scope.catalogId
+          });
+          $scope.hideModal();
+        }
       }
     }
 
