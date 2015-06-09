@@ -1,6 +1,7 @@
 package unit.logic.search;
 
 import base.AbstractDatabaseTest;
+import exceptions.EntityNotFoundException;
 import logics.search.SearchLogic;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ public class SearchLogicTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void testSearch() {
+    public void testSearch() throws EntityNotFoundException {
         searchLogic.search("cloud");
 
     }

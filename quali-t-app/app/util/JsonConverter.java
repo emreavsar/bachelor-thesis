@@ -91,9 +91,9 @@ public class JsonConverter {
         JIRAConnection jiraConnection = new JIRAConnection();
         jiraConnection.setId(json.findPath("jiraConnection").findPath("id").asLong());
         project.setJiraConnection(jiraConnection);
-        ProjectInitiator projectProjectInitiator = new ProjectInitiator();
-        projectProjectInitiator.setId(json.findPath("projectInitiator").asLong());
-        project.setProjectInitiator(projectProjectInitiator);
+        ProjectInitiator projectInitiator = new ProjectInitiator();
+        projectInitiator.setId(json.findPath("projectInitiator").asLong());
+        project.setProjectInitiator(projectInitiator);
         project.setId(json.findPath("id").asLong());
         //set additional qualityInstances
         project.addQualityAttributes(getAdditionalQualityAttributesFromJson(json));
@@ -178,7 +178,7 @@ public class JsonConverter {
         return jiraConnection;
     }
 
-    public Project getJiraProject(JsonNode json) {
+    public Project getJiraProjectFromJson(JsonNode json) {
         Project project = new Project();
         project.setId(json.findPath("projectId").asLong());
         return project;
@@ -234,18 +234,4 @@ public class JsonConverter {
         }
         return roleIds;
     }
-
-//    public List<CatalogQA> getImportCatalogQAList(JsonNode json){
-//        // get qa's from json
-//        List<CatalogQA> qaList = new ArrayList<>();
-//        for (JsonNode qaNode : json.findPath("qualityAttributes")) {
-//            QA qa =  getQaFromJson(qaNode.findPath("qa"));
-//            qa.setId(null);
-//            CatalogQA catalogQA = new CatalogQA();
-//            catalogQA.setQa(qa);
-//            catalogQA.addVars(variableConverter.getVarsFromJson(qaNode));
-//            qaList.add(catalogQA);
-//        }
-//        return qaList;
-//    }
 }

@@ -54,7 +54,7 @@ public class QualityPropertyDAOTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void testReadByName() {
+    public void testReadByName() throws EntityNotFoundException {
         // ARRANGE
         // ACT
         QualityProperty persistedQualityProperty = qualityPropertyDAO.findByName("QP1");
@@ -64,7 +64,7 @@ public class QualityPropertyDAOTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void testReadByInvalidName() {
+    public void testReadByInvalidName() throws EntityNotFoundException {
         // ARRANGE
         // ACT
         QualityProperty persistedQualityProperty = qualityPropertyDAO.findByName("invalid name");

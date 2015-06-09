@@ -36,7 +36,7 @@ public class QualityPropertyLogicTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void testCreateValidQualityProperty() throws MissingParameterException, EntityAlreadyExistsException {
+    public void testCreateValidQualityProperty() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         // ARRANGE
         // ACT
         QualityProperty newQualityProperty = qualityPropertyLogic.createQualityProperty(qualityProperty);
@@ -47,7 +47,7 @@ public class QualityPropertyLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = MissingParameterException.class)
-    public void testCreateNullQualityProperty() throws MissingParameterException, EntityAlreadyExistsException {
+    public void testCreateNullQualityProperty() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         // ARRANGE
         // ACT
         qualityPropertyLogic.createQualityProperty(null);
@@ -55,7 +55,7 @@ public class QualityPropertyLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = MissingParameterException.class)
-    public void testCreateQualityPropertyEmptyName() throws MissingParameterException, EntityAlreadyExistsException {
+    public void testCreateQualityPropertyEmptyName() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         // ARRANGE
         qualityProperty.setName("");
         // ACT
@@ -64,7 +64,7 @@ public class QualityPropertyLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = MissingParameterException.class)
-    public void testCreateQualityPropertyEmptyDescription() throws MissingParameterException, EntityAlreadyExistsException {
+    public void testCreateQualityPropertyEmptyDescription() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         // ARRANGE
         qualityProperty.setDescription("");
         // ACT
@@ -74,7 +74,7 @@ public class QualityPropertyLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = EntityAlreadyExistsException.class)
-    public void testCreateQualityPropertyAlreadyExists() throws MissingParameterException, EntityAlreadyExistsException {
+    public void testCreateQualityPropertyAlreadyExists() throws MissingParameterException, EntityAlreadyExistsException, EntityNotFoundException {
         // ARRANGE
         qualityProperty.setName("persisted name");
         // ACT

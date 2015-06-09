@@ -44,13 +44,13 @@ public class HelperLogicTest extends AbstractDatabaseTest {
     @Test
     public void testRemoveHTMLTags() {
         // ARRANGE
-        String textWithHTMLTags = "<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>";
+        String textWithHTMLTags = "<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfuegbar.</p>";
         // ACT
         String textWithoutHTMLTags = helper.removeHtmlTags(textWithHTMLTags);
         // ASSERT
-        assertThat(textWithHTMLTags).doesNotContain("<p>");
-        assertThat(textWithHTMLTags).doesNotContain("</p>");
-        assertThat(textWithHTMLTags).isEqualTo("Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.");
+        assertThat(textWithoutHTMLTags).doesNotContain("<p>");
+        assertThat(textWithoutHTMLTags).doesNotContain("</p>");
+        assertThat(textWithoutHTMLTags).isEqualTo("Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfuegbar.");
     }
 
     @Test
@@ -68,7 +68,7 @@ public class HelperLogicTest extends AbstractDatabaseTest {
     @Test
     public void testGetValidDescirptionWithVars() throws EntityNotFoundException {
         // ARRAGE
-        String textWihtoutVars = "Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.";
+        String textWihtoutVars = "Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfuegbar.";
         List<Val> valueList = new ArrayList<>();
         valueList.add(new Val(0, "System"));
         valueList.add(new Val(1, "99"));
@@ -76,13 +76,13 @@ public class HelperLogicTest extends AbstractDatabaseTest {
         // ACT
         String textWithVars = helper.getDescriptionWithVars(instance);
         // ASSERT
-        textWithVars.equals("Das System ist zu 99% verfügbar.");
+        textWithVars.equals("Das System ist zu 99% verfuegbar.");
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void testGetDescirptionWithMissingVar() throws EntityNotFoundException {
         // ARRAGE
-        String textWihtoutVars = "Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.";
+        String textWihtoutVars = "Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfuegbar.";
         List<Val> valueList = new ArrayList<>();
         valueList.add(new Val(1, "99"));
         Instance instance = AbstractTestDataCreator.createInstanceWithVars(textWihtoutVars, valueList);

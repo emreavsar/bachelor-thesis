@@ -28,7 +28,7 @@ public class ProjectInitiatorLogicTest extends AbstractDatabaseTest {
 
     //createProjectInitiator Tests
     @Test
-    public void testCreateValidCustomer() throws MissingParameterException, EntityAlreadyExistsException, InterruptedException {
+    public void testCreateValidCustomer() throws MissingParameterException, EntityAlreadyExistsException, InterruptedException, EntityNotFoundException {
         // ACT
         ProjectInitiator newProjectInitiator = projectInitiatorLogic.createProjectInitiator(projectInitiator);
         // ASSERT
@@ -38,7 +38,7 @@ public class ProjectInitiatorLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = MissingParameterException.class)
-    public void testCreateCustomerEmptyName() throws EntityAlreadyExistsException, MissingParameterException {
+    public void testCreateCustomerEmptyName() throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
         // ARRANGE
         ProjectInitiator newProjectInitiator = new ProjectInitiator("", "Address");
         // ACT
@@ -47,7 +47,7 @@ public class ProjectInitiatorLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = MissingParameterException.class)
-    public void testCreateCustomerNullName() throws EntityAlreadyExistsException, MissingParameterException {
+    public void testCreateCustomerNullName() throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
         // ARRANGE
         ProjectInitiator newProjectInitiator = new ProjectInitiator(null, "Address");
         // ACT
@@ -56,7 +56,7 @@ public class ProjectInitiatorLogicTest extends AbstractDatabaseTest {
     }
 
     @Test(expected = MissingParameterException.class)
-    public void testCreateNullCustomer() throws EntityAlreadyExistsException, MissingParameterException {
+    public void testCreateNullCustomer() throws EntityAlreadyExistsException, MissingParameterException, EntityNotFoundException {
         // ARRANGE
         ProjectInitiator newProjectInitiator = null;
         // ACT

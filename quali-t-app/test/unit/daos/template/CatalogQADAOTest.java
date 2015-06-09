@@ -41,7 +41,7 @@ public class CatalogQADAOTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void findByCatalogTest() {
+    public void findByCatalogTest() throws EntityNotFoundException {
         List<CatalogQA> catalogQAs = new CatalogQADAO().findByCatalog(catalog);
         assertThat(catalogQAs.contains(qa1));
         assertThat(catalogQAs.contains(qa2));
@@ -66,14 +66,14 @@ public class CatalogQADAOTest extends AbstractDatabaseTest {
     }
 
     @Test
-    public void findByCatalogAndIdTestSuccessful() {
+    public void findByCatalogAndIdTestSuccessful() throws EntityNotFoundException {
         CatalogQA catalogQA = new CatalogQADAO().findByCatalogAndId(catalog, qa1);
         assertThat(catalogQA.getCatalog().equals(catalog));
         assertThat(catalogQA.getQa().equals(qa1));
     }
 
     @Test
-    public void findByCatalogAndIdTestFailed() {
+    public void findByCatalogAndIdTestFailed() throws EntityNotFoundException {
         boolean thrown = false;
         try {
             CatalogQA catalogQA = new CatalogQADAO().findByCatalogAndId(catalog, qa3);
