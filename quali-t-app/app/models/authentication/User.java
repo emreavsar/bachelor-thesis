@@ -6,14 +6,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
-import models.user.Task;
 import models.project.Project;
+import models.user.Task;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by emre on 30/03/15.
@@ -154,6 +157,13 @@ public class User extends AbstractEntity implements Subject {
         }
     }
 
+    public void removeRoles() {
+        for (Role role : this.getRoles()) {
+            role.getUser().remove(this);
+        }
+        this.roles.clear();
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -161,16 +171,9 @@ public class User extends AbstractEntity implements Subject {
                 .append("salt", salt)
                 .append("hashedPassword", hashedPassword)
                 .append("roles", roles)
-                .append("token", token)
+                .append("token", "disabled because of infinite loops (bi-directional)")
                 .append("tasks", tasks)
                 .append("favorites", favorites)
                 .toString();
-    }
-
-    public void removeRoles() {
-        for (Role role : this.getRoles()) {
-            role.getUser().remove(this);
-        }
-        this.roles.clear();
     }
 }

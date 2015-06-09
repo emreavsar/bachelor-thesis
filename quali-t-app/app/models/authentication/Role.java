@@ -5,7 +5,10 @@ import models.AbstractEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +52,7 @@ public class Role extends AbstractEntity implements be.objectify.deadbolt.core.m
     public String toString() {
         return new ToStringBuilder(this)
                 .append("name", name)
-                .append("user", user)
+                .append("user", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

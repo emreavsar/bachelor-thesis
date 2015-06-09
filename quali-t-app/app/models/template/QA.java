@@ -1,6 +1,7 @@
 package models.template;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import models.AbstractEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -127,7 +128,7 @@ public class QA extends AbstractEntity {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("description", description)
-                .append("usedInCatalog", usedInCatalog)
+                .append("usedInCatalog", "disabled because of infinite loops (bi-directional)")
                 .append("categories", categories)
                 .append("previousVersion", previousVersion)
                 .append("deleted", deleted)

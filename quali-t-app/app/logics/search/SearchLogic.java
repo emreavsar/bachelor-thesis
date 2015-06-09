@@ -2,8 +2,8 @@ package logics.search;
 
 import com.google.inject.Inject;
 import dao.models.CatalogDAO;
-import dao.models.ProjectInitiatorDAO;
 import dao.models.ProjectDAO;
+import dao.models.ProjectInitiatorDAO;
 import dao.models.QualityAttributeDAO;
 import exceptions.EntityNotFoundException;
 import models.AbstractEntity;
@@ -42,7 +42,7 @@ public class SearchLogic {
     private ArrayList<Catalog> searchCatalogs(String searchArgument) throws EntityNotFoundException {
         ArrayList<Catalog> catalogs;
 
-        catalogs = (ArrayList<Catalog>) catalogDAO.search(searchArgument);
+        catalogs = catalogDAO.search(searchArgument);
 
         return catalogs;
     }
@@ -68,7 +68,7 @@ public class SearchLogic {
     private ArrayList<QA> searchQAs(String searchArgument) throws EntityNotFoundException {
         ArrayList<QA> qas;
 
-        qas = (ArrayList<QA>) qualityAttributeDAO.search(searchArgument);
+        qas = qualityAttributeDAO.search(searchArgument);
 
         return qas;
     }

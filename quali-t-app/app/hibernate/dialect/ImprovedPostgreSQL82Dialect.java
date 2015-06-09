@@ -1,6 +1,5 @@
 package hibernate.dialect;
 
-import org.hibernate.dialect.H2Dialect;
 import org.hibernate.dialect.PostgreSQL82Dialect;
 
 /**

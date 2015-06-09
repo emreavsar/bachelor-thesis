@@ -5,7 +5,9 @@ import models.AbstractEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.annotation.Nullable;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * Created by corina on 01.04.2015.
@@ -62,7 +64,7 @@ public class ValRange extends AbstractEntity {
         return new ToStringBuilder(this)
                 .append("min", min)
                 .append("max", max)
-                .append("rangeInVar", rangeInVar)
+                .append("rangeInVar", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

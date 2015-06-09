@@ -22,6 +22,6 @@ angular.module('qualitApp')
      * @returns {boolean}
      */
     $scope.isRoleAvailable = function (role) {
-      return $rootScope._identity != undefined && $rootScope._identity.roles.indexOf(role) > -1;
+      return $rootScope._identity != undefined && $rootScope._identity.roles != undefined && $rootScope._identity.roles.indexOf(role) > -1;
     }
   });

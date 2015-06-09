@@ -90,7 +90,7 @@ public class Catalog extends AbstractEntity {
                 .append("name", name)
                 .append("description", description)
                 .append("image", image)
-                .append("templates", templates)
+                .append("templates", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

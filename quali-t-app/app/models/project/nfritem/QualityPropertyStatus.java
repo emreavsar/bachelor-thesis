@@ -86,7 +86,7 @@ public class QualityPropertyStatus extends AbstractEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("qa", qa)
+                .append("qa", "disabled because of infinite loops (bi-directional)")
                 .append("qp", qp)
                 .append("status", status)
                 .toString();

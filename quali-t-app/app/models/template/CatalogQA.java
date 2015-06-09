@@ -115,8 +115,8 @@ public class CatalogQA extends AbstractEntity {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("qaInstances", qaInstances)
-                .append("catalog", catalog)
+                .append("qaInstances", "disabled because of infinite loops (bi-directional)")
+                .append("catalog", "disabled because of infinite loops (bi-directional)")
                 .append("qa", qa)
                 .append("variables", variables)
                 .append("deleted", deleted)

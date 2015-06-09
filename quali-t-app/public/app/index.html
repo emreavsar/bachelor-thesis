@@ -8,17 +8,17 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
-  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
-  <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+  <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css"/>
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"/>
+  <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css"/>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -169,6 +169,7 @@
     <div ui-view class="main-view" ng-cloak=""></div>
   </div>
 
+
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
   <script>
     !function (A, n, g, u, l, a, r) {
@@ -262,5 +263,7 @@
   <script src="scripts/controllers/roles.js"></script>
   <script src="scripts/controllers/import.js"></script>
   <!-- endbuild -->
+</div>
+<footer class="container content-container" style="background-color: transparent !important;" ng-show="inAuthArea">Copyright © QUALI-T Team. All Rights Reserved</footer>
 </body>
 </html>

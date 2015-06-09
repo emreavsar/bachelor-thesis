@@ -1,12 +1,12 @@
 package logics.project;
 
 import com.google.inject.Inject;
-import models.project.ProjectInitiator;
-import util.Helper;
 import dao.models.ProjectInitiatorDAO;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
+import models.project.ProjectInitiator;
+import util.Helper;
 
 import java.util.List;
 

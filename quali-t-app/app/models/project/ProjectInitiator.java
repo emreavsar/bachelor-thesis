@@ -64,7 +64,7 @@ public class ProjectInitiator extends AbstractEntity {
         return new ToStringBuilder(this)
                 .append("name", name)
                 .append("address", address)
-                .append("projects", projects)
+                .append("projects", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

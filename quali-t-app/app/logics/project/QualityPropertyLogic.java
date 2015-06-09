@@ -1,12 +1,12 @@
 package logics.project;
 
 import com.google.inject.Inject;
-import util.Helper;
 import dao.models.QualityPropertyDAO;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.project.QualityProperty;
+import util.Helper;
 
 import java.util.List;
 

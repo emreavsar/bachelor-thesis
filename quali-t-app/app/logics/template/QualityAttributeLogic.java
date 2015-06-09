@@ -5,13 +5,13 @@ import dao.models.*;
 import exceptions.EntityNotCreatedException;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
-import util.GlobalVariables;
-import util.Helper;
 import models.template.CatalogQA;
 import models.template.QA;
 import models.template.QACategory;
 import models.template.QAVar;
 import play.Logger;
+import util.GlobalVariables;
+import util.Helper;
 
 import java.util.ArrayList;
 import java.util.List;

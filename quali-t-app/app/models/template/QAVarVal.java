@@ -1,13 +1,12 @@
+
 package models.template;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import models.AbstractEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
-
 import javax.annotation.Nullable;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by corina on 31.03.2015.
@@ -78,7 +77,7 @@ public class QAVarVal extends AbstractEntity {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("isDefault", isDefault)
-                .append("valInVar", valInVar)
+                .append("valInVar", "disabled because of infinite loops (bi-directional)")
                 .append("type", type)
                 .append("value", value)
                 .toString();

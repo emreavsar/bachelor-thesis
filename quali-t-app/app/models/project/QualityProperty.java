@@ -80,8 +80,8 @@ public class QualityProperty extends AbstractEntity {
         return new ToStringBuilder(this)
                 .append("name", name)
                 .append("description", description)
-                .append("usedByProject", usedByProject)
-                .append("qualityPropertyStatus", qualityPropertyStatus)
+                .append("usedByProject", "disabled because of infinite loops (bi-directional)")
+                .append("qualityPropertyStatus", "disabled because of infinite loops (bi-directional)")
                 .toString();
     }
 }

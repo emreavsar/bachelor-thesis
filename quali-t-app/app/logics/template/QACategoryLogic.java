@@ -1,11 +1,11 @@
 package logics.template;
 
 import com.google.inject.Inject;
-import util.Helper;
 import dao.models.QACategoryDAO;
 import exceptions.EntityNotFoundException;
 import exceptions.MissingParameterException;
 import models.template.QACategory;
+import util.Helper;
 
 import java.util.List;
 
