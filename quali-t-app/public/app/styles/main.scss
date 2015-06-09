@@ -860,3 +860,7 @@ text-angular[ta-disabled='true'], text-angular[ta-disabled='true'] > * {
 i.disabled {
   color: #E7E7E7;
 }
+
+input[type="number"]:invalid {
+  background-color: #FC7251;
+}
