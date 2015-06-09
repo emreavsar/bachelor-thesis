@@ -1,13 +1,13 @@
 <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="AddQaModalCtrl"
      ng-init="init($hide)">
-  <div class="modal-dialog">
+  <div class="modal-dialog wide-modal">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
         <div class="modal-body">
-          <div class="text-center" ng-show="catalogId">
+          <div class="text-center">
             <label for="switchQaCreateMode" style="margin-right: 30px;"
                    data-trigger="hover" data-type="success"
                    data-title="{{tooltipsAddMode}}"
@@ -49,11 +49,24 @@
             </div>
           </div>
           <div ng-show="!isChooseMode">
-            <h4>Create new Quality Attribute Template</h4>
+            <div ng-show="projectId">
+              <h4>Create new Quality Attribute directly in this project</h4>
+
+              <text-angular ta-toolbar="[
+              ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
+              ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'clear'],
+              ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+              ['html', 'insertImage', 'insertLink', 'wordcount', 'charcount']
+              ]" ng-model="additionalQualityAttribute"></text-angular>
+
+            </div>
+            <div ng-show="catalogId">
+              <h4>Create new Quality Attribute Template</h4>
             <span class="text-info">
               To create a new Quality Attribute Template you must <b>exit</b> the edit catalog mode, and enter create quality attribute template mode.
               You will be automatically redirected to edit catalog after creating the quality attribute template.
             </span>
+            </div>
           </div>
 
           <div class="margin-top-50 text-center">

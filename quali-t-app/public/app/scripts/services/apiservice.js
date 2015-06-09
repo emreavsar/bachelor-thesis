@@ -403,6 +403,18 @@ angular.module('qualitApp')
         });
     }
 
+    apiService.addAdditionalQaToProject = function (projectId, additionalQualityAttributes) {
+      return $http.post(this.apiPath + "project/qa", {
+        projectId: projectId,
+        additionalQualityAttributes: additionalQualityAttributes
+      })
+        .success(function (data) {
+          return data;
+        })
+        .error(function (data, status) {
+          alertService.createError(status, data);
+        });
+    }
     apiService.addCatalogQaToProject = function (projectId, selectedCatalogQaIds) {
       return $http.post(this.apiPath + "project/qa", {
         projectId: projectId,
