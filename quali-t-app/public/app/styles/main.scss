@@ -857,8 +857,6 @@ text-angular[ta-disabled='true'], text-angular[ta-disabled='true'] > * {
   margin-top: 25px;
 }
 
-.used-variables {
-  .disabled {
-    color: #E7E7E7;
-  }
+i.disabled {
+  color: #E7E7E7;
 }

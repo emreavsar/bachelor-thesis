@@ -23,16 +23,6 @@ angular.module('qualitApp')
           ]
         },
         {
-          title: "Project Initiator",
-          clickFunction: function () {
-            $state.go("projectInitiatorCreate");
-          },
-          icon: "glyphicon glyphicon-user",
-          visibleFor: [
-            'admin', 'projectmanager', 'analyst', 'synthesizer', 'evaluator'
-          ]
-        },
-        {
           title: "Catalog",
           clickFunction: function () {
             $state.go("newCatalog");

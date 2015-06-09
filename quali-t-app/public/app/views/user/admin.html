@@ -5,26 +5,40 @@
     <br/><br/>
   </p>
 
-  <table class="table table-hover">
-    <tr>
-      <th>Id</th>
-      <th>Username</th>
-      <th>Actions</th>
-    </tr>
-    <tr ng-repeat="user in users | orderBy:'id'">
-      <td>{{user.id}}</td>
-      <td>{{user.name}}</td>
-      <td>
-        <i class="fa fa-pencil pointer" ng-click="edit(user)"></i>
-        <i class="fa fa-trash-o pointer" ng-click="delete(user)"></i>
+  <table class="table table-hover" ng-table="tableParams">
+    <tr ng-repeat="user in $data">
+      <td data-title="'Id'" sortable="'id'">
+        {{user.id}}
+      </td>
+      <td data-title="'Username'" sortable="'name'">
+        <div ng-bind-html="user.name"></div>
+      </td>
+      <td data-title="'Actions'">
+        <i class="fa fa-pencil pointer" ng-click="edit(user)" ng-show="!isCurrentUser(user)"></i>
+        <i class="fa fa-pencil pointer"
+           ng-click="edit(user)"
+           ng-show="isCurrentUser(user)"
+           data-trigger="hover" data-type="success"
+           data-title="{{tooltipsCurrentUserInfo}}"
+           bs-tooltip
+          ></i>
+        <i class="fa fa-trash-o pointer" ng-click="delete(user)" ng-show="!isCurrentUser(user)"></i>
+        <i class="fa fa-trash-o pointer"
+           ng-click="delete(user)"
+           ng-show="isCurrentUser(user)"
+           data-trigger="hover" data-type="success"
+           data-title="{{tooltipsCurrentUserInfo}}"
+           bs-tooltip
+           ng-click="delete(user)"></i>
       </td>
     </tr>
   </table>
-  <div class="form crud-form">
+
+  <div class="form crud-form col-sm-12 margin-top-15">
     <div class="row text-center" style="margin-bottom:20px;">
-      <button type="submit" class="btn btn-success" ng-click="add(user)">
-        <i class="fa fa-plus"></i> Add user
-      </button>
+      <a class="btn btn-success" ng-click="add(user)">
+        <i class="fa fa-plus"></i> Add User
+      </a>
     </div>
   </div>
 </div>

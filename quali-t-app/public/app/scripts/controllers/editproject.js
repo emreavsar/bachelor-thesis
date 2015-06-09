@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alertService, $popover, $rootScope) {
+  .controller('EditProjectCtrl', function ($scope, $state, $stateParams, apiService, favoritesService, alertService, $popover, $rootScope, $modal) {
     $scope.projectId = $stateParams.projectId;
     $scope.project = {};
     $scope.favoriteProjects = new Array();
@@ -94,7 +94,12 @@ angular.module('qualitApp')
     }
 
     $scope.addNewQas = function () {
-      // TODO
+      var modalScope = $scope.$new(true);
+      modalScope.projectId = $scope.project.id;
+      var modal = $modal({
+        scope: modalScope,
+        template: "templates/add-qa-modal.tpl.html"
+      });
     }
 
     $scope.toggleQpStatus = function (qaId, qpId, isChecked) {

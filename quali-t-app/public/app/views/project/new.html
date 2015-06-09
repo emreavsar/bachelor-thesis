@@ -94,7 +94,6 @@
         <div class="form crud-form">
           <div class="form-group col-sm-12">
 
-            <!-- TODO EMRE: make multiple catalog selection possible -->
             <label for="catalog">Catalog</label>
             <ui-select id="catalog" required="required" ng-model="$parent.catalog" theme="bootstrap"
                        ng-disabled="disabled" on-select="loadQAs($item, selectedCatalog)">
@@ -140,7 +139,6 @@
             <div ng-show="additionalQas.length>0">
 
               <h5>Custom added quality attributes</h5>
-              <!--TODO: add delete button -->
               <div class="qa well row"
                    ng-repeat="addtionalQa in additionalQas"
                    ng-click="toggleSelection(addtionalQa, selectionAdditional)"

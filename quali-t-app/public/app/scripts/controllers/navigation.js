@@ -102,21 +102,30 @@ angular.module('qualitApp')
           clickFunction: function () {
             $state.go("settings");
           },
-          icon: "fa fa-cog"
+          icon: "fa fa-cog",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         },
         {
           title: "Your Tasks",
           clickFunction: function () {
             $state.go("mytasks");
           },
-          icon: "fa fa-tasks"
+          icon: "fa fa-tasks",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         },
         {
           title: "Logout",
           clickFunction: function () {
             $state.go("logout");
           },
-          icon: "fa fa-sign-out"
+          icon: "fa fa-sign-out",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         }
       ]
     };
