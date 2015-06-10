@@ -606,15 +606,11 @@ angular.module('qualitApp')
     apiService.exportRessource = function (ressource, ressourceId, ressourceName, fileType) {
       return $http.get(configService.apiPath + ressource + "/export/" + fileType + "/" + ressourceId, {responseType: 'arraybuffer'})
         .success(function (data) {
-          // create a download link and click on it to download the file
-          var downloadLink = document.createElement('a');
-          downloadLink.href = window.URL.createObjectURL(new Blob([data]));
           var now = new Date();
           var todayUTCISO = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString();
           var todayStr = todayUTCISO.slice(0, 10).replace(/-/g, '');
-          downloadLink.download = todayStr + "_QUALI-T_EXPORT_" + ressource.toUpperCase() + "_" + ressourceName + "." + fileType;
-          downloadLink.click();
-
+          var fileName = todayStr + "_QUALI-T_EXPORT_" + ressource.toUpperCase() + "_" + ressourceName + "." + fileType;
+          saveAs(new Blob([data]), fileName);
           return data;
         })
         .error(function (data, status) {

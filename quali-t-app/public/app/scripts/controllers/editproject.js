@@ -71,10 +71,16 @@ angular.module('qualitApp')
 
 
     $scope.export = function (fileType) {
-      var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
-      exportPromise.then(function (payload) {
-        alertService.createSuccess("Export successfully created");
-      });
+      var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+      // not supported
+      if (isSafari) {
+        alertService.createLocalWarning("Exports are not available in Safari");
+      } else {
+        var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
+        exportPromise.then(function (payload) {
+          alertService.createSuccess("Export successfully created");
+        });
+      }
     }
 
 
