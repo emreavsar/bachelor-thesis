@@ -3,9 +3,6 @@
 --
 
 INSERT INTO "user" VALUES (-1000, '78c036a9bfc08d0c4150a9b9af9dd61c79ab4b8a', 'admin@quali-t.ch', 'eATliOMyVQhhmOLINQHO');
-INSERT INTO "user" VALUES (-1001, '994b8e7341be4aff15db7412cdafb4e33ac64eb7', 'corina.honegger@gmail.ch', 'wUScbpcsYHyLjEQTHTmT');
-INSERT INTO "user" VALUES (-1002, '4dd3a08cdda45838c11591789b4a47fedc1d3cc9', 'emre.avsar92@gmail.com', 'YqYpSzIoxBmpOliRctnV');
-INSERT INTO "user" VALUES (-1003, 'd5506a1c7feda5c81f98f73cb547821d82d04d60', 'ozimmermann@hsr.ch', 'zAmVyCdklHphTtkyJuKM');
 
 --
 -- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -28,13 +25,6 @@ INSERT INTO user_role VALUES (-1000, -20002);
 INSERT INTO user_role VALUES (-1000, -20003);
 INSERT INTO user_role VALUES (-1000, -20004);
 INSERT INTO user_role VALUES (-1000, -20005);
-
---INSERT INTO user_role VALUES (1001, 2000);
-INSERT INTO user_role VALUES (-1001, -20001);
-INSERT INTO user_role VALUES (-1002, -20000);
-INSERT INTO user_role VALUES (-1002, -20001);
-INSERT INTO user_role VALUES (-1003, -20000);
-INSERT INTO user_role VALUES (-1003, -20001);
 
 --
 -- Data for Name: projectInitiator; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -61,7 +51,6 @@ INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) 
 
 INSERT INTO favorite_project (user_id, project_id) VALUES (-1000, -11000);
 INSERT INTO favorite_project (user_id, project_id) VALUES (-1000, -11001);
-INSERT INTO favorite_project (user_id, project_id) VALUES (-1001, -11001);
 
 --
 -- Data for Name: qacategory; Type: TABLE DATA; Schema: public; Owner: qualit

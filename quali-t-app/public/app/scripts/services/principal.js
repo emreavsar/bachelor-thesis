@@ -64,6 +64,7 @@ angular.module('qualitApp')
             $(data.user.roles).each(function (idx, role) {
               roles.push(role.name);
             });
+            $rootScope.selectedRole = roles[0];
             $rootScope._identity = {
               userid: data.user.id,
               username: $rootScope._identity.username,

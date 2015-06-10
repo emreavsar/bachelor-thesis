@@ -52,12 +52,8 @@ angular.module('qualitApp')
         url: '/authenticated/dashboard',
         controller: 'DashboardCtrl',
         templateUrl: 'views/dashboard.html',
-        resolve: {
-          authorize: ['authorization',
-            function (authorization) {
-              return authorization.authorize();
-            }
-          ]
+        data: {
+          roles: ['projectmanager']
         }
       })
       .state('projectInitiator', {
@@ -138,7 +134,7 @@ angular.module('qualitApp')
         url: '/authenticated/project/admin',
         controller: 'ProjectListCtrl',
         data: {
-          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin']
+          roles: ['analyst', 'projectmanager', 'synthesizer', 'evalutaor', 'admin']
         }
       })
       .state('editCategories', {
