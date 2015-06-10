@@ -33,6 +33,8 @@ angular.module('qualitApp')
     $scope.tooltipsExportJiraKey = "Put the project key of the project you want to export in the quality attributes." +
     " The project key is the first part of the string of the JIRA issue IDs. " +
     "For example: Project Key for the JIRA: QUALI-123 would be QUALI.";
+    $scope.tooltipsHelpProject = "To get help, click here.";
+
     $scope.hasValidationWarnings = null;
 
     $scope.popover = {
@@ -210,6 +212,13 @@ angular.module('qualitApp')
       $scope.selectedProjectInitiator = $scope.project.projectInitiator;
       $scope.selectedQualityProperties = $scope.project.qualityProperties;
       $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
+    }
+
+    $scope.showHelp = function () {
+      var modalScope = $scope.$new(true);
+      var modal = $modal({
+        template: "templates/help-project-modal.tpl.html"
+      });
     }
 
     // reload when projects qa gets updated (in edit mode)

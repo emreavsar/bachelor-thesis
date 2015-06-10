@@ -27,22 +27,8 @@ angular.module('qualitApp')
         ]
       },
       {
-        linkName: 'Project Initiators',
-        toState: 'projectInitiator',
-        visibleFor: [
-          'admin', 'analyst', 'projectmanager'
-        ]
-      },
-      {
         linkName: 'Quality Attribute Templates',
         toState: 'showQA',
-        visibleFor: [
-          'admin', 'curator'
-        ]
-      },
-      {
-        linkName: 'Catalogs',
-        toState: 'showCatalogs',
         visibleFor: [
           'admin', 'curator'
         ]
@@ -52,6 +38,20 @@ angular.module('qualitApp')
         toState: 'editQualityProperties',
         visibleFor: [
           'admin', 'analyst'
+        ]
+      },
+      {
+        linkName: 'Project Initiators',
+        toState: 'projectInitiator',
+        visibleFor: [
+          'admin', 'analyst', 'projectmanager'
+        ]
+      },
+      {
+        linkName: 'Catalogs',
+        toState: 'showCatalogs',
+        visibleFor: [
+          'admin', 'curator'
         ]
       },
       {

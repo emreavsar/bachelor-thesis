@@ -82,13 +82,16 @@
 
         <h3 class="steps">Step 2: Select Catalog and Quality Attribute Templates</h3>
 
-        <p>Choose the appropriate catalog with a set of predefined quality attribute templates inside for your project. Select
+        <p>Choose the appropriate catalog with a set of predefined quality attribute templates inside for your project.
+          Select
           the
-          quality attribute templates which are essential in the project and add new quality attribute templates if you can not find a
+          quality attribute templates which are essential in the project and add new quality attribute templates if you
+          can not find a
           matching one.</p>
 
         <p>
-          After creating the project you can fill out the variables of the quality attributes (instances of quality attribute templates) and edit them if you want.
+          After creating the project you can fill out the variables of the quality attributes (instances of quality
+          attribute templates) and edit them if you want.
           You are also able to set the status of the quality properties for each quality attribute and statistics are
           enabled.
         </p>
@@ -118,14 +121,14 @@
             <div>
               <h5>Quality attributes in selected catalog</h5>
 
-            <span ng-show="qas.length == 0 && catalog != ''">
+            <span class="text-info" ng-show="qas.length == 0 && catalog != ''">
               There are no quality attributes in this catalog.
             </span>
-            <span ng-show="catalog == ''">
+            <span class="text-info" ng-show="catalog == ''">
               Select a catalog first.
             </span>
 
-            <span ng-show="filteredCatalogQas.length==0 && currentCategoriesFilter.length > 0">
+            <span class="text-info" ng-show="filteredCatalogQas.length==0 && currentCategoriesFilter.length > 0">
               No quality attributes found with the given filter.
             </span>
 
