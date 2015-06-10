@@ -29,9 +29,9 @@ INSERT INTO user_role VALUES (-1000, -20005);
 --
 -- Data for Name: projectInitiator; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO projectinitiator (id, address, name) VALUES (-3000, 'Zürich', 'UBS');
-INSERT INTO projectinitiator (id, address, name) VALUES (-3001, 'Rapperswil', 'HSR');
-INSERT INTO projectinitiator (id, address, name) VALUES (-3002, 'Rapperswil', 'IFS HSR / Prof. Dr. Olaf Zimmermann');
+INSERT INTO projectinitiator (id, address, name) VALUES (-3990, 'Zürich', 'UBS');
+INSERT INTO projectinitiator (id, address, name) VALUES (-3991, 'Rapperswil', 'HSR');
+INSERT INTO projectinitiator (id, address, name) VALUES (-3992, 'Rapperswil', 'IFS HSR / Prof. Dr. Olaf Zimmermann');
 
 --
 -- Data for Name: jiraconnection; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -43,9 +43,9 @@ INSERT INTO jiraconnection (id, hostAddress, username, password) VALUES (-1500, 
 -- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) VALUES (-11000, 'QTP', 'Campus Mobile App (iOS)', -1500, -3001);
-INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) VALUES (-11001, null, 'Cloud Banking', -1500, -3000);
-INSERT INTO project (id, jirakey, name, jiraconnection_id, projectinitiator_id) VALUES (-11002, 'QUALI', 'QUALI-T', -1500, -3002);
+INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) VALUES (-11000, 'QTP', 'Campus Mobile App (iOS)', -1500, -3991);
+INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) VALUES (-11001, null, 'Cloud Banking', -1500, -3990);
+INSERT INTO project (id, jirakey, name, jiraconnection_id, projectinitiator_id) VALUES (-11002, 'QUALI', 'QUALI-T', -1500, -3992);
 
 --
 -- Data for Name: favorite_project; Type: TABLE DATA; Schema: public; Owner: qualit
