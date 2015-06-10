@@ -45,14 +45,20 @@ angular.module('qualitApp')
           clickFunction: function () {
             $scope.export("pdf");
           },
-          icon: "fa fa-file-pdf-o"
+          icon: "fa fa-file-pdf-o",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         },
         {
           title: "XML",
           clickFunction: function () {
             $scope.export("xml");
           },
-          icon: "fa fa-file-code-o"
+          icon: "fa fa-file-code-o",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         }
       ]
     };

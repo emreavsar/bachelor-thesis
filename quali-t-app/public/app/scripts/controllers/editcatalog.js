@@ -21,7 +21,10 @@ angular.module('qualitApp')
           clickFunction: function () {
             $scope.export("json");
           },
-          icon: "fa fa-file-o"
+          icon: "fa fa-file-o",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         }
       ]
     };
