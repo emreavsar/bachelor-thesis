@@ -15,18 +15,18 @@
   <div class="form crud-form">
     <div ng-show="catalogId == '' || !isEditMode">
       <h4>Categories</h4>
-      <label>Choose the categories for your quality attribute. </label>
+      <label>Choose the categories for your Quality Attribute Template. </label>
       <filter id="categories" callback="" hide-checkbox="false" categories="catList"></filter>
     </div>
     <span ng-show="catalogId != '' && isEditMode"
           class="text-info">This step is disabled, see info at the top of the page. </span>
 
     <div>
-      <h3 class="steps">Step 2: Write your Quality Attribute's text with variables</h3>
+      <h3 class="steps">Step 2: Write your Quality Attribute Templates's text with variables</h3>
 
       <div class="form-group row">
         <div class="col-md-9">
-          <h4>Quality Attribute Information:</h4>
+          <h4>Quality Attribute Template Information:</h4>
           <text-angular ng-model="qaText" id="qa-Text"
                         ta-disabled="{{catalogId!=undefined && catalogId!='' && isEditMode}}"></text-angular>
         </div>

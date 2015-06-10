@@ -101,7 +101,7 @@ angular.module('qualitApp')
           instance.values = qaValues;
         }
         apiService.updateQaInstance(instance);
-        $rootScope.$broadcast('projectsQaUpdated', {});
+        $rootScope.$broadcast('qasOfProjectUpdated', {});
 
         $scope.hideModal();
       }

@@ -196,6 +196,7 @@ angular.module('qualitApp')
 
       promiseExport.then(
         function (payload) {
+          alertService.createSuccess("Quality Attributes successfully exported to Issue Tracking System JIRA");
           var reloadPromise = apiService.getProject($scope.projectId);
           reloadPromise.then(function (payload) {
             $scope.setProject(payload);

@@ -176,7 +176,7 @@ angular.module('qualitApp')
           return data;
         })
         .error(function (data, status) {
-          alertService.createError(status, "Quality Properties were not found.");
+          alertService.createError(status, "Quality Properties was not found and could not be deleted.");
         });
     }
 
@@ -187,7 +187,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alertService.createError(status, "Quality Properties were not found.");
+        alertService.createError(status, data);
       });
     }
 
@@ -199,7 +199,7 @@ angular.module('qualitApp')
       }).success(function (data) {
         return data;
       }).error(function (data, status) {
-        alertService.createError(status, "Quality Properties were not found.");
+        alertService.createError(status, data);
       });
     }
 

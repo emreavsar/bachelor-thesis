@@ -20,56 +20,56 @@ angular.module('qualitApp')
         ]
       },
       {
-        linkName: 'Show Categories',
+        linkName: 'Categories',
         toState: 'editCategories',
         visibleFor: [
           'admin', 'curator'
         ]
       },
       {
-        linkName: 'Show Project Initiators',
+        linkName: 'Project Initiators',
         toState: 'projectInitiator',
         visibleFor: [
           'admin', 'analyst', 'projectmanager'
         ]
       },
       {
-        linkName: 'Show QAs',
+        linkName: 'Quality Attribute Templates',
         toState: 'showQA',
         visibleFor: [
           'admin', 'curator'
         ]
       },
       {
-        linkName: 'Show Catalogs',
+        linkName: 'Catalogs',
         toState: 'showCatalogs',
         visibleFor: [
           'admin', 'curator'
         ]
       },
       {
-        linkName: 'Show Quality Properties',
+        linkName: 'Quality Properties',
         toState: 'editQualityProperties',
         visibleFor: [
           'admin', 'analyst'
         ]
       },
       {
-        linkName: 'Show Projects',
+        linkName: 'Projects',
         toState: 'showProjects',
         visibleFor: [
           'admin', 'projectmanager', 'analyst', 'synthesizer', 'evaluator'
         ]
       },
       {
-        linkName: 'Show JIRA Connections',
+        linkName: 'JIRA Connections',
         toState: 'editJIRAConnections',
         visibleFor: [
           'admin', 'projectmanager'
         ]
       },
       {
-        linkName: 'Show Users',
+        linkName: 'Users',
         toState: 'editUsers',
         visibleFor: [
           'admin'

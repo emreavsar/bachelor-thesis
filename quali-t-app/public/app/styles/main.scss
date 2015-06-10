@@ -868,7 +868,7 @@ i.disabled {
   color: #E7E7E7;
 }
 
-input[type="number"]:invalid {
+input[type="number"]:invalid, input[type="text"]:invalid {
   background-color: #FC7251;
 }
 

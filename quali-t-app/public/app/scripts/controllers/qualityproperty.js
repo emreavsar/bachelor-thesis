@@ -60,6 +60,11 @@ angular.module('qualitApp')
     }
 
     $scope.editQP = function (qp) {
+      if(qp.name.length > 1) {
+        alertService.createLocalWarning("The name of a qualityproperty status must not be longer than 1 character");
+        return false;
+      }
+
       var updatePromise = apiService.updateQualityPropery(qp.id, qp.name, qp.description);
 
       updatePromise.then(function (payload) {
@@ -83,6 +88,11 @@ angular.module('qualitApp')
     }
 
     $scope.addQP = function (qp) {
+      if(qp.name.length > 1) {
+        alertService.createLocalWarning("The name of a qualityproperty status must not be longer than 1 character");
+        return false;
+      }
+
       var createPromise = apiService.createQualityPropery(qp.name, qp.description);
 
       createPromise.then(function (payload) {
