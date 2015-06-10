@@ -99,8 +99,7 @@ INSERT INTO qacategory VALUES (-4038, '', 'Replaceability', -4007);
 -- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO catalog (id, description, name, image) VALUES  (-6000, 'Dies ist der Standardkatalog', 'Standard Katalog', NULL);
-INSERT INTO catalog (id, description, name, image) VALUES  (-6001, 'Katalog für Cloud Templates', 'Cloud Katalog', NULL);
+INSERT INTO catalog (id, description, name, image) VALUES  (-6000, 'The standard catalog includes all Quality Attribute Templates', 'Standard Catalog', NULL);
 
 --
 -- Data for Name: qualityproperty; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -115,39 +114,6 @@ INSERT INTO qualityproperty VALUES (-8004, 'Time-bound', 'T');
 --
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qa (id, deleted, description, versionnumber) VALUES (-2000, false, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>', 1);
-INSERT INTO qa (id, deleted, description, versionnumber) VALUES (-2011, false, '<p>Dieses QA hat einen Range von 0 bis 100 %VARIABLE_FREENUMBER_0% </p>', 1);
-
-
--- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
---
-INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (-4005, -2000);
-
---
--- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
---
-INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7000, false, -6000, -2000);
-INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7012, false, -6000, -2011);
-
---
--- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
---
-INSERT INTO qavar (id, type, averagevalue, mosteusedvalue, extendable, varindex, template_id) VALUES (-4020, 'FREETEXT', 0, 0, false,  0, -7000);
-INSERT INTO qavar (id, type, averagevalue, mosteusedvalue, extendable, varindex, template_id) VALUES (-5020, 'ENUMNUMBER', 0, 0, true, 1, -7000);
-INSERT INTO qavar (id, type, averagevalue, mosteusedvalue, extendable, varindex, template_id) VALUES (-6020, 'FREENUMBER', 0, 0, false, 0, -7012);
-
---
--- Data for Name: qavarval; Type: TABLE DATA; Schema: public; Owner: qualit
---
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6012, false, 'NUMBER', '95', -5020);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6013, false, 'NUMBER', '90', -5020);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6014, true, 'NUMBER', '99', -5020);
-
---
--- Data for Name: valrange; Type: TABLE DATA; Schema: public; Owner: qualit
---
-INSERT INTO valrange (id, max, min, rangeinvar_id) VALUES (-3314, 100, 0, -6020);
-
 
 --
 -- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: qualit
@@ -159,8 +125,6 @@ INSERT INTO task (id, description, done, assignee_id) VALUES (-6011, 'Create Cat
 --
 -- Data for Name: instance; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-
-INSERT INTO instance (id, description, project_id, template_id) VALUES (-5, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p> bad good', -11000, -7000);
 
 --
 -- Data for Name: val; Type: TABLE DATA; Schema: public; Owner: qualit
