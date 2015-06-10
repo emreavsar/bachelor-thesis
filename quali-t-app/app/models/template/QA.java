@@ -19,6 +19,7 @@ import java.util.Set;
 @Table(name = "qa")
 @Nullable
 public class QA extends AbstractEntity {
+    @Column(columnDefinition = "text")
     private String description;
     @OneToMany(mappedBy = "qa", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference

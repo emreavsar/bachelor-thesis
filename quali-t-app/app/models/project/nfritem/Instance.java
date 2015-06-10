@@ -23,7 +23,7 @@ import java.util.Set;
 @Table(name = "instance")
 @Nullable
 public class Instance extends AbstractEntity {
-
+    @Column(columnDefinition = "text")
     private String description;
     @ManyToOne
     @JsonBackReference
