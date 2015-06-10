@@ -18,7 +18,9 @@ import models.template.QA;
 import models.template.QACategory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by corina on 14.05.2015.
@@ -240,5 +242,12 @@ public class JsonConverter {
             roleIds.add(roleId.asLong());
         }
         return roleIds;
+    }
+
+    public Map<String, Object> getFavoriteProject(JsonNode json) {
+        Map<String, Object> favoriteProject = new HashMap<>();
+        favoriteProject.put("isFavorite", json.findPath("isFavorite").asBoolean());
+        favoriteProject.put("projectToFavorite", json.findPath("projectId").asLong());
+        return favoriteProject;
     }
 }
