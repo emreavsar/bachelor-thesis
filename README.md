@@ -30,9 +30,12 @@ You can start developing this software by follow the instructions below:
 
 - checkout this git repo
 - install prerequisite software
-	- TODO write which sw
-- build frontend app
-	- grunt
+	- postgresql
+- run db creation sql
+```sh
+sudo -u postgres < quali-t-app/conf/1_0.sql
+```
+- start backend application 
 - open your browser on http://localhost:9000/
 
 # Travis CI
