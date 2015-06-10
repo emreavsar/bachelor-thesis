@@ -118,7 +118,7 @@ angular.module('qualitApp')
         url: '/authenticated/project/create',
         controller: 'ProjectCtrl',
         data: {
-          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin']
+          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin', 'projectmanager']
         }
       })
       .state('editProject', {
@@ -126,7 +126,7 @@ angular.module('qualitApp')
         url: '/authenticated/project/edit/:projectId',
         controller: 'EditProjectCtrl',
         data: {
-          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin']
+          roles: ['analyst', 'synthesizer', 'evalutaor', 'admin', 'projectmanager']
         }
       })
       .state('showProjects', {

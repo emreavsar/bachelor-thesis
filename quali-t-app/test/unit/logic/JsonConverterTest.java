@@ -18,6 +18,7 @@ import util.JsonConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -695,5 +696,21 @@ public class JsonConverterTest extends AbstractDatabaseTest {
         }
     }
 
-
+    @Test
+    public void testGetFavoriteProject() {
+        // ARRANGE
+        jsonString = "{\n" +
+                "  \"projectId\": \"-11001\",\n" +
+                "  \"isFavorite\": true\n" +
+                "}";
+        jsonToConvert = Json.parse(jsonString);
+        // ACT
+        Map<String, Object> favoriteProjectMap = jsonConverter.getFavoriteProject(jsonToConvert);
+        // ASSERT
+        assertThat(favoriteProjectMap.size()).isEqualTo(2);
+        assertThat(favoriteProjectMap.containsKey("isFavorite")).isTrue();
+        assertThat(favoriteProjectMap.containsKey("projectToFavorite")).isTrue();
+        assertThat((boolean) favoriteProjectMap.get("isFavorite")).isTrue();
+        assertThat((Long) favoriteProjectMap.get("projectToFavorite")).isEqualTo(-11001);
+    }
 }
