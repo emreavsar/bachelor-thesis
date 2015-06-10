@@ -53,7 +53,7 @@ angular.module('qualitApp')
         controller: 'DashboardCtrl',
         templateUrl: 'views/dashboard.html',
         data: {
-          roles: ['projectmanager']
+          roles: ['analyst', 'projectmanager', 'synthesizer', 'evalutaor', 'admin']
         }
       })
       .state('projectInitiator', {
