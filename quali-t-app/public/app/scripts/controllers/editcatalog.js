@@ -21,16 +21,25 @@ angular.module('qualitApp')
           clickFunction: function () {
             $scope.export("json");
           },
-          icon: "fa fa-file-o"
+          icon: "fa fa-file-o",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         }
       ]
     };
 
     $scope.export = function (fileType) {
-      var exportPromise = apiService.exportRessource("catalog", $stateParams.catalogId, $scope.catalog.name, fileType);
-      exportPromise.then(function (payload) {
-        console.log("remove this");
-      });
+      var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+      // not supported
+      if (isSafari) {
+        alertService.createLocalWarning("Exports are not available in Safari");
+      } else {
+        var exportPromise = apiService.exportRessource("catalog", $stateParams.catalogId, $scope.catalog.name, fileType);
+        exportPromise.then(function (payload) {
+          alertService.createSuccess("Export successfully created");
+        });
+      }
     }
 
     $scope.save = function () {
@@ -79,4 +88,6 @@ angular.module('qualitApp')
     $scope.$on('qasOfCatalogUpdated', function (event, arg) {
       $scope.loadCatalogQas();
     });
-  });
+  }
+)
+;

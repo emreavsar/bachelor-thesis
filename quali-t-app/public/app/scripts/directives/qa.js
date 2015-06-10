@@ -248,7 +248,7 @@ angular.module('qualitApp')
           class: "categories"
         }).appendTo(element);
 
-        if(categories.length==0) {
+        if (categories.length == 0) {
           var categorySpan = $("<span/>", {
             class: "label label-default",
             text: "No categories"
@@ -307,8 +307,15 @@ angular.module('qualitApp')
             if (context == "editproject") {
               var modalScope = scope.$new(true);
               modalScope.qa = qa;
-              // order qa's variables by varIndex (not guaranteed)
-              modalScope.qa.template.variables = _.sortBy(qa.template.variables, 'varIndex');
+
+              if (modalScope.qa.template != undefined) {
+                // order qa's variables by varIndex (not guaranteed)
+                modalScope.qa.template.variables = _.sortBy(qa.template.variables, 'varIndex');
+              } else {
+                modalScope.qa.template = {
+                  variables: new Array()
+                }
+              }
               modalScope.context = context;
 
               var modal = $modal({

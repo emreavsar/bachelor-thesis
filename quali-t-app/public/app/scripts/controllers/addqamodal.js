@@ -15,6 +15,7 @@ angular.module('qualitApp')
     $scope.selection = new Array();
     $scope.currentCategoriesFilter = new Array();
     $scope.additionalQualityAttribute = "";
+    $scope.filteredCatalogQas = new Array();
 
     $scope.tooltipsAddMode = "You can choose from existing Quality Attribute Tempaltes " +
     "or create a new Quality Attribute Template (will be automatically added to standard catalog).";

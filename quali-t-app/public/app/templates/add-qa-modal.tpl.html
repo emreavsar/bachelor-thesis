@@ -29,7 +29,7 @@
             />
         </div>
         <div ng-show="isChooseMode">
-          <h4>Choose Quality Attributes from standard Catalog</h4>
+          <h4>Choose Quality Attribute Templates from Standard Catalog</h4>
 
           <div class="col-sm-12">
 
@@ -39,9 +39,18 @@
             </div>
 
             <div class="all-qas col-sm-8">
-              <h5>All Quality Attributes</h5>
+              <h5>All Quality Attribute Templates</h5>
 
-              <div class="qa well row" ng-repeat="catalogQa in catalogQas | filter:filterByCategories"
+            <span ng-show="catalogQas.length == 0" class="text-info">
+              There are no quality attributes in this catalog.
+            </span>
+
+            <span class="text-info" ng-show="filteredCatalogQas.length==0 && currentCategoriesFilter.length > 0">
+              No quality attributes found with the given filter.
+            </span>
+
+              <div class="qa well row"
+                   ng-repeat="catalogQa in filteredCatalogQas= (catalogQas | filter:filterByCategories)"
                    ng-click="toggleSelection(catalogQa)"
                    ng-class="{ selected: selection.indexOf(catalogQa) > -1}">
                 <qa categories="catalogQa.qa.categories" qa="catalogQa.qa" context="catalog"

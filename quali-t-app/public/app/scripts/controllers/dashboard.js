@@ -8,13 +8,5 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('DashboardCtrl', function ($rootScope, $scope, $state, $location) {
-    $scope.testBackendResponse = '';
-
-    $scope.testBackend = function () {
-      $scope.testBackendResponse = {
-        id: '',
-        desc: ''
-      }
-    }
+  .controller('DashboardCtrl', function ($rootScope, $scope, $state, $location, $sce) {
   });

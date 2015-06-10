@@ -33,6 +33,8 @@ angular.module('qualitApp')
     $scope.tooltipsExportJiraKey = "Put the project key of the project you want to export in the quality attributes." +
     " The project key is the first part of the string of the JIRA issue IDs. " +
     "For example: Project Key for the JIRA: QUALI-123 would be QUALI.";
+    $scope.tooltipsHelpProject = "To get help, click here.";
+
     $scope.hasValidationWarnings = null;
 
     $scope.popover = {
@@ -43,14 +45,20 @@ angular.module('qualitApp')
           clickFunction: function () {
             $scope.export("pdf");
           },
-          icon: "fa fa-file-pdf-o"
+          icon: "fa fa-file-pdf-o",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         },
         {
           title: "XML",
           clickFunction: function () {
             $scope.export("xml");
           },
-          icon: "fa fa-file-code-o"
+          icon: "fa fa-file-code-o",
+          visibleFor: [
+            'admin', 'curator', 'synthesizer', 'evaluator', 'projectmanager', 'analyst'
+          ]
         }
       ]
     };
@@ -63,10 +71,16 @@ angular.module('qualitApp')
 
 
     $scope.export = function (fileType) {
-      var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
-      exportPromise.then(function (payload) {
-        alertService.createSuccess("Export successfully created");
-      });
+      var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+      // not supported
+      if (isSafari) {
+        alertService.createLocalWarning("Exports are not available in Safari");
+      } else {
+        var exportPromise = apiService.exportRessource("project", $stateParams.projectId, $scope.project.name, fileType);
+        exportPromise.then(function (payload) {
+          alertService.createSuccess("Export successfully created");
+        });
+      }
     }
 
 
@@ -196,6 +210,7 @@ angular.module('qualitApp')
 
       promiseExport.then(
         function (payload) {
+          alertService.createSuccess("Quality Attributes successfully exported to Issue Tracking System JIRA");
           var reloadPromise = apiService.getProject($scope.projectId);
           reloadPromise.then(function (payload) {
             $scope.setProject(payload);
@@ -209,6 +224,13 @@ angular.module('qualitApp')
       $scope.selectedProjectInitiator = $scope.project.projectInitiator;
       $scope.selectedQualityProperties = $scope.project.qualityProperties;
       $scope.isProjectFavorite = $scope.checkIsFavorite($scope.projectId, $scope.favoriteProjects);
+    }
+
+    $scope.showHelp = function () {
+      var modalScope = $scope.$new(true);
+      var modal = $modal({
+        template: "templates/help-project-modal.tpl.html"
+      });
     }
 
     // reload when projects qa gets updated (in edit mode)

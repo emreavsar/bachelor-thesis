@@ -8,7 +8,7 @@
  * Controller of the qualitApp
  */
 angular.module('qualitApp')
-  .controller('ProjectInitiatorCtrl', function ($scope, apiService, $modal, ngTableParams, $filter) {
+  .controller('ProjectInitiatorCtrl', function ($scope, apiService, alertService, $modal, ngTableParams, $filter) {
     $scope.name = "";
     $scope.address = "";
     $scope.errors = new Array();

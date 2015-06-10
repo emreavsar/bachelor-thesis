@@ -5,8 +5,8 @@
         <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span
           aria-hidden="true">&times;</span></button>
 
-        <h4 class="modal-title" ng-show="type == 'add'">Add new QualityProperty</h4>
-        <h4 class="modal-title" ng-show="type == 'edit'">Edit QualityProperty {{qp.id}} {{qp.name}}</h4>
+        <h4 class="modal-title" ng-show="type == 'add'">Add new Qualityroperty</h4>
+        <h4 class="modal-title" ng-show="type == 'edit'">Edit Qualityproperty {{qp.id}} {{qp.name}}</h4>
       </div>
 
       <div class="modal-body">
@@ -14,11 +14,11 @@
         <div class="form crud-form">
           <form>
             <div class="form-group">
-              <label for="name">QualityProperty name</label>
-              <input type="text" class="form-control" id="name" ng-model="qp.name" required/>
+              <label for="name">Qualityproperty name</label>
+              <input type="text" class="form-control" id="name" ng-model="qp.name" placeholder="A one character string which identifies the Qualityproperty status in the project" required/>
 
-              <label for="description">QualityProperty description</label>
-              <input type="text" class="form-control" id="description" ng-model="qp.description"/>
+              <label for="description">Qualityproperty description</label>
+              <input type="text" class="form-control" id="description" ng-model="qp.description" placeholder="A longer description what the Qualityproperty status is"/>
             </div>
 
             <button type="submit" class="btn btn-success" ng-show="type == 'add'"
