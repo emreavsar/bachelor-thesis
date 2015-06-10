@@ -119,7 +119,7 @@ public class QualityAttributeLogic {
     public QA cloneQA(Long id) throws EntityNotFoundException, EntityNotCreatedException, MissingParameterException {
         if (id != null) {
             CatalogQA originalCatalogQA = catalogQADAO.readById(id);
-            if (originalCatalogQA.getCatalog().getId() == GlobalVariables.standardCatalog) {
+            if (originalCatalogQA.getCatalog().getId().equals(GlobalVariables.standardCatalog)) {
                 QA originalQA = originalCatalogQA.getQa();
                 //create new qa with same description
                 QA newQA = originalQA.copyQA();

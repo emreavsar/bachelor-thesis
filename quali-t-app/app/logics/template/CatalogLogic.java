@@ -48,7 +48,7 @@ public class CatalogLogic {
     public List<Catalog> getAllEditableCatalogs() {
         List<Catalog> catalogList = new ArrayList<>();
         for (Catalog catalog : getAllCatalogs()) {
-            if (catalog.getId() != GlobalVariables.standardCatalog) {
+            if (!catalog.getId().equals(GlobalVariables.standardCatalog)) {
                 catalogList.add(catalog);
             }
         }
@@ -98,7 +98,7 @@ public class CatalogLogic {
 
     public models.template.Catalog updateCatalog(models.template.Catalog catalog) throws EntityNotFoundException, EntityCanNotBeUpdated, MissingParameterException {
         if (catalog != null && helper.validate(catalog.getName()) && catalog.getId() != null) {
-            if (catalog.getId() != GlobalVariables.standardCatalog) {
+            if (!catalog.getId().equals(GlobalVariables.standardCatalog)) {
                 models.template.Catalog updatedCatalog = catalogDAO.readById(catalog.getId());
                 updatedCatalog.setDescription(catalog.getDescription());
                 updatedCatalog.setName(catalog.getName());
@@ -121,7 +121,7 @@ public class CatalogLogic {
 
     public void deleteCatalog(Long id) throws EntityNotFoundException, EntityCanNotBeDeleted, MissingParameterException {
         if (id != null) {
-            if (id != GlobalVariables.standardCatalog) {
+            if (!id.equals(GlobalVariables.standardCatalog)) {
                 models.template.Catalog catalog = catalogDAO.readById(id);
                 for (CatalogQA catalogQA : catalog.getTemplates()) {
                     deleteCatalogQA(catalogQA.getId());
