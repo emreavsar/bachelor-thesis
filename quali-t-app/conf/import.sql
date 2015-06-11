@@ -117,8 +117,6 @@ INSERT INTO qualityproperty VALUES (-8004, 'Time-bound', 'T');
 -- Data for Name: qa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO qa (id, deleted, description, versionnumber, previousversion_id) VALUES (-2000, false, '<p>Das %VARIABLE_FREETEXT_0% ist zu %VARIABLE_ENUMNUMBER_1%% verfügbar.</p>', 1, NULL);
-INSERT INTO qa (id, deleted, description, versionnumber, previousversion_id) VALUES (-2011, false, '<p>Dieses QA hat einen Range von 0 bis 100 %VARIABLE_FREENUMBER_0%</p>', 1, NULL);
 INSERT INTO qa (id, deleted, description, versionnumber, previousversion_id) VALUES (-2001, false, '<p>Das Frontend und das Backend sollen zwei voneinander soweit unabhängige Komponenten sein, dass diese eigenständig verändert, weiterentwickelt und getestet werden können.</p>', 1, NULL);
 INSERT INTO qa (id, deleted, description, versionnumber, previousversion_id) VALUES (-2002, false, '<p>Die komplette Funktionalität von QUALI-T muss in den Browsern <i>%VARIABLE_FREETEXT_0%</i> den Benutzern vollumfänglich zur Verfügung stehen. Unterstützung von <i>%VARIABLE_FREETEXT_1%</i> sind wünschenswert, aber nicht zwingend erforderlich, falls Mehraufwand von über <i>%VARIABLE_ENUMNUMBER_2%</i>h entsteht.</p>', 1, NULL);
 INSERT INTO qa (id, deleted, description, versionnumber, previousversion_id) VALUES (-2003, false, '<p>Zur Authentifizierung wird eine User ID mit einem Passwort verwendet. Diese User-Passwörter müssen mindestens <i>%VARIABLE_FREENUMBER_0%</i> Zeichen lang sein, ein Sonderzeichen und Gross-/Kleinschreibung enthalten.</p>', 1, NULL);
@@ -139,7 +137,6 @@ INSERT INTO qa (id, deleted, description, versionnumber, previousversion_id) VAL
 -- Data for Name: qacategory_qa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (-4005, -2000);
 INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (-4006, -2001);
 INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (-4031, -2001);
 INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (-4030, -2001);
@@ -178,7 +175,6 @@ INSERT INTO qacategory_qa (categories_id, usedinqa_id) VALUES (-4036, -2017);
 -- Data for Name: catalogqa; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7000, false, -6000, -2000);
 INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7001, false, -6000, -2001);
 INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7002, false, -6000, -2002);
 INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7003, false, -6000, -2003);
@@ -199,25 +195,22 @@ INSERT INTO catalogqa (id, deleted, catalog_id, qa_id) VALUES (-7017, false, -60
 --
 -- Data for Name: qavar; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9000, '0', false, '0', 'FREETEXT', 0, -7000);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9001, '0', true, '0', 'ENUMNUMBER', 1, -7000);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9003, NULL, true, NULL, 'ENUMNUMBER', 2, -7002);
+
+INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9003, '5', true, '5', 'ENUMNUMBER', 2, -7002);
 INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9004, NULL, false, NULL, 'FREETEXT', 0, -7002);
 INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9005, NULL, false, NULL, 'FREETEXT', 1, -7002);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9006, NULL, false, NULL, 'FREENUMBER', 0, -7003);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9007, NULL, true, NULL, 'ENUMNUMBER', 1, -7005);
+INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9006, '8', false, '8', 'FREENUMBER', 0, -7003);
+INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9007, '1', true, '1', 'ENUMNUMBER', 1, -7005);
 INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9008, NULL, false, NULL, 'FREETEXT', 0, -7005);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9009, NULL, false, NULL, 'FREENUMBER', 1, -7006);
+INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9009, '10', false, '10', 'FREENUMBER', 1, -7006);
 INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9010, NULL, false, NULL, 'FREETEXT', 0, -7006);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9011, NULL, true, NULL, 'ENUMNUMBER', 0, -7008);
+INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9011, '3', true, '3', 'ENUMNUMBER', 0, -7008);
 INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9012, NULL, false, NULL, 'FREETEXT', 0, -7010);
-INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9013, NULL, true, NULL, 'ENUMTEXT', 0, -7017);
+INSERT INTO qavar (id, averagevalue, extendable, mosteusedvalue, type, varindex, template_id) VALUES (-9013, 'Heroku', true, 'Heroku', 'ENUMTEXT', 0, -7017);
 --
 -- Data for Name: qavarval; Type: TABLE DATA; Schema: public; Owner: qualit
 --
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6012, false, 'NUMBER', '97', -9001);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6013, false, 'NUMBER', '98', -9001);
-INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6014, true, 'NUMBER', '99', -9001);
+
 INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6015, false, 'NUMBER', '4', -9003);
 INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6016, true, 'NUMBER', '5', -9003);
 INSERT INTO qavarval (id, isdefault, type, value, valinvar_id) VALUES (-6017, false, 'NUMBER', '6', -9003);
@@ -258,7 +251,7 @@ INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, templ
 INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-15, '<p><span>Die in der Realisierung (der <i>%VARIABLE_FREETEXT_0%</i> Software) verwendeten Tools und Frameworks sind vorzugsweise mit folgenden Lizenzen veröffentlicht: Eclipse, Apache Public (AP), Massachusetts Institute of Technology (MIT) oder Berkeley Software Distribution(BSD).</span></p><p><span>Tools und Frameworks, die mit General Public License (GPL) und Lesser General PublicLicense (LGPL) lizenziert sind, sollten nicht verwendet werden. Die einzige Ausnahme ist das Hibernate Framework (LGPL). Dieses darf nach Absprache mit unserem BA-Betreuer weiterhin verwendet werden.</span></p>', NULL, NULL, -11002, -7010);
 INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-16, '<p>Um auch mehrstufige Quality Attribute Trees abbilden zu können, sollen mindestens fünf Hierarchiestufen für die Kategorisierung der QAs möglich sein.</p>', NULL, NULL, -11002, -7011);
 INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-17, '<p>Die Kommunikation zwischen Client und Server Tier ist als vertraulich klassifiziert (kein Mitlesen durch Dritte) und verwendet eine kryptographische Verschlüsselung (kein Manipulieren der Daten).</p>', NULL, NULL, -11002, -7016);
-INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-18, '<p>Zur Authentifizierung wird eine User ID mit einem Passwort verwendet. Diese User-Passwörter mÃ¼ssen mindestens <i>%VARIABLE_FREENUMBER_0%</i> Zeichen lang sein, ein Sonderzeichen und Gross-/Kleinschreibung enthalten.</p>', NULL, NULL, -11002, -7003);
+INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-18, '<p>Zur Authentifizierung wird eine User ID mit einem Passwort verwendet. Diese User-Passwörter müssen mindestens <i>%VARIABLE_FREENUMBER_0%</i> Zeichen lang sein, ein Sonderzeichen und Gross-/Kleinschreibung enthalten.</p>', NULL, NULL, -11002, -7003);
 INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-19, '<p>Wenn QA Templates verändert werden, wird in der Datenbank eine neue Version erstellt. Für den Anwender ist jeweils nur die aktuellste Version über QUALI-T aufrufbar. Gibt es aber bereits Instanzen von dem QA Template oder es wird in einem Katalog verwendet, so referenzieren diese QA Templates weiterhin auf die ursprüngliche Version.</p>', NULL, NULL, -11002, -7013);
 INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-20, '<p>Innerhalb der QUALI-T-Applikation muss der Zugriff auf einzelne Funktionen über ein Rollenkonzept gesichert sein. Es sollen alle fünf Hauptrollen aus Kapitel 2.2.2.1  abgebildet sein. Wer Zugriff auf welche Funktionen hat, lässt sich aus der Abbildung 6 Use-Case-Diagramm für QUALI-T ableiten. Zusätzlich gibt es eine Admin-Rolle, welche uneingeschränkte Berechtigung auf alle Funktionen hat.</p>', NULL, NULL, -11002, -7004);
 INSERT INTO instance (id, description, jiradirecturl, jirakey, project_id, template_id) VALUES (-21, '<p>REST- und URI-Konzept sind so erstellt, dass Links von und auf andere Applikationen möglich sind. Beispiele für andere Anwendungen sind ADMentor/ADRepo, ART und EEPPI. Es soll eine Web-GUI-Koexistenz möglich sein, jedoch kein Web-Mashup oder ähnliches.</p>', NULL, NULL, -11002, -7014);
