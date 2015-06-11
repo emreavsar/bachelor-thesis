@@ -24,25 +24,28 @@ public class ProjectInitiatorController extends Controller implements ExceptionH
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public Result createProjectInitiator() {
+        Logger.info("createProjectInitiator called");
         return catchAbstractException(request(), json -> ok(Json.toJson(projectInitiatorLogic.createProjectInitiator(jsonConverter.getProjectInitiatorFromJson(json)))));
     }
 
     @SubjectPresent
     @Transactional
     public Result getAllProjectInitiators() {
-        Logger.info("getAllProjectInitiators ProjectInitiator called");
+        Logger.info("getAllProjectInitiators called");
         return ok(Json.toJson(projectInitiatorLogic.getAllProjectInitiators()));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public Result updateProjectInitiator() {
+        Logger.info("updateProjectInitiator called");
         return catchAbstractException(request(), json -> ok(Json.toJson(projectInitiatorLogic.updateProjectInitiator(jsonConverter.getProjectInitiatorFromJson(json)))));
     }
 
     @Restrict({@Group("synthesizer"), @Group("admin")})
     @Transactional
     public Result deleteProjectInitiator(Long id) {
+        Logger.info("deleteProjectInitiator called");
         return catchAbstractException(id, projectInitiatorId -> {
             projectInitiatorLogic.deleteProjectInitiator(projectInitiatorId);
             return status(202);

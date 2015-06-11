@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.google.inject.Inject;
 import logics.template.QACategoryLogic;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -23,24 +24,28 @@ public class QACategoryController extends Controller implements ExceptionHandlin
     @SubjectPresent
     @Transactional
     public Result getCategoryTree(long id) {
+        Logger.info("getCategoryTree called");
         return catchAbstractException(id, categoryId -> ok(Json.toJson(qaCategoryLogic.getCategoryTree(categoryId))));
     }
 
     @SubjectPresent
     @Transactional
     public Result getAllCats() {
+        Logger.info("getAllCats called");
         return ok(Json.toJson(qaCategoryLogic.getAllCats()));
     }
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public Result createCat() {
+        Logger.info("createCat called");
         return catchAbstractException(request(), json -> ok(Json.toJson(qaCategoryLogic.createCategory(jsonConverter.getCategoryFromJson(json)))));
     }
 
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public Result deleteCat(Long id) {
+        Logger.info("deleteCat called");
         return catchAbstractException(id, categoryId -> {
             qaCategoryLogic.deleteCategory(categoryId);
             return status(202);
@@ -50,6 +55,7 @@ public class QACategoryController extends Controller implements ExceptionHandlin
     @Restrict({@Group("curator"), @Group("admin")})
     @Transactional
     public Result updateCat() {
+        Logger.info("updateCat called");
         return catchAbstractException(request(), json -> ok(Json.toJson(qaCategoryLogic.updateCategory(jsonConverter.getCategoryFromJson(json)))));
     }
 }

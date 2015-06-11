@@ -2,7 +2,6 @@ package util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.template.*;
-import play.Logger;
 
 import java.util.*;
 
@@ -51,9 +50,6 @@ public class VariableConverter {
                         variableParameters.put(variableParametersEntry.getKey(), variableParametersEntry.getValue().asText());
                     }
                 }
-
-
-                Logger.info("Value Map:    " + variableParameters.toString());
                 //check if QA has any variables and create them
                 if (!variableParameters.isEmpty()) {
                     qaVars.add(createVariable(variableParameters, variableValues));
@@ -103,10 +99,8 @@ public class VariableConverter {
         }
 
         var.addValues(varVals);
-        Logger.debug("var   " + var.toString());
         if (values.containsKey("defaultValue")) {
             defaultValue = values.get("defaultValue");
-            Logger.info("Default value:     " + defaultValue);
             var.setDefaultValue(defaultValue);
         }
         return var;
@@ -114,7 +108,6 @@ public class VariableConverter {
 
 
     private QAVar createValRange(Map<String, String> values, QAVar var) {
-        Logger.info(Boolean.toString(values.containsKey("min")) + values.containsKey("max"));
         if (values.containsKey("min") && values.containsKey("max")) {
             var.setValRange(new ValRange(Float.parseFloat(values.get("min")), Float.parseFloat(values.get("max"))));
         }
