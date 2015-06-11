@@ -40,7 +40,7 @@ public class StatisticService implements ValidationService {
                 // do not check freetext
                 if (!var.getType().equals(QAType.FREETEXT)) {
                     // average for numbers
-                    if (var.getType().equals(QAType.ENUMNUMBER) || var.getType().equals(QAType.FREENUMBER)) {
+                    if (var.getAverageValue() != null && (var.getType().equals(QAType.ENUMNUMBER) || var.getType().equals(QAType.FREENUMBER))) {
                         Double avg = Double.valueOf(var.getAverageValue());
                         Double value = Double.valueOf(val.getValue());
 
@@ -51,7 +51,7 @@ public class StatisticService implements ValidationService {
                         }
                     }
                     // mostused for all
-                    if (!var.getMosteUsedValue().equals(val.getValue())) {
+                    if (var.getMosteUsedValue() != null && !var.getMosteUsedValue().equals(val.getValue())) {
                         warnings.add("The most used value (over all projects) for this quality attribute is "
                                 + var.getMosteUsedValue() + ", but you specified " + val.getValue() + ".");
                     }
