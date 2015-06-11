@@ -43,16 +43,13 @@ INSERT INTO jiraconnection (id, hostAddress, username, password) VALUES (-1500, 
 -- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) VALUES (-11000, 'QTP', 'Campus Mobile App (iOS)', -1500, -3991);
-INSERT INTO project (id, jirakey, name, jiraconnection_id, projectInitiator_id) VALUES (-11001, null, 'Cloud Banking', -1500, -3990);
 INSERT INTO project (id, jirakey, name, jiraconnection_id, projectinitiator_id) VALUES (-11002, 'QUALI', 'QUALI-T', -1500, -3992);
 
 --
 -- Data for Name: favorite_project; Type: TABLE DATA; Schema: public; Owner: qualit
 --
 
-INSERT INTO favorite_project (user_id, project_id) VALUES (-1000, -11000);
-INSERT INTO favorite_project (user_id, project_id) VALUES (-1000, -11001);
+INSERT INTO favorite_project (user_id, project_id) VALUES (-1000, -11002);
 
 --
 -- Data for Name: qacategory; Type: TABLE DATA; Schema: public; Owner: qualit
