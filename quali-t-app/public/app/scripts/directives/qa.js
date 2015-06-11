@@ -193,6 +193,7 @@ angular.module('qualitApp')
                   varOptions.class = "";
                   if (variable.type == "ENUMNUMBER") {
                     varOptions.type = "number";
+                    varOptions.step = "any";
                   } else {
                     varOptions.type = "text";
                   }
