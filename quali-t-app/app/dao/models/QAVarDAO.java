@@ -29,7 +29,7 @@ public class QAVarDAO extends AbstractDAO<QAVar> {
                                     "       select sum(CAST(value as DECIMAL(9,2)))/count(value) from val " +
                                     "           inner join instance " +
                                     "               on val.instance_id=instance.id" +
-                                    "           where varindex=:varindex and template_id=:templateId" +
+                                    "           where varindex=:varindex and template_id=:templateId and value is not NULL and value != ''" +
                                     "       )" +
                                     "       where id=:qavarid")
                             .setParameter("qavarid", var.getId())
